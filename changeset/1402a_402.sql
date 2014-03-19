@@ -87,7 +87,7 @@ BEGIN
 		     AND (rrr.type_code::text = 'ownership'::text 
 		     OR rrr.type_code::text = 'apartment'::text 
 		     OR rrr.type_code::text = 'commonOwnership'::text) 
-		     and pp.gender_code ='na') as entity,
+		     and pp.type_code ='nonNaturalPerson') as entity,
 		     buExt.name_lastpart  as parcel
 	             from party.party pp,
 			administrative.ba_unit buExt,
