@@ -62,6 +62,8 @@ digraph "oneDegreeRelationshipsDiagram" {
       <TR><TD PORT="username" COLSPAN="2" BGCOLOR="#f4f7da" ALIGN="LEFT">username</TD><TD PORT="username.type" ALIGN="LEFT">varchar[40]</TD></TR>
       <TR><TD PORT="first_name" COLSPAN="2" ALIGN="LEFT">first_name</TD><TD PORT="first_name.type" ALIGN="LEFT">varchar[30]</TD></TR>
       <TR><TD PORT="last_name" COLSPAN="2" ALIGN="LEFT">last_name</TD><TD PORT="last_name.type" ALIGN="LEFT">varchar[30]</TD></TR>
+      <TR><TD PORT="email" COLSPAN="2" ALIGN="LEFT">email</TD><TD PORT="email.type" ALIGN="LEFT">varchar[40]</TD></TR>
+      <TR><TD PORT="activation_code" COLSPAN="2" ALIGN="LEFT">activation_code</TD><TD PORT="activation_code.type" ALIGN="LEFT">varchar[20]</TD></TR>
       <TR><TD PORT="passwd" COLSPAN="2" ALIGN="LEFT">passwd</TD><TD PORT="passwd.type" ALIGN="LEFT">varchar[100]</TD></TR>
       <TR><TD PORT="active" COLSPAN="2" ALIGN="LEFT">active</TD><TD PORT="active.type" ALIGN="LEFT">bool[1]</TD></TR>
       <TR><TD PORT="description" COLSPAN="2" ALIGN="LEFT">description</TD><TD PORT="description.type" ALIGN="LEFT">varchar[255]</TD></TR>

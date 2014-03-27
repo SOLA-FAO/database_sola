@@ -120,7 +120,7 @@ ALTER TABLE approle_appgroup ENABLE TRIGGER ALL;
 
 ALTER TABLE appuser DISABLE TRIGGER ALL;
 
-INSERT INTO appuser (id, username, first_name, last_name, passwd, active, description, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('test-id', 'test', 'Test', 'The BOSS', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', true, NULL, 'be17a2c6-99dd-11e3-ba2b-af4cac70daca', 1, 'i', 'test', '2014-02-20 16:19:00.722');
+INSERT INTO appuser (id, username, first_name, last_name, email, activation_code, passwd, active, description, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('test-id', 'test', 'Test', 'The BOSS', NULL, NULL, '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', true, NULL, 'be17a2c6-99dd-11e3-ba2b-af4cac70daca', 1, 'i', 'test', '2014-02-20 16:19:00.722');
 
 
 ALTER TABLE appuser ENABLE TRIGGER ALL;
