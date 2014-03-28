@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <database name="sola_original" schema="transaction" type="PostgreSQL - 9.1.4">
    <tables>
-      <table name="reg_status_type" remarks="Code list of registration status types. E.g. current, historic, pending, previous. &#13;&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="transaction" type="TABLE">
+      <table name="reg_status_type" remarks="Code list of registration status types. E.g. current, historic, pending, previous. &#10;Tags: FLOSS SOLA Extension, Reference Table" schema="transaction" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="The code for the registration status type." size="20" type="varchar">
             <child column="status_code" foreignKey="ba_unit_status_code_fk39" implied="false" onDeleteCascade="false" table="ba_unit"/>
             <child column="target_reg_moment" foreignKey="br_validation_target_reg_moment_fk115" implied="false" onDeleteCascade="false" table="br_validation"/>
@@ -21,7 +21,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="transaction" remarks="Transactions are used to group changes to registered data (i.e. Property, RRR and Parcels). Each service initiates a transaction that is then recorded against any data edits made by the user. When the service is complete and the application approved, the data associated with the transction can be approved/registered as well. If the user chooses to reject their changes prior to approval, the transaction can be used to determine which data edits need to be removed from the system without affecting the currently registered data. &#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="transaction" type="TABLE">
+      <table name="transaction" remarks="Transactions are used to group changes to registered data (i.e. Property, RRR and Parcels). Each service initiates a transaction that is then recorded against any data edits made by the user. When the service is complete and the application approved, the data associated with the transction can be approved/registered as well. If the user chooses to reject their changes prior to approval, the transaction can be used to determine which data edits need to be removed from the system without affecting the currently registered data. &#10;Tags: FLOSS SOLA Extension, Change History" schema="transaction" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="Identifier for the transaction." size="40" type="varchar">
             <child column="transaction_id" foreignKey="ba_unit_transaction_id_fk40" implied="false" onDeleteCascade="true" table="ba_unit"/>
             <child column="transaction_id" foreignKey="ba_unit_target_transaction_id_fk84" implied="false" onDeleteCascade="true" table="ba_unit_target"/>
@@ -67,7 +67,7 @@
             <column ascending="true" name="status_code"/>
          </index>
       </table>
-      <table name="transaction_source" remarks="Associates transactions to source (a.k.a. documents) that justify the transaction. Used by the Cadastre Change and Cadastre Redefintion services.  &#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="transaction" type="TABLE">
+      <table name="transaction_source" remarks="Associates transactions to source (a.k.a. documents) that justify the transaction. Used by the Cadastre Change and Cadastre Redefintion services.  &#10;Tags: FLOSS SOLA Extension, Change History" schema="transaction" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="transaction_id" nullable="false" remarks="Identifier for the transaction." size="40" type="varchar">
             <parent column="id" foreignKey="transaction_source_transaction_id_fk100" implied="false" onDeleteCascade="true" table="transaction"/>
          </column>
@@ -95,7 +95,7 @@
             <column ascending="true" name="transaction_id"/>
          </index>
       </table>
-      <table name="transaction_status_type" remarks="Code list of transaction status types. E.g. pending, approved, cancelled, completed. &#13;&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="transaction" type="TABLE">
+      <table name="transaction_status_type" remarks="Code list of transaction status types. E.g. pending, approved, cancelled, completed. &#10;Tags: FLOSS SOLA Extension, Reference Table" schema="transaction" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="The code for the transaction status type." size="20" type="varchar">
             <child column="status_code" foreignKey="transaction_status_code_fk27" implied="false" onDeleteCascade="false" table="transaction"/>
          </column>

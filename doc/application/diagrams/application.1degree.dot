@@ -153,7 +153,9 @@ digraph "oneDegreeRelationshipsDiagram" {
       <TR><TD PORT="first_name" COLSPAN="3" ALIGN="LEFT">first_name</TD></TR>
       <TR><TD PORT="last_name" COLSPAN="3" ALIGN="LEFT">last_name</TD></TR>
       <TR><TD PORT="email" COLSPAN="3" ALIGN="LEFT">email</TD></TR>
+      <TR><TD PORT="mobile_number" COLSPAN="3" ALIGN="LEFT">mobile_number</TD></TR>
       <TR><TD PORT="activation_code" COLSPAN="3" ALIGN="LEFT">activation_code</TD></TR>
+      <TR><TD PORT="details" COLSPAN="3" ALIGN="LEFT">details</TD></TR>
       <TR><TD PORT="passwd" COLSPAN="3" ALIGN="LEFT">passwd</TD></TR>
       <TR><TD PORT="active" COLSPAN="3" ALIGN="LEFT">active</TD></TR>
       <TR><TD PORT="description" COLSPAN="3" ALIGN="LEFT">description</TD></TR>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <database name="sola_original" schema="document" type="PostgreSQL - 9.1.4">
    <tables>
-      <table name="document" remarks="Extension to the LADM used by SOLA to store electronic copies of documentation provided in support of land related dealings.&#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="document" type="TABLE">
+      <table name="document" remarks="Extension to the LADM used by SOLA to store electronic copies of documentation provided in support of land related dealings.&#10;Tags: FLOSS SOLA Extension, Change History" schema="document" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="Identifier for the document." size="40" type="varchar"/>
          <column autoUpdated="false" digits="0" id="1" name="nr" nullable="false" remarks="Unique number to identify the document. Determined by the Digital Archive EJB when saving the document record." size="15" type="varchar"/>
          <column autoUpdated="false" digits="0" id="2" name="extension" nullable="false" remarks="The file extension of the electronic file. E.g. pdf, tiff, doc, etc" size="5" type="varchar"/>

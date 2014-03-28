@@ -104,7 +104,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </tr>
 </thead>
 <tbody valign='top'>
-<tr class='even'>
+<tr class='odd'>
  <td class='primaryKey' title='Primary Key'>br_id</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>100</td>
@@ -114,7 +114,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative even' valign='top'>
+   <tr class='relative odd' valign='top'>
     <td class='relatedTable detail' title="br_definition.br_id refs br.id via br_definition_br_id_fk116"><a href='br.html'>br</a><span class='relatedKey'>.id</span>
     </td>
     <td class='constraint detail'>br_definition_br_id_fk116<span title='Cascade on delete:
@@ -124,7 +124,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  </td>
  <td class='comment detail'>Identifier for the business rule</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='primaryKey' title='Primary Key'>active_from</td>
  <td class='detail'>date</td>
  <td class='detail' align='right'>13</td>
@@ -135,7 +135,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>The date this version of the rule is active from.</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>active_until</td>
  <td class='detail'>date</td>
  <td class='detail' align='right'>13</td>
@@ -146,7 +146,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>The date until this version of the rule is active.</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>body</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>4000</td>
@@ -158,7 +158,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='comment detail'>The definition of the rule. Either SQL commands or Drools XML.</td>
 </tr>
 </table>
-<p title='4 columns'>Analyzed at ?? ??? 28 01:53 ALMT 2014<p/>
+<p title='4 columns'>Analyzed at ?? ??? 28 22:53 ALMT 2014<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
@@ -205,21 +205,22 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </td></tr></table>
 <span class='excludedRelationship'>
 <br>Excluded from diagram's relationships: 
-<a href="../tables/appuser.html">appuser.rowversion</a>&nbsp;
-<a href="../tables/approle_appgroup.html">approle_appgroup.rowidentifier</a>&nbsp;
-<a href="../tables/appuser_appgroup.html">appuser_appgroup.change_action</a>&nbsp;
-<a href="../tables/appuser.html">appuser.change_user</a>&nbsp;
-<a href="../tables/approle_appgroup.html">approle_appgroup.change_action</a>&nbsp;
-<a href="../tables/approle_appgroup.html">approle_appgroup.rowversion</a>&nbsp;
-<a href="../tables/appuser.html">appuser.rowidentifier</a>&nbsp;
-<a href="../tables/approle_appgroup.html">approle_appgroup.change_user</a>&nbsp;
 <a href="../tables/appuser.html">appuser.change_action</a>&nbsp;
-<a href="../tables/approle_appgroup.html">approle_appgroup.change_time</a>&nbsp;
+<a href="../tables/approle_appgroup.html">approle_appgroup.rowversion</a>&nbsp;
 <a href="../tables/appuser_appgroup.html">appuser_appgroup.change_user</a>&nbsp;
-<a href="../tables/appuser_appgroup.html">appuser_appgroup.change_time</a>&nbsp;
 <a href="../tables/appuser.html">appuser.change_time</a>&nbsp;
-<a href="../tables/appuser_appgroup.html">appuser_appgroup.rowversion</a>&nbsp;
+<a href="../tables/approle_appgroup.html">approle_appgroup.change_user</a>&nbsp;
+<a href="../tables/approle_appgroup.html">approle_appgroup.rowidentifier</a>&nbsp;
+<a href="../tables/approle_appgroup.html">approle_appgroup.change_action</a>&nbsp;
+<a href="../tables/appuser.html">appuser.rowversion</a>&nbsp;
+<a href="../tables/approle_appgroup.html">approle_appgroup.change_time</a>&nbsp;
+<a href="../tables/appuser.html">appuser.rowidentifier</a>&nbsp;
+<a href="../tables/appuser.html">appuser.change_user</a>&nbsp;
 <a href="../tables/appuser_appgroup.html">appuser_appgroup.rowidentifier</a>&nbsp;
+<a href="../tables/appuser_appgroup.html">appuser_appgroup.change_time</a>&nbsp;
+<a href="../tables/user_pword_expiry.html">user_pword_expiry.pword_change_user</a>&nbsp;
+<a href="../tables/appuser_appgroup.html">appuser_appgroup.change_action</a>&nbsp;
+<a href="../tables/appuser_appgroup.html">appuser_appgroup.rowversion</a>&nbsp;
 </span>
 </div>
 </body>

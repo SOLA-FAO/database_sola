@@ -11350,98 +11350,6 @@ COMMENT ON COLUMN spatial_source_type.description IS 'LADM Definition: Descripti
 SET search_path = system, pg_catalog;
 
 --
--- Name: appgroup; Type: TABLE; Schema: system; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE appgroup (
-    id character varying(40) NOT NULL,
-    name character varying(600) NOT NULL,
-    description character varying(1000)
-);
-
-
-ALTER TABLE system.appgroup OWNER TO postgres;
-
---
--- Name: TABLE appgroup; Type: COMMENT; Schema: system; Owner: postgres
---
-
-COMMENT ON TABLE appgroup IS 'Groups application security roles to simplify assignment of roles to individual system users. 
-Tags: FLOSS SOLA Extension, User Admin';
-
-
---
--- Name: COLUMN appgroup.id; Type: COMMENT; Schema: system; Owner: postgres
---
-
-COMMENT ON COLUMN appgroup.id IS 'Identifier for the appgroup.';
-
-
---
--- Name: COLUMN appgroup.name; Type: COMMENT; Schema: system; Owner: postgres
---
-
-COMMENT ON COLUMN appgroup.name IS 'The name assigned to the appgroup.';
-
-
---
--- Name: COLUMN appgroup.description; Type: COMMENT; Schema: system; Owner: postgres
---
-
-COMMENT ON COLUMN appgroup.description IS 'Describes the purpose of the appgroup and should also indicate when it applies.';
-
-
---
--- Name: approle; Type: TABLE; Schema: system; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE approle (
-    code character varying(20) NOT NULL,
-    display_value character varying(500) NOT NULL,
-    status character(1) NOT NULL,
-    description character varying(1000)
-);
-
-
-ALTER TABLE system.approle OWNER TO postgres;
-
---
--- Name: TABLE approle; Type: COMMENT; Schema: system; Owner: postgres
---
-
-COMMENT ON TABLE approle IS 'Contains the list of application security roles used to restrict access to different parts of the application, both on the server and client side. 
-Tags: FLOSS SOLA Extension, Reference Table, User Admin';
-
-
---
--- Name: COLUMN approle.code; Type: COMMENT; Schema: system; Owner: postgres
---
-
-COMMENT ON COLUMN approle.code IS 'Code for the security role. Must match exactly the code value used within the SOLA source code to reference the role.';
-
-
---
--- Name: COLUMN approle.display_value; Type: COMMENT; Schema: system; Owner: postgres
---
-
-COMMENT ON COLUMN approle.display_value IS 'The text value that will be displayed to the user.';
-
-
---
--- Name: COLUMN approle.status; Type: COMMENT; Schema: system; Owner: postgres
---
-
-COMMENT ON COLUMN approle.status IS 'The status of the role.';
-
-
---
--- Name: COLUMN approle.description; Type: COMMENT; Schema: system; Owner: postgres
---
-
-COMMENT ON COLUMN approle.description IS 'Describes the purpose of the role and should also indicate when it applies.';
-
-
---
 -- Name: approle_appgroup; Type: TABLE; Schema: system; Owner: postgres; Tablespace: 
 --
 
@@ -11516,24 +11424,6 @@ COMMENT ON COLUMN approle_appgroup.change_time IS 'The date and time the row was
 
 
 --
--- Name: approle_appgroup_historic; Type: TABLE; Schema: system; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE approle_appgroup_historic (
-    approle_code character varying(20),
-    appgroup_id character varying(40),
-    rowidentifier character varying(40),
-    rowversion integer,
-    change_action character(1),
-    change_user character varying(50),
-    change_time timestamp without time zone,
-    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL
-);
-
-
-ALTER TABLE system.approle_appgroup_historic OWNER TO postgres;
-
---
 -- Name: appuser; Type: TABLE; Schema: system; Owner: postgres; Tablespace: 
 --
 
@@ -11543,7 +11433,9 @@ CREATE TABLE appuser (
     first_name character varying(30) NOT NULL,
     last_name character varying(30) NOT NULL,
     email character varying(40),
+    mobile_number character varying(20),
     activation_code character varying(20),
+    details character varying(500),
     passwd character varying(100) DEFAULT public.uuid_generate_v1() NOT NULL,
     active boolean DEFAULT true NOT NULL,
     description character varying(255),
@@ -11668,6 +11560,244 @@ COMMENT ON COLUMN appuser_appgroup.change_time IS 'The date and time the row was
 
 
 --
+-- Name: appuser_historic; Type: TABLE; Schema: system; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE appuser_historic (
+    id character varying(40),
+    username character varying(40),
+    first_name character varying(30),
+    last_name character varying(30),
+    email character varying(40),
+    mobile_number character varying(20),
+    activation_code character varying(20),
+    details character varying(500),
+    passwd character varying(100) DEFAULT public.uuid_generate_v1() NOT NULL,
+    active boolean DEFAULT true NOT NULL,
+    description character varying(255),
+    rowidentifier character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
+    rowversion integer DEFAULT 0 NOT NULL,
+    change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
+    change_user character varying(50),
+    change_time timestamp without time zone DEFAULT now() NOT NULL,
+    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE system.appuser_historic OWNER TO postgres;
+
+--
+-- Name: setting; Type: TABLE; Schema: system; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE setting (
+    name character varying(50) NOT NULL,
+    vl character varying(2000) NOT NULL,
+    active boolean DEFAULT true NOT NULL,
+    description character varying(555) NOT NULL
+);
+
+
+ALTER TABLE system.setting OWNER TO postgres;
+
+--
+-- Name: TABLE setting; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON TABLE setting IS 'Contains global settings for the SOLA application. Refer to the Administration Guide or the ConfigConstants class in the Common Utilities project for a list of the recognized settings. Note that not all possible settings are listed in the settings table. Settings may be omitted from this table if the default value applies.
+Tags: FLOSS SOLA Extension, Reference Table, System Configuration';
+
+
+--
+-- Name: COLUMN setting.name; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN setting.name IS 'Identifier/name for the setting';
+
+
+--
+-- Name: COLUMN setting.vl; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN setting.vl IS 'The value for the setting.';
+
+
+--
+-- Name: COLUMN setting.active; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN setting.active IS 'Indicates if the setting is active or not. If not active, the default value for the setting will apply.';
+
+
+--
+-- Name: COLUMN setting.description; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN setting.description IS 'Description of the setting. ';
+
+
+--
+-- Name: user_roles; Type: VIEW; Schema: system; Owner: postgres
+--
+
+CREATE VIEW user_roles AS
+    SELECT u.username, rg.approle_code AS rolename FROM ((appuser u JOIN appuser_appgroup ug ON ((((u.id)::text = (ug.appuser_id)::text) AND u.active))) JOIN approle_appgroup rg ON (((ug.appgroup_id)::text = (rg.appgroup_id)::text)));
+
+
+ALTER TABLE system.user_roles OWNER TO postgres;
+
+--
+-- Name: VIEW user_roles; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON VIEW user_roles IS 'Determines the application security roles assigned to each user. Referenced by the SolaRealm security configuration in Glassfish.';
+
+
+--
+-- Name: user_pword_expiry; Type: VIEW; Schema: system; Owner: postgres
+--
+
+CREATE VIEW user_pword_expiry AS
+    WITH pw_change_all AS (SELECT u.username, u.change_time, u.change_user, u.rowversion FROM appuser u WHERE (NOT (EXISTS (SELECT uh2.id FROM appuser_historic uh2 WHERE ((((uh2.username)::text = (u.username)::text) AND (uh2.rowversion = (u.rowversion - 1))) AND ((uh2.passwd)::text = (u.passwd)::text))))) UNION SELECT uh.username, uh.change_time, uh.change_user, uh.rowversion FROM appuser_historic uh WHERE (NOT (EXISTS (SELECT uh2.id FROM appuser_historic uh2 WHERE ((((uh2.username)::text = (uh.username)::text) AND (uh2.rowversion = (uh.rowversion - 1))) AND ((uh2.passwd)::text = (uh.passwd)::text)))))), pw_change AS (SELECT pall.username AS uname, pall.change_time AS last_pword_change, pall.change_user AS pword_change_user FROM pw_change_all pall WHERE (pall.rowversion = (SELECT max(p2.rowversion) AS max FROM pw_change_all p2 WHERE ((p2.username)::text = (pall.username)::text)))) SELECT p.uname, p.last_pword_change, p.pword_change_user, CASE WHEN (EXISTS (SELECT r.username FROM user_roles r WHERE (((r.username)::text = (p.uname)::text) AND ((r.rolename)::text = ANY (ARRAY[('ManageSecurity'::character varying)::text, ('NoPasswordExpiry'::character varying)::text]))))) THEN true ELSE false END AS no_pword_expiry, CASE WHEN (s.vl IS NULL) THEN NULL::integer ELSE (((p.last_pword_change)::date - (now())::date) + (s.vl)::integer) END AS pword_expiry_days FROM (pw_change p LEFT JOIN setting s ON ((((s.name)::text = 'pword-expiry-days'::text) AND s.active)));
+
+
+ALTER TABLE system.user_pword_expiry OWNER TO postgres;
+
+--
+-- Name: VIEW user_pword_expiry; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON VIEW user_pword_expiry IS 'Determines the number of days until the users password expires. Once the number of days reaches 0, users will not be able to log into SOLA unless they have the ManageSecurity role (i.e. role to change manage user accounts) or the NoPasswordExpiry role. To configure the number of days before a password expires, set the pword-expiry-days setting in system.setting table. If this setting is not in place, then a password expiry does not apply.';
+
+
+--
+-- Name: active_users; Type: VIEW; Schema: system; Owner: postgres
+--
+
+CREATE VIEW active_users AS
+    SELECT u.username, u.passwd FROM appuser u, user_pword_expiry ex WHERE (((u.active = true) AND ((ex.uname)::text = (u.username)::text)) AND ((COALESCE(ex.pword_expiry_days, 1) > 0) OR (ex.no_pword_expiry = true)));
+
+
+ALTER TABLE system.active_users OWNER TO postgres;
+
+--
+-- Name: VIEW active_users; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON VIEW active_users IS 'Identifies the users currently active in the system. If the users password has expired, then they are treated as inactive users, unless they are System Administrators. This view is intended to replace the system.appuser table in the SolaRealm configuration in Glassfish.';
+
+
+--
+-- Name: appgroup; Type: TABLE; Schema: system; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE appgroup (
+    id character varying(40) NOT NULL,
+    name character varying(600) NOT NULL,
+    description character varying(1000)
+);
+
+
+ALTER TABLE system.appgroup OWNER TO postgres;
+
+--
+-- Name: TABLE appgroup; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON TABLE appgroup IS 'Groups application security roles to simplify assignment of roles to individual system users. 
+Tags: FLOSS SOLA Extension, User Admin';
+
+
+--
+-- Name: COLUMN appgroup.id; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN appgroup.id IS 'Identifier for the appgroup.';
+
+
+--
+-- Name: COLUMN appgroup.name; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN appgroup.name IS 'The name assigned to the appgroup.';
+
+
+--
+-- Name: COLUMN appgroup.description; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN appgroup.description IS 'Describes the purpose of the appgroup and should also indicate when it applies.';
+
+
+--
+-- Name: approle; Type: TABLE; Schema: system; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE approle (
+    code character varying(20) NOT NULL,
+    display_value character varying(500) NOT NULL,
+    status character(1) NOT NULL,
+    description character varying(1000)
+);
+
+
+ALTER TABLE system.approle OWNER TO postgres;
+
+--
+-- Name: TABLE approle; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON TABLE approle IS 'Contains the list of application security roles used to restrict access to different parts of the application, both on the server and client side. 
+Tags: FLOSS SOLA Extension, Reference Table, User Admin';
+
+
+--
+-- Name: COLUMN approle.code; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN approle.code IS 'Code for the security role. Must match exactly the code value used within the SOLA source code to reference the role.';
+
+
+--
+-- Name: COLUMN approle.display_value; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN approle.display_value IS 'The text value that will be displayed to the user.';
+
+
+--
+-- Name: COLUMN approle.status; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN approle.status IS 'The status of the role.';
+
+
+--
+-- Name: COLUMN approle.description; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN approle.description IS 'Describes the purpose of the role and should also indicate when it applies.';
+
+
+--
+-- Name: approle_appgroup_historic; Type: TABLE; Schema: system; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE approle_appgroup_historic (
+    approle_code character varying(20),
+    appgroup_id character varying(40),
+    rowidentifier character varying(40),
+    rowversion integer,
+    change_action character(1),
+    change_user character varying(50),
+    change_time timestamp without time zone,
+    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE system.approle_appgroup_historic OWNER TO postgres;
+
+--
 -- Name: appuser_appgroup_historic; Type: TABLE; Schema: system; Owner: postgres; Tablespace: 
 --
 
@@ -11684,31 +11814,6 @@ CREATE TABLE appuser_appgroup_historic (
 
 
 ALTER TABLE system.appuser_appgroup_historic OWNER TO postgres;
-
---
--- Name: appuser_historic; Type: TABLE; Schema: system; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE appuser_historic (
-    id character varying(40),
-    username character varying(40),
-    first_name character varying(30),
-    last_name character varying(30),
-    email character varying(40),
-    activation_code character varying(20),
-    passwd character varying(100) DEFAULT public.uuid_generate_v1() NOT NULL,
-    active boolean DEFAULT true NOT NULL,
-    description character varying(255),
-    rowidentifier character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
-    rowversion integer DEFAULT 0 NOT NULL,
-    change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
-    change_user character varying(50),
-    change_time timestamp without time zone DEFAULT now() NOT NULL,
-    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL
-);
-
-
-ALTER TABLE system.appuser_historic OWNER TO postgres;
 
 --
 -- Name: appuser_setting; Type: TABLE; Schema: system; Owner: postgres; Tablespace: 
@@ -12688,56 +12793,6 @@ COMMENT ON COLUMN query_field.name IS 'Identifier/name for the query field';
 --
 
 COMMENT ON COLUMN query_field.display_value IS 'The title to display for the query field when presenting results to the user. This value supports localization.';
-
-
---
--- Name: setting; Type: TABLE; Schema: system; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE setting (
-    name character varying(50) NOT NULL,
-    vl character varying(2000) NOT NULL,
-    active boolean DEFAULT true NOT NULL,
-    description character varying(555) NOT NULL
-);
-
-
-ALTER TABLE system.setting OWNER TO postgres;
-
---
--- Name: TABLE setting; Type: COMMENT; Schema: system; Owner: postgres
---
-
-COMMENT ON TABLE setting IS 'Contains global settings for the SOLA application. Refer to the Administration Guide or the ConfigConstants class in the Common Utilities project for a list of the recognized settings. Note that not all possible settings are listed in the settings table. Settings may be omitted from this table if the default value applies.
-Tags: FLOSS SOLA Extension, Reference Table, System Configuration';
-
-
---
--- Name: COLUMN setting.name; Type: COMMENT; Schema: system; Owner: postgres
---
-
-COMMENT ON COLUMN setting.name IS 'Identifier/name for the setting';
-
-
---
--- Name: COLUMN setting.vl; Type: COMMENT; Schema: system; Owner: postgres
---
-
-COMMENT ON COLUMN setting.vl IS 'The value for the setting.';
-
-
---
--- Name: COLUMN setting.active; Type: COMMENT; Schema: system; Owner: postgres
---
-
-COMMENT ON COLUMN setting.active IS 'Indicates if the setting is active or not. If not active, the default value for the setting will apply.';
-
-
---
--- Name: COLUMN setting.description; Type: COMMENT; Schema: system; Owner: postgres
---
-
-COMMENT ON COLUMN setting.description IS 'Description of the setting. ';
 
 
 --
@@ -15864,13 +15919,6 @@ CREATE INDEX approle_appgroup_historic_index_on_rowidentifier ON approle_appgrou
 
 
 --
--- Name: appuser__index_on_rowidentifier; Type: INDEX; Schema: system; Owner: postgres; Tablespace: 
---
-
-CREATE INDEX appuser__index_on_rowidentifier ON appuser USING btree (rowidentifier);
-
-
---
 -- Name: appuser_appgroup_appgroup_id_fk120_ind; Type: INDEX; Schema: system; Owner: postgres; Tablespace: 
 --
 
@@ -15896,6 +15944,13 @@ CREATE INDEX appuser_appgroup_historic_index_on_rowidentifier ON appuser_appgrou
 --
 
 CREATE INDEX appuser_historic_index_on_rowidentifier ON appuser_historic USING btree (rowidentifier);
+
+
+--
+-- Name: appuser_index_on_rowidentifier; Type: INDEX; Schema: system; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX appuser_index_on_rowidentifier ON appuser USING btree (rowidentifier);
 
 
 --

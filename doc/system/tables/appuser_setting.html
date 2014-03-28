@@ -104,7 +104,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </tr>
 </thead>
 <tbody valign='top'>
-<tr class='even'>
+<tr class='odd'>
  <td class='primaryKey' title='Primary Key'>user_id</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>40</td>
@@ -114,7 +114,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative even' valign='top'>
+   <tr class='relative odd' valign='top'>
     <td class='relatedTable detail' title="appuser_setting.user_id refs appuser.id via appuser_setting_user_id_fk103"><a href='appuser.html'>appuser</a><span class='relatedKey'>.id</span>
     </td>
     <td class='constraint detail'>appuser_setting_user_id_fk103<span title='Cascade on delete:
@@ -124,7 +124,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  </td>
  <td class='comment detail'>Identifier of the user the setting applies to.</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='primaryKey' title='Primary Key'>name</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>50</td>
@@ -135,7 +135,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>The name of the setting.</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>vl</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>2000</td>
@@ -146,7 +146,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>The value of the setting</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>active</td>
  <td class='detail'>bool</td>
  <td class='detail' align='right'>1</td>
@@ -158,7 +158,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='comment detail'>Flag to indicate if the setting is active or not.</td>
 </tr>
 </table>
-<p title='4 columns'>Analyzed at ?? ??? 28 01:53 ALMT 2014<p/>
+<p title='4 columns'>Analyzed at ?? ??? 28 22:53 ALMT 2014<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
@@ -191,12 +191,12 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 &nbsp;within <label for='oneDegree'><input type='radio' name='degrees' id='oneDegree' checked>one</label>  <label for='twoDegrees'><input type='radio' name='degrees' id='twoDegrees'>two degrees</label> of separation</span><b>:</b></form>
 <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
 <area shape="rect" id="node1" href="appuser_setting.html" title="appuser_setting" alt="" coords="183,5,366,166">
-<area shape="rect" id="node2" href="appuser.html" title="appuser" alt="" coords="6,7,138,403">
+<area shape="rect" id="node2" href="appuser.html" title="appuser" alt="" coords="6,7,138,451">
 </map>
   <a name='diagram'><img id='oneDegreeImg' src='../diagrams/appuser_setting.1degree.png' usemap='#oneDegreeRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
 <area shape="rect" id="node1" href="../../application/tables/application.html" title="application.application" alt="" coords="188,5,361,89">
-<area shape="rect" id="node2" href="appuser.html" title="appuser" alt="" coords="6,106,138,502">
+<area shape="rect" id="node2" href="appuser.html" title="appuser" alt="" coords="6,106,138,550">
 <area shape="rect" id="node3" href="appuser_appgroup.html" title="appuser_appgroup" alt="" coords="198,106,351,190">
 <area shape="rect" id="node4" href="appuser_setting.html" title="appuser_setting" alt="" coords="183,207,366,369">
 </map>
@@ -205,21 +205,22 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </td></tr></table>
 <span class='excludedRelationship'>
 <br>Excluded from diagram's relationships: 
-<a href="../tables/appuser.html">appuser.rowversion</a>&nbsp;
-<a href="../tables/approle_appgroup.html">approle_appgroup.rowidentifier</a>&nbsp;
-<a href="../tables/appuser_appgroup.html">appuser_appgroup.change_action</a>&nbsp;
-<a href="../tables/appuser.html">appuser.change_user</a>&nbsp;
-<a href="../tables/approle_appgroup.html">approle_appgroup.change_action</a>&nbsp;
-<a href="../tables/approle_appgroup.html">approle_appgroup.rowversion</a>&nbsp;
-<a href="../tables/appuser.html">appuser.rowidentifier</a>&nbsp;
-<a href="../tables/approle_appgroup.html">approle_appgroup.change_user</a>&nbsp;
 <a href="../tables/appuser.html">appuser.change_action</a>&nbsp;
-<a href="../tables/approle_appgroup.html">approle_appgroup.change_time</a>&nbsp;
+<a href="../tables/approle_appgroup.html">approle_appgroup.rowversion</a>&nbsp;
 <a href="../tables/appuser_appgroup.html">appuser_appgroup.change_user</a>&nbsp;
-<a href="../tables/appuser_appgroup.html">appuser_appgroup.change_time</a>&nbsp;
 <a href="../tables/appuser.html">appuser.change_time</a>&nbsp;
-<a href="../tables/appuser_appgroup.html">appuser_appgroup.rowversion</a>&nbsp;
+<a href="../tables/approle_appgroup.html">approle_appgroup.change_user</a>&nbsp;
+<a href="../tables/approle_appgroup.html">approle_appgroup.rowidentifier</a>&nbsp;
+<a href="../tables/approle_appgroup.html">approle_appgroup.change_action</a>&nbsp;
+<a href="../tables/appuser.html">appuser.rowversion</a>&nbsp;
+<a href="../tables/approle_appgroup.html">approle_appgroup.change_time</a>&nbsp;
+<a href="../tables/appuser.html">appuser.rowidentifier</a>&nbsp;
+<a href="../tables/appuser.html">appuser.change_user</a>&nbsp;
 <a href="../tables/appuser_appgroup.html">appuser_appgroup.rowidentifier</a>&nbsp;
+<a href="../tables/appuser_appgroup.html">appuser_appgroup.change_time</a>&nbsp;
+<a href="../tables/user_pword_expiry.html">user_pword_expiry.pword_change_user</a>&nbsp;
+<a href="../tables/appuser_appgroup.html">appuser_appgroup.change_action</a>&nbsp;
+<a href="../tables/appuser_appgroup.html">appuser_appgroup.rowversion</a>&nbsp;
 </span>
 </div>
 </body>

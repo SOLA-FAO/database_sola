@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <database name="sola_original" schema="cadastre" type="PostgreSQL - 9.1.4">
    <tables>
-      <table name="area_type" remarks="Code list of area types. Identifies the types of area (calculated, official, survey defined, etc) that can be recorded for a parcel (a.k.a. cadastre object). Implementation of the LADM LA_AreaType class.&#13;&#10;Tags: Reference Table, LADM Reference Object" schema="cadastre" type="TABLE">
+      <table name="area_type" remarks="Code list of area types. Identifies the types of area (calculated, official, survey defined, etc) that can be recorded for a parcel (a.k.a. cadastre object). Implementation of the LADM LA_AreaType class.&#10;Tags: Reference Table, LADM Reference Object" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="LADM Definition: The code for the area type." size="20" type="varchar">
             <child column="type_code" foreignKey="ba_unit_area_type_code_fk78" implied="false" onDeleteCascade="false" table="ba_unit_area"/>
             <child column="type_code" foreignKey="spatial_value_area_type_code_fk88" implied="false" onDeleteCascade="true" table="spatial_value_area"/>
@@ -17,7 +17,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="building_unit_type" remarks="Code list of building unit types. Identifies the types of building unit that can exist on a parcel. Implementation of the LADM LA_BuildingUnitType class. Not used by SOLA.&#13;&#10;Tags: Reference Table, LADM Reference Object, Not Used" schema="cadastre" type="TABLE">
+      <table name="building_unit_type" remarks="Code list of building unit types. Identifies the types of building unit that can exist on a parcel. Implementation of the LADM LA_BuildingUnitType class. Not used by SOLA.&#10;Tags: Reference Table, LADM Reference Object, Not Used" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="LADM Definition: The code for the building unit type." size="20" type="varchar">
             <child column="building_unit_type_code" foreignKey="cadastre_object_building_unit_type_code_fk64" implied="false" onDeleteCascade="false" table="cadastre_object"/>
          </column>
@@ -32,7 +32,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="cadastre_object" remarks="Specialization of Spatial Unit that represents primary cadastral features such as parcels. Parcels captured in SOLA should have a spatial definition that illustrates the shape and geographic location of the parcel although this is not a mandatory requirement. Parcels without a spatial definition may be referred to as aspatial or textual parcels.&#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="cadastre" type="TABLE">
+      <table name="cadastre_object" remarks="Specialization of Spatial Unit that represents primary cadastral features such as parcels. Parcels captured in SOLA should have a spatial definition that illustrates the shape and geographic location of the parcel although this is not a mandatory requirement. Parcels without a spatial definition may be referred to as aspatial or textual parcels.&#10;Tags: FLOSS SOLA Extension, Change History" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="Identifier for the cadastre object." size="40" type="varchar">
             <child column="spatial_unit_id" foreignKey="application_spatial_unit_spatial_unit_id_fk131" implied="false" onDeleteCascade="true" table="application_spatial_unit"/>
             <child column="spatial_unit_id" foreignKey="ba_unit_contains_spatial_unit_spatial_unit_id_fk70" implied="false" onDeleteCascade="true" table="ba_unit_contains_spatial_unit"/>
@@ -94,7 +94,7 @@
             <column ascending="true" name="type_code"/>
          </index>
       </table>
-      <table name="cadastre_object_node_target" remarks="Used to store coordinate details for new or modified nodes during the Redefine Cadastre process.&#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="cadastre" type="TABLE">
+      <table name="cadastre_object_node_target" remarks="Used to store coordinate details for new or modified nodes during the Redefine Cadastre process.&#10;Tags: FLOSS SOLA Extension, Change History" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="transaction_id" nullable="false" remarks="Identifier for the transaction the node is associated with." size="40" type="varchar">
             <parent column="id" foreignKey="cadastre_object_node_target_transaction_id_fk102" implied="false" onDeleteCascade="true" table="transaction"/>
          </column>
@@ -121,7 +121,7 @@
             <column ascending="true" name="transaction_id"/>
          </index>
       </table>
-      <table name="cadastre_object_target" remarks="Used to identify cadastre objects that are being changed or cancelled by a cadastre related transaction (i.e. Change Cadastre or Redefine Cadastre). These changes are considered pending/unofficial and do not affect the registered state of the cadastre object until the transaction is approved. Note that new cadastre objects are created in the cadastre_object table with a status of pending and they are not recorded in this table. &#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="cadastre" type="TABLE">
+      <table name="cadastre_object_target" remarks="Used to identify cadastre objects that are being changed or cancelled by a cadastre related transaction (i.e. Change Cadastre or Redefine Cadastre). These changes are considered pending/unofficial and do not affect the registered state of the cadastre object until the transaction is approved. Note that new cadastre objects are created in the cadastre_object table with a status of pending and they are not recorded in this table. &#10;Tags: FLOSS SOLA Extension, Change History" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="transaction_id" nullable="false" remarks="Identifier for the transaction the cadastre object is being affected by." size="40" type="varchar">
             <parent column="id" foreignKey="cadastre_object_target_transaction_id_fk98" implied="false" onDeleteCascade="true" table="transaction"/>
          </column>
@@ -153,7 +153,7 @@
             <column ascending="true" name="transaction_id"/>
          </index>
       </table>
-      <table name="cadastre_object_type" remarks="Code list of cadastre object types. E.g. parcel, building_unit, road, etc. &#13;&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="cadastre" type="TABLE">
+      <table name="cadastre_object_type" remarks="Code list of cadastre object types. E.g. parcel, building_unit, road, etc. &#10;Tags: FLOSS SOLA Extension, Reference Table" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="The code for the cadastre object type." size="20" type="varchar">
             <child column="type_code" foreignKey="cadastre_object_type_code_fk62" implied="false" onDeleteCascade="false" table="cadastre_object"/>
             <child column="cadastre_object_type_code" foreignKey="spatial_unit_temporary_cadastre_object_type_code_fk133" implied="false" onDeleteCascade="false" table="spatial_unit_temporary"/>
@@ -170,7 +170,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="dimension_type" remarks="Code list of dimension types. Identifies the number of dimensions used to define a spatial unit. E.g. 1D, 2D, etc. Implementation of the LADM LA_DimensionType class. SOLA assumes all spatial units are 2D. &#13;&#10;Tags: Reference Table, LADM Reference Object" schema="cadastre" type="TABLE">
+      <table name="dimension_type" remarks="Code list of dimension types. Identifies the number of dimensions used to define a spatial unit. E.g. 1D, 2D, etc. Implementation of the LADM LA_DimensionType class. SOLA assumes all spatial units are 2D. &#10;Tags: Reference Table, LADM Reference Object" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="LADM Definition: The code for the dimension type." size="20" type="varchar">
             <child column="dimension_code" foreignKey="spatial_unit_dimension_code_fk55" implied="false" onDeleteCascade="false" table="spatial_unit"/>
          </column>
@@ -198,7 +198,7 @@
          <column autoUpdated="false" digits="0" id="2" name="geom" nullable="true" remarks="" size="2147483647" type="geometry"/>
          <column autoUpdated="false" digits="0" id="3" name="filter_category" nullable="true" remarks="" size="2147483647" type="varchar"/>
       </table>
-      <table name="hierarchy_level" remarks="Code list of hierarchy levels. Used by Systematic Registration functionalty when defining Spatial Unit Groups. &#13;&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="cadastre" type="TABLE">
+      <table name="hierarchy_level" remarks="Code list of hierarchy levels. Used by Systematic Registration functionalty when defining Spatial Unit Groups. &#10;Tags: FLOSS SOLA Extension, Reference Table" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="The code for the hierarchy level." size="20" type="varchar"/>
          <column autoUpdated="false" digits="0" id="1" name="display_value" nullable="false" remarks="Displayed value of the hierarchy level." size="500" type="varchar"/>
          <column autoUpdated="false" digits="0" id="2" name="description" nullable="true" remarks="Description of the hierarchy level." size="1000" type="varchar"/>
@@ -211,7 +211,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="land_use_type" remarks="Code list of land use types. Identifies the general purpose of a cadastre object or property. E.g. Commerical, Residential, Industrial, etc. Implementation of the LADM ExtLandUse class. &#13;&#10;Tags: Reference Table, LADM Reference Object" schema="cadastre" type="TABLE">
+      <table name="land_use_type" remarks="Code list of land use types. Identifies the general purpose of a cadastre object or property. E.g. Commerical, Residential, Industrial, etc. Implementation of the LADM ExtLandUse class. &#10;Tags: Reference Table, LADM Reference Object" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="LADM Definition: The code for the land use type." size="20" type="varchar">
             <child column="land_use_code" foreignKey="application_property_land_use_code_fk125" implied="false" onDeleteCascade="false" table="application_property"/>
             <child column="land_use_code" foreignKey="spatial_unit_land_use_code_fk66" implied="false" onDeleteCascade="false" table="spatial_unit"/>
@@ -227,7 +227,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="legal_space_utility_network" remarks="LADM Defintion: A utility network concerns legal space, which does not necessarily coincide with the physical space of a utility network. Implementation of the LADM LA_LegalSpaceUtilityNetwork class. Not used by SOLA. &#13;&#10;Tags: LADM Reference Object, Change History, Not Used" schema="cadastre" type="TABLE">
+      <table name="legal_space_utility_network" remarks="LADM Defintion: A utility network concerns legal space, which does not necessarily coincide with the physical space of a utility network. Implementation of the LADM LA_LegalSpaceUtilityNetwork class. Not used by SOLA. &#10;Tags: LADM Reference Object, Change History, Not Used" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="LADM Definition: Legal space utility network identifier." size="40" type="varchar">
             <parent column="id" foreignKey="legal_space_utility_network_id_fk94" implied="false" onDeleteCascade="true" table="cadastre_object"/>
          </column>
@@ -264,7 +264,7 @@
             <column ascending="true" name="type_code"/>
          </index>
       </table>
-      <table name="level" remarks="LADM Definition: A set of spatial units, with geometric, and/or topological, and/or thematic coherence. &#13;&#10;EXAMPLE 1 - One level for an urban cadastre and another level for a rural cadastre.&#13;&#10;EXAMPLE 2 - One level with rights and another with restrictions.&#13;&#10;EXAMPLE 3 - One level with formal rights, a second level with informal rights and a third level with customary rights.&#13;&#10;EXAMPLE 4 - One level with point based spaital units, a second level with line based spatial units, and a third level with polygon based spatial features.&#13;&#10;Implementation of the LADM LA_Level class. Used by SOLA to identify the set of spatial features for each layer displayed in the Map Viewer. &#13;&#10;Tags: Reference Table, LADM Reference Object, Change History" schema="cadastre" type="TABLE">
+      <table name="level" remarks="LADM Definition: A set of spatial units, with geometric, and/or topological, and/or thematic coherence. &#10;EXAMPLE 1 - One level for an urban cadastre and another level for a rural cadastre.&#10;EXAMPLE 2 - One level with rights and another with restrictions.&#10;EXAMPLE 3 - One level with formal rights, a second level with informal rights and a third level with customary rights.&#10;EXAMPLE 4 - One level with point based spaital units, a second level with line based spatial units, and a third level with polygon based spatial features.&#10;Implementation of the LADM LA_Level class. Used by SOLA to identify the set of spatial features for each layer displayed in the Map Viewer. &#10;Tags: Reference Table, LADM Reference Object, Change History" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="LADM Definition: Level identifier." size="40" type="varchar">
             <child column="level_id" foreignKey="spatial_unit_level_id_fk57" implied="false" onDeleteCascade="false" table="spatial_unit"/>
          </column>
@@ -300,7 +300,7 @@
             <column ascending="true" name="type_code"/>
          </index>
       </table>
-      <table name="level_content_type" remarks="Code list of level content types. E.g. geographicLocator, building, customary, primaryRight, etc. Implementation of the LADM LA_LevelContentType class. &#13;&#10;Tags: Reference Table, LADM Reference Object" schema="cadastre" type="TABLE">
+      <table name="level_content_type" remarks="Code list of level content types. E.g. geographicLocator, building, customary, primaryRight, etc. Implementation of the LADM LA_LevelContentType class. &#10;Tags: Reference Table, LADM Reference Object" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="LADM Definition: The code for the level content type." size="20" type="varchar">
             <child column="type_code" foreignKey="level_type_code_fk60" implied="false" onDeleteCascade="false" table="level"/>
          </column>
@@ -320,7 +320,7 @@
          <column autoUpdated="false" digits="0" id="1" name="label" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="2" name="geom" nullable="true" remarks="" size="2147483647" type="geometry"/>
       </table>
-      <table name="register_type" remarks="Code list of register types. E.g. all, forest, mining, rural, urban, etc. Implementation of the LADM LA_RegisterType class. &#13;&#10;Tags: Reference Table, LADM Reference Object" schema="cadastre" type="TABLE">
+      <table name="register_type" remarks="Code list of register types. E.g. all, forest, mining, rural, urban, etc. Implementation of the LADM LA_RegisterType class. &#10;Tags: Reference Table, LADM Reference Object" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="LADM Definition: The code for the register type." size="20" type="varchar">
             <child column="register_type_code" foreignKey="level_register_type_code_fk58" implied="false" onDeleteCascade="false" table="level"/>
          </column>
@@ -340,7 +340,7 @@
          <column autoUpdated="false" digits="0" id="1" name="label" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="2" name="geom" nullable="true" remarks="" size="2147483647" type="geometry"/>
       </table>
-      <table name="spatial_unit" remarks="Single area (or multiple areas) of land, water or a single volume (or multiple volumes) of space. &#13;&#10;Implementation of the LADM LA_SpatialUnit class. Can be used by SOLA to represent geographic features such as place names and roading centrelines that are not considered as cadastre objects.  &#13;&#10;Tags: LADM Reference Object, Change History" schema="cadastre" type="TABLE">
+      <table name="spatial_unit" remarks="Single area (or multiple areas) of land, water or a single volume (or multiple volumes) of space. &#10;Implementation of the LADM LA_SpatialUnit class. Can be used by SOLA to represent geographic features such as place names and roading centrelines that are not considered as cadastre objects.  &#10;Tags: LADM Reference Object, Change History" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="LADM Definition: Spatial unit identifier." size="40" type="varchar">
             <child column="spatial_unit_id" foreignKey="ba_unit_contains_spatial_unit_spatial_unit_id_fk69" implied="false" onDeleteCascade="true" table="ba_unit_contains_spatial_unit"/>
             <child column="id" foreignKey="cadastre_object_id_fk61" implied="false" onDeleteCascade="true" table="cadastre_object"/>
@@ -400,7 +400,7 @@
             <column ascending="true" name="transaction_id"/>
          </index>
       </table>
-      <table name="spatial_unit_address" remarks="Associates a spatial unit to one or more address records. &#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="cadastre" type="TABLE">
+      <table name="spatial_unit_address" remarks="Associates a spatial unit to one or more address records. &#10;Tags: FLOSS SOLA Extension, Change History" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="spatial_unit_id" nullable="false" remarks="Spatial unit identifier." size="40" type="varchar">
             <parent column="id" foreignKey="spatial_unit_address_spatial_unit_id_fk89" implied="false" onDeleteCascade="true" table="spatial_unit"/>
          </column>
@@ -428,7 +428,7 @@
             <column ascending="true" name="spatial_unit_id"/>
          </index>
       </table>
-      <table name="spatial_unit_group" remarks="Any number of spatial units considered as a single entity. &#13;&#10;Implementation of the LADM LA_SpatialUnitGroup class. &#13;&#10;Tags: LADM Reference Object, Change History" schema="cadastre" type="TABLE">
+      <table name="spatial_unit_group" remarks="Any number of spatial units considered as a single entity. &#10;Implementation of the LADM LA_SpatialUnitGroup class. &#10;Tags: LADM Reference Object, Change History" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="LADM Definition: Spatial unit group identifier." size="40" type="varchar">
             <child column="found_in_spatial_unit_group_id" foreignKey="spatial_unit_group_found_in_spatial_unit_group_id_fk91" implied="false" onDeleteCascade="false" table="spatial_unit_group"/>
             <child column="spatial_unit_group_id" foreignKey="spatial_unit_in_group_spatial_unit_group_id_fk92" implied="false" onDeleteCascade="true" table="spatial_unit_in_group"/>
@@ -464,7 +464,7 @@
             <column ascending="true" name="rowidentifier"/>
          </index>
       </table>
-      <table name="spatial_unit_in_group" remarks="Associates a spatial unit group to one or more spatial units.&#13;&#10;Implementation of the LADM LA_SpatialUnitGroup and LA_SpatialUnit relationship.  &#13;&#10;Tags: LADM Reference Object, Change History" schema="cadastre" type="TABLE">
+      <table name="spatial_unit_in_group" remarks="Associates a spatial unit group to one or more spatial units.&#10;Implementation of the LADM LA_SpatialUnitGroup and LA_SpatialUnit relationship.  &#10;Tags: LADM Reference Object, Change History" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="spatial_unit_group_id" nullable="false" remarks="Spatial unit group identifier" size="40" type="varchar">
             <parent column="id" foreignKey="spatial_unit_in_group_spatial_unit_group_id_fk92" implied="false" onDeleteCascade="true" table="spatial_unit_group"/>
          </column>
@@ -492,7 +492,7 @@
             <column ascending="true" name="spatial_unit_id"/>
          </index>
       </table>
-      <table name="spatial_value_area" remarks="Identifies the area of a 2 dimensional spatial unit.&#13;&#10;Implementation of the LADM LA_AreaValue class.  &#13;&#10;Tags: LADM Reference Object, Change History" schema="cadastre" type="TABLE">
+      <table name="spatial_value_area" remarks="Identifies the area of a 2 dimensional spatial unit.&#10;Implementation of the LADM LA_AreaValue class.  &#10;Tags: LADM Reference Object, Change History" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="spatial_unit_id" nullable="false" remarks="Spatial unit identifier." size="40" type="varchar">
             <parent column="id" foreignKey="spatial_value_area_spatial_unit_id_fk87" implied="false" onDeleteCascade="true" table="spatial_unit"/>
          </column>
@@ -521,7 +521,7 @@
             <column ascending="true" name="type_code"/>
          </index>
       </table>
-      <table name="structure_type" remarks="Code list of structure types. E.g. point, polygon, sketch, text, etc. Implementation of the LADM LA_StructureType class. &#13;&#10;Tags: Reference Table, LADM Reference Object" schema="cadastre" type="TABLE">
+      <table name="structure_type" remarks="Code list of structure types. E.g. point, polygon, sketch, text, etc. Implementation of the LADM LA_StructureType class. &#10;Tags: Reference Table, LADM Reference Object" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="LADM Definition: The code for the structure type." size="20" type="varchar">
             <child column="structure_code" foreignKey="level_structure_code_fk59" implied="false" onDeleteCascade="false" table="level"/>
          </column>
@@ -536,7 +536,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="surface_relation_type" remarks="Code list of surface relation types. E.g. onSurface, above, below, mixed, etc. Implementation of the LADM LA_SurfaceRelationType class. &#13;&#10;Tags: Reference Table, LADM Reference Object" schema="cadastre" type="TABLE">
+      <table name="surface_relation_type" remarks="Code list of surface relation types. E.g. onSurface, above, below, mixed, etc. Implementation of the LADM LA_SurfaceRelationType class. &#10;Tags: Reference Table, LADM Reference Object" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="LADM Definition: The code for the surface relation type." size="20" type="varchar">
             <child column="surface_relation_code" foreignKey="spatial_unit_surface_relation_code_fk56" implied="false" onDeleteCascade="false" table="spatial_unit"/>
          </column>
@@ -556,7 +556,7 @@
          <column autoUpdated="false" digits="0" id="1" name="label" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="2" name="geom" nullable="true" remarks="" size="2147483647" type="geometry"/>
       </table>
-      <table name="survey_point" remarks="Used to store new survey point details (i.e. boundary and traverse) when capturing a survey plan into SOLA. Survey points can be used to define new cadastre objects. &#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="cadastre" type="TABLE">
+      <table name="survey_point" remarks="Used to store new survey point details (i.e. boundary and traverse) when capturing a survey plan into SOLA. Survey points can be used to define new cadastre objects. &#10;Tags: FLOSS SOLA Extension, Change History" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="transaction_id" nullable="false" remarks="Identifier of the transaction that created the survey point." size="40" type="varchar">
             <parent column="id" foreignKey="survey_point_transaction_id_fk99" implied="false" onDeleteCascade="true" table="transaction"/>
          </column>
@@ -592,7 +592,7 @@
       <table name="Trigger Function: f_for_tbl_cadastre_object_trg_geommodify" remarks="Function triggered on insert or update to the cadastre_object table.  Uses the add_topo_points function to merge the topology of any parcels adjacent to parcel being updated. Only applied if the parcel being updated has a current status." schema="cadastre" type="TABLE"/>
       <table name="Trigger Function: f_for_tbl_cadastre_object_trg_new" remarks="Function triggered on insert to the cadastre_object table.  Inserts a record in the spatial_unit table for the cadastre_object if no spatial_unit record for the new cadastre_object exists." schema="cadastre" type="TABLE"/>
       <table name="Trigger Function: f_for_tbl_cadastre_object_trg_remove" remarks="Function triggered on delete from the cadastre_object table. Cascade deletes the record in the spatial_unit table for the cadastre_object." schema="cadastre" type="TABLE"/>
-      <table name="utility_network_status_type" remarks="Code list of utility network status types. E.g. inUse, outOfUse, planned, etc. &#13;&#10;Implementation of the LADM LA_UtilityNetworkStatusType class. Not used by SOLA.&#13;&#10;Tags: Reference Table, LADM Reference Object, Not Used" schema="cadastre" type="TABLE">
+      <table name="utility_network_status_type" remarks="Code list of utility network status types. E.g. inUse, outOfUse, planned, etc. &#10;Implementation of the LADM LA_UtilityNetworkStatusType class. Not used by SOLA.&#10;Tags: Reference Table, LADM Reference Object, Not Used" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="LADM Definition: The code for the utility network status type." size="20" type="varchar">
             <child column="status_code" foreignKey="legal_space_utility_network_status_code_fk95" implied="false" onDeleteCascade="false" table="legal_space_utility_network"/>
          </column>
@@ -607,7 +607,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="utility_network_type" remarks="Code list of utility network types. E.g. gas, oil, water, etc. &#13;&#10;Implementation of the LADM LA_UtilityNetworkType class. Not used by SOLA.&#13;&#10;Tags: Reference Table, LADM Reference Object, Not Used" schema="cadastre" type="TABLE">
+      <table name="utility_network_type" remarks="Code list of utility network types. E.g. gas, oil, water, etc. &#10;Implementation of the LADM LA_UtilityNetworkType class. Not used by SOLA.&#10;Tags: Reference Table, LADM Reference Object, Not Used" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="LADM Definition: The code for the utility network type." size="20" type="varchar">
             <child column="type_code" foreignKey="legal_space_utility_network_type_code_fk96" implied="false" onDeleteCascade="false" table="legal_space_utility_network"/>
          </column>

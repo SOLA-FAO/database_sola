@@ -104,7 +104,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </tr>
 </thead>
 <tbody valign='top'>
-<tr class='odd'>
+<tr class='even'>
  <td class='primaryKey' title='Primary Key'>id</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>40</td>
@@ -113,19 +113,19 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="application.assignee_id refs appuser.id via application_assignee_id_fk15"><a href='../../application/tables/application.html'>application</a><span class='relatedKey'>.assignee_id</span>
     </td>
     <td class='constraint detail'>application_assignee_id_fk15<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="appuser_appgroup.appuser_id refs appuser.id via appuser_appgroup_appuser_id_fk119"><a href='appuser_appgroup.html'>appuser_appgroup</a><span class='relatedKey'>.appuser_id</span>
     </td>
     <td class='constraint detail'>appuser_appgroup_appuser_id_fk119<span title='Cascade on delete:
  Deletion of parent deletes child'>&nbsp;C</span></td>
    </tr>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="appuser_setting.user_id refs appuser.id via appuser_setting_user_id_fk103"><a href='appuser_setting.html'>appuser_setting</a><span class='relatedKey'>.user_id</span>
     </td>
     <td class='constraint detail'>appuser_setting_user_id_fk103<span title='Cascade on delete:
@@ -136,7 +136,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>The SOLA user identifier.</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='indexedColumn' title='Indexed'>username</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>40</td>
@@ -147,7 +147,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>The user name assigned to the SOLA user.</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>first_name</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>30</td>
@@ -158,7 +158,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>The first name of the SOLA user.</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>last_name</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>30</td>
@@ -169,10 +169,21 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>The last name of the SOLA user.</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>email</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>40</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='right'>null</td>
+ <td class='detail'></td>
+ <td class='detail'> </td>
+ <td class='comment detail'></td>
+</tr>
+<tr class='odd'>
+ <td class='detail'>mobile_number</td>
+ <td class='detail'>varchar</td>
+ <td class='detail' align='right'>20</td>
  <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
  <td class='detail' align='center'></td>
  <td class='detail' align='right'>null</td>
@@ -192,6 +203,17 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='comment detail'></td>
 </tr>
 <tr class='odd'>
+ <td class='detail'>details</td>
+ <td class='detail'>varchar</td>
+ <td class='detail' align='right'>500</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='right'>null</td>
+ <td class='detail'></td>
+ <td class='detail'> </td>
+ <td class='comment detail'></td>
+</tr>
+<tr class='even'>
  <td class='detail'>passwd</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>100</td>
@@ -202,7 +224,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>active</td>
  <td class='detail'>bool</td>
  <td class='detail' align='right'>1</td>
@@ -213,7 +235,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>description</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>255</td>
@@ -224,7 +246,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='indexedColumn' title='Indexed'>rowidentifier</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>40</td>
@@ -235,7 +257,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>rowversion</td>
  <td class='detail'>int4</td>
  <td class='detail' align='right'>10</td>
@@ -246,7 +268,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>change_action</td>
  <td class='detail'>bpchar</td>
  <td class='detail' align='right'>1</td>
@@ -257,7 +279,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>change_user</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>50</td>
@@ -268,7 +290,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>change_time</td>
  <td class='detail'>timestamp</td>
  <td class='detail' align='right'>29,6</td>
@@ -280,7 +302,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='comment detail'></td>
 </tr>
 </table>
-<p title='14 columns'>Analyzed at ?? ??? 28 01:53 ALMT 2014<p/>
+<p title='16 columns'>Analyzed at ?? ??? 28 22:53 ALMT 2014<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
@@ -304,7 +326,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
   <td class='indexedColumn'>rowidentifier</td>
   <td class='detail'>Performance</td>
   <td class='detail' style='text-align:left;'><span title='Ascending'>Asc</span></td>
-  <td class='constraint' style='text-align:left;'>appuser__index_on_rowidentifier</td>
+  <td class='constraint' style='text-align:left;'>appuser_index_on_rowidentifier</td>
  </tr>
  <tr>
   <td class='indexedColumn'>username</td>
@@ -319,16 +341,16 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 &nbsp;within <label for='oneDegree'><input type='radio' name='degrees' id='oneDegree' checked>one</label>  <label for='twoDegrees'><input type='radio' name='degrees' id='twoDegrees'>two degrees</label> of separation</span><b>:</b></form>
 <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
 <area shape="rect" id="node1" href="../../application/tables/application.html" title="application.application" alt="" coords="300,5,505,617">
-<area shape="rect" id="node2" href="appuser.html" title="appuser" alt="" coords="5,631,256,1033">
+<area shape="rect" id="node2" href="appuser.html" title="appuser" alt="" coords="5,631,256,1081">
 <area shape="rect" id="node3" href="appuser_appgroup.html" title="appuser_appgroup" alt="" coords="326,634,479,862">
 <area shape="rect" id="node4" href="appuser_setting.html" title="appuser_setting" alt="" coords="335,879,471,1035">
 </map>
   <a name='diagram'><img id='oneDegreeImg' src='../diagrams/appuser.1degree.png' usemap='#oneDegreeRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
 <area shape="rect" id="node1" href="../../application/tables/application.html" title="application.application" alt="" coords="300,5,505,617">
-<area shape="rect" id="node2" href="appuser.html" title="appuser" alt="" coords="5,577,256,978">
-<area shape="rect" id="node3" href="appuser_appgroup.html" title="appuser_appgroup" alt="" coords="326,917,479,1145">
-<area shape="rect" id="node4" href="appgroup.html" title="appgroup" alt="" coords="85,995,177,1079">
+<area shape="rect" id="node2" href="appuser.html" title="appuser" alt="" coords="5,565,256,1014">
+<area shape="rect" id="node3" href="appuser_appgroup.html" title="appuser_appgroup" alt="" coords="326,941,479,1169">
+<area shape="rect" id="node4" href="appgroup.html" title="appgroup" alt="" coords="85,1031,177,1115">
 <area shape="rect" id="node5" href="appuser_setting.html" title="appuser_setting" alt="" coords="335,634,471,790">
 </map>
 
@@ -336,16 +358,17 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </td></tr></table>
 <span class='excludedRelationship'>
 <br>Excluded from diagram's relationships: 
-<a href="../tables/approle_appgroup.html">approle_appgroup.change_user</a>&nbsp;
-<a href="../tables/appuser_appgroup.html">appuser_appgroup.change_time</a>&nbsp;
-<a href="../tables/appuser_appgroup.html">appuser_appgroup.change_user</a>&nbsp;
 <a href="../tables/approle_appgroup.html">approle_appgroup.change_time</a>&nbsp;
-<a href="../tables/appuser_appgroup.html">appuser_appgroup.change_action</a>&nbsp;
+<a href="../tables/appuser_appgroup.html">appuser_appgroup.change_time</a>&nbsp;
+<a href="../tables/appuser_appgroup.html">appuser_appgroup.rowidentifier</a>&nbsp;
+<a href="../tables/user_pword_expiry.html">user_pword_expiry.pword_change_user</a>&nbsp;
+<a href="../tables/appuser_appgroup.html">appuser_appgroup.change_user</a>&nbsp;
+<a href="../tables/approle_appgroup.html">approle_appgroup.rowversion</a>&nbsp;
+<a href="../tables/approle_appgroup.html">approle_appgroup.change_user</a>&nbsp;
 <a href="../tables/approle_appgroup.html">approle_appgroup.rowidentifier</a>&nbsp;
 <a href="../tables/approle_appgroup.html">approle_appgroup.change_action</a>&nbsp;
-<a href="../tables/approle_appgroup.html">approle_appgroup.rowversion</a>&nbsp;
+<a href="../tables/appuser_appgroup.html">appuser_appgroup.change_action</a>&nbsp;
 <a href="../tables/appuser_appgroup.html">appuser_appgroup.rowversion</a>&nbsp;
-<a href="../tables/appuser_appgroup.html">appuser_appgroup.rowidentifier</a>&nbsp;
 </span>
 </div>
 </body>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <database name="sola_original" schema="address" type="PostgreSQL - 9.1.4">
    <tables>
-      <table name="address" remarks="Describes a postal or physical address.&#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="address" type="TABLE">
+      <table name="address" remarks="Describes a postal or physical address.&#10;Tags: FLOSS SOLA Extension, Change History" schema="address" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="Address identifier." size="40" type="varchar">
             <child column="address_id" foreignKey="party_address_id_fk10" implied="false" onDeleteCascade="false" table="party"/>
             <child column="address_id" foreignKey="spatial_unit_address_address_id_fk90" implied="false" onDeleteCascade="true" table="spatial_unit_address"/>

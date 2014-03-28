@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <database name="sola_original" schema="party" type="PostgreSQL - 9.1.4">
    <tables>
-      <table name="communication_type" remarks="Code list of communication types. Used to identify the types of communication that can be used between the land administration agency and their clients.&#13;&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="party" type="TABLE">
+      <table name="communication_type" remarks="Code list of communication types. Used to identify the types of communication that can be used between the land administration agency and their clients.&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="party" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="The code for the communication type." size="20" type="varchar">
             <child column="preferred_communication_code" foreignKey="party_preferred_communication_code_fk11" implied="false" onDeleteCascade="false" table="party"/>
          </column>
@@ -17,7 +17,7 @@
          </index>
       </table>
       <table name="Function: is_rightholder" remarks="Indicates if the party is associated to one or more land rights as a rightholder." schema="party" type="TABLE"/>
-      <table name="gender_type" remarks="Code list of gender types. Used to identify the gender of the party where the party represents an individual.&#13;&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="party" type="TABLE">
+      <table name="gender_type" remarks="Code list of gender types. Used to identify the gender of the party where the party represents an individual.&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="party" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="The code for the gender type." size="20" type="varchar">
             <child column="gender_code" foreignKey="party_gender_code_fk13" implied="false" onDeleteCascade="false" table="party"/>
          </column>
@@ -32,7 +32,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="group_party" remarks="Groups any number of parties into a distinct entity. Implementation of the LADM LA_GroupParty class. Not used by SOLA&#13;&#10;Tags: LADM Reference Object, Change History, Not Used" schema="party" type="TABLE">
+      <table name="group_party" remarks="Groups any number of parties into a distinct entity. Implementation of the LADM LA_GroupParty class. Not used by SOLA&#10;Tags: LADM Reference Object, Change History, Not Used" schema="party" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="LADM Definition: Identifier for the group party." size="40" type="varchar">
             <child column="group_id" foreignKey="party_member_group_id_fk35" implied="false" onDeleteCascade="true" table="party_member"/>
             <parent column="id" foreignKey="group_party_id_fk32" implied="false" onDeleteCascade="true" table="party"/>
@@ -59,7 +59,7 @@
             <column ascending="true" name="type_code"/>
          </index>
       </table>
-      <table name="group_party_type" remarks="Code list of group party type types. Implementation of the LADM LA_GroupPartyType class. Not used by SOLA.&#13;&#10;Tags: Reference Table, LADM Reference Object, Not Used" schema="party" type="TABLE">
+      <table name="group_party_type" remarks="Code list of group party type types. Implementation of the LADM LA_GroupPartyType class. Not used by SOLA.&#10;Tags: Reference Table, LADM Reference Object, Not Used" schema="party" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="LADM Definition: The code for the group party type." size="20" type="varchar">
             <child column="type_code" foreignKey="group_party_type_code_fk33" implied="false" onDeleteCascade="false" table="group_party"/>
          </column>
@@ -74,7 +74,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="id_type" remarks="Code list of id types. Used to identify the types of id that can be used to verify the identity of an individual, group or organisation. E.g. nationalId, nationalPassport, driverLicense, etc.&#13;&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="party" type="TABLE">
+      <table name="id_type" remarks="Code list of id types. Used to identify the types of id that can be used to verify the identity of an individual, group or organisation. E.g. nationalId, nationalPassport, driverLicense, etc.&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="party" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="The code for the id type." size="20" type="varchar">
             <child column="id_type_code" foreignKey="party_id_type_code_fk12" implied="false" onDeleteCascade="false" table="party"/>
          </column>
@@ -89,7 +89,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="party" remarks="An individual, group or organisation that is associated in some way with land office services. Implementation of the LADM LA_Party class.&#13;&#10;Tags: LADM Reference Object, Change History" schema="party" type="TABLE">
+      <table name="party" remarks="An individual, group or organisation that is associated in some way with land office services. Implementation of the LADM LA_Party class.&#10;Tags: LADM Reference Object, Change History" schema="party" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="LADM Definition: Identifier for the party." size="40" type="varchar">
             <child column="agent_id" foreignKey="application_agent_id_fk8" implied="false" onDeleteCascade="false" table="application"/>
             <child column="contact_person_id" foreignKey="application_contact_person_id_fk14" implied="false" onDeleteCascade="false" table="application"/>
@@ -153,7 +153,7 @@
             <column ascending="true" name="type_code"/>
          </index>
       </table>
-      <table name="party_member" remarks="Identifies the parties belonging to a group party. Implementation of the LADM LA_PartyMember class. Not used by SOLA.&#13;&#10;Tags: LADM Reference Object, Change History, Not Used" schema="party" type="TABLE">
+      <table name="party_member" remarks="Identifies the parties belonging to a group party. Implementation of the LADM LA_PartyMember class. Not used by SOLA.&#10;Tags: LADM Reference Object, Change History, Not Used" schema="party" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="party_id" nullable="false" remarks="LADM Definition: Identifier for the party." size="40" type="varchar">
             <parent column="id" foreignKey="party_member_party_id_fk34" implied="false" onDeleteCascade="true" table="party"/>
          </column>
@@ -182,7 +182,7 @@
             <column ascending="true" name="party_id"/>
          </index>
       </table>
-      <table name="party_role" remarks="Identifies the roles a party has in relation to the land office transactions and data. Implementation of the LADM LA_Party.role feild.&#13;&#10;Tags: LADM Reference Object, Change History" schema="party" type="TABLE">
+      <table name="party_role" remarks="Identifies the roles a party has in relation to the land office transactions and data. Implementation of the LADM LA_Party.role feild.&#10;Tags: LADM Reference Object, Change History" schema="party" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="party_id" nullable="false" remarks="LADM Definition: Identifier for the party." size="40" type="varchar">
             <parent column="id" foreignKey="party_role_party_id_fk36" implied="false" onDeleteCascade="true" table="party"/>
          </column>
@@ -210,7 +210,7 @@
             <column ascending="true" name="type_code"/>
          </index>
       </table>
-      <table name="party_role_type" remarks="Code list of party role types. Used to identify the types of role a party can have in relation to land office transactions and data. E.g. applicant, bank, lodgingAgent, etc. &#13;&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="party" type="TABLE">
+      <table name="party_role_type" remarks="Code list of party role types. Used to identify the types of role a party can have in relation to land office transactions and data. E.g. applicant, bank, lodgingAgent, etc. &#10;Tags: FLOSS SOLA Extension, Reference Table" schema="party" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="The code for the party role type." size="20" type="varchar">
             <child column="type_code" foreignKey="party_role_type_code_fk37" implied="false" onDeleteCascade="true" table="party_role"/>
          </column>
@@ -225,7 +225,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="party_type" remarks="Code list of party type types. Implementation of the LADM LA_PartyType class.&#13;&#10;Tags: Reference Table, LADM Reference Object" schema="party" type="TABLE">
+      <table name="party_type" remarks="Code list of party type types. Implementation of the LADM LA_PartyType class.&#10;Tags: Reference Table, LADM Reference Object" schema="party" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="LADM Definition: The code for the party type." size="20" type="varchar">
             <child column="type_code" foreignKey="party_type_code_fk9" implied="false" onDeleteCascade="false" table="party"/>
          </column>
