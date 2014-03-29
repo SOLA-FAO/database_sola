@@ -276,7 +276,8 @@ INSERT INTO version (version_num) VALUES ('1401b');
 INSERT INTO version (version_num) VALUES ('1401c');
 INSERT INTO version (version_num) VALUES ('1401d');
 INSERT INTO version (version_num) VALUES ('1402a');
-
+INSERT INTO version (version_num) VALUES ('1403a');
+INSERT INTO version (version_num) VALUES ('1403b');
 
 ALTER TABLE version ENABLE TRIGGER ALL;
 

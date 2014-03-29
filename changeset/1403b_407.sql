@@ -142,3 +142,5 @@ ALTER TABLE system.active_users
   OWNER TO postgres;
 COMMENT ON VIEW system.active_users
   IS 'Identifies the users currently active in the system. If the users password has expired, then they are treated as inactive users, unless they are System Administrators. This view is intended to replace the system.appuser table in the SolaRealm configuration in Glassfish.';
+
+INSERT INTO system.version SELECT '1403b' WHERE NOT EXISTS (SELECT version_num FROM system.version WHERE version_num = '1403b');
