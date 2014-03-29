@@ -8,7 +8,6 @@ ALTER TABLE system.appuser DISABLE TRIGGER USER;
 
 ALTER TABLE system.appuser ADD COLUMN email character varying(40), ADD COLUMN mobile_number character varying(20), 
 ADD COLUMN activation_code character varying(20), 
-ADD COLUMN details character varying(500), 
 ADD COLUMN passwd1 character varying(100) NOT NULL DEFAULT uuid_generate_v1(),
 ADD COLUMN active1 boolean NOT NULL DEFAULT true,
 ADD COLUMN description1 character varying(255),
@@ -43,7 +42,6 @@ CREATE INDEX appuser_index_on_rowidentifier
 --- HISTORIC TABLE -----
 ALTER TABLE system.appuser_historic ADD COLUMN email character varying(40), ADD COLUMN mobile_number character varying(20), 
 ADD COLUMN activation_code character varying(20), 
-ADD COLUMN details character varying(500),
 ADD COLUMN passwd1 character varying(100) NOT NULL DEFAULT uuid_generate_v1(),
 ADD COLUMN active1 boolean NOT NULL DEFAULT true,
 ADD COLUMN description1 character varying(255),
