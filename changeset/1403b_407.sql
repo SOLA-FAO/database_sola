@@ -75,6 +75,14 @@ CREATE INDEX appuser_historic_index_on_rowidentifier
   USING btree
   (rowidentifier COLLATE pg_catalog."default" );
 
+--- ADD COMMENTS ----
+COMMENT ON COLUMN system.appuser.email IS 'User''s email address';
+COMMENT ON COLUMN system.appuser.mobile_number IS 'User''s mobile phone number';
+COMMENT ON COLUMN system.appuser.activation_code IS 'Activation code used to confirm user''s registration';
+COMMENT ON COLUMN system.appuser.passwd IS 'User''s password';
+COMMENT ON COLUMN system.appuser.active IS 'Indicates if user''s account is active (enabled) or not';
+COMMENT ON COLUMN system.appuser.description IS 'Free text description of user''s additional details';
+
 ---- ENABLE TRIGGERS -----
 ALTER TABLE system.appuser ENABLE TRIGGER USER;
 
