@@ -188,7 +188,7 @@ BEGIN
     return mixed_value;
   end if;
   delimiter_word = '::::';
-  language_index = (select item_order from system.language where code=language_code);
+  language_index = (select item_order from system.language where lower(code)=lower(language_code));
   result = split_part(mixed_value, delimiter_word, language_index);
   if result is null or result = '' then
     language_index = (select item_order from system.language where is_default limit 1);
