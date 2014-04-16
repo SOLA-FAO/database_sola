@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <database name="sola_original" schema="application" type="PostgreSQL - 9.1.4">
    <tables>
-      <table name="application" remarks="Applications capture details and manage requests received by the land administration agency to change, update or report on land registry and/or cadastre information. Applications have a lifecycle and transition into different states as the land administration agency processes the request that instigated the application. The primary role of an application is to implement case management functionality in SOLA.&#10;Tags: FLOSS SOLA Extension, Change History" schema="application" type="TABLE">
+      <table name="application" remarks="Applications capture details and manage requests received by the land administration agency to change, update or report on land registry and/or cadastre information. Applications have a lifecycle and transition into different states as the land administration agency processes the request that instigated the application. The primary role of an application is to implement case management functionality in SOLA.&#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="application" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="Identifier for the application." size="40" type="varchar">
             <child column="application_id" foreignKey="application_property_application_id_fk123" implied="false" onDeleteCascade="false" table="application_property"/>
             <child column="application_id" foreignKey="application_spatial_unit_application_id_fk130" implied="false" onDeleteCascade="true" table="application_spatial_unit"/>
@@ -66,7 +66,7 @@
             <column ascending="true" name="status_code"/>
          </index>
       </table>
-      <table name="application_action_type" remarks="Code list of action types.&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="application" type="TABLE">
+      <table name="application_action_type" remarks="Code list of action types.&#13;&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="application" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="The code for the application action type." size="20" type="varchar">
             <child column="action_code" foreignKey="application_action_code_fk16" implied="false" onDeleteCascade="false" table="application"/>
             <child column="target_application_moment" foreignKey="br_validation_target_application_moment_fk113" implied="false" onDeleteCascade="false" table="br_validation"/>
@@ -88,7 +88,7 @@
             <column ascending="true" name="status_to_set"/>
          </index>
       </table>
-      <table name="application_property" remarks="Captures details of property associated to an application.&#10;Tags: FLOSS SOLA Extension, Change History" schema="application" type="TABLE">
+      <table name="application_property" remarks="Captures details of property associated to an application.&#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="application" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="Identifier for the application property." size="40" type="varchar"/>
          <column autoUpdated="false" digits="0" id="1" name="application_id" nullable="false" remarks="Identifier for the application the record is associated to." size="40" type="varchar">
             <parent column="id" foreignKey="application_property_application_id_fk123" implied="false" onDeleteCascade="false" table="application"/>
@@ -132,7 +132,7 @@
             <column ascending="true" name="name_lastpart"/>
          </index>
       </table>
-      <table name="application_spatial_unit" remarks="Captures details of parcels (a.k.a. Cadastre Objects or Spatial Units) associated to an application.&#10;Tags: FLOSS SOLA Extension, Change History" schema="application" type="TABLE">
+      <table name="application_spatial_unit" remarks="Captures details of parcels (a.k.a. Cadastre Objects or Spatial Units) associated to an application.&#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="application" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="application_id" nullable="false" remarks="Identifier for the application the record is associated to." size="40" type="varchar">
             <parent column="id" foreignKey="application_spatial_unit_application_id_fk130" implied="false" onDeleteCascade="true" table="application"/>
          </column>
@@ -160,7 +160,7 @@
             <column ascending="true" name="spatial_unit_id"/>
          </index>
       </table>
-      <table name="application_status_type" remarks="Code list of application status types.&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="application" type="TABLE">
+      <table name="application_status_type" remarks="Code list of application status types.&#13;&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="application" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="The code for the application status type." size="20" type="varchar">
             <child column="status_code" foreignKey="application_status_code_fk18" implied="false" onDeleteCascade="false" table="application"/>
             <child column="status_to_set" foreignKey="application_action_type_status_to_set_fk17" implied="false" onDeleteCascade="false" table="application_action_type"/>
@@ -176,7 +176,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="application_uses_source" remarks="Links the application to the sources (a.k.a. documents) submitted with the application. &#10;Tags: FLOSS SOLA Extension, Change History" schema="application" type="TABLE">
+      <table name="application_uses_source" remarks="Links the application to the sources (a.k.a. documents) submitted with the application. &#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="application" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="application_id" nullable="false" remarks="Identifier for the application the record is associated to." size="40" type="varchar">
             <parent column="id" foreignKey="application_uses_source_application_id_fk126" implied="false" onDeleteCascade="true" table="application"/>
          </column>
@@ -208,7 +208,7 @@
       <table name="Function: get_work_summary" remarks="Returns a summary of the services processed for a specified reporting period. Used by the Lodgement Statistics Report." schema="application" type="TABLE"/>
       <table name="Function: getlodgement" remarks="Not used. Replaced by get_work_summary." schema="application" type="TABLE"/>
       <table name="Function: getlodgetiming" remarks="Not used. Replaced by get_work_summary." schema="application" type="TABLE"/>
-      <table name="request_category_type" remarks="Code list of request category types. Request category types group the request types into logical groupings such as request types for registration or cadastral changes.&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="application" type="TABLE">
+      <table name="request_category_type" remarks="Code list of request category types. Request category types group the request types into logical groupings such as request types for registration or cadastral changes.&#13;&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="application" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="The code for the request category type." size="20" type="varchar">
             <child column="request_category_code" foreignKey="request_type_request_category_code_fk20" implied="false" onDeleteCascade="false" table="request_type"/>
          </column>
@@ -223,7 +223,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="request_type" remarks="Code list of request types. Request types identify the different types of services provided by the land administration agency. SOLA includes a default set of request types that can be reconfigured to match those required by the land administration agency. &#10;Tags: FLOSS SOLA Extension, Reference Table" schema="application" type="TABLE">
+      <table name="request_type" remarks="Code list of request types. Request types identify the different types of services provided by the land administration agency. SOLA includes a default set of request types that can be reconfigured to match those required by the land administration agency. &#13;&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="application" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="The code for the request type." size="20" type="varchar">
             <child column="target_request_type_code" foreignKey="br_validation_target_request_type_code_fk111" implied="false" onDeleteCascade="false" table="br_validation"/>
             <child column="request_type_code" foreignKey="request_type_requires_source_type_request_type_code_fk129" implied="false" onDeleteCascade="true" table="request_type_requires_source_type"/>
@@ -264,7 +264,7 @@
             <column ascending="true" name="type_action_code"/>
          </index>
       </table>
-      <table name="request_type_requires_source_type" remarks="Identifies the types of sources (a.k.a. documents) that must be provided before a service can be processed by the land administration agency.&#10;Tags: FLOSS SOLA Extension" schema="application" type="TABLE">
+      <table name="request_type_requires_source_type" remarks="Identifies the types of sources (a.k.a. documents) that must be provided before a service can be processed by the land administration agency.&#13;&#10;Tags: FLOSS SOLA Extension" schema="application" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="source_type_code" nullable="false" remarks="The source type required by the request type." size="20" type="varchar">
             <parent column="code" foreignKey="request_type_requires_source_type_source_type_code_fk128" implied="false" onDeleteCascade="true" table="administrative_source_type"/>
          </column>
@@ -285,7 +285,7 @@
          </index>
       </table>
       <table name="Sequence: application_nr_seq" remarks="Sequence number used as the basis for the Application nr field. This sequence is used by the generate-application-nr business rule." schema="application" type="TABLE"/>
-      <table name="service" remarks="Used to control the type of change an application can make to the land registry and/or cadastre information recorded in SOLA. Services broadly identify the actions the land administration agency will undertake for the application. Every application lodged in SOLA must include at least one service. SOLA includes a default set of request types that can be reconfigured to match those services required by the land administration agency.  &#10;Tags: FLOSS SOLA Extension, Change History" schema="application" type="TABLE">
+      <table name="service" remarks="Used to control the type of change an application can make to the land registry and/or cadastre information recorded in SOLA. Services broadly identify the actions the land administration agency will undertake for the application. Every application lodged in SOLA must include at least one service. SOLA includes a default set of request types that can be reconfigured to match those services required by the land administration agency.  &#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="application" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="Identifier for the service." size="40" type="varchar">
             <child column="from_service_id" foreignKey="transaction_from_service_id_fk6" implied="false" onDeleteCascade="false" table="transaction"/>
          </column>
@@ -333,7 +333,7 @@
             <column ascending="true" name="status_code"/>
          </index>
       </table>
-      <table name="service_action_type" remarks="Code list of service action types. Service actions identify the actions user can perform against services. E.g. lodge, start, revert, cancel, complete.&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="application" type="TABLE">
+      <table name="service_action_type" remarks="Code list of service action types. Service actions identify the actions user can perform against services. E.g. lodge, start, revert, cancel, complete.&#13;&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="application" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="The code for the service action type." size="20" type="varchar">
             <child column="target_service_moment" foreignKey="br_validation_target_service_moment_fk114" implied="false" onDeleteCascade="false" table="br_validation"/>
             <child column="action_code" foreignKey="service_action_code_fk25" implied="false" onDeleteCascade="false" table="service"/>
@@ -355,7 +355,7 @@
             <column ascending="true" name="status_to_set"/>
          </index>
       </table>
-      <table name="service_status_type" remarks="Code list of service status types.&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="application" type="TABLE">
+      <table name="service_status_type" remarks="Code list of service status types.&#13;&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="application" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="The code for the service status type." size="20" type="varchar">
             <child column="status_code" foreignKey="service_status_code_fk24" implied="false" onDeleteCascade="false" table="service"/>
             <child column="status_to_set" foreignKey="service_action_type_status_to_set_fk26" implied="false" onDeleteCascade="false" table="service_action_type"/>
@@ -377,7 +377,7 @@
          <column autoUpdated="false" digits="0" id="2" name="name_lastpart" nullable="true" remarks="" size="50" type="varchar"/>
          <column autoUpdated="false" digits="0" id="3" name="ba_unit_id" nullable="true" remarks="" size="40" type="varchar"/>
       </table>
-      <table name="type_action" remarks="Code list of request type actions. Identifies what actions the Property Details screen should support for RRRs when processing a service. One of new, vary or cancel. &#10;Tags: FLOSS SOLA Extension, Reference Table" schema="application" type="TABLE">
+      <table name="type_action" remarks="Code list of request type actions. Identifies what actions the Property Details screen should support for RRRs when processing a service. One of new, vary or cancel. &#13;&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="application" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="The code for the request type action." size="20" type="varchar">
             <child column="type_action_code" foreignKey="request_type_type_action_code_fk23" implied="false" onDeleteCascade="false" table="request_type"/>
          </column>

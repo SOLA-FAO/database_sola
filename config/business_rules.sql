@@ -113,6 +113,7 @@ INSERT INTO br (id, display_name, technical_type_code, feedback, description, te
 INSERT INTO br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('public-display-check-baunit-has-co', 'public-display-check-baunit-has-co', 'sql', 'All property must have an associated cadastre object.::::Все объекты недвижимости должны иметь соответствующие кадастровые объекты.', NULL, '#{lastPart}(name_lastpart) is requested');
 INSERT INTO br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('public-display-check-complete-status', 'public-display-check-complete-status', 'sql', 'At least 90% of the parcels must have an associated Systematic Application with complete status.::::По крайней мере 90% участков должны иметь соответствующие заявления на системную регистрацию с завершенным статусом.', NULL, '#{lastPart}(name_lastpart) is requested');
 INSERT INTO br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('consolidation-db-structure-the-same', 'bfe8e722-99dd-11e3-8b71-a36603d16f1c', 'sql', 'The structure of the tables in the source and target database are the same.', NULL, 'It controls if every source table in consolidation schema is the same as the corresponding target table.');
+INSERT INTO br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('generate-claim-nr', 'generate-claim-nr', 'sql', '', '', '');
 
 
 ALTER TABLE br ENABLE TRIGGER ALL;
@@ -976,6 +977,7 @@ with def_of_tables as (select source_table_name, target_table_name, (select stri
 from consolidation.config config)
 select count(*)=0 as vl from def_of_tables where source_def != target_def
 ');
+INSERT INTO br_definition (br_id, active_from, active_until, body) VALUES ('generate-claim-nr', '2014-02-20', 'infinity', 'SELECT coalesce(system.get_setting(''system-id''), '''') || to_char(now(), ''yymm'') || trim(to_char(nextval(''opentenure.claim_nr_seq''), ''0000'')) AS vl');
 
 
 ALTER TABLE br_definition ENABLE TRIGGER ALL;

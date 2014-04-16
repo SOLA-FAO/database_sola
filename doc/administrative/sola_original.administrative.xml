@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <database name="sola_original" schema="administrative" type="PostgreSQL - 9.1.4">
    <tables>
-      <table name="ba_unit" remarks="A Basic Administrative Unit a.k.a. BA Unit or Property. Used to link the rights and restrictions over one or more parcels to the parties that hold those rights and restrictions. A right must be homogeneous over the entire BA Unit. Implementation of the LADM LA_BAUnit class.&#10;Tags: LADM Reference Object, Change History" schema="administrative" type="TABLE">
+      <table name="ba_unit" remarks="A Basic Administrative Unit a.k.a. BA Unit or Property. Used to link the rights and restrictions over one or more parcels to the parties that hold those rights and restrictions. A right must be homogeneous over the entire BA Unit. Implementation of the LADM LA_BAUnit class.&#13;&#10;Tags: LADM Reference Object, Change History" schema="administrative" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="LADM Definition: Identifier for the BA Unit." size="40" type="varchar">
             <child column="ba_unit_id" foreignKey="application_property_ba_unit_id_fk124" implied="false" onDeleteCascade="false" table="application_property"/>
             <child column="ba_unit_id" foreignKey="ba_unit_area_ba_unit_id_fk77" implied="false" onDeleteCascade="true" table="ba_unit_area"/>
@@ -50,7 +50,7 @@
             <column ascending="true" name="type_code"/>
          </index>
       </table>
-      <table name="ba_unit_area" remarks="Identifies the overall area of the BA Unit. This should be the sum of all parcel areas that are part of the BA Unit.&#10;Tags: FLOSS SOLA Extension, Change History" schema="administrative" type="TABLE">
+      <table name="ba_unit_area" remarks="Identifies the overall area of the BA Unit. This should be the sum of all parcel areas that are part of the BA Unit.&#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="administrative" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="Identifier for the BA Unit Area." size="40" type="varchar"/>
          <column autoUpdated="false" digits="0" id="1" name="ba_unit_id" nullable="false" remarks="Identifier for the BA Unit this area value is associated to." size="40" type="varchar">
             <parent column="id" foreignKey="ba_unit_area_ba_unit_id_fk77" implied="false" onDeleteCascade="true" table="ba_unit"/>
@@ -78,7 +78,7 @@
             <column ascending="true" name="type_code"/>
          </index>
       </table>
-      <table name="ba_unit_as_party" remarks="Associates BA Unit directly to Party. Implementation of the LADM LA_BAUnit to LA_Party relationship. Not used by SOLA.&#10;Tags: LADM Reference Object, Not Used" schema="administrative" type="TABLE">
+      <table name="ba_unit_as_party" remarks="Associates BA Unit directly to Party. Implementation of the LADM LA_BAUnit to LA_Party relationship. Not used by SOLA.&#13;&#10;Tags: LADM Reference Object, Not Used" schema="administrative" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="ba_unit_id" nullable="false" remarks="Identifier for the BA Unit." size="40" type="varchar">
             <parent column="id" foreignKey="ba_unit_as_party_ba_unit_id_fk71" implied="false" onDeleteCascade="true" table="ba_unit"/>
          </column>
@@ -98,13 +98,13 @@
             <column ascending="true" name="party_id"/>
          </index>
       </table>
-      <table name="ba_unit_contains_spatial_unit" remarks="Associates BA Unit with Spatial Unit. Indicates the parcels that comprise the BA Unit. Implementation of the LA_BAUnit to LA_SpatialUnit relationship.&#10;Tags: LADM Reference Object, Change History" schema="administrative" type="TABLE">
+      <table name="ba_unit_contains_spatial_unit" remarks="Associates BA Unit with Spatial Unit. Indicates the parcels that comprise the BA Unit. Implementation of the LA_BAUnit to LA_SpatialUnit relationship.&#13;&#10;Tags: LADM Reference Object, Change History" schema="administrative" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="ba_unit_id" nullable="false" remarks="Identifier for the BA Unit." size="40" type="varchar">
             <parent column="id" foreignKey="ba_unit_contains_spatial_unit_ba_unit_id_fk68" implied="false" onDeleteCascade="true" table="ba_unit"/>
          </column>
          <column autoUpdated="false" digits="0" id="1" name="spatial_unit_id" nullable="false" remarks="Identifier for the Spatial Unit associated to the BA Unit." size="40" type="varchar">
-            <parent column="id" foreignKey="ba_unit_contains_spatial_unit_spatial_unit_id_fk69" implied="false" onDeleteCascade="true" table="spatial_unit"/>
             <parent column="id" foreignKey="ba_unit_contains_spatial_unit_spatial_unit_id_fk70" implied="false" onDeleteCascade="true" table="cadastre_object"/>
+            <parent column="id" foreignKey="ba_unit_contains_spatial_unit_spatial_unit_id_fk69" implied="false" onDeleteCascade="true" table="spatial_unit"/>
          </column>
          <column autoUpdated="false" defaultValue="uuid_generate_v1()" digits="0" id="2" name="rowidentifier" nullable="false" remarks="Identifies the all change records for the row in the ba_unit_contains_spatial_unit_historic table" size="40" type="varchar"/>
          <column autoUpdated="false" defaultValue="0" digits="0" id="3" name="rowversion" nullable="false" remarks="Sequential value indicating the number of times this row has been modified." size="10" type="int4"/>
@@ -130,7 +130,7 @@
             <column ascending="true" name="spatial_unit_id"/>
          </index>
       </table>
-      <table name="ba_unit_rel_type" remarks="Code list of BA Unit relationship types. Identifies the type of relationship between two BA Units. E.g. priorTitle, rootTitle, etc. &#10;Tags: FLOSS SOLA Extension, Reference Table" schema="administrative" type="TABLE">
+      <table name="ba_unit_rel_type" remarks="Code list of BA Unit relationship types. Identifies the type of relationship between two BA Units. E.g. priorTitle, rootTitle, etc. &#13;&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="administrative" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="The code for the relationship type." size="20" type="varchar">
             <child column="relation_code" foreignKey="required_relationship_baunit_relation_code_fk54" implied="false" onDeleteCascade="false" table="required_relationship_baunit"/>
          </column>
@@ -145,7 +145,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="ba_unit_target" remarks="Identifies existing BA Units that are included in a transaction. Used by SOLA to mark existing BA Units for cancellation when the transaction is approved. &#10;Tags: FLOSS SOLA Extension, Change History" schema="administrative" type="TABLE">
+      <table name="ba_unit_target" remarks="Identifies existing BA Units that are included in a transaction. Used by SOLA to mark existing BA Units for cancellation when the transaction is approved. &#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="administrative" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="ba_unit_id" nullable="false" remarks="Identifier for the BA Unit." size="40" type="varchar">
             <parent column="id" foreignKey="ba_unit_target_ba_unit_id_fk83" implied="false" onDeleteCascade="true" table="ba_unit"/>
          </column>
@@ -173,7 +173,7 @@
             <column ascending="true" name="transaction_id"/>
          </index>
       </table>
-      <table name="ba_unit_type" remarks="Code list of BA Unit types. E.g. priorTitle, rootTitle, etc. Implementation of the LADM LA_BAUnitType class.&#10;Tags: LADM Reference Object, Reference Table" schema="administrative" type="TABLE">
+      <table name="ba_unit_type" remarks="Code list of BA Unit types. E.g. priorTitle, rootTitle, etc. Implementation of the LADM LA_BAUnitType class.&#13;&#10;Tags: LADM Reference Object, Reference Table" schema="administrative" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="LADM Defintion: The code for the BA Unit type." size="20" type="varchar">
             <child column="type_code" foreignKey="ba_unit_type_code_fk38" implied="false" onDeleteCascade="false" table="ba_unit"/>
          </column>
@@ -188,7 +188,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="condition_for_rrr" remarks="Captures any statutory or agreed conditions in relation to an RRR. E.g. conditions of lease, etc. An RRR can have multiple conditions associated to it.&#10;Tags: FLOSS SOLA Extension, Change History" schema="administrative" type="TABLE">
+      <table name="condition_for_rrr" remarks="Captures any statutory or agreed conditions in relation to an RRR. E.g. conditions of lease, etc. An RRR can have multiple conditions associated to it.&#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="administrative" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="Identifier for the condition." size="40" type="varchar"/>
          <column autoUpdated="false" digits="0" id="1" name="rrr_id" nullable="false" remarks="Identifier of the RRR the condition relates to." size="40" type="varchar">
             <parent column="id" foreignKey="condition_for_rrr_rrr_id_fk86" implied="false" onDeleteCascade="true" table="rrr"/>
@@ -218,7 +218,7 @@
             <column ascending="true" name="rrr_id"/>
          </index>
       </table>
-      <table name="condition_type" remarks="Code list of condition types. &#10;Tags: FLOSS SOLA Extension, Reference Table" schema="administrative" type="TABLE">
+      <table name="condition_type" remarks="Code list of condition types. &#13;&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="administrative" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="The code for the condition type." size="20" type="varchar">
             <child column="condition_code" foreignKey="condition_for_rrr_condition_code_fk85" implied="false" onDeleteCascade="false" table="condition_for_rrr"/>
          </column>
@@ -242,7 +242,7 @@
       <table name="Function: getsysregmanagement" remarks="Used for systematic registration" schema="administrative" type="TABLE"/>
       <table name="Function: getsysregprogress" remarks="Indicates the number of applications at various stages of the systematic registration process." schema="administrative" type="TABLE"/>
       <table name="Function: getsysregstatus" remarks="Indicates the number of applications at various states of the systematic registration process" schema="administrative" type="TABLE"/>
-      <table name="mortgage_isbased_in_rrr" remarks="Identifies RRR that is subject to mortgage. Implementation of the LA_Mortgage to LA_Right relationship. Not used by SOLA as the primary right will always be the subject of the mortgage.&#10;Tags: LADM Reference Object, Change History, Not Used" schema="administrative" type="TABLE">
+      <table name="mortgage_isbased_in_rrr" remarks="Identifies RRR that is subject to mortgage. Implementation of the LA_Mortgage to LA_Right relationship. Not used by SOLA as the primary right will always be the subject of the mortgage.&#13;&#10;Tags: LADM Reference Object, Change History, Not Used" schema="administrative" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="mortgage_id" nullable="false" remarks="Identifier for the mortgage" size="40" type="varchar">
             <parent column="id" foreignKey="mortgage_isbased_in_rrr_mortgage_id_fk47" implied="false" onDeleteCascade="true" table="rrr"/>
          </column>
@@ -270,7 +270,7 @@
             <column ascending="true" name="rrr_id"/>
          </index>
       </table>
-      <table name="mortgage_type" remarks="Code list of Mortgage types. E.g. levelPayment, linear, etc. Implementation of the LADM LA_MortgageType class.&#10;Tags: LADM Reference Object, Reference Table" schema="administrative" type="TABLE">
+      <table name="mortgage_type" remarks="Code list of Mortgage types. E.g. levelPayment, linear, etc. Implementation of the LADM LA_MortgageType class.&#13;&#10;Tags: LADM Reference Object, Reference Table" schema="administrative" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="LADM Defintion: The code for the mortgage type." size="20" type="varchar">
             <child column="mortgage_type_code" foreignKey="rrr_mortgage_type_code_fk45" implied="false" onDeleteCascade="false" table="rrr"/>
          </column>
@@ -285,7 +285,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="notation" remarks="Notations (a.k.a memorials) are text that summarise the affect a transaction has to a property/title. SOLA automatically creates template notations for every RRR change.&#10;Tags: FLOSS SOLA Extension, Change History" schema="administrative" type="TABLE">
+      <table name="notation" remarks="Notations (a.k.a memorials) are text that summarise the affect a transaction has to a property/title. SOLA automatically creates template notations for every RRR change.&#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="administrative" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="Identifier for the notation." size="40" type="varchar"/>
          <column autoUpdated="false" digits="0" id="1" name="ba_unit_id" nullable="true" remarks="Identifier of the BA Unit the notation is associated with. Only populated if the notation is linked directly to the BA Unit. NULL if the notation is associated with an RRR." size="40" type="varchar">
             <parent column="id" foreignKey="notation_ba_unit_id_fk75" implied="false" onDeleteCascade="true" table="ba_unit"/>
@@ -327,7 +327,7 @@
             <column ascending="true" name="transaction_id"/>
          </index>
       </table>
-      <table name="party_for_rrr" remarks="Identifies the parties involved in each RRR. Also identifies the share each party has in the RRR if the RRR is subject to shared allocation.&#10;Tags: FLOSS SOLA Extension, Change History" schema="administrative" type="TABLE">
+      <table name="party_for_rrr" remarks="Identifies the parties involved in each RRR. Also identifies the share each party has in the RRR if the RRR is subject to shared allocation.&#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="administrative" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="rrr_id" nullable="false" remarks="Identifier for the RRR." size="40" type="varchar">
             <parent column="id" foreignKey="party_for_rrr_rrr_id_fk81" implied="false" onDeleteCascade="true" table="rrr"/>
             <parent column="rrr_id" foreignKey="party_for_rrr_rrr_id_fk80" implied="false" onDeleteCascade="true" table="rrr_share"/>
@@ -363,7 +363,7 @@
             <column ascending="true" name="rrr_id"/>
          </index>
       </table>
-      <table name="required_relationship_baunit" remarks="Identifies relationships between BA Units. Implementation of the LADM LA_RequiredRelationshipBAUnit class. Used by SOLA to represent a range of relationships such as linking a new BA Unit to the BA Unit it supersedes (a.k.a Prior Title) as well as geographic relationships such as all property within a village, or all villages within a region or island, etc. &#10;Tags: LADM Reference Object, Change History" schema="administrative" type="TABLE">
+      <table name="required_relationship_baunit" remarks="Identifies relationships between BA Units. Implementation of the LADM LA_RequiredRelationshipBAUnit class. Used by SOLA to represent a range of relationships such as linking a new BA Unit to the BA Unit it supersedes (a.k.a Prior Title) as well as geographic relationships such as all property within a village, or all villages within a region or island, etc. &#13;&#10;Tags: LADM Reference Object, Change History" schema="administrative" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="from_ba_unit_id" nullable="false" remarks="The originating BA Unit (a.k.a. parent BA Unit). Usually a parent BA Unit will have multiple child BA Units associted to it. E.g. Island/region is the parent BA Unit for a town" size="40" type="varchar">
             <parent column="id" foreignKey="required_relationship_baunit_from_ba_unit_id_fk52" implied="false" onDeleteCascade="true" table="ba_unit"/>
          </column>
@@ -397,7 +397,7 @@
             <column ascending="true" name="to_ba_unit_id"/>
          </index>
       </table>
-      <table name="rrr" remarks="RRR are the specific rights, restrictions and responsibilities that can be registered on a property e.g. freehold ownership, lease, mortgage, caveat, etc. Implementation of the LADM LA_RRR class.&#10;Tags: LADM Reference Object, Change History" schema="administrative" type="TABLE">
+      <table name="rrr" remarks="RRR are the specific rights, restrictions and responsibilities that can be registered on a property e.g. freehold ownership, lease, mortgage, caveat, etc. Implementation of the LADM LA_RRR class.&#13;&#10;Tags: LADM Reference Object, Change History" schema="administrative" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="LADM Definition: Identifier for the RRR" size="40" type="varchar">
             <child column="rrr_id" foreignKey="condition_for_rrr_rrr_id_fk86" implied="false" onDeleteCascade="true" table="condition_for_rrr"/>
             <child column="mortgage_id" foreignKey="mortgage_isbased_in_rrr_mortgage_id_fk47" implied="false" onDeleteCascade="true" table="mortgage_isbased_in_rrr"/>
@@ -459,7 +459,7 @@
             <column ascending="true" name="type_code"/>
          </index>
       </table>
-      <table name="rrr_group_type" remarks="Code list of RRR group types. Used to identify if an RRR is a responsibility, right or restriction. SOLA's representation of the LADM LA_Responsibility, LA_Right and LA_Restriction classes.&#10;Tags: LADM Reference Object, Reference Table" schema="administrative" type="TABLE">
+      <table name="rrr_group_type" remarks="Code list of RRR group types. Used to identify if an RRR is a responsibility, right or restriction. SOLA's representation of the LADM LA_Responsibility, LA_Right and LA_Restriction classes.&#13;&#10;Tags: LADM Reference Object, Reference Table" schema="administrative" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="LADM Defintion: The code for the RRR group type." size="20" type="varchar">
             <child column="rrr_group_type_code" foreignKey="rrr_type_rrr_group_type_code_fk22" implied="false" onDeleteCascade="false" table="rrr_type"/>
          </column>
@@ -474,7 +474,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="rrr_share" remarks="Identifies the share a party has in an RRR. Implementation of the LADM LA_RRR.share field.&#10;Tags: FLOSS SOLA Extension, Change History" schema="administrative" type="TABLE">
+      <table name="rrr_share" remarks="Identifies the share a party has in an RRR. Implementation of the LADM LA_RRR.share field.&#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="administrative" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="rrr_id" nullable="false" remarks="Identifier of the RRR the share is assocaited with." size="40" type="varchar">
             <child column="rrr_id" foreignKey="party_for_rrr_rrr_id_fk80" implied="false" onDeleteCascade="true" table="party_for_rrr"/>
             <parent column="id" foreignKey="rrr_share_rrr_id_fk79" implied="false" onDeleteCascade="true" table="rrr"/>
@@ -502,7 +502,7 @@
             <column ascending="true" name="rrr_id"/>
          </index>
       </table>
-      <table name="rrr_type" remarks="Code list of RRR types. E.g. freehold owernship, lease, mortgage, caveat, etc. Implementation of the LADM LA_ResponsibilityType, LA_RightType and LA_RestrictionType classes.&#10;Tags: LADM Reference Object, Reference Table" schema="administrative" type="TABLE">
+      <table name="rrr_type" remarks="Code list of RRR types. E.g. freehold owernship, lease, mortgage, caveat, etc. Implementation of the LADM LA_ResponsibilityType, LA_RightType and LA_RestrictionType classes.&#13;&#10;Tags: LADM Reference Object, Reference Table" schema="administrative" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="LADM Defintion: The code for the RRR type." size="20" type="varchar">
             <child column="target_rrr_type_code" foreignKey="br_validation_target_rrr_type_code_fk112" implied="false" onDeleteCascade="false" table="br_validation"/>
             <child column="rrr_type_code" foreignKey="request_type_rrr_type_code_fk21" implied="false" onDeleteCascade="false" table="request_type"/>
@@ -532,7 +532,7 @@
       <table name="Sequence: ba_unit_last_name_part_seq" remarks="Sequence number used as the basis for the BA Unit last name part. This sequence is used by the generate-baunit-nr business rule." schema="administrative" type="TABLE"/>
       <table name="Sequence: notation_reference_nr_seq" remarks="Sequence number used as the basis for the Notation Nr field. This sequence is used by the generate-notation-reference-nr business rule." schema="administrative" type="TABLE"/>
       <table name="Sequence: rrr_nr_seq" remarks="Sequence number used as the basis for the RRR Nr field. This sequence is used by the generate-rrr-nr business rule." schema="administrative" type="TABLE"/>
-      <table name="source_describes_ba_unit" remarks="Associates a BA Unit with one or more source (a.k.a. document) records. Implementation of the LADM LA_BAUnit to LA_AdministrativeSource relationship.&#10;Tags: LADM Reference Object, Change History" schema="administrative" type="TABLE">
+      <table name="source_describes_ba_unit" remarks="Associates a BA Unit with one or more source (a.k.a. document) records. Implementation of the LADM LA_BAUnit to LA_AdministrativeSource relationship.&#13;&#10;Tags: LADM Reference Object, Change History" schema="administrative" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="source_id" nullable="false" remarks="Identifier for the source associated with the BA Unit." size="40" type="varchar">
             <parent column="id" foreignKey="source_describes_ba_unit_source_id_fk51" implied="false" onDeleteCascade="true" table="source"/>
          </column>
@@ -560,7 +560,7 @@
             <column ascending="true" name="source_id"/>
          </index>
       </table>
-      <table name="source_describes_rrr" remarks="Associates a RRR with one or more source (a.k.a. document) records. Implementation of the LADM LA_RRR to LA_AdministrativeSource relationship.&#10;Tags: LADM Reference Object, Change History" schema="administrative" type="TABLE">
+      <table name="source_describes_rrr" remarks="Associates a RRR with one or more source (a.k.a. document) records. Implementation of the LADM LA_RRR to LA_AdministrativeSource relationship.&#13;&#10;Tags: LADM Reference Object, Change History" schema="administrative" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="rrr_id" nullable="false" remarks="Identifier for the RRR." size="40" type="varchar">
             <parent column="id" foreignKey="source_describes_rrr_rrr_id_fk48" implied="false" onDeleteCascade="true" table="rrr"/>
          </column>

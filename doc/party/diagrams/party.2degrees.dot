@@ -180,6 +180,7 @@ digraph "twoDegreesRelationshipsDiagram" {
       <TR><TD PORT="phone" COLSPAN="2" ALIGN="LEFT">phone</TD><TD PORT="phone.type" ALIGN="LEFT">varchar[15]</TD></TR>
       <TR><TD PORT="fax" COLSPAN="2" ALIGN="LEFT">fax</TD><TD PORT="fax.type" ALIGN="LEFT">varchar[15]</TD></TR>
       <TR><TD PORT="preferred_communication_code" COLSPAN="2" BGCOLOR="#f4f7da" ALIGN="LEFT">preferred_communication_code</TD><TD PORT="preferred_communication_code.type" ALIGN="LEFT">varchar[20]</TD></TR>
+      <TR><TD PORT="birth_date" COLSPAN="2" ALIGN="LEFT">birth_date</TD><TD PORT="birth_date.type" ALIGN="LEFT">date[13]</TD></TR>
       <TR><TD PORT="rowidentifier" COLSPAN="2" BGCOLOR="#f4f7da" ALIGN="LEFT">rowidentifier</TD><TD PORT="rowidentifier.type" ALIGN="LEFT">varchar[40]</TD></TR>
       <TR><TD PORT="rowversion" COLSPAN="2" ALIGN="LEFT">rowversion</TD><TD PORT="rowversion.type" ALIGN="LEFT">int4[10]</TD></TR>
       <TR><TD PORT="change_action" COLSPAN="2" ALIGN="LEFT">change_action</TD><TD PORT="change_action.type" ALIGN="LEFT">bpchar[1]</TD></TR>

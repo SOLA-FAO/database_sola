@@ -57,6 +57,7 @@ digraph "largeRelationshipsDiagram" {
       <TR><TD PORT="phone" COLSPAN="3" ALIGN="LEFT">phone</TD></TR>
       <TR><TD PORT="fax" COLSPAN="3" ALIGN="LEFT">fax</TD></TR>
       <TR><TD PORT="preferred_communication_code" COLSPAN="3" ALIGN="LEFT">preferred_communication_code</TD></TR>
+      <TR><TD PORT="birth_date" COLSPAN="3" ALIGN="LEFT">birth_date</TD></TR>
       <TR><TD PORT="rowidentifier" COLSPAN="3" ALIGN="LEFT">rowidentifier</TD></TR>
       <TR><TD PORT="rowversion" COLSPAN="3" ALIGN="LEFT">rowversion</TD></TR>
       <TR><TD PORT="change_action" COLSPAN="3" ALIGN="LEFT">change_action</TD></TR>

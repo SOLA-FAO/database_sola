@@ -76,7 +76,6 @@ digraph "twoDegreesRelationshipsDiagram" {
       <TR><TD PORT="email" COLSPAN="2" ALIGN="LEFT">email</TD><TD PORT="email.type" ALIGN="LEFT">varchar[40]</TD></TR>
       <TR><TD PORT="mobile_number" COLSPAN="2" ALIGN="LEFT">mobile_number</TD><TD PORT="mobile_number.type" ALIGN="LEFT">varchar[20]</TD></TR>
       <TR><TD PORT="activation_code" COLSPAN="2" ALIGN="LEFT">activation_code</TD><TD PORT="activation_code.type" ALIGN="LEFT">varchar[20]</TD></TR>
-      <TR><TD PORT="details" COLSPAN="2" ALIGN="LEFT">details</TD><TD PORT="details.type" ALIGN="LEFT">varchar[500]</TD></TR>
       <TR><TD PORT="passwd" COLSPAN="2" ALIGN="LEFT">passwd</TD><TD PORT="passwd.type" ALIGN="LEFT">varchar[100]</TD></TR>
       <TR><TD PORT="active" COLSPAN="2" ALIGN="LEFT">active</TD><TD PORT="active.type" ALIGN="LEFT">bool[1]</TD></TR>
       <TR><TD PORT="description" COLSPAN="2" ALIGN="LEFT">description</TD><TD PORT="description.type" ALIGN="LEFT">varchar[255]</TD></TR>

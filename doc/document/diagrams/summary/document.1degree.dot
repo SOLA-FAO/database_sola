@@ -24,6 +24,7 @@ digraph "document" {
       <TR><TD PORT="id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">id</TD></TR>
       <TR><TD PORT="nr" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">nr</TD></TR>
       <TR><TD PORT="extension" COLSPAN="3" ALIGN="LEFT">extension</TD></TR>
+      <TR><TD PORT="mime_type" COLSPAN="3" ALIGN="LEFT">mime_type</TD></TR>
       <TR><TD PORT="body" COLSPAN="3" ALIGN="LEFT">body</TD></TR>
       <TR><TD PORT="description" COLSPAN="3" ALIGN="LEFT">description</TD></TR>
       <TR><TD PORT="rowidentifier" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">rowidentifier</TD></TR>

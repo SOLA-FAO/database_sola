@@ -104,7 +104,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </tr>
 </thead>
 <tbody valign='top'>
-<tr class='odd'>
+<tr class='even'>
  <td class='primaryKey' title='Primary Key'>code</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>20</td>
@@ -113,7 +113,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="party.preferred_communication_code refs communication_type.code via party_preferred_communication_code_fk11"><a href='party.html'>party</a><span class='relatedKey'>.preferred_communication_code</span>
     </td>
     <td class='constraint detail'>party_preferred_communication_code_fk11<span title='Restrict delete:
@@ -124,7 +124,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>The code for the communication type.</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='indexedColumn' title='Indexed'>display_value</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>500</td>
@@ -135,7 +135,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>Displayed value of the communication type.</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>status</td>
  <td class='detail'>bpchar</td>
  <td class='detail' align='right'>1</td>
@@ -146,7 +146,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>Status of the communication type</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>description</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>1000</td>
@@ -158,7 +158,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='comment detail'>Description of the communication type.</td>
 </tr>
 </table>
-<p title='4 columns'>Analyzed at ?? ??? 28 22:53 ALMT 2014<p/>
+<p title='4 columns'>Analyzed at ?? ??? 16 12:16 ALMT 2014<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
@@ -190,13 +190,13 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 <br><form action='get'><b>Close relationships</b><span class='degrees' id='degrees' title='Detail diminishes with increased separation from communication_type'>
 &nbsp;within <label for='oneDegree'><input type='radio' name='degrees' id='oneDegree' checked>one</label>  <label for='twoDegrees'><input type='radio' name='degrees' id='twoDegrees'>two degrees</label> of separation</span><b>:</b></form>
 <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="party.html" title="party" alt="" coords="271,5,510,593">
+<area shape="rect" id="node1" href="party.html" title="party" alt="" coords="271,5,510,617">
 <area shape="rect" id="node2" href="communication_type.html" title="communication_type" alt="" coords="5,386,227,547">
 </map>
   <a name='diagram'><img id='oneDegreeImg' src='../diagrams/communication_type.1degree.png' usemap='#oneDegreeRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
 <area shape="rect" id="node1" href="../../application/tables/application.html" title="application.application" alt="" coords="587,5,760,89">
-<area shape="rect" id="node2" href="party.html" title="party" alt="" coords="271,174,510,762">
+<area shape="rect" id="node2" href="party.html" title="party" alt="" coords="271,174,510,786">
 <area shape="rect" id="node5" href="../../address/tables/address.html" title="address.address" alt="" coords="45,390,187,474">
 <area shape="rect" id="node6" href="gender_type.html" title="gender_type" alt="" coords="60,289,172,373">
 <area shape="rect" id="node7" href="id_type.html" title="id_type" alt="" coords="73,491,159,575">
@@ -213,26 +213,26 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </td></tr></table>
 <span class='excludedRelationship'>
 <br>Excluded from diagram's relationships: 
-<a href="../tables/party.html">party.rowidentifier</a>&nbsp;
-<a href="../tables/party.html">party.change_time</a>&nbsp;
-<a href="../tables/party_member.html">party_member.change_user</a>&nbsp;
-<a href="../tables/party_role.html">party_role.change_action</a>&nbsp;
-<a href="../tables/party_role.html">party_role.rowidentifier</a>&nbsp;
-<a href="../tables/group_party.html">group_party.rowversion</a>&nbsp;
-<a href="../tables/party_member.html">party_member.change_time</a>&nbsp;
-<a href="../tables/party_member.html">party_member.rowversion</a>&nbsp;
-<a href="../tables/group_party.html">group_party.change_time</a>&nbsp;
-<a href="../tables/group_party.html">group_party.change_action</a>&nbsp;
-<a href="../tables/party_member.html">party_member.change_action</a>&nbsp;
-<a href="../tables/party.html">party.change_action</a>&nbsp;
-<a href="../tables/party_role.html">party_role.change_time</a>&nbsp;
-<a href="../tables/party_role.html">party_role.rowversion</a>&nbsp;
-<a href="../tables/party_member.html">party_member.rowidentifier</a>&nbsp;
 <a href="../tables/party.html">party.rowversion</a>&nbsp;
-<a href="../tables/group_party.html">group_party.change_user</a>&nbsp;
+<a href="../tables/party_member.html">party_member.rowidentifier</a>&nbsp;
+<a href="../tables/party_member.html">party_member.change_time</a>&nbsp;
 <a href="../tables/party_role.html">party_role.change_user</a>&nbsp;
+<a href="../tables/party_role.html">party_role.rowversion</a>&nbsp;
+<a href="../tables/group_party.html">group_party.change_action</a>&nbsp;
 <a href="../tables/group_party.html">group_party.rowidentifier</a>&nbsp;
+<a href="../tables/party_member.html">party_member.change_action</a>&nbsp;
+<a href="../tables/group_party.html">group_party.change_user</a>&nbsp;
+<a href="../tables/party_member.html">party_member.change_user</a>&nbsp;
 <a href="../tables/party.html">party.change_user</a>&nbsp;
+<a href="../tables/party.html">party.rowidentifier</a>&nbsp;
+<a href="../tables/party_role.html">party_role.change_action</a>&nbsp;
+<a href="../tables/party_member.html">party_member.rowversion</a>&nbsp;
+<a href="../tables/party.html">party.change_action</a>&nbsp;
+<a href="../tables/party_role.html">party_role.rowidentifier</a>&nbsp;
+<a href="../tables/group_party.html">group_party.change_time</a>&nbsp;
+<a href="../tables/party_role.html">party_role.change_time</a>&nbsp;
+<a href="../tables/group_party.html">group_party.rowversion</a>&nbsp;
+<a href="../tables/party.html">party.change_time</a>&nbsp;
 </span>
 </div>
 </body>

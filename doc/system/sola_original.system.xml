@@ -5,7 +5,7 @@
          <column autoUpdated="false" digits="0" id="0" name="username" nullable="true" remarks="" size="40" type="varchar"/>
          <column autoUpdated="false" digits="0" id="1" name="passwd" nullable="true" remarks="" size="100" type="varchar"/>
       </table>
-      <table name="appgroup" remarks="Groups application security roles to simplify assignment of roles to individual system users. &#10;Tags: FLOSS SOLA Extension, User Admin" schema="system" type="TABLE">
+      <table name="appgroup" remarks="Groups application security roles to simplify assignment of roles to individual system users. &#13;&#10;Tags: FLOSS SOLA Extension, User Admin" schema="system" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="Identifier for the appgroup." size="40" type="varchar">
             <child column="appgroup_id" foreignKey="approle_appgroup_appgroup_id_fk118" implied="false" onDeleteCascade="true" table="approle_appgroup"/>
             <child column="appgroup_id" foreignKey="appuser_appgroup_appgroup_id_fk120" implied="false" onDeleteCascade="true" table="appuser_appgroup"/>
@@ -20,7 +20,7 @@
             <column ascending="true" name="name"/>
          </index>
       </table>
-      <table name="approle" remarks="Contains the list of application security roles used to restrict access to different parts of the application, both on the server and client side. &#10;Tags: FLOSS SOLA Extension, Reference Table, User Admin" schema="system" type="TABLE">
+      <table name="approle" remarks="Contains the list of application security roles used to restrict access to different parts of the application, both on the server and client side. &#13;&#10;Tags: FLOSS SOLA Extension, Reference Table, User Admin" schema="system" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="Code for the security role. Must match exactly the code value used within the SOLA source code to reference the role." size="20" type="varchar">
             <child column="approle_code" foreignKey="approle_appgroup_approle_code_fk117" implied="false" onDeleteCascade="true" table="approle_appgroup"/>
          </column>
@@ -35,7 +35,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="approle_appgroup" remarks="Associates the application security roles to the groups. One role can exist in many groups.&#10;Tags: FLOSS SOLA Extension, User Admin" schema="system" type="TABLE">
+      <table name="approle_appgroup" remarks="Associates the application security roles to the groups. One role can exist in many groups.&#13;&#10;Tags: FLOSS SOLA Extension, User Admin" schema="system" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="approle_code" nullable="false" remarks="Code for the security role." size="20" type="varchar">
             <parent column="code" foreignKey="approle_appgroup_approle_code_fk117" implied="false" onDeleteCascade="true" table="approle"/>
          </column>
@@ -60,7 +60,7 @@
             <column ascending="true" name="approle_code"/>
          </index>
       </table>
-      <table name="appuser" remarks="The list of users that can have access to the SOLA application.&#10;Tags: FLOSS SOLA Extension, User Admin" schema="system" type="TABLE">
+      <table name="appuser" remarks="The list of users that can have access to the SOLA application.&#13;&#10;Tags: FLOSS SOLA Extension, User Admin" schema="system" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="The SOLA user identifier." size="40" type="varchar">
             <child column="assignee_id" foreignKey="application_assignee_id_fk15" implied="false" onDeleteCascade="false" table="application"/>
             <child column="appuser_id" foreignKey="appuser_appgroup_appuser_id_fk119" implied="false" onDeleteCascade="true" table="appuser_appgroup"/>
@@ -72,15 +72,14 @@
          <column autoUpdated="false" digits="0" id="4" name="email" nullable="true" remarks="" size="40" type="varchar"/>
          <column autoUpdated="false" digits="0" id="5" name="mobile_number" nullable="true" remarks="" size="20" type="varchar"/>
          <column autoUpdated="false" digits="0" id="6" name="activation_code" nullable="true" remarks="" size="20" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="7" name="details" nullable="true" remarks="" size="500" type="varchar"/>
-         <column autoUpdated="false" defaultValue="uuid_generate_v1()" digits="0" id="8" name="passwd" nullable="false" remarks="" size="100" type="varchar"/>
-         <column autoUpdated="false" defaultValue="true" digits="0" id="9" name="active" nullable="false" remarks="" size="1" type="bool"/>
-         <column autoUpdated="false" digits="0" id="10" name="description" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" defaultValue="uuid_generate_v1()" digits="0" id="11" name="rowidentifier" nullable="false" remarks="" size="40" type="varchar"/>
-         <column autoUpdated="false" defaultValue="0" digits="0" id="12" name="rowversion" nullable="false" remarks="" size="10" type="int4"/>
-         <column autoUpdated="false" defaultValue="'i'::bpchar" digits="0" id="13" name="change_action" nullable="false" remarks="" size="1" type="bpchar"/>
-         <column autoUpdated="false" digits="0" id="14" name="change_user" nullable="true" remarks="" size="50" type="varchar"/>
-         <column autoUpdated="false" defaultValue="now()" digits="6" id="15" name="change_time" nullable="false" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" defaultValue="uuid_generate_v1()" digits="0" id="7" name="passwd" nullable="false" remarks="" size="100" type="varchar"/>
+         <column autoUpdated="false" defaultValue="true" digits="0" id="8" name="active" nullable="false" remarks="" size="1" type="bool"/>
+         <column autoUpdated="false" digits="0" id="9" name="description" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" defaultValue="uuid_generate_v1()" digits="0" id="10" name="rowidentifier" nullable="false" remarks="" size="40" type="varchar"/>
+         <column autoUpdated="false" defaultValue="0" digits="0" id="11" name="rowversion" nullable="false" remarks="" size="10" type="int4"/>
+         <column autoUpdated="false" defaultValue="'i'::bpchar" digits="0" id="12" name="change_action" nullable="false" remarks="" size="1" type="bpchar"/>
+         <column autoUpdated="false" digits="0" id="13" name="change_user" nullable="true" remarks="" size="50" type="varchar"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="14" name="change_time" nullable="false" remarks="" size="29" type="timestamp"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="appuser_pkey" unique="true">
             <column ascending="true" name="id"/>
@@ -92,7 +91,7 @@
             <column ascending="true" name="username"/>
          </index>
       </table>
-      <table name="appuser_appgroup" remarks="Associates users to groups. Each user can be assigned multiple groups.&#10;Tags: FLOSS SOLA Extension, User Admin" schema="system" type="TABLE">
+      <table name="appuser_appgroup" remarks="Associates users to groups. Each user can be assigned multiple groups.&#13;&#10;Tags: FLOSS SOLA Extension, User Admin" schema="system" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="appuser_id" nullable="false" remarks="Identifier for the SOLA user." size="40" type="varchar">
             <parent column="id" foreignKey="appuser_appgroup_appuser_id_fk119" implied="false" onDeleteCascade="true" table="appuser"/>
          </column>
@@ -117,7 +116,7 @@
             <column ascending="true" name="appuser_id"/>
          </index>
       </table>
-      <table name="appuser_setting" remarks="Software settings specific for a user within the SOLA application. Not used by SOLA.&#10;Tags: FLOSS SOLA Extension, User Admin, Not Used" schema="system" type="TABLE">
+      <table name="appuser_setting" remarks="Software settings specific for a user within the SOLA application. Not used by SOLA.&#13;&#10;Tags: FLOSS SOLA Extension, User Admin, Not Used" schema="system" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="user_id" nullable="false" remarks="Identifier of the user the setting applies to." size="40" type="varchar">
             <parent column="id" foreignKey="appuser_setting_user_id_fk103" implied="false" onDeleteCascade="true" table="appuser"/>
          </column>
@@ -134,7 +133,7 @@
             <column ascending="true" name="user_id"/>
          </index>
       </table>
-      <table name="br" remarks="Provides a description of the business rules used by SOLA.&#10;Tags: FLOSS SOLA Extension, Business Rules" schema="system" type="TABLE">
+      <table name="br" remarks="Provides a description of the business rules used by SOLA.&#13;&#10;Tags: FLOSS SOLA Extension, Business Rules" schema="system" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="The name of the business rule" size="100" type="varchar">
             <child column="br_id" foreignKey="br_definition_br_id_fk116" implied="false" onDeleteCascade="true" table="br_definition"/>
             <child column="br_id" foreignKey="br_validation_br_id_fk108" implied="false" onDeleteCascade="false" table="br_validation"/>
@@ -163,7 +162,7 @@
          <column autoUpdated="false" digits="0" id="2" name="feedback" nullable="true" remarks="" size="2000" type="varchar"/>
          <column autoUpdated="false" digits="0" id="3" name="body" nullable="true" remarks="" size="4000" type="varchar"/>
       </table>
-      <table name="br_definition" remarks="Contains the code definition for business rules used by SOLA. These rules can be assigned an active date range allowing new rules to superseed old rules at specific dates. &#10;Tags: FLOSS SOLA Extension, Business Rules" schema="system" type="TABLE">
+      <table name="br_definition" remarks="Contains the code definition for business rules used by SOLA. These rules can be assigned an active date range allowing new rules to superseed old rules at specific dates. &#13;&#10;Tags: FLOSS SOLA Extension, Business Rules" schema="system" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="br_id" nullable="false" remarks="Identifier for the business rule" size="100" type="varchar">
             <parent column="id" foreignKey="br_definition_br_id_fk116" implied="false" onDeleteCascade="true" table="br"/>
          </column>
@@ -193,7 +192,7 @@
          <column autoUpdated="false" digits="0" id="9" name="target_rrr_type_code" nullable="true" remarks="" size="20" type="varchar"/>
          <column autoUpdated="false" digits="0" id="10" name="order_of_execution" nullable="true" remarks="" size="10" type="int4"/>
       </table>
-      <table name="br_severity_type" remarks="The severity types applicable to the SOLA business rules.&#10;Tags: FLOSS SOLA Extension, Reference Table, Business Rules" schema="system" type="TABLE">
+      <table name="br_severity_type" remarks="The severity types applicable to the SOLA business rules.&#13;&#10;Tags: FLOSS SOLA Extension, Reference Table, Business Rules" schema="system" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="Code for the severity type." size="20" type="varchar">
             <child column="severity_code" foreignKey="br_validation_severity_code_fk109" implied="false" onDeleteCascade="false" table="br_validation"/>
          </column>
@@ -208,7 +207,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="br_technical_type" remarks="Codes use for each type of rule implementation supported by SOLA. Curently SQL and Drools, however no Drools rules have been developed.&#10;Tags: FLOSS SOLA Extension, Reference Table, Business Rules" schema="system" type="TABLE">
+      <table name="br_technical_type" remarks="Codes use for each type of rule implementation supported by SOLA. Curently SQL and Drools, however no Drools rules have been developed.&#13;&#10;Tags: FLOSS SOLA Extension, Reference Table, Business Rules" schema="system" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="Code for the technical type." size="20" type="varchar">
             <child column="technical_type_code" foreignKey="br_technical_type_code_fk107" implied="false" onDeleteCascade="false" table="br"/>
          </column>
@@ -223,7 +222,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="br_validation" remarks="Identifies the set of rules to execute based on the user action being peformed. E.g. approval of an application, cancellation of a service, etc. &#10;Tags: FLOSS SOLA Extension, Business Rules" schema="system" type="TABLE">
+      <table name="br_validation" remarks="Identifies the set of rules to execute based on the user action being peformed. E.g. approval of an application, cancellation of a service, etc. &#13;&#10;Tags: FLOSS SOLA Extension, Business Rules" schema="system" type="TABLE">
          <column autoUpdated="false" defaultValue="uuid_generate_v1()" digits="0" id="0" name="id" nullable="false" remarks="Identifier for the br validation" size="40" type="varchar"/>
          <column autoUpdated="false" digits="0" id="1" name="br_id" nullable="false" remarks="The business rule referenced by this br validation record." size="100" type="varchar">
             <parent column="id" foreignKey="br_validation_br_id_fk108" implied="false" onDeleteCascade="false" table="br"/>
@@ -295,7 +294,7 @@
             <column ascending="true" name="target_service_moment"/>
          </index>
       </table>
-      <table name="br_validation_target_type" remarks="Lists potential targets for the business rules.&#10;Tags: FLOSS SOLA Extension, Reference Table, Business Rules" schema="system" type="TABLE">
+      <table name="br_validation_target_type" remarks="Lists potential targets for the business rules.&#13;&#10;Tags: FLOSS SOLA Extension, Reference Table, Business Rules" schema="system" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="Code for the validation target type." size="20" type="varchar">
             <child column="target_code" foreignKey="br_validation_target_code_fk110" implied="false" onDeleteCascade="false" table="br_validation"/>
          </column>
@@ -310,7 +309,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="config_map_layer" remarks="Identifies the layers available for display in the SOLA Map Viewer.&#10;Tags: FLOSS SOLA Extension, Reference Table, Map Configuration" schema="system" type="TABLE">
+      <table name="config_map_layer" remarks="Identifies the layers available for display in the SOLA Map Viewer.&#13;&#10;Tags: FLOSS SOLA Extension, Reference Table, Map Configuration" schema="system" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="name" nullable="false" remarks="Name assigned to the map layer." size="50" type="varchar"/>
          <column autoUpdated="false" digits="0" id="1" name="title" nullable="false" remarks="The title used for the layer when it is displayed in the map control." size="100" type="varchar"/>
          <column autoUpdated="false" digits="0" id="2" name="type_code" nullable="false" remarks="Indicates the source of data for the map layer. One of pojo (Plain Old Java Object - SOLA specific), wms (Web Map Service), shape (Shapefile)" size="20" type="varchar">
@@ -354,7 +353,7 @@
             <column ascending="true" name="type_code"/>
          </index>
       </table>
-      <table name="config_map_layer_type" remarks="Lists the map layer types for the config_map_layer table.&#10;Tags: FLOSS SOLA Extension, Reference Table, Map Configuration" schema="system" type="TABLE">
+      <table name="config_map_layer_type" remarks="Lists the map layer types for the config_map_layer table.&#13;&#10;Tags: FLOSS SOLA Extension, Reference Table, Map Configuration" schema="system" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="Code for the map layer type." size="20" type="varchar">
             <child column="type_code" foreignKey="config_map_layer_type_code_fk104" implied="false" onDeleteCascade="false" table="config_map_layer"/>
          </column>
@@ -386,7 +385,7 @@
             <column ascending="true" name="table_name"/>
          </index>
       </table>
-      <table name="crs" remarks="Identifies the coordinate reference system(s) (CRS) available to the Map Viewer. If there is more than one CRS defined, the user has the option to select the CRS to use for displaying features in the Map Viewer. The CRS with the lowest item_order will be the default CRS and used for the initial display of the map. The extent values defined in the system.setting table must be in the context of the default CRS. The from_long, to_long values define valid longitude values for each CRS in WGS84. These values can be used for various purposes such as assigning or transforming geometries into the appropraite storage CRS before being saved to the database.&#10;Tags: FLOSS SOLA Extension, Reference Table, Map Configuration" schema="system" type="TABLE">
+      <table name="crs" remarks="Identifies the coordinate reference system(s) (CRS) available to the Map Viewer. If there is more than one CRS defined, the user has the option to select the CRS to use for displaying features in the Map Viewer. The CRS with the lowest item_order will be the default CRS and used for the initial display of the map. The extent values defined in the system.setting table must be in the context of the default CRS. The from_long, to_long values define valid longitude values for each CRS in WGS84. These values can be used for various purposes such as assigning or transforming geometries into the appropraite storage CRS before being saved to the database.&#13;&#10;Tags: FLOSS SOLA Extension, Reference Table, Map Configuration" schema="system" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="srid" nullable="false" remarks="The Spatial Reference Identifier (SRID) for the CRS." size="10" type="int4"/>
          <column autoUpdated="false" digits="17" id="1" name="from_long" nullable="true" remarks="The longitude in WGS84 identifying the where the CRS is valid from." size="17" type="float8"/>
          <column autoUpdated="false" digits="17" id="2" name="to_long" nullable="true" remarks="The longitude in WGS84 identifying the where the CRS is valid to." size="17" type="float8"/>
@@ -402,7 +401,7 @@
       <table name="Function: get_text_from_schema" remarks="Generates a script representing the named SOLA database schema including data held in any tables. Used by the bulk consolidation process" schema="system" type="TABLE"/>
       <table name="Function: script_to_schema" remarks="Used to convert a script generated by get_text_from_schema into a database schema as well as load data into it." schema="system" type="TABLE"/>
       <table name="Function: setpassword" remarks="Changes the users password." schema="system" type="TABLE"/>
-      <table name="language" remarks="Lists the languages configured for the SOLA application&#10;Tags: FLOSS SOLA Extension, Reference Table, System Configuration" schema="system" type="TABLE">
+      <table name="language" remarks="Lists the languages configured for the SOLA application&#13;&#10;Tags: FLOSS SOLA Extension, Reference Table, System Configuration" schema="system" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="Code for the langauge." size="7" type="varchar"/>
          <column autoUpdated="false" digits="0" id="1" name="display_value" nullable="false" remarks="The text value that will be displayed to the user." size="250" type="varchar"/>
          <column autoUpdated="false" defaultValue="true" digits="0" id="2" name="active" nullable="false" remarks="Indicates if the language is current active or not." size="1" type="bool"/>
@@ -416,7 +415,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="map_search_option" remarks="Identifies the map search options supported in the Map Viewer along with their configuration details. &#10;Tags: FLOSS SOLA Extension, Reference Table, Map Configuration" schema="system" type="TABLE">
+      <table name="map_search_option" remarks="Identifies the map search options supported in the Map Viewer along with their configuration details. &#13;&#10;Tags: FLOSS SOLA Extension, Reference Table, Map Configuration" schema="system" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="The code for the map search option." size="20" type="varchar"/>
          <column autoUpdated="false" digits="0" id="1" name="title" nullable="false" remarks="The title displayed to the user for the map search option." size="50" type="varchar"/>
          <column autoUpdated="false" digits="0" id="2" name="query_name" nullable="false" remarks="The query (i.e. system.query) that will be used for retrieving the search results. The query requires only one parameter : search_string. Map search queries must be defined to use this parameter and return 3 fields; id - unique id for the matched item, label - the value to display to the user, the_geom: the WKB of the matched geometry." size="100" type="varchar">
@@ -437,7 +436,7 @@
             <column ascending="true" name="title"/>
          </index>
       </table>
-      <table name="query" remarks="Defines SQL queries that can be executed dynamically by the Search EJB. Also defines queries to retrieve spatial features for each map layer.&#10;Tags: FLOSS SOLA Extension, Reference Table, System Configuration" schema="system" type="TABLE">
+      <table name="query" remarks="Defines SQL queries that can be executed dynamically by the Search EJB. Also defines queries to retrieve spatial features for each map layer.&#13;&#10;Tags: FLOSS SOLA Extension, Reference Table, System Configuration" schema="system" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="name" nullable="false" remarks="Identifier/name for the query" size="100" type="varchar">
             <child column="pojo_query_name" foreignKey="config_map_layer_pojo_query_name_fk105" implied="false" onDeleteCascade="false" table="config_map_layer"/>
             <child column="pojo_query_name_for_select" foreignKey="config_map_layer_pojo_query_name_for_select_fk106" implied="false" onDeleteCascade="false" table="config_map_layer"/>
@@ -451,7 +450,7 @@
             <column ascending="true" name="name"/>
          </index>
       </table>
-      <table name="query_field" remarks="Optionally defines the fields returned by the queries listed in the system.query table. It is not necessary to specify query fields for every dynamic query. Query fields are only required where the results displayed to the user will vary and localization of the field titles is required. For example the Information Tool in the map displays different result fields for each map layer in the same form.&#10;Tags: FLOSS SOLA Extension, Reference Table, System Configuration" schema="system" type="TABLE">
+      <table name="query_field" remarks="Optionally defines the fields returned by the queries listed in the system.query table. It is not necessary to specify query fields for every dynamic query. Query fields are only required where the results displayed to the user will vary and localization of the field titles is required. For example the Information Tool in the map displays different result fields for each map layer in the same form.&#13;&#10;Tags: FLOSS SOLA Extension, Reference Table, System Configuration" schema="system" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="query_name" nullable="false" remarks="Identifier/name for the query" size="100" type="varchar">
             <parent column="name" foreignKey="query_field_query_name_fk121" implied="false" onDeleteCascade="true" table="query"/>
          </column>
@@ -476,7 +475,7 @@
             <column ascending="true" name="query_name"/>
          </index>
       </table>
-      <table name="setting" remarks="Contains global settings for the SOLA application. Refer to the Administration Guide or the ConfigConstants class in the Common Utilities project for a list of the recognized settings. Note that not all possible settings are listed in the settings table. Settings may be omitted from this table if the default value applies.&#10;Tags: FLOSS SOLA Extension, Reference Table, System Configuration" schema="system" type="TABLE">
+      <table name="setting" remarks="Contains global settings for the SOLA application. Refer to the Administration Guide or the ConfigConstants class in the Common Utilities project for a list of the recognized settings. Note that not all possible settings are listed in the settings table. Settings may be omitted from this table if the default value applies.&#13;&#10;Tags: FLOSS SOLA Extension, Reference Table, System Configuration" schema="system" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="name" nullable="false" remarks="Identifier/name for the setting" size="50" type="varchar"/>
          <column autoUpdated="false" digits="0" id="1" name="vl" nullable="false" remarks="The value for the setting." size="2000" type="varchar"/>
          <column autoUpdated="false" defaultValue="true" digits="0" id="2" name="active" nullable="false" remarks="Indicates if the setting is active or not. If not active, the default value for the setting will apply." size="1" type="bool"/>
@@ -497,7 +496,7 @@
          <column autoUpdated="false" digits="0" id="0" name="username" nullable="true" remarks="" size="40" type="varchar"/>
          <column autoUpdated="false" digits="0" id="1" name="rolename" nullable="true" remarks="" size="20" type="varchar"/>
       </table>
-      <table name="version" remarks="Identifies all changesets that have been applied to the SOLA database. The latest changeset applied to the database will indicate the current version of the SOLA database and code. Changesets are named using the year, month and a sequence character. E.g. The first changeset in Feb 2014 is 1402a, the second changeset in Feb 2014 is 1402b, etc. The sequence character must restart for each new month. E.g. in March 2014 the first changeset is 1403a. &#10;Tags: FLOSS SOLA Extension, System Configuration" schema="system" type="TABLE">
+      <table name="version" remarks="Identifies all changesets that have been applied to the SOLA database. The latest changeset applied to the database will indicate the current version of the SOLA database and code. Changesets are named using the year, month and a sequence character. E.g. The first changeset in Feb 2014 is 1402a, the second changeset in Feb 2014 is 1402b, etc. The sequence character must restart for each new month. E.g. in March 2014 the first changeset is 1403a. &#13;&#10;Tags: FLOSS SOLA Extension, System Configuration" schema="system" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="version_num" nullable="false" remarks="The version number for the changeset." size="50" type="varchar"/>
          <primaryKey column="version_num" sequenceNumberInPK="1"/>
          <index name="version_pkey" unique="true">
