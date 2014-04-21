@@ -180,7 +180,6 @@ CREATE TABLE opentenure.claim
       ON UPDATE CASCADE ON DELETE RESTRICT,
   CONSTRAINT enforce_geotype_mapped_geometry CHECK (geometrytype(mapped_geometry) = 'POLYGON'::text OR mapped_geometry IS NULL),
   CONSTRAINT enforce_geotype_gps_geometry CHECK (geometrytype(gps_geometry) = 'POLYGON'::text OR gps_geometry IS NULL),
-  CONSTRAINT enforce_srid_mapped_geometry CHECK (st_srid(mapped_geometry) = 2193),
   CONSTRAINT enforce_valid_mapped_geometry CHECK (st_isvalid(mapped_geometry)),
   CONSTRAINT enforce_valid_gps_geometry CHECK (st_isvalid(gps_geometry))
 )
