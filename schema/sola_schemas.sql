@@ -6562,8 +6562,8 @@ CREATE TABLE party (
     mobile character varying(15),
     phone character varying(15),
     fax character varying(15),
+    birth_date date,
     preferred_communication_code character varying(20),
-	birth_date date,
     rowidentifier character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
     rowversion integer DEFAULT 0 NOT NULL,
     change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
@@ -6696,6 +6696,13 @@ COMMENT ON COLUMN party.fax IS 'SOLA Extension: The party''s fax number.';
 
 
 --
+-- Name: COLUMN party.birth_date; Type: COMMENT; Schema: party; Owner: postgres
+--
+
+COMMENT ON COLUMN party.birth_date IS 'SOLA Extension: Date of birth.';
+
+
+--
 -- Name: COLUMN party.preferred_communication_code; Type: COMMENT; Schema: party; Owner: postgres
 --
 
@@ -6735,13 +6742,6 @@ COMMENT ON COLUMN party.change_user IS 'SOLA Extension: The user id of the last 
 --
 
 COMMENT ON COLUMN party.change_time IS 'SOLA Extension: The date and time the row was last modified.';
-
-
---
--- Name: COLUMN party.birth_date; Type: COMMENT; Schema: party; Owner: postgres
---
-
-COMMENT ON COLUMN party.birth_date IS 'SOLA Extension: Date of birth.';
 
 
 SET search_path = transaction, pg_catalog;
@@ -9745,7 +9745,7 @@ CREATE TABLE document (
     id character varying(40) NOT NULL,
     nr character varying(15) NOT NULL,
     extension character varying(5) NOT NULL,
-	mime_type character varying(20),
+    mime_type character varying(20),
     body bytea NOT NULL,
     description character varying(100),
     rowidentifier character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
@@ -9785,6 +9785,13 @@ COMMENT ON COLUMN document.nr IS 'Unique number to identify the document. Determ
 --
 
 COMMENT ON COLUMN document.extension IS 'The file extension of the electronic file. E.g. pdf, tiff, doc, etc';
+
+
+--
+-- Name: COLUMN document.mime_type; Type: COMMENT; Schema: document; Owner: postgres
+--
+
+COMMENT ON COLUMN document.mime_type IS 'File mime type.';
 
 
 --
@@ -9837,102 +9844,6 @@ COMMENT ON COLUMN document.change_time IS 'The date and time the row was last mo
 
 
 --
--- Name: COLUMN document.mime_type; Type: COMMENT; Schema: document; Owner: postgres
---
-
-COMMENT ON COLUMN document.mime_type IS 'Mime type of the file.';
-
-
---
--- Name: document_chunk; Type: TABLE; Schema: document; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE document_chunk (
-    id character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
-    document_id character varying(40) NOT NULL,
-    claim_id character varying(40),
-    start_position bigint NOT NULL,
-    size bigint NOT NULL,
-    body bytea NOT NULL,
-    md5 character varying(50),
-    creation_time timestamp without time zone DEFAULT now() NOT NULL,
-    user_name character varying(50) NOT NULL
-);
-
-
-ALTER TABLE document.document_chunk OWNER TO postgres;
-
---
--- Name: TABLE document_chunk; Type: COMMENT; Schema: document; Owner: postgres
---
-
-COMMENT ON TABLE document_chunk IS 'Holds temporary pieces of a document uploaded on the server. In case of large files, document can be split into smaller pieces (chunks) allowing reliable upload. After all pieces uploaded, client will instruct server to create a document and remove temporary files stored in this table.';
-
-
---
--- Name: COLUMN document_chunk.id; Type: COMMENT; Schema: document; Owner: postgres
---
-
-COMMENT ON COLUMN document_chunk.id IS 'Unique ID of the chunk';
-
-
---
--- Name: COLUMN document_chunk.document_id; Type: COMMENT; Schema: document; Owner: postgres
---
-
-COMMENT ON COLUMN document_chunk.document_id IS 'Document ID, which will be used to create final document object. Used to group all chunks together.';
-
-
---
--- Name: COLUMN document_chunk.claim_id; Type: COMMENT; Schema: document; Owner: postgres
---
-
-COMMENT ON COLUMN document_chunk.claim_id IS 'Claim ID. Used to clean the table when saving claim. It will guarantee that no orphan chunks left in the table.';
-
-
---
--- Name: COLUMN document_chunk.start_position; Type: COMMENT; Schema: document; Owner: postgres
---
-
-COMMENT ON COLUMN document_chunk.start_position IS 'Staring position of the byte in the source/destination document';
-
-
---
--- Name: COLUMN document_chunk.size; Type: COMMENT; Schema: document; Owner: postgres
---
-
-COMMENT ON COLUMN document_chunk.size IS 'Size of the chunk in bytes.';
-
-
---
--- Name: COLUMN document_chunk.body; Type: COMMENT; Schema: document; Owner: postgres
---
-
-COMMENT ON COLUMN document_chunk.body IS 'The content of the chunk.';
-
-
---
--- Name: COLUMN document_chunk.md5; Type: COMMENT; Schema: document; Owner: postgres
---
-
-COMMENT ON COLUMN document_chunk.md5 IS 'Checksum of the chunk, calculated using MD5.';
-
-
---
--- Name: COLUMN document_chunk.creation_time; Type: COMMENT; Schema: document; Owner: postgres
---
-
-COMMENT ON COLUMN document_chunk.creation_time IS 'Date and time when chuck was created.';
-
-
---
--- Name: COLUMN document_chunk.user_name; Type: COMMENT; Schema: document; Owner: postgres
---
-
-COMMENT ON COLUMN document_chunk.user_name IS 'User''s id (name), who has loaded the chunk';
-
-
---
 -- Name: document_historic; Type: TABLE; Schema: document; Owner: postgres; Tablespace: 
 --
 
@@ -9940,7 +9851,7 @@ CREATE TABLE document_historic (
     id character varying(40),
     nr character varying(15),
     extension character varying(5),
-	mime_type character varying(20),
+    mime_type character varying(20),
     body bytea,
     description character varying(100),
     rowidentifier character varying(40),
@@ -10291,8 +10202,8 @@ CREATE TABLE party_historic (
     mobile character varying(15),
     phone character varying(15),
     fax character varying(15),
+    birth_date date,
     preferred_communication_code character varying(20),
-	birth_date date,
     rowidentifier character varying(40),
     rowversion integer,
     change_action character(1),
@@ -13848,22 +13759,6 @@ ALTER TABLE ONLY document
 
 ALTER TABLE ONLY document
     ADD CONSTRAINT document_pkey PRIMARY KEY (id);
-
-
---
--- Name: id_pkey_document_chunk; Type: CONSTRAINT; Schema: document; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY document_chunk
-    ADD CONSTRAINT id_pkey_document_chunk PRIMARY KEY (id);
-
-
---
--- Name: start_unique_document_chunk; Type: CONSTRAINT; Schema: document; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY document_chunk
-    ADD CONSTRAINT start_unique_document_chunk UNIQUE (document_id, start_position);
 
 
 SET search_path = party, pg_catalog;

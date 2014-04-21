@@ -1,34 +1,4 @@
 -- Ticket #412
--- Create table document.document_chunk
-CREATE TABLE document.document_chunk
-(
-   id character varying(40) NOT NULL DEFAULT uuid_generate_v1(), 
-   document_id character varying(40) NOT NULL, 
-   claim_id character varying(40), 
-   start_position bigint NOT NULL, 
-   size bigint NOT NULL, 
-   body bytea NOT NULL, 
-   md5 character varying(50), 
-   creation_time timestamp without time zone NOT NULL DEFAULT now(), 
-   user_name character varying(50) NOT NULL, 
-   CONSTRAINT id_pkey_document_chunk PRIMARY KEY (id), 
-   CONSTRAINT start_unique_document_chunk UNIQUE (document_id, start_position)
-) 
-WITH (
-  OIDS = FALSE
-)
-;
-COMMENT ON COLUMN document.document_chunk.id IS 'Unique ID of the chunk';
-COMMENT ON COLUMN document.document_chunk.document_id IS 'Document ID, which will be used to create final document object. Used to group all chunks together.';
-COMMENT ON COLUMN document.document_chunk.claim_id IS 'Claim ID. Used to clean the table when saving claim. It will guarantee that no orphan chunks left in the table.';
-COMMENT ON COLUMN document.document_chunk.start_position IS 'Staring position of the byte in the source/destination document';
-COMMENT ON COLUMN document.document_chunk.size IS 'Size of the chunk in bytes.';
-COMMENT ON COLUMN document.document_chunk.body IS 'The content of the chunk.';
-COMMENT ON COLUMN document.document_chunk.md5 IS 'Checksum of the chunk, calculated using MD5.';
-COMMENT ON COLUMN document.document_chunk.creation_time IS 'Date and time when chuck was created.';
-COMMENT ON COLUMN document.document_chunk.user_name IS 'User''s id (name), who has loaded the chunk';
-COMMENT ON TABLE document.document_chunk
-  IS 'Holds temporary pieces of a document uploaded on the server. In case of large files, document can be split into smaller pieces (chunks) allowing reliable upload. After all pieces uploaded, client will instruct server to create a document and remove temporary files stored in this table.';
   
 -- Create OpenTenure schema
 CREATE SCHEMA opentenure;
@@ -89,6 +59,97 @@ insert into opentenure.claim_status (code, display_value, status, description) v
 insert into opentenure.claim_status (code, display_value, status, description) values 
 ('moderated', 'Moderated', 'i', '');
 
+-- Claimant
+CREATE TABLE opentenure.claimant
+(
+  id character varying(40) NOT NULL DEFAULT uuid_generate_v1(),
+  name character varying(255) NOT NULL,
+  last_name character varying(50),
+  id_type_code character varying(20),
+  id_number character varying(20),
+  birth_date date,
+  gender_code character varying(20),
+  mobile_phone character varying(15),
+  phone character varying(15),
+  email character varying(50),
+  address character varying(255),
+  rowidentifier character varying(40) NOT NULL DEFAULT uuid_generate_v1(), 
+  rowversion integer NOT NULL DEFAULT 0,
+  change_action character(1) NOT NULL DEFAULT 'i'::bpchar,
+  change_user character varying(50),
+  change_time timestamp without time zone NOT NULL DEFAULT now(),
+  CONSTRAINT claimant_pkey PRIMARY KEY (id),
+  CONSTRAINT claimant_gender_code_fk13 FOREIGN KEY (gender_code)
+      REFERENCES party.gender_type (code) MATCH SIMPLE,
+  CONSTRAINT claimant_id_type_code_fk12 FOREIGN KEY (id_type_code)
+      REFERENCES party.id_type (code) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE RESTRICT
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE opentenure.claimant
+  OWNER TO postgres;
+COMMENT ON TABLE opentenure.claimant
+  IS 'Extension to the LADM used by SOLA to store claimant information.';
+COMMENT ON COLUMN opentenure.claimant.id IS 'Unique identifier for the claimant.';
+COMMENT ON COLUMN opentenure.claimant.name IS 'First name of claimant.';
+COMMENT ON COLUMN opentenure.claimant.last_name IS 'Last name of claimant.';
+COMMENT ON COLUMN opentenure.claimant.id_type_code IS 'ID document type code';
+COMMENT ON COLUMN opentenure.claimant.id_number IS 'ID document number.';
+COMMENT ON COLUMN opentenure.claimant.birth_date IS 'Date of birth of the claimant.';
+COMMENT ON COLUMN opentenure.claimant.gender_code IS 'Gender code of the claimant.';
+COMMENT ON COLUMN opentenure.claimant.mobile_phone IS 'Mobile phone number of the claimant.';
+COMMENT ON COLUMN opentenure.claimant.phone IS 'Landline phone number of the claimant.';
+COMMENT ON COLUMN opentenure.claimant.email IS 'Email address of the claimant.';
+COMMENT ON COLUMN opentenure.claimant.address IS 'Living address of the claimant.';
+COMMENT ON COLUMN opentenure.claimant.rowidentifier IS 'Identifies the all change records for the row in the document_historic table';
+COMMENT ON COLUMN opentenure.claimant.rowversion IS 'Sequential value indicating the number of times this row has been modified.';
+COMMENT ON COLUMN opentenure.claimant.change_action IS 'Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).';
+COMMENT ON COLUMN opentenure.claimant.change_user IS 'The user id of the last person to modify the row.';
+COMMENT ON COLUMN opentenure.claimant.change_time IS 'The date and time the row was last modified.';
+
+CREATE TRIGGER __track_changes
+  BEFORE INSERT OR UPDATE
+  ON opentenure.claimant
+  FOR EACH ROW
+  EXECUTE PROCEDURE f_for_trg_track_changes();
+
+CREATE TRIGGER __track_history
+  AFTER UPDATE OR DELETE
+  ON opentenure.claimant
+  FOR EACH ROW
+  EXECUTE PROCEDURE f_for_trg_track_history();
+
+-- Claimant historic
+CREATE TABLE opentenure.claimant_historic
+(
+  id character varying(40),
+  name character varying(255),
+  last_name character varying(50),
+  id_type_code character varying(20),
+  id_number character varying(20),
+  birth_date date,
+  gender_code character varying(20),
+  mobile_phone character varying(15),
+  phone character varying(15),
+  email character varying(50),
+  address character varying(255),
+  rowidentifier character varying(40), 
+  rowversion integer NOT NULL DEFAULT 0,
+  change_action character(1),
+  change_user character varying(50),
+  change_time timestamp without time zone,
+  change_time_valid_until timestamp without time zone NOT NULL DEFAULT now()
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE opentenure.claimant_historic
+  OWNER TO postgres;
+COMMENT ON TABLE opentenure.claimant_historic
+  IS 'Historic table for opentenure.claimant. Keeps all changes done to the main table.';
+
 -- Create claim table
 CREATE TABLE opentenure.claim
 (
@@ -112,7 +173,7 @@ CREATE TABLE opentenure.claim
 
   CONSTRAINT claim_pkey PRIMARY KEY (id ),
   CONSTRAINT claim_claimant_id_fk8 FOREIGN KEY (claimant_id)
-      REFERENCES party.party (id) MATCH SIMPLE
+      REFERENCES opentenure.claimant (id) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE RESTRICT,
   CONSTRAINT claim_status_code_fk18 FOREIGN KEY (status_code)
       REFERENCES opentenure.claim_status (code) MATCH SIMPLE
@@ -191,58 +252,143 @@ ALTER TABLE opentenure.claim_historic
 COMMENT ON TABLE opentenure.claim_historic
   IS 'Historic table for the main table with claims opentenure.claim. Keeps all changes done to the main table.';
 
--- Craete claim_uses_source table
-
-CREATE TABLE opentenure.claim_uses_source
+-- Claim attachment
+CREATE TABLE opentenure.attachment
 (
-  claim_id character varying(40) NOT NULL, -- Identifier for the calim the record is associated to.
-  source_id character varying(40) NOT NULL, -- Identifier of the source associated to the claim.
-  rowidentifier character varying(40) NOT NULL DEFAULT uuid_generate_v1(), -- Unique row identifier.
-  rowversion integer NOT NULL DEFAULT 0, -- Sequential value indicating the number of times this row has been modified.
-  change_action character(1) NOT NULL DEFAULT 'i'::bpchar, -- Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).
-  change_user character varying(50), -- The user id of the last person to modify the row.
-  change_time timestamp without time zone NOT NULL DEFAULT now(), -- The date and time the row was last modified.
-  CONSTRAINT claim_uses_source_pkey PRIMARY KEY (claim_id, source_id ),
-  CONSTRAINT claim_uses_source_claim_id_fk126 FOREIGN KEY (claim_id)
-      REFERENCES opentenure.claim (id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE,
-  CONSTRAINT claim_uses_source_source_id_fk127 FOREIGN KEY (source_id)
-      REFERENCES source.source (id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE
+  id character varying(40) NOT NULL DEFAULT uuid_generate_v1(),
+  type_code character varying(20) NOT NULL,
+  reference_nr character varying(255),
+  document_date date,
+  description character varying(255),
+  body bytea NOT NULL,
+  size bigint NOT NULL,
+  mime_type character varying(20) NOT NULL,
+  file_name character varying(255) NOT NULL,
+  file_extension character varying(5) NOT NULL,
+  user_name character varying(50) NOT NULL,
+  rowidentifier character varying(40) NOT NULL DEFAULT uuid_generate_v1(), 
+  rowversion integer NOT NULL DEFAULT 0,
+  change_action character(1) NOT NULL DEFAULT 'i'::bpchar,
+  change_user character varying(50),
+  change_time timestamp without time zone NOT NULL DEFAULT now(),
+  CONSTRAINT attachment_pkey PRIMARY KEY (id),
+  CONSTRAINT source_type_code_fk3 FOREIGN KEY (type_code)
+      REFERENCES source.administrative_source_type (code) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE RESTRICT
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE opentenure.claim_uses_source
+ALTER TABLE opentenure.attachment
   OWNER TO postgres;
-COMMENT ON TABLE opentenure.claim_uses_source
-  IS 'Links the claim to the sources (a.k.a. documents) submitted with the claim. SOLA Open Tenure extension.';
-COMMENT ON COLUMN opentenure.claim_uses_source.claim_id IS 'Identifier for the claim the record is associated to.';
-COMMENT ON COLUMN opentenure.claim_uses_source.source_id IS 'Identifier of the source associated to the claim.';
-COMMENT ON COLUMN opentenure.claim_uses_source.rowidentifier IS 'Unique row identifier.';
-COMMENT ON COLUMN opentenure.claim_uses_source.rowversion IS 'Sequential value indicating the number of times this row has been modified.';
-COMMENT ON COLUMN opentenure.claim_uses_source.change_action IS 'Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).';
-COMMENT ON COLUMN opentenure.claim_uses_source.change_user IS 'The user id of the last person to modify the row.';
-COMMENT ON COLUMN opentenure.claim_uses_source.change_time IS 'The date and time the row was last modified.';
+COMMENT ON TABLE opentenure.attachment
+  IS 'Extension to the LADM used by SOLA to store claim files attachments.';
+COMMENT ON COLUMN opentenure.attachment.id IS 'Identifier for the attachment.';
+COMMENT ON COLUMN opentenure.attachment.type_code IS 'Attached document type code.';
+COMMENT ON COLUMN opentenure.attachment.reference_nr IS 'Document reference number.';
+COMMENT ON COLUMN opentenure.attachment.document_date IS 'Document date.';
+COMMENT ON COLUMN opentenure.attachment.file_extension IS 'File extension of the attachment. E.g. pdf, tiff, doc, etc';
+COMMENT ON COLUMN opentenure.attachment.user_name IS 'User''s ID, who has created the attachment.';
+COMMENT ON COLUMN opentenure.attachment.mime_type IS 'Mime type of the attachment.';
+COMMENT ON COLUMN opentenure.attachment.file_name IS 'Actual file name of the attachment.';
+COMMENT ON COLUMN opentenure.attachment.body IS 'Binary content of the attachment.';
+COMMENT ON COLUMN opentenure.attachment.size IS 'File size.';
+COMMENT ON COLUMN opentenure.attachment.description IS 'Short document description.';
+COMMENT ON COLUMN opentenure.attachment.rowidentifier IS 'Identifies the all change records for the row in the document_historic table';
+COMMENT ON COLUMN opentenure.attachment.rowversion IS 'Sequential value indicating the number of times this row has been modified.';
+COMMENT ON COLUMN opentenure.attachment.change_action IS 'Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).';
+COMMENT ON COLUMN opentenure.attachment.change_user IS 'The user id of the last person to modify the row.';
+COMMENT ON COLUMN opentenure.attachment.change_time IS 'The date and time the row was last modified.';
 
 CREATE TRIGGER __track_changes
   BEFORE INSERT OR UPDATE
-  ON opentenure.claim_uses_source
+  ON opentenure.attachment
   FOR EACH ROW
   EXECUTE PROCEDURE f_for_trg_track_changes();
 
 CREATE TRIGGER __track_history
   AFTER UPDATE OR DELETE
-  ON opentenure.claim_uses_source
+  ON opentenure.attachment
   FOR EACH ROW
   EXECUTE PROCEDURE f_for_trg_track_history();
 
--- Craete claim_uses_source_historic table
+-- Attachment historic
+CREATE TABLE opentenure.attachment_historic
+(
+  id character varying(40),
+  type_code character varying(20),
+  reference_nr character varying(255),
+  document_date date,
+  description character varying(255),
+  body bytea,
+  size bigint,
+  mime_type character varying(20),
+  file_name character varying(255),
+  file_extension character varying(5),
+  user_name character varying(50),
+  rowidentifier character varying(40), 
+  rowversion integer,
+  change_action character(1),
+  change_user character varying(50),
+  change_time timestamp without time zone,
+  change_time_valid_until timestamp without time zone NOT NULL DEFAULT now()
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE opentenure.attachment_historic
+  OWNER TO postgres;
+COMMENT ON TABLE opentenure.attachment_historic
+  IS 'Historic table for opentenure.attachment. Keeps all changes done to the main table.';
+  
+  
+-- Claim attachments
+CREATE TABLE opentenure.claim_uses_attachment
+(
+  claim_id character varying(40) NOT NULL, -- Identifier for the claim the record is associated to.
+  attachment_id character varying(40) NOT NULL, -- Identifier of the source associated to the claim.
+  rowidentifier character varying(40) NOT NULL DEFAULT uuid_generate_v1(), -- Unique row identifier.
+  rowversion integer NOT NULL DEFAULT 0, -- Sequential value indicating the number of times this row has been modified.
+  change_action character(1) NOT NULL DEFAULT 'i'::bpchar, -- Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).
+  change_user character varying(50), -- The user id of the last person to modify the row.
+  change_time timestamp without time zone NOT NULL DEFAULT now(), -- The date and time the row was last modified.
+  CONSTRAINT claim_uses_attachment_pkey PRIMARY KEY (claim_id , attachment_id),
+  CONSTRAINT claim_uses_attachment_claim_id_fk126 FOREIGN KEY (claim_id)
+      REFERENCES opentenure.claim (id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE opentenure.claim_uses_attachment
+  OWNER TO postgres;
+COMMENT ON TABLE opentenure.claim_uses_attachment
+  IS 'Links the claim to the attachment submitted with the claim. SOLA Open Tenure extension.';
+COMMENT ON COLUMN opentenure.claim_uses_attachment.claim_id IS 'Identifier for the claim the record is associated to.';
+COMMENT ON COLUMN opentenure.claim_uses_attachment.attachment_id IS 'Identifier of the attachment associated to the claim.';
+COMMENT ON COLUMN opentenure.claim_uses_attachment.rowidentifier IS 'Unique row identifier.';
+COMMENT ON COLUMN opentenure.claim_uses_attachment.rowversion IS 'Sequential value indicating the number of times this row has been modified.';
+COMMENT ON COLUMN opentenure.claim_uses_attachment.change_action IS 'Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).';
+COMMENT ON COLUMN opentenure.claim_uses_attachment.change_user IS 'The user id of the last person to modify the row.';
+COMMENT ON COLUMN opentenure.claim_uses_attachment.change_time IS 'The date and time the row was last modified.';
 
-CREATE TABLE opentenure.claim_uses_source_historic
+CREATE TRIGGER __track_changes
+  BEFORE INSERT OR UPDATE
+  ON opentenure.claim_uses_attachment
+  FOR EACH ROW
+  EXECUTE PROCEDURE f_for_trg_track_changes();
+
+CREATE TRIGGER __track_history
+  AFTER UPDATE OR DELETE
+  ON opentenure.claim_uses_attachment
+  FOR EACH ROW
+  EXECUTE PROCEDURE f_for_trg_track_history();
+
+-- Claim attachment historic table
+CREATE TABLE opentenure.claim_uses_attachment_historic
 (
   claim_id character varying(40),
-  source_id character varying(40),
+  attachment_id character varying(40),
   rowidentifier character varying(40),
   rowversion integer NOT NULL,
   change_action character(1),
@@ -253,249 +399,56 @@ CREATE TABLE opentenure.claim_uses_source_historic
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE opentenure.claim_uses_source_historic
+ALTER TABLE opentenure.claim_uses_attachment_historic
   OWNER TO postgres;
-COMMENT ON TABLE opentenure.claim_uses_source_historic
-  IS 'Historic table for opentenure.claim_uses_source. Keeps all changes done to the main table.';
+COMMENT ON TABLE opentenure.claim_uses_attachment_historic
+  IS 'Historic table for opentenure.claim_uses_attachment. Keeps all changes done to the main table.';
+
+-- Chunks table
+CREATE TABLE opentenure.attachment_chunk
+(
+  id character varying(40) NOT NULL DEFAULT uuid_generate_v1(), -- Unique ID of the chunk
+  attachment_id character varying(40) NOT NULL, -- Attachment ID, which will be used to create final document object. Used to group all chunks together.
+  claim_id character varying(40), -- Claim ID. Used to clean the table when saving claim. It will guarantee that no orphan chunks left in the table.
+  start_position bigint NOT NULL, -- Staring position of the byte in the source/destination document
+  size bigint NOT NULL, -- Size of the chunk in bytes.
+  body bytea NOT NULL, -- The content of the chunk.
+  md5 character varying(50), -- Checksum of the chunk, calculated using MD5.
+  creation_time timestamp without time zone NOT NULL DEFAULT now(), -- Date and time when chuck was created.
+  user_name character varying(50) NOT NULL, -- User's id (name), who has loaded the chunk
+  CONSTRAINT id_pkey_document_chunk PRIMARY KEY (id ),
+  CONSTRAINT start_unique_document_chunk UNIQUE (attachment_id, start_position )
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE opentenure.attachment_chunk
+  OWNER TO postgres;
+COMMENT ON TABLE opentenure.attachment_chunk
+  IS 'Holds temporary pieces of attachment uploaded on the server. In case of large files, document can be split into smaller pieces (chunks) allowing reliable upload. After all pieces uploaded, client will instruct server to create a document and remove temporary files stored in this table.';
+COMMENT ON COLUMN opentenure.attachment_chunk.id IS 'Unique ID of the chunk';
+COMMENT ON COLUMN opentenure.attachment_chunk.attachment_id IS 'Attachment ID, which will be used to create final document object. Used to group all chunks together.';
+COMMENT ON COLUMN opentenure.attachment_chunk.claim_id IS 'Claim ID. Used to clean the table when saving claim. It will guarantee that no orphan chunks left in the table.';
+COMMENT ON COLUMN opentenure.attachment_chunk.start_position IS 'Staring position of the byte in the source/destination document';
+COMMENT ON COLUMN opentenure.attachment_chunk.size IS 'Size of the chunk in bytes.';
+COMMENT ON COLUMN opentenure.attachment_chunk.body IS 'The content of the chunk.';
+COMMENT ON COLUMN opentenure.attachment_chunk.md5 IS 'Checksum of the chunk, calculated using MD5.';
+COMMENT ON COLUMN opentenure.attachment_chunk.creation_time IS 'Date and time when chuck was created.';
+COMMENT ON COLUMN opentenure.attachment_chunk.user_name IS 'User''s id (name), who has loaded the chunk';
 
 -- Make changes to party table to add birthday column
---- DROP DEPENDENT OBJECTS -----
-DROP VIEW administrative.sys_reg_state_land;
-
-ALTER TABLE administrative.ba_unit_as_party 
- DROP CONSTRAINT ba_unit_as_party_party_id_fk72;
- 
-ALTER TABLE administrative.party_for_rrr
-DROP CONSTRAINT party_for_rrr_party_id_fk82;
-
-ALTER TABLE application.application
-DROP CONSTRAINT application_agent_id_fk8;
-
-ALTER TABLE application.application
-DROP CONSTRAINT application_contact_person_id_fk14;
-
-ALTER TABLE party.group_party
-DROP CONSTRAINT group_party_id_fk32;
-
-ALTER TABLE party.party_role 	  
-	  DROP CONSTRAINT party_role_party_id_fk36;
-	  
-ALTER TABLE party.party_member 
-	  DROP CONSTRAINT party_member_party_id_fk34;
-
-ALTER TABLE opentenure.claim 
-	  DROP CONSTRAINT claim_claimant_id_fk8;
-
-ALTER TABLE party.party DISABLE TRIGGER USER;
-
-ALTER TABLE party.party ADD COLUMN birth_date date,
-ADD COLUMN rowidentifier1 character varying(40) NOT NULL DEFAULT uuid_generate_v1(),
-ADD COLUMN rowversion1 integer NOT NULL DEFAULT 0,
-ADD COLUMN change_action1 character(1) NOT NULL DEFAULT 'i'::bpchar,
-ADD COLUMN change_user1 character varying(50),
-ADD COLUMN change_time1 timestamp without time zone NOT NULL DEFAULT now();
-
-DROP INDEX party.party_index_on_rowidentifier;
-
-UPDATE party.party SET rowidentifier1 = rowidentifier, rowversion1 = rowversion, 
-change_action1 = change_action, change_user1 = change_user, change_time1 = change_time;
-
-ALTER TABLE party.party DROP COLUMN rowidentifier,
-DROP COLUMN rowversion, DROP COLUMN change_action, DROP COLUMN change_user, DROP COLUMN change_time; 
-
-ALTER TABLE party.party RENAME COLUMN rowidentifier1 TO rowidentifier;
-ALTER TABLE party.party RENAME COLUMN rowversion1 TO rowversion;
-ALTER TABLE party.party RENAME COLUMN change_action1 TO change_action;
-ALTER TABLE party.party RENAME COLUMN change_user1 TO change_user;
-ALTER TABLE party.party RENAME COLUMN change_time1 TO change_time;
-
+ALTER TABLE party.party ADD COLUMN birth_date date;
 --- ADD COMMENTS ----
 COMMENT ON COLUMN party.party.birth_date IS 'SOLA Extension: Date of birth.';
-COMMENT ON COLUMN party.party.rowidentifier IS 'SOLA Extension: Identifies the all change records for the row in the party_historic table';
-COMMENT ON COLUMN party.party.rowversion IS 'SOLA Extension: Sequential value indicating the number of times this row has been modified.';
-COMMENT ON COLUMN party.party.change_action IS 'SOLA Extension: Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).';
-COMMENT ON COLUMN party.party.change_user IS 'SOLA Extension: The user id of the last person to modify the row.';
-COMMENT ON COLUMN party.party.change_time IS 'SOLA Extension: The date and time the row was last modified.';
-
-CREATE INDEX party_index_on_rowidentifier
-  ON party.party
-  USING btree
-  (rowidentifier COLLATE pg_catalog."default" );
 
 --- HISTORIC TABLE -----
-ALTER TABLE party.party_historic ADD COLUMN birth_date date,
-ADD COLUMN rowidentifier1 character varying(40) NOT NULL DEFAULT uuid_generate_v1(),
-ADD COLUMN rowversion1 integer NOT NULL DEFAULT 0,
-ADD COLUMN change_action1 character(1) NOT NULL DEFAULT 'i'::bpchar,
-ADD COLUMN change_user1 character varying(50),
-ADD COLUMN change_time1 timestamp without time zone NOT NULL DEFAULT now(),
-ADD COLUMN change_time_valid_until1 timestamp without time zone NOT NULL DEFAULT now();
-
-DROP INDEX party.party_historic_index_on_rowidentifier;
-  
-UPDATE party.party_historic SET rowidentifier1 = rowidentifier, rowversion1 = rowversion, change_action1 = change_action, 
-change_user1 = change_user, change_time1 = change_time, change_time_valid_until1 = change_time_valid_until;
-
-ALTER TABLE party.party_historic DROP COLUMN rowidentifier, DROP COLUMN rowversion, DROP COLUMN change_action, 
-DROP COLUMN change_user, DROP COLUMN change_time, DROP COLUMN change_time_valid_until; 
-
-ALTER TABLE party.party_historic RENAME COLUMN rowidentifier1 TO rowidentifier;
-ALTER TABLE party.party_historic RENAME COLUMN rowversion1 TO rowversion;
-ALTER TABLE party.party_historic RENAME COLUMN change_action1 TO change_action;
-ALTER TABLE party.party_historic RENAME COLUMN change_user1 TO change_user;
-ALTER TABLE party.party_historic RENAME COLUMN change_time1 TO change_time;
-ALTER TABLE party.party_historic RENAME COLUMN change_time_valid_until1 TO change_time_valid_until;
-
-CREATE INDEX party_historic_index_on_rowidentifier
-  ON party.party_historic
-  USING btree
-  (rowidentifier COLLATE pg_catalog."default" );
-
----- ENABLE TRIGGERS -----
-ALTER TABLE party.party ENABLE TRIGGER USER;
-  
---- CREATE DROPPED DEPENDENCY OBJECTS ----
-CREATE OR REPLACE VIEW administrative.sys_reg_state_land AS 
- SELECT (pp.name::text || ' '::text) || COALESCE(pp.last_name, ' '::character varying)::text AS value, co.id, co.name_firstpart, co.name_lastpart, get_translation(lu.display_value, NULL::character varying) AS land_use_code, su.ba_unit_id, sa.size, 
-        CASE
-            WHEN COALESCE(co.land_use_code, 'residential'::character varying)::text = 'residential'::text THEN sa.size
-            ELSE 0::numeric
-        END AS residential, 
-        CASE
-            WHEN COALESCE(co.land_use_code, 'residential'::character varying)::text = 'agricultural'::text THEN sa.size
-            ELSE 0::numeric
-        END AS agricultural, 
-        CASE
-            WHEN COALESCE(co.land_use_code, 'residential'::character varying)::text = 'commercial'::text THEN sa.size
-            ELSE 0::numeric
-        END AS commercial, 
-        CASE
-            WHEN COALESCE(co.land_use_code, 'residential'::character varying)::text = 'industrial'::text THEN sa.size
-            ELSE 0::numeric
-        END AS industrial
-   FROM cadastre.land_use_type lu, cadastre.cadastre_object co, cadastre.spatial_value_area sa, administrative.ba_unit_contains_spatial_unit su, application.application aa, application.service s, party.party pp, administrative.party_for_rrr pr, administrative.rrr rrr, administrative.ba_unit bu, transaction.transaction t
-  WHERE sa.spatial_unit_id::text = co.id::text AND COALESCE(co.land_use_code, 'residential'::character varying)::text = lu.code::text AND sa.type_code::text = 'officialArea'::text AND su.spatial_unit_id::text = sa.spatial_unit_id::text AND bu.transaction_id::text = t.id::text AND t.from_service_id::text = s.id::text AND s.application_id::text = aa.id::text AND s.request_type_code::text = 'systematicRegn'::text AND s.status_code::text = 'completed'::text AND pp.id::text = pr.party_id::text AND pr.rrr_id::text = rrr.id::text AND rrr.ba_unit_id::text = su.ba_unit_id::text AND rrr.type_code::text = 'stateOwnership'::text AND bu.id::text = su.ba_unit_id::text
-  ORDER BY (pp.name::text || ' '::text) || COALESCE(pp.last_name, ' '::character varying)::text;
-
-ALTER TABLE administrative.sys_reg_state_land
-  OWNER TO postgres;
-COMMENT ON VIEW administrative.sys_reg_state_land
-  IS 'Used by systematic registration to identify state land under SR.';
- 
- ALTER TABLE administrative.ba_unit_as_party 
-	  ADD CONSTRAINT ba_unit_as_party_party_id_fk72 FOREIGN KEY (party_id)
-      REFERENCES party.party (id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE;
-	  
-ALTER TABLE administrative.party_for_rrr
-	  ADD CONSTRAINT party_for_rrr_party_id_fk82 FOREIGN KEY (party_id)
-      REFERENCES party.party (id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE;
-	  
-ALTER TABLE application.application
-	  ADD CONSTRAINT application_agent_id_fk8 FOREIGN KEY (agent_id)
-      REFERENCES party.party (id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE RESTRICT;
-	  
-ALTER TABLE application.application	  
-	  ADD CONSTRAINT application_contact_person_id_fk14 FOREIGN KEY (contact_person_id)
-      REFERENCES party.party (id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE RESTRICT;
-	  
-ALTER TABLE party.group_party  
-	  ADD CONSTRAINT group_party_id_fk32 FOREIGN KEY (id)
-      REFERENCES party.party (id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE;
-	  
-ALTER TABLE party.party_member 
-	  ADD CONSTRAINT party_member_party_id_fk34 FOREIGN KEY (party_id)
-      REFERENCES party.party (id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE;
-
-ALTER TABLE party.party_role 	  
-	  ADD CONSTRAINT party_role_party_id_fk36 FOREIGN KEY (party_id)
-      REFERENCES party.party (id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE;
-
-ALTER TABLE opentenure.claim 
-	  ADD CONSTRAINT claim_claimant_id_fk8 FOREIGN KEY (claimant_id)
-      REFERENCES party.party (id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE RESTRICT;
-	 
+ALTER TABLE party.party_historic ADD COLUMN birth_date date;
+   
 -- ADD MIME TYPE FIELD TO DOCUMENT TABLE
-DROP INDEX document.document_index_on_rowidentifier;
-
-ALTER TABLE document.document DISABLE TRIGGER USER;
-
-ALTER TABLE document.document ADD COLUMN mime_type character varying(20),
-ADD COLUMN body1 bytea NOT NULL,
-ADD COLUMN description1 character varying(100),
-ADD COLUMN rowidentifier1 character varying(40) NOT NULL DEFAULT uuid_generate_v1(),
-ADD COLUMN rowversion1 integer NOT NULL DEFAULT 0,
-ADD COLUMN change_action1 character(1) NOT NULL DEFAULT 'i'::bpchar,
-ADD COLUMN change_user1 character varying(50),
-ADD COLUMN change_time1 timestamp without time zone NOT NULL DEFAULT now();
-
-UPDATE document.document SET body1 = body, description1 = description, rowidentifier1 = rowidentifier, rowversion1 = rowversion, 
-change_action1 = change_action, change_user1 = change_user, change_time1 = change_time;
-
-ALTER TABLE document.document DROP COLUMN body, DROP COLUMN description, DROP COLUMN rowidentifier,
-DROP COLUMN rowversion, DROP COLUMN change_action, DROP COLUMN change_user, DROP COLUMN change_time; 
-
-ALTER TABLE document.document RENAME COLUMN body1 TO body;
-ALTER TABLE document.document RENAME COLUMN description1 TO description;
-ALTER TABLE document.document RENAME COLUMN rowidentifier1 TO rowidentifier;
-ALTER TABLE document.document RENAME COLUMN rowversion1 TO rowversion;
-ALTER TABLE document.document RENAME COLUMN change_action1 TO change_action;
-ALTER TABLE document.document RENAME COLUMN change_user1 TO change_user;
-ALTER TABLE document.document RENAME COLUMN change_time1 TO change_time;
-
-ALTER TABLE document.document ENABLE TRIGGER USER;
-
-COMMENT ON COLUMN document.document.body IS 'The content of the electronic file.';
-COMMENT ON COLUMN document.document.description IS 'A descriptive name to help recognize the file such as the original file name.';
-COMMENT ON COLUMN document.document.rowidentifier IS 'Identifies the all change records for the row in the document_historic table';
-COMMENT ON COLUMN document.document.rowversion IS 'Sequential value indicating the number of times this row has been modified.';
-COMMENT ON COLUMN document.document.change_action IS 'Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).';
-COMMENT ON COLUMN document.document.change_user IS 'The user id of the last person to modify the row.';
-COMMENT ON COLUMN document.document.change_time IS 'The date and time the row was last modified.';
-
-CREATE INDEX document_index_on_rowidentifier
-  ON document.document
-  USING btree
-  (rowidentifier COLLATE pg_catalog."default" );
+ALTER TABLE document.document ADD COLUMN mime_type character varying(20);
+COMMENT ON COLUMN document.document.mime_type IS 'File mime type.';
 
 -- ADD MIME TYPE FIELD TO DOCUMENT_HISTORIC TABLE
-DROP INDEX document.document_historic_index_on_rowidentifier;
-
-ALTER TABLE document.document_historic ADD COLUMN mime_type character varying(20),
-ADD COLUMN body1 bytea,
-ADD COLUMN description1 character varying(100),
-ADD COLUMN rowidentifier1 character varying(40),
-ADD COLUMN rowversion1 integer NOT NULL DEFAULT 0,
-ADD COLUMN change_action1 character(1),
-ADD COLUMN change_user1 character varying(50),
-ADD COLUMN change_time1 timestamp without time zone,
-ADD COLUMN change_time_valid_until1 timestamp without time zone NOT NULL DEFAULT now();
-
-UPDATE document.document_historic SET body1 = body, description1 = description, rowidentifier1 = rowidentifier, rowversion1 = rowversion, 
-change_action1 = change_action, change_user1 = change_user, change_time1 = change_time, change_time_valid_until1 = change_time_valid_until;
-
-ALTER TABLE document.document_historic DROP COLUMN body, DROP COLUMN description, DROP COLUMN rowidentifier,
-DROP COLUMN rowversion, DROP COLUMN change_action, DROP COLUMN change_user, DROP COLUMN change_time, DROP COLUMN change_time_valid_until; 
-
-ALTER TABLE document.document_historic RENAME COLUMN body1 TO body;
-ALTER TABLE document.document_historic RENAME COLUMN description1 TO description;
-ALTER TABLE document.document_historic RENAME COLUMN rowidentifier1 TO rowidentifier;
-ALTER TABLE document.document_historic RENAME COLUMN rowversion1 TO rowversion;
-ALTER TABLE document.document_historic RENAME COLUMN change_action1 TO change_action;
-ALTER TABLE document.document_historic RENAME COLUMN change_user1 TO change_user;
-ALTER TABLE document.document_historic RENAME COLUMN change_time1 TO change_time;
-ALTER TABLE document.document_historic RENAME COLUMN change_time_valid_until1 TO change_time_valid_until;
-
-CREATE INDEX document_historic_index_on_rowidentifier
-  ON document.document_historic
-  USING btree
-  (rowidentifier COLLATE pg_catalog."default" );
+ALTER TABLE document.document_historic ADD COLUMN mime_type character varying(20);
   
 INSERT INTO system.version SELECT '1404a' WHERE NOT EXISTS (SELECT version_num FROM system.version WHERE version_num = '1404a');
