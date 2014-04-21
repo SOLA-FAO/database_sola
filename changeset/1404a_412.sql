@@ -163,7 +163,7 @@ CREATE TABLE opentenure.claim
   claimant_id character varying(40) NOT NULL, -- The identifier of the claimant.
   mapped_geometry geometry, -- Claimed property geometry calculated using system SRID
   gps_geometry geometry, -- Claimed property geometry in Lat/Long format 
-  status_code character varying(20) NOT NULL DEFAULT 'lodged'::character varying, -- The status of the claim.
+  status_code character varying(20) NOT NULL DEFAULT 'unmoderated'::character varying, -- The status of the claim.
   recorder_name character varying(50) NOT NULL, -- User's ID, who has created the claim.
   rowidentifier character varying(40) NOT NULL DEFAULT uuid_generate_v1(), -- Identifies the all change records for the row in the claim_historic table
   rowversion integer NOT NULL DEFAULT 0, -- Sequential value indicating the number of times this row has been modified.
