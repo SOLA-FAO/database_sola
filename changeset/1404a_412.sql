@@ -1,4 +1,8 @@
 -- Ticket #412
+
+-- Add system settings
+INSERT INTO system.setting(name, vl, active, description) VALUES ('max-file-size', '10000', 't', 'Maximum file size in KB for uploading.');
+INSERT INTO system.setting(name, vl, active, description) VALUES ('max-uploading-dayily-limit', '100000', 't', 'Maximum size of files uploaded daily.');
   
 -- Create OpenTenure schema
 CREATE SCHEMA opentenure;
@@ -175,6 +179,8 @@ CREATE TABLE opentenure.claim
   CONSTRAINT claim_claimant_id_fk8 FOREIGN KEY (claimant_id)
       REFERENCES opentenure.claimant (id) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE RESTRICT,
+  CONSTRAINT fk_challenged_claim FOREIGN KEY (challenged_claim_id) 
+	  REFERENCES opentenure.claim (id) ON UPDATE CASCADE ON DELETE RESTRICT,
   CONSTRAINT claim_status_code_fk18 FOREIGN KEY (status_code)
       REFERENCES opentenure.claim_status (code) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE RESTRICT,
