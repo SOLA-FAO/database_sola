@@ -257,7 +257,7 @@ INSERT INTO setting (name, vl, active, description) VALUES ('pword-expiry-days',
 INSERT INTO setting (name, vl, active, description) VALUES ('system-id', '', true, 'A unique number that identifies the installed SOLA system. This unique number is used in the br that generate unique identifiers.');
 INSERT INTO setting (name, vl, active, description) VALUES ('zip-pass', 'wownow3nnZv3r', true, 'A password that is used during the consolidation process. It is used only in server side.');
 INSERT INTO setting (name, vl, active, description) VALUES ('max-file-size', '10000', true, 'Maximum file size in KB for uploading.');
-INSERT INTO setting (name, vl, active, description) VALUES ('max-uploading-dayily-limit', '100000', true, 'Maximum size of files uploaded daily.');
+INSERT INTO setting (name, vl, active, description) VALUES ('max-uploading-daily-limit', '100000', true, 'Maximum size of files uploaded daily.');
 
 
 ALTER TABLE setting ENABLE TRIGGER ALL;
