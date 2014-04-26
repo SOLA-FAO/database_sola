@@ -3,7 +3,8 @@
 -- Add system settings
 INSERT INTO system.setting(name, vl, active, description) VALUES ('max-file-size', '10000', 't', 'Maximum file size in KB for uploading.');
 INSERT INTO system.setting(name, vl, active, description) VALUES ('max-uploading-daily-limit', '100000', 't', 'Maximum size of files uploaded daily.');
-  
+INSERT INTO system.setting(name, vl, active, description) VALUES ('moderation-days', '30', 't', 'Duration of moderation time in days');
+
 -- Create OpenTenure schema
 CREATE SCHEMA opentenure;
 COMMENT ON SCHEMA opentenure
