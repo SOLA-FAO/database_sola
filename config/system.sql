@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -54,6 +55,7 @@ INSERT INTO query (name, sql, description) VALUES ('SpatialResult.getParcelNodes
 INSERT INTO query (name, sql, description) VALUES ('public_display.parcels', 'select co.id, co.name_firstpart as label,  st_asewkb(st_transform(co.geom_polygon, #{srid})) as the_geom from cadastre.cadastre_object co where type_code= ''parcel'' and status_code= ''current'' and name_lastpart = #{name_lastpart} and ST_Intersects(st_transform(co.geom_polygon, #{srid}), ST_SetSRID(ST_3DMakeBox(ST_Point(#{minx}, #{miny}),ST_Point(#{maxx}, #{maxy})), #{srid}))', 'Query is used from public display map. It retrieves parcels being of a certain area (name_lastpart).');
 INSERT INTO query (name, sql, description) VALUES ('public_display.parcels_next', 'SELECT co_next.id, co_next.name_firstpart as label,  st_asewkb(st_transform(co_next.geom_polygon, #{srid})) as the_geom  from cadastre.cadastre_object co_next, cadastre.cadastre_object co where co.type_code= ''parcel'' and co.status_code= ''current'' and co_next.type_code= ''parcel'' and co_next.status_code= ''current'' and co.name_lastpart = #{name_lastpart} and co_next.name_lastpart != #{name_lastpart} and st_dwithin(st_transform(co.geom_polygon, #{srid}), st_transform(co_next.geom_polygon, #{srid}), 5) and ST_Intersects(st_transform(co_next.geom_polygon, #{srid}), ST_SetSRID(ST_3DMakeBox(ST_Point(#{minx}, #{miny}),ST_Point(#{maxx}, #{maxy})), #{srid}))', ' Query is used from public display map. It retrieves parcels being near the parcels of the layer public-display-parcels.');
 INSERT INTO query (name, sql, description) VALUES ('SpatialResult.getHierarchy', 'select id, label, st_asewkb(geom) as the_geom, filter_category  from cadastre.hierarchy where ST_Intersects(geom, ST_SetSRID(ST_3DMakeBox(ST_Point(#{minx}, #{miny}),ST_Point(#{maxx}, #{maxy})), #{srid})) and st_area(geom)> power(5 * #{pixel_res}, 2)', 'Query is used from Spatial Unit Group Editor to edit hierarchy records');
+INSERT INTO query (name, sql, description) VALUES ('SpatialResult.getRoadCenterlines', 'select id, label, st_asewkb(st_transform(geom, #{srid})) as the_geom from cadastre.spatial_unit where level_id = ''road-centerline'' and ST_Intersects(st_transform(geom, #{srid}), ST_SetSRID(ST_3DMakeBox(ST_Point(#{minx}, #{miny}),ST_Point(#{maxx}, #{maxy})), #{srid}))', NULL);
 
 
 ALTER TABLE query ENABLE TRIGGER ALL;
@@ -76,6 +78,7 @@ INSERT INTO config_map_layer (name, title, type_code, active, visible_in_start, 
 INSERT INTO config_map_layer (name, title, type_code, active, visible_in_start, item_order, style, url, wms_layers, wms_version, wms_format, wms_data_source, pojo_structure, pojo_query_name, pojo_query_name_for_select, shape_location, security_user, security_password, added_from_bulk_operation, use_in_public_display) VALUES ('sug_hierarchy', 'Hierarchy', 'pojo', true, false, 9, 'sug-hierarchy.xml', NULL, NULL, NULL, NULL, NULL, 'theGeom:Polygon,label:"",filter_category', 'SpatialResult.getHierarchy', NULL, NULL, NULL, NULL, false, true);
 INSERT INTO config_map_layer (name, title, type_code, active, visible_in_start, item_order, style, url, wms_layers, wms_version, wms_format, wms_data_source, pojo_structure, pojo_query_name, pojo_query_name_for_select, shape_location, security_user, security_password, added_from_bulk_operation, use_in_public_display) VALUES ('public-display-parcels-next', 'Other Systematic Registration Parcels', 'pojo_public_display', true, true, 30, 'public_display_parcel_next.xml', NULL, NULL, NULL, NULL, NULL, 'theGeom:Polygon,label:""', 'public_display.parcels_next', NULL, NULL, NULL, NULL, false, true);
 INSERT INTO config_map_layer (name, title, type_code, active, visible_in_start, item_order, style, url, wms_layers, wms_version, wms_format, wms_data_source, pojo_structure, pojo_query_name, pojo_query_name_for_select, shape_location, security_user, security_password, added_from_bulk_operation, use_in_public_display) VALUES ('orthophoto', 'Orthophoto', 'wms', true, false, 10, NULL, 'http://demo.flossola.org/geoserver/sola/wms', 'sola:nz_orthophoto', '1.1.1', 'image/jpeg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false);
+INSERT INTO config_map_layer (name, title, type_code, active, visible_in_start, item_order, style, url, wms_layers, wms_version, wms_format, wms_data_source, pojo_structure, pojo_query_name, pojo_query_name_for_select, shape_location, security_user, security_password, added_from_bulk_operation, use_in_public_display) VALUES ('road-centerlines', 'Road centerlines', 'pojo', true, true, 35, 'road_centerline.xml', NULL, NULL, NULL, NULL, NULL, 'theGeom:LineString,label:""', 'SpatialResult.getRoadCenterlines', NULL, NULL, NULL, NULL, false, false);
 
 
 ALTER TABLE config_map_layer ENABLE TRIGGER ALL;
@@ -256,8 +259,6 @@ INSERT INTO setting (name, vl, active, description) VALUES ('public-notification
 INSERT INTO setting (name, vl, active, description) VALUES ('pword-expiry-days', '90', true, 'The number of days a users password remains valid');
 INSERT INTO setting (name, vl, active, description) VALUES ('system-id', '', true, 'A unique number that identifies the installed SOLA system. This unique number is used in the br that generate unique identifiers.');
 INSERT INTO setting (name, vl, active, description) VALUES ('zip-pass', 'wownow3nnZv3r', true, 'A password that is used during the consolidation process. It is used only in server side.');
-INSERT INTO setting (name, vl, active, description) VALUES ('max-file-size', '10000', true, 'Maximum file size in KB for uploading.');
-INSERT INTO setting (name, vl, active, description) VALUES ('max-uploading-daily-limit', '100000', true, 'Maximum size of files uploaded daily.');
 
 
 ALTER TABLE setting ENABLE TRIGGER ALL;
@@ -281,6 +282,7 @@ INSERT INTO version (version_num) VALUES ('1402a');
 INSERT INTO version (version_num) VALUES ('1403a');
 INSERT INTO version (version_num) VALUES ('1403b');
 INSERT INTO version (version_num) VALUES ('1404a');
+INSERT INTO version (version_num) VALUES ('1404b');
 
 
 ALTER TABLE version ENABLE TRIGGER ALL;
