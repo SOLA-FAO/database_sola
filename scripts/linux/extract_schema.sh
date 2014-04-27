@@ -57,7 +57,7 @@ echo "### Dumping SOLA schemas..." >> $EXTRACT_LOG 2>&1
 $pg_dump -h $host -p $port -U $username -F p --schema-only \
     -n address -n party -n document -n transaction -n source \
 	-n cadastre -n system -n administrative -n application \
-	-n bulk_operation \
+	-n bulk_operation -n opentenure \
 	-f "$schema_path/sola_schemas.sql" $dbname >> $EXTRACT_LOG 2>&1
 	
 # Echo a message to the user so they do not forget about the SOLA functions 

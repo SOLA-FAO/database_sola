@@ -78,6 +78,7 @@ CREATE TABLE opentenure.claimant
   phone character varying(15),
   email character varying(50),
   address character varying(255),
+  user_name character varying(50) NOT NULL,
   rowidentifier character varying(40) NOT NULL DEFAULT uuid_generate_v1(), 
   rowversion integer NOT NULL DEFAULT 0,
   change_action character(1) NOT NULL DEFAULT 'i'::bpchar,
@@ -108,6 +109,7 @@ COMMENT ON COLUMN opentenure.claimant.mobile_phone IS 'Mobile phone number of th
 COMMENT ON COLUMN opentenure.claimant.phone IS 'Landline phone number of the claimant.';
 COMMENT ON COLUMN opentenure.claimant.email IS 'Email address of the claimant.';
 COMMENT ON COLUMN opentenure.claimant.address IS 'Living address of the claimant.';
+COMMENT ON COLUMN opentenure.claimant.user_name IS 'User name who has created the record.';
 COMMENT ON COLUMN opentenure.claimant.rowidentifier IS 'Identifies the all change records for the row in the document_historic table';
 COMMENT ON COLUMN opentenure.claimant.rowversion IS 'Sequential value indicating the number of times this row has been modified.';
 COMMENT ON COLUMN opentenure.claimant.change_action IS 'Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).';
@@ -140,6 +142,7 @@ CREATE TABLE opentenure.claimant_historic
   phone character varying(15),
   email character varying(50),
   address character varying(255),
+  user_name character varying(50),
   rowidentifier character varying(40), 
   rowversion integer NOT NULL DEFAULT 0,
   change_action character(1),

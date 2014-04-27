@@ -105,6 +105,22 @@ COMMENT ON SCHEMA document IS 'Extension to the LADM used by SOLA to store elect
 
 
 --
+-- Name: opentenure; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA opentenure;
+
+
+ALTER SCHEMA opentenure OWNER TO postgres;
+
+--
+-- Name: SCHEMA opentenure; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON SCHEMA opentenure IS 'This schema holds objects purely related to OpenTenure feature of SOLA';
+
+
+--
 -- Name: party; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
@@ -9887,6 +9903,825 @@ ALTER TABLE document.document_nr_seq OWNER TO postgres;
 COMMENT ON SEQUENCE document_nr_seq IS 'Sequence number used as the basis for the document Nr field. This sequence is used by the Digital Archive EJB.';
 
 
+SET search_path = opentenure, pg_catalog;
+
+--
+-- Name: attachment; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE attachment (
+    id character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
+    type_code character varying(20) NOT NULL,
+    reference_nr character varying(255),
+    document_date date,
+    description character varying(255),
+    body bytea NOT NULL,
+    size bigint NOT NULL,
+    mime_type character varying(20) NOT NULL,
+    file_name character varying(255) NOT NULL,
+    file_extension character varying(5) NOT NULL,
+    user_name character varying(50) NOT NULL,
+    rowidentifier character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
+    rowversion integer DEFAULT 0 NOT NULL,
+    change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
+    change_user character varying(50),
+    change_time timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE opentenure.attachment OWNER TO postgres;
+
+--
+-- Name: TABLE attachment; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON TABLE attachment IS 'Extension to the LADM used by SOLA to store claim files attachments.';
+
+
+--
+-- Name: COLUMN attachment.id; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment.id IS 'Identifier for the attachment.';
+
+
+--
+-- Name: COLUMN attachment.type_code; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment.type_code IS 'Attached document type code.';
+
+
+--
+-- Name: COLUMN attachment.reference_nr; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment.reference_nr IS 'Document reference number.';
+
+
+--
+-- Name: COLUMN attachment.document_date; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment.document_date IS 'Document date.';
+
+
+--
+-- Name: COLUMN attachment.description; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment.description IS 'Short document description.';
+
+
+--
+-- Name: COLUMN attachment.body; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment.body IS 'Binary content of the attachment.';
+
+
+--
+-- Name: COLUMN attachment.size; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment.size IS 'File size.';
+
+
+--
+-- Name: COLUMN attachment.mime_type; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment.mime_type IS 'Mime type of the attachment.';
+
+
+--
+-- Name: COLUMN attachment.file_name; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment.file_name IS 'Actual file name of the attachment.';
+
+
+--
+-- Name: COLUMN attachment.file_extension; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment.file_extension IS 'File extension of the attachment. E.g. pdf, tiff, doc, etc';
+
+
+--
+-- Name: COLUMN attachment.user_name; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment.user_name IS 'User''s ID, who has created the attachment.';
+
+
+--
+-- Name: COLUMN attachment.rowidentifier; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment.rowidentifier IS 'Identifies the all change records for the row in the document_historic table';
+
+
+--
+-- Name: COLUMN attachment.rowversion; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment.rowversion IS 'Sequential value indicating the number of times this row has been modified.';
+
+
+--
+-- Name: COLUMN attachment.change_action; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment.change_action IS 'Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).';
+
+
+--
+-- Name: COLUMN attachment.change_user; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment.change_user IS 'The user id of the last person to modify the row.';
+
+
+--
+-- Name: COLUMN attachment.change_time; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment.change_time IS 'The date and time the row was last modified.';
+
+
+--
+-- Name: attachment_chunk; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE attachment_chunk (
+    id character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
+    attachment_id character varying(40) NOT NULL,
+    claim_id character varying(40),
+    start_position bigint NOT NULL,
+    size bigint NOT NULL,
+    body bytea NOT NULL,
+    md5 character varying(50),
+    creation_time timestamp without time zone DEFAULT now() NOT NULL,
+    user_name character varying(50) NOT NULL
+);
+
+
+ALTER TABLE opentenure.attachment_chunk OWNER TO postgres;
+
+--
+-- Name: TABLE attachment_chunk; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON TABLE attachment_chunk IS 'Holds temporary pieces of attachment uploaded on the server. In case of large files, document can be split into smaller pieces (chunks) allowing reliable upload. After all pieces uploaded, client will instruct server to create a document and remove temporary files stored in this table.';
+
+
+--
+-- Name: COLUMN attachment_chunk.id; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment_chunk.id IS 'Unique ID of the chunk';
+
+
+--
+-- Name: COLUMN attachment_chunk.attachment_id; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment_chunk.attachment_id IS 'Attachment ID, which will be used to create final document object. Used to group all chunks together.';
+
+
+--
+-- Name: COLUMN attachment_chunk.claim_id; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment_chunk.claim_id IS 'Claim ID. Used to clean the table when saving claim. It will guarantee that no orphan chunks left in the table.';
+
+
+--
+-- Name: COLUMN attachment_chunk.start_position; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment_chunk.start_position IS 'Staring position of the byte in the source/destination document';
+
+
+--
+-- Name: COLUMN attachment_chunk.size; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment_chunk.size IS 'Size of the chunk in bytes.';
+
+
+--
+-- Name: COLUMN attachment_chunk.body; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment_chunk.body IS 'The content of the chunk.';
+
+
+--
+-- Name: COLUMN attachment_chunk.md5; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment_chunk.md5 IS 'Checksum of the chunk, calculated using MD5.';
+
+
+--
+-- Name: COLUMN attachment_chunk.creation_time; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment_chunk.creation_time IS 'Date and time when chuck was created.';
+
+
+--
+-- Name: COLUMN attachment_chunk.user_name; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN attachment_chunk.user_name IS 'User''s id (name), who has loaded the chunk';
+
+
+--
+-- Name: attachment_historic; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE attachment_historic (
+    id character varying(40),
+    type_code character varying(20),
+    reference_nr character varying(255),
+    document_date date,
+    description character varying(255),
+    body bytea,
+    size bigint,
+    mime_type character varying(20),
+    file_name character varying(255),
+    file_extension character varying(5),
+    user_name character varying(50),
+    rowidentifier character varying(40),
+    rowversion integer,
+    change_action character(1),
+    change_user character varying(50),
+    change_time timestamp without time zone,
+    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE opentenure.attachment_historic OWNER TO postgres;
+
+--
+-- Name: TABLE attachment_historic; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON TABLE attachment_historic IS 'Historic table for opentenure.attachment. Keeps all changes done to the main table.';
+
+
+--
+-- Name: claim; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE claim (
+    id character varying(40) NOT NULL,
+    nr character varying(15) NOT NULL,
+    lodgement_date timestamp without time zone DEFAULT now() NOT NULL,
+    challenge_expiry_date timestamp without time zone NOT NULL,
+    decision_date timestamp without time zone,
+    description character varying(250),
+    challenged_claim_id character varying(40),
+    claimant_id character varying(40) NOT NULL,
+    mapped_geometry public.geometry,
+    gps_geometry public.geometry,
+    status_code character varying(20) DEFAULT 'unmoderated'::character varying NOT NULL,
+    recorder_name character varying(50) NOT NULL,
+    rowidentifier character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
+    rowversion integer DEFAULT 0 NOT NULL,
+    change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
+    change_user character varying(50),
+    change_time timestamp without time zone DEFAULT now() NOT NULL,
+    CONSTRAINT enforce_geotype_gps_geometry CHECK (((public.geometrytype(gps_geometry) = 'POLYGON'::text) OR (gps_geometry IS NULL))),
+    CONSTRAINT enforce_geotype_mapped_geometry CHECK (((public.geometrytype(mapped_geometry) = 'POLYGON'::text) OR (mapped_geometry IS NULL))),
+    CONSTRAINT enforce_valid_gps_geometry CHECK (public.st_isvalid(gps_geometry)),
+    CONSTRAINT enforce_valid_mapped_geometry CHECK (public.st_isvalid(mapped_geometry))
+);
+
+
+ALTER TABLE opentenure.claim OWNER TO postgres;
+
+--
+-- Name: TABLE claim; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON TABLE claim IS 'Main table to store claim and claim challenge information submitted by the community recorders. SOLA Open Tenure extention.';
+
+
+--
+-- Name: COLUMN claim.id; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.id IS 'Identifier for the claim.';
+
+
+--
+-- Name: COLUMN claim.nr; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.nr IS 'Auto generated claim number. Generated by the generate-claim-nr business rule when the claim record is initially saved.';
+
+
+--
+-- Name: COLUMN claim.lodgement_date; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.lodgement_date IS 'The lodgement date and time of the claim.';
+
+
+--
+-- Name: COLUMN claim.challenge_expiry_date; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.challenge_expiry_date IS 'Expiration date when challenge claim can be submitted.';
+
+
+--
+-- Name: COLUMN claim.decision_date; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.decision_date IS 'The decision date on the claim by the authority.';
+
+
+--
+-- Name: COLUMN claim.description; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.description IS 'Free description of the claim.';
+
+
+--
+-- Name: COLUMN claim.challenged_claim_id; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.challenged_claim_id IS 'The identifier of the challenged claim. If this value is provided, it means the record is a claim challenge type.';
+
+
+--
+-- Name: COLUMN claim.claimant_id; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.claimant_id IS 'The identifier of the claimant.';
+
+
+--
+-- Name: COLUMN claim.mapped_geometry; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.mapped_geometry IS 'Claimed property geometry calculated using system SRID';
+
+
+--
+-- Name: COLUMN claim.gps_geometry; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.gps_geometry IS 'Claimed property geometry in Lat/Long format';
+
+
+--
+-- Name: COLUMN claim.status_code; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.status_code IS 'The status of the claim.';
+
+
+--
+-- Name: COLUMN claim.recorder_name; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.recorder_name IS 'User''s ID, who has created the claim.';
+
+
+--
+-- Name: COLUMN claim.rowidentifier; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.rowidentifier IS 'Identifies the all change records for the row in the claim_historic table.';
+
+
+--
+-- Name: COLUMN claim.rowversion; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.rowversion IS 'Sequential value indicating the number of times this row has been modified.';
+
+
+--
+-- Name: COLUMN claim.change_action; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.change_action IS 'Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).';
+
+
+--
+-- Name: COLUMN claim.change_user; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.change_user IS 'The user id of the last person to modify the row.';
+
+
+--
+-- Name: COLUMN claim.change_time; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.change_time IS 'The date and time the row was last modified.';
+
+
+--
+-- Name: claim_historic; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE claim_historic (
+    id character varying(40),
+    nr character varying(15),
+    lodgement_date timestamp without time zone,
+    challenge_expiry_date timestamp without time zone,
+    decision_date timestamp without time zone,
+    description character varying(250),
+    challenged_claim_id character varying(40),
+    claimant_id character varying(40) NOT NULL,
+    mapped_geometry public.geometry,
+    gps_geometry public.geometry,
+    status_code character varying(20),
+    recorder_name character varying(50),
+    rowidentifier character varying(40),
+    rowversion integer,
+    change_action character(1),
+    change_user character varying(50),
+    change_time timestamp without time zone,
+    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE opentenure.claim_historic OWNER TO postgres;
+
+--
+-- Name: TABLE claim_historic; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON TABLE claim_historic IS 'Historic table for the main table with claims opentenure.claim. Keeps all changes done to the main table.';
+
+
+--
+-- Name: claim_nr_seq; Type: SEQUENCE; Schema: opentenure; Owner: postgres
+--
+
+CREATE SEQUENCE claim_nr_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    MAXVALUE 9999
+    CACHE 1
+    CYCLE;
+
+
+ALTER TABLE opentenure.claim_nr_seq OWNER TO postgres;
+
+--
+-- Name: SEQUENCE claim_nr_seq; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON SEQUENCE claim_nr_seq IS 'Sequence number used as the basis for the claim nr field. This sequence is used by the generate-claim-nr business rule.';
+
+
+--
+-- Name: claim_status; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE claim_status (
+    code character varying(20) NOT NULL,
+    display_value character varying(500) NOT NULL,
+    status character(1) DEFAULT 't'::bpchar NOT NULL,
+    description character varying(1000)
+);
+
+
+ALTER TABLE opentenure.claim_status OWNER TO postgres;
+
+--
+-- Name: TABLE claim_status; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON TABLE claim_status IS 'Code list of claim status.';
+
+
+--
+-- Name: COLUMN claim_status.code; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_status.code IS 'The code for the claim status.';
+
+
+--
+-- Name: COLUMN claim_status.display_value; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_status.display_value IS 'Displayed value of the claim status.';
+
+
+--
+-- Name: COLUMN claim_status.status; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_status.status IS 'Status of the service claim.';
+
+
+--
+-- Name: COLUMN claim_status.description; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_status.description IS 'Description of the claim status.';
+
+
+--
+-- Name: claim_uses_attachment; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE claim_uses_attachment (
+    claim_id character varying(40) NOT NULL,
+    attachment_id character varying(40) NOT NULL,
+    rowidentifier character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
+    rowversion integer DEFAULT 0 NOT NULL,
+    change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
+    change_user character varying(50),
+    change_time timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE opentenure.claim_uses_attachment OWNER TO postgres;
+
+--
+-- Name: TABLE claim_uses_attachment; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON TABLE claim_uses_attachment IS 'Links the claim to the attachment submitted with the claim. SOLA Open Tenure extension.';
+
+
+--
+-- Name: COLUMN claim_uses_attachment.claim_id; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_uses_attachment.claim_id IS 'Identifier for the claim the record is associated to.';
+
+
+--
+-- Name: COLUMN claim_uses_attachment.attachment_id; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_uses_attachment.attachment_id IS 'Identifier of the attachment associated to the claim.';
+
+
+--
+-- Name: COLUMN claim_uses_attachment.rowidentifier; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_uses_attachment.rowidentifier IS 'Unique row identifier.';
+
+
+--
+-- Name: COLUMN claim_uses_attachment.rowversion; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_uses_attachment.rowversion IS 'Sequential value indicating the number of times this row has been modified.';
+
+
+--
+-- Name: COLUMN claim_uses_attachment.change_action; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_uses_attachment.change_action IS 'Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).';
+
+
+--
+-- Name: COLUMN claim_uses_attachment.change_user; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_uses_attachment.change_user IS 'The user id of the last person to modify the row.';
+
+
+--
+-- Name: COLUMN claim_uses_attachment.change_time; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_uses_attachment.change_time IS 'The date and time the row was last modified.';
+
+
+--
+-- Name: claim_uses_attachment_historic; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE claim_uses_attachment_historic (
+    claim_id character varying(40),
+    attachment_id character varying(40),
+    rowidentifier character varying(40),
+    rowversion integer NOT NULL,
+    change_action character(1),
+    change_user character varying(50),
+    change_time timestamp without time zone,
+    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE opentenure.claim_uses_attachment_historic OWNER TO postgres;
+
+--
+-- Name: TABLE claim_uses_attachment_historic; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON TABLE claim_uses_attachment_historic IS 'Historic table for opentenure.claim_uses_attachment. Keeps all changes done to the main table.';
+
+
+--
+-- Name: claimant; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE claimant (
+    id character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
+    name character varying(255) NOT NULL,
+    last_name character varying(50),
+    id_type_code character varying(20),
+    id_number character varying(20),
+    birth_date date,
+    gender_code character varying(20),
+    mobile_phone character varying(15),
+    phone character varying(15),
+    email character varying(50),
+    address character varying(255),
+	user_name character varying(50) NOT NULL,
+    rowidentifier character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
+    rowversion integer DEFAULT 0 NOT NULL,
+    change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
+    change_user character varying(50),
+    change_time timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE opentenure.claimant OWNER TO postgres;
+
+--
+-- Name: TABLE claimant; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON TABLE claimant IS 'Extension to the LADM used by SOLA to store claimant information.';
+
+
+--
+-- Name: COLUMN claimant.id; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claimant.id IS 'Unique identifier for the claimant.';
+
+
+--
+-- Name: COLUMN claimant.name; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claimant.name IS 'First name of claimant.';
+
+
+--
+-- Name: COLUMN claimant.last_name; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claimant.last_name IS 'Last name of claimant.';
+
+
+--
+-- Name: COLUMN claimant.id_type_code; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claimant.id_type_code IS 'ID document type code';
+
+
+--
+-- Name: COLUMN claimant.id_number; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claimant.id_number IS 'ID document number.';
+
+
+--
+-- Name: COLUMN claimant.birth_date; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claimant.birth_date IS 'Date of birth of the claimant.';
+
+
+--
+-- Name: COLUMN claimant.gender_code; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claimant.gender_code IS 'Gender code of the claimant.';
+
+
+--
+-- Name: COLUMN claimant.mobile_phone; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claimant.mobile_phone IS 'Mobile phone number of the claimant.';
+
+
+--
+-- Name: COLUMN claimant.phone; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claimant.phone IS 'Landline phone number of the claimant.';
+
+
+--
+-- Name: COLUMN claimant.email; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claimant.email IS 'Email address of the claimant.';
+
+
+--
+-- Name: COLUMN claimant.address; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claimant.address IS 'Living address of the claimant.';
+
+
+--
+-- Name: COLUMN claimant.rowidentifier; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claimant.rowidentifier IS 'Identifies the all change records for the row in the document_historic table';
+
+
+--
+-- Name: COLUMN claimant.rowversion; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claimant.rowversion IS 'Sequential value indicating the number of times this row has been modified.';
+
+
+--
+-- Name: COLUMN claimant.change_action; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claimant.change_action IS 'Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).';
+
+
+--
+-- Name: COLUMN claimant.change_user; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claimant.change_user IS 'The user id of the last person to modify the row.';
+
+
+--
+-- Name: COLUMN claimant.change_time; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claimant.change_time IS 'The date and time the row was last modified.';
+
+
+--
+-- Name: COLUMN claimant.user_name; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claimant.user_name IS 'User name who has created the record.';
+
+
+--
+-- Name: claimant_historic; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE claimant_historic (
+    id character varying(40),
+    name character varying(255),
+    last_name character varying(50),
+    id_type_code character varying(20),
+    id_number character varying(20),
+    birth_date date,
+    gender_code character varying(20),
+    mobile_phone character varying(15),
+    phone character varying(15),
+    email character varying(50),
+    address character varying(255),
+	user_name character varying(50),
+    rowidentifier character varying(40),
+    rowversion integer DEFAULT 0 NOT NULL,
+    change_action character(1),
+    change_user character varying(50),
+    change_time timestamp without time zone,
+    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE opentenure.claimant_historic OWNER TO postgres;
+
+--
+-- Name: TABLE claimant_historic; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON TABLE claimant_historic IS 'Historic table for opentenure.claimant. Keeps all changes done to the main table.';
+
+
 SET search_path = party, pg_catalog;
 
 --
@@ -13761,6 +14596,72 @@ ALTER TABLE ONLY document
     ADD CONSTRAINT document_pkey PRIMARY KEY (id);
 
 
+SET search_path = opentenure, pg_catalog;
+
+--
+-- Name: attachment_pkey; Type: CONSTRAINT; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY attachment
+    ADD CONSTRAINT attachment_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: claim_pkey; Type: CONSTRAINT; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY claim
+    ADD CONSTRAINT claim_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: claim_status_display_value_unique; Type: CONSTRAINT; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY claim_status
+    ADD CONSTRAINT claim_status_display_value_unique UNIQUE (display_value);
+
+
+--
+-- Name: claim_status_pkey; Type: CONSTRAINT; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY claim_status
+    ADD CONSTRAINT claim_status_pkey PRIMARY KEY (code);
+
+
+--
+-- Name: claim_uses_attachment_pkey; Type: CONSTRAINT; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY claim_uses_attachment
+    ADD CONSTRAINT claim_uses_attachment_pkey PRIMARY KEY (claim_id, attachment_id);
+
+
+--
+-- Name: claimant_pkey; Type: CONSTRAINT; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY claimant
+    ADD CONSTRAINT claimant_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: id_pkey_document_chunk; Type: CONSTRAINT; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY attachment_chunk
+    ADD CONSTRAINT id_pkey_document_chunk PRIMARY KEY (id);
+
+
+--
+-- Name: start_unique_document_chunk; Type: CONSTRAINT; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY attachment_chunk
+    ADD CONSTRAINT start_unique_document_chunk UNIQUE (attachment_id, start_position);
+
+
 SET search_path = party, pg_catalog;
 
 --
@@ -16620,6 +17521,64 @@ CREATE TRIGGER __track_changes BEFORE INSERT OR UPDATE ON document FOR EACH ROW 
 CREATE TRIGGER __track_history AFTER DELETE OR UPDATE ON document FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_history();
 
 
+SET search_path = opentenure, pg_catalog;
+
+--
+-- Name: __track_changes; Type: TRIGGER; Schema: opentenure; Owner: postgres
+--
+
+CREATE TRIGGER __track_changes BEFORE INSERT OR UPDATE ON claimant FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_changes();
+
+
+--
+-- Name: __track_changes; Type: TRIGGER; Schema: opentenure; Owner: postgres
+--
+
+CREATE TRIGGER __track_changes BEFORE INSERT OR UPDATE ON claim FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_changes();
+
+
+--
+-- Name: __track_changes; Type: TRIGGER; Schema: opentenure; Owner: postgres
+--
+
+CREATE TRIGGER __track_changes BEFORE INSERT OR UPDATE ON attachment FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_changes();
+
+
+--
+-- Name: __track_changes; Type: TRIGGER; Schema: opentenure; Owner: postgres
+--
+
+CREATE TRIGGER __track_changes BEFORE INSERT OR UPDATE ON claim_uses_attachment FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_changes();
+
+
+--
+-- Name: __track_history; Type: TRIGGER; Schema: opentenure; Owner: postgres
+--
+
+CREATE TRIGGER __track_history AFTER DELETE OR UPDATE ON claimant FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_history();
+
+
+--
+-- Name: __track_history; Type: TRIGGER; Schema: opentenure; Owner: postgres
+--
+
+CREATE TRIGGER __track_history AFTER DELETE OR UPDATE ON claim FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_history();
+
+
+--
+-- Name: __track_history; Type: TRIGGER; Schema: opentenure; Owner: postgres
+--
+
+CREATE TRIGGER __track_history AFTER DELETE OR UPDATE ON attachment FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_history();
+
+
+--
+-- Name: __track_history; Type: TRIGGER; Schema: opentenure; Owner: postgres
+--
+
+CREATE TRIGGER __track_history AFTER DELETE OR UPDATE ON claim_uses_attachment FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_history();
+
+
 SET search_path = party, pg_catalog;
 
 --
@@ -17549,6 +18508,48 @@ ALTER TABLE ONLY spatial_value_area
 
 ALTER TABLE ONLY survey_point
     ADD CONSTRAINT survey_point_transaction_id_fk99 FOREIGN KEY (transaction_id) REFERENCES transaction.transaction(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+SET search_path = opentenure, pg_catalog;
+
+--
+-- Name: claim_claimant_id_fk8; Type: FK CONSTRAINT; Schema: opentenure; Owner: postgres
+--
+
+ALTER TABLE ONLY claim
+    ADD CONSTRAINT claim_claimant_id_fk8 FOREIGN KEY (claimant_id) REFERENCES claimant(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- Name: claim_status_code_fk18; Type: FK CONSTRAINT; Schema: opentenure; Owner: postgres
+--
+
+ALTER TABLE ONLY claim
+    ADD CONSTRAINT claim_status_code_fk18 FOREIGN KEY (status_code) REFERENCES claim_status(code) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- Name: claim_uses_attachment_claim_id_fk126; Type: FK CONSTRAINT; Schema: opentenure; Owner: postgres
+--
+
+ALTER TABLE ONLY claim_uses_attachment
+    ADD CONSTRAINT claim_uses_attachment_claim_id_fk126 FOREIGN KEY (claim_id) REFERENCES claim(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: fk_challenged_claim; Type: FK CONSTRAINT; Schema: opentenure; Owner: postgres
+--
+
+ALTER TABLE ONLY claim
+    ADD CONSTRAINT fk_challenged_claim FOREIGN KEY (challenged_claim_id) REFERENCES claim(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- Name: source_type_code_fk3; Type: FK CONSTRAINT; Schema: opentenure; Owner: postgres
+--
+
+ALTER TABLE ONLY attachment
+    ADD CONSTRAINT source_type_code_fk3 FOREIGN KEY (type_code) REFERENCES source.administrative_source_type(code) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 SET search_path = party, pg_catalog;
