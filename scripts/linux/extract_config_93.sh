@@ -68,6 +68,7 @@ $pg_dump -h $host -p $port -U $username -d $dbname -a -b -F p \
 	-t cadastre.structure_type -t cadastre.surface_relation_type \
 	-t cadastre.utility_network_status_type -t cadastre.utility_network_type \
 	-t cadastre.cadastre_object_type -t party.communication_type \
+	-t opentenure.claim_status \
 	-t party.gender_type -t party.group_party_type \
 	-t party.id_type -t party.party_type \
 	-t party.party_role_type -t source.administrative_source_type \

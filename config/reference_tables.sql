@@ -3,7 +3,6 @@
 --
 
 SET statement_timeout = 0;
-SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -449,6 +448,21 @@ INSERT INTO utility_network_type (code, display_value, description, status) VALU
 
 
 ALTER TABLE utility_network_type ENABLE TRIGGER ALL;
+
+SET search_path = opentenure, pg_catalog;
+
+--
+-- Data for Name: claim_status; Type: TABLE DATA; Schema: opentenure; Owner: postgres
+--
+
+ALTER TABLE claim_status DISABLE TRIGGER ALL;
+
+INSERT INTO claim_status (code, display_value, status, description) VALUES ('unmoderated', 'Un-moderated', 'i', '');
+INSERT INTO claim_status (code, display_value, status, description) VALUES ('challenged', 'Challenged', 'i', '');
+INSERT INTO claim_status (code, display_value, status, description) VALUES ('moderated', 'Moderated', 'i', '');
+
+
+ALTER TABLE claim_status ENABLE TRIGGER ALL;
 
 SET search_path = party, pg_catalog;
 
