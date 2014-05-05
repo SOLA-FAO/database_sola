@@ -188,8 +188,8 @@ CREATE TABLE opentenure.claim
   CONSTRAINT claim_status_code_fk18 FOREIGN KEY (status_code)
       REFERENCES opentenure.claim_status (code) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE RESTRICT,
-  CONSTRAINT enforce_geotype_mapped_geometry CHECK (geometrytype(mapped_geometry) = 'POLYGON'::text OR mapped_geometry IS NULL),
-  CONSTRAINT enforce_geotype_gps_geometry CHECK (geometrytype(gps_geometry) = 'POLYGON'::text OR gps_geometry IS NULL),
+  CONSTRAINT enforce_geotype_mapped_geometry CHECK (geometrytype(mapped_geometry) = 'POLYGON'::text OR geometrytype(mapped_geometry) = 'POINT'::text OR mapped_geometry IS NULL),
+  CONSTRAINT enforce_geotype_gps_geometry CHECK (geometrytype(gps_geometry) = 'POLYGON'::text OR geometrytype(gps_geometry) = 'POINT'::text OR gps_geometry IS NULL),
   CONSTRAINT enforce_valid_mapped_geometry CHECK (st_isvalid(mapped_geometry)),
   CONSTRAINT enforce_valid_gps_geometry CHECK (st_isvalid(gps_geometry))
 )
