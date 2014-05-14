@@ -1,5 +1,5 @@
 ﻿-- Table: "system".config_map_layer_metadata
- DROP TABLE "system".config_map_layer_metadata;
+ --DROP TABLE "system".config_map_layer_metadata;
 
 CREATE TABLE "system".config_map_layer_metadata
 (
