@@ -1,8 +1,7 @@
-
+﻿
 INSERT INTO system.version SELECT '1402a' WHERE NOT EXISTS (SELECT version_num FROM system.version WHERE version_num = '1402a');
 
 
-﻿---
 -- Data not applicable gender
 ----
 
