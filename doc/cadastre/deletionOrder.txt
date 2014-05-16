@@ -13,6 +13,7 @@ legal_space_utility_network
 spatial_value_area
 spatial_unit_in_group
 spatial_unit_address
+level_config_map_layer
 cadastre_object_target
 survey_point
 cadastre_object_node_target

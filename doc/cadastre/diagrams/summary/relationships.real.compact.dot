@@ -1,4 +1,4 @@
-// dot 2.36.0 on Windows 7 6.1
+// dot 2.36.0 on Windows 8 6.2
 // SchemaSpy rev 590
 digraph "compactRelationshipsDiagram" {
   graph [
@@ -161,6 +161,17 @@ digraph "compactRelationshipsDiagram" {
     URL="tables/cadastre_object_type.html"
     tooltip="cadastre_object_type"
   ];
+  "system.config_map_layer" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">system.config_map_layer</TD></TR>
+      <TR><TD PORT="name" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">name</TD></TR>
+      <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
+    </TABLE>>
+    URL="tables/../../system/tables/config_map_layer.html"
+    tooltip="system.config_map_layer"
+  ];
   "dimension_type" [
     label=<
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
@@ -210,10 +221,21 @@ digraph "compactRelationshipsDiagram" {
       <TR><TD PORT="type_code" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">type_code</TD></TR>
       <TR><TD PORT="rowidentifier" COLSPAN="3" BGCOLOR="#c0c0c0" ALIGN="LEFT">rowidentifier</TD></TR>
       <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 3</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 3</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 &gt;</TD></TR>
     </TABLE>>
     URL="tables/level.html"
     tooltip="level"
+  ];
+  "level_config_map_layer" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">level_config_map_layer</TD></TR>
+      <TR><TD PORT="level_id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">level_id</TD></TR>
+      <TR><TD PORT="config_map_layer_name" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">config_map_layer_name</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 2</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
+    </TABLE>>
+    URL="tables/level_config_map_layer.html"
+    tooltip="level_config_map_layer"
   ];
   "level_content_type" [
     label=<
@@ -428,6 +450,8 @@ digraph "compactRelationshipsDiagram" {
   "level":"register_type_code":w -> "register_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "level":"structure_code":w -> "structure_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "level":"type_code":w -> "level_content_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
+  "level_config_map_layer":"config_map_layer_name":w -> "system.config_map_layer":"name":e [arrowhead=none dir=back arrowtail=crowodot];
+  "level_config_map_layer":"level_id":w -> "level":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "spatial_unit":"dimension_code":w -> "dimension_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "spatial_unit":"land_use_code":w -> "land_use_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "spatial_unit":"level_id":w -> "level":"id":e [arrowhead=none dir=back arrowtail=crowodot];

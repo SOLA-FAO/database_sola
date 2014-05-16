@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<database name="sola" schema="public" type="PostgreSQL - 9.2.3">
+<database name="sola" schema="public" type="PostgreSQL - 9.3.2">
    <tables>
       <table name="Function: clean_db" remarks="This function will delete any table or function from the database that does not belong to the standard postgis template." schema="public" type="TABLE"/>
       <table name="Function: clean_db_foreign_constraints" remarks="Drops all foreign key constraints from the database." schema="public" type="TABLE"/>

@@ -16,6 +16,7 @@ spatial_unit_group
 cadastre_object_node_target
 survey_point
 cadastre_object_target
+level_config_map_layer
 spatial_unit_address
 spatial_unit_in_group
 spatial_value_area

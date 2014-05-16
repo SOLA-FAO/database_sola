@@ -2,7 +2,7 @@
 <html>
 <head>
   <!-- SchemaSpy rev 590 -->
-  <title>SchemaSpy - Table sola_original.source.administrative_source_type</title>
+  <title>SchemaSpy - Table sola.source.administrative_source_type</title>
   <link rel=stylesheet href='../schemaSpy.css' type='text/css'>
   <meta HTTP-EQUIV='Content-Type' CONTENT='text/html; charset=ISO-8859-1'>
   <SCRIPT LANGUAGE='JavaScript' TYPE='text/javascript' SRC='../jquery.js'></SCRIPT>
@@ -29,7 +29,7 @@
 <div class='content' style='clear:both;'>
 <table width='100%' border='0' cellpadding='0'>
  <tr>
-  <td class='heading' valign='middle'><span class='header'>Table <span title='Database'>sola_original</span>.<span title='Schema'>source</span>.<span title='Table'>administrative_source_type</span></span><div style='padding: 0px 4px;'>Code list of administrative source types. Used by SOLA to identify document types.<br>
+  <td class='heading' valign='middle'><span class='header'>Table <span title='Database'>sola</span>.<span title='Schema'>source</span>.<span title='Table'>administrative_source_type</span></span><div style='padding: 0px 4px;'>Code list of administrative source types. Used by SOLA to identify document types.<br>
 Implementation of the LADM LA_AdministrativeSourceType class.<br>
 Tags: Reference Table, LADM Reference Object</div><p>
 </td>
@@ -115,6 +115,12 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
    <tr class='relative odd' valign='top'>
+    <td class='relatedTable detail' title="attachment.type_code refs administrative_source_type.code via source_type_code_fk3"><a href='../../opentenure/tables/attachment.html'>attachment</a><span class='relatedKey'>.type_code</span>
+    </td>
+    <td class='constraint detail'>source_type_code_fk3<span title='Restrict delete:
+ Parent cannot be deleted if children exist'>&nbsp;R</span></td>
+   </tr>
+   <tr class='relative odd' valign='top'>
     <td class='relatedTable detail' title="request_type_requires_source_type.source_type_code refs administrative_source_type.code via request_type_requires_source_type_source_type_code_fk128"><a href='../../application/tables/request_type_requires_source_type.html'>request_type_requires_source_type</a><span class='relatedKey'>.source_type_code</span>
     </td>
     <td class='constraint detail'>request_type_requires_source_type_source_type_code_fk128<span title='Cascade on delete:
@@ -176,7 +182,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='comment detail'>SOLA Extension: Flag that identifies whether documents of this type must be formally registered in SOLA before they can be used in rights registration. E.g. Power of Attorney documents must be registered in SOLA before they can be associated with transfer transactions, etc.</td>
 </tr>
 </table>
-<p title='5 columns'>Analyzed at ?? ??? 16 12:16 ALMT 2014<p/>
+<p title='5 columns'>Analyzed at za mei 17 01:13 CEST 2014<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
@@ -208,57 +214,59 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 <br><form action='get'><b>Close relationships</b><span class='degrees' id='degrees' title='Detail diminishes with increased separation from administrative_source_type'>
 &nbsp;within <label for='oneDegree'><input type='radio' name='degrees' id='oneDegree' checked>one</label>  <label for='twoDegrees'><input type='radio' name='degrees' id='twoDegrees'>two degrees</label> of separation</span><b>:</b></form>
 <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="../../application/tables/request_type_requires_source_type.html" title="application.request_type_requires_source_type" alt="" coords="301,5,638,113">
-<area shape="rect" id="node2" href="administrative_source_type.html" title="administrative_source_type" alt="" coords="5,197,256,382">
-<area shape="rect" id="node3" href="source.html" title="source" alt="" coords="377,130,561,766">
+<area shape="rect" id="node1" href="../../opentenure/tables/attachment.html" title="opentenure.attachment" alt="" coords="379,5,560,449">
+<area shape="rect" id="node2" href="administrative_source_type.html" title="administrative_source_type" alt="" coords="5,463,256,649">
+<area shape="rect" id="node3" href="../../application/tables/request_type_requires_source_type.html" title="application.request_type_requires_source_type" alt="" coords="301,466,638,574">
+<area shape="rect" id="node4" href="source.html" title="source" alt="" coords="377,591,561,1227">
 </map>
   <a name='diagram'><img id='oneDegreeImg' src='../diagrams/administrative_source_type.1degree.png' usemap='#oneDegreeRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="../../application/tables/application_uses_source.html" title="application.application_uses_source" alt="" coords="699,5,965,89">
-<area shape="rect" id="node2" href="source.html" title="source" alt="" coords="377,258,561,894">
-<area shape="rect" id="node5" href="administrative_source_type.html" title="administrative_source_type" alt="" coords="5,295,256,481">
-<area shape="rect" id="node6" href="archive.html" title="archive" alt="" coords="87,194,174,278">
-<area shape="rect" id="node7" href="availability_status_type.html" title="availability_status_type" alt="" coords="41,498,221,582">
-<area shape="rect" id="node8" href="presentation_form_type.html" title="presentation_form_type" alt="" coords="39,93,223,177">
-<area shape="rect" id="node9" href="../../transaction/tables/reg_status_type.html" title="transaction.reg_status_type" alt="" coords="25,599,237,683">
-<area shape="rect" id="node10" href="../../transaction/tables/transaction.html" title="transaction.transaction" alt="" coords="41,701,221,785">
-<area shape="rect" id="node3" href="power_of_attorney.html" title="power_of_attorney" alt="" coords="756,106,908,190">
-<area shape="rect" id="node4" href="../../application/tables/request_type_requires_source_type.html" title="application.request_type_requires_source_type" alt="" coords="301,133,638,241">
-<area shape="rect" id="node11" href="../../administrative/tables/source_describes_ba_unit.html" title="administrative.source_describes_ba_unit" alt="" coords="683,207,981,291">
-<area shape="rect" id="node12" href="../../administrative/tables/source_describes_rrr.html" title="administrative.source_describes_rrr" alt="" coords="699,309,965,393">
-<area shape="rect" id="node13" href="spatial_source.html" title="spatial_source" alt="" coords="769,410,895,494">
-<area shape="rect" id="node14" href="../../transaction/tables/transaction_source.html" title="transaction.transaction_source" alt="" coords="716,511,948,595">
+<area shape="rect" id="node1" href="../../application/tables/application_uses_source.html" title="application.application_uses_source" alt="" coords="699,338,965,422">
+<area shape="rect" id="node2" href="source.html" title="source" alt="" coords="377,591,561,1227">
+<area shape="rect" id="node4" href="administrative_source_type.html" title="administrative_source_type" alt="" coords="5,151,256,337">
+<area shape="rect" id="node7" href="archive.html" title="archive" alt="" coords="87,694,174,778">
+<area shape="rect" id="node8" href="availability_status_type.html" title="availability_status_type" alt="" coords="41,802,221,886">
+<area shape="rect" id="node9" href="presentation_form_type.html" title="presentation_form_type" alt="" coords="39,593,223,677">
+<area shape="rect" id="node10" href="../../transaction/tables/reg_status_type.html" title="transaction.reg_status_type" alt="" coords="25,903,237,987">
+<area shape="rect" id="node11" href="../../transaction/tables/transaction.html" title="transaction.transaction" alt="" coords="41,1005,221,1089">
+<area shape="rect" id="node3" href="../../opentenure/tables/attachment.html" title="opentenure.attachment" alt="" coords="379,130,560,574">
+<area shape="rect" id="node5" href="power_of_attorney.html" title="power_of_attorney" alt="" coords="756,439,908,523">
+<area shape="rect" id="node6" href="../../application/tables/request_type_requires_source_type.html" title="application.request_type_requires_source_type" alt="" coords="301,5,638,113">
+<area shape="rect" id="node12" href="../../administrative/tables/source_describes_ba_unit.html" title="administrative.source_describes_ba_unit" alt="" coords="683,541,981,625">
+<area shape="rect" id="node13" href="../../administrative/tables/source_describes_rrr.html" title="administrative.source_describes_rrr" alt="" coords="699,642,965,726">
+<area shape="rect" id="node14" href="spatial_source.html" title="spatial_source" alt="" coords="769,743,895,827">
+<area shape="rect" id="node15" href="../../transaction/tables/transaction_source.html" title="transaction.transaction_source" alt="" coords="716,845,948,929">
 </map>
 
   <a name='diagram'><img id='twoDegreesImg' src='../diagrams/administrative_source_type.2degrees.png' usemap='#twoDegreesRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 </td></tr></table>
 <span class='excludedRelationship'>
 <br>Excluded from diagram's relationships: 
-<a href="../tables/spatial_source_measurement.html">spatial_source_measurement.change_user</a>&nbsp;
-<a href="../tables/power_of_attorney.html">power_of_attorney.rowversion</a>&nbsp;
-<a href="../tables/power_of_attorney.html">power_of_attorney.change_time</a>&nbsp;
-<a href="../tables/power_of_attorney.html">power_of_attorney.change_action</a>&nbsp;
-<a href="../tables/power_of_attorney.html">power_of_attorney.rowidentifier</a>&nbsp;
-<a href="../tables/spatial_source.html">spatial_source.rowversion</a>&nbsp;
-<a href="../tables/archive.html">archive.change_user</a>&nbsp;
-<a href="../tables/spatial_source.html">spatial_source.change_action</a>&nbsp;
-<a href="../tables/source.html">source.change_time</a>&nbsp;
-<a href="../tables/power_of_attorney.html">power_of_attorney.change_user</a>&nbsp;
-<a href="../tables/archive.html">archive.rowversion</a>&nbsp;
-<a href="../tables/spatial_source.html">spatial_source.rowidentifier</a>&nbsp;
-<a href="../tables/source.html">source.change_action</a>&nbsp;
 <a href="../tables/archive.html">archive.change_action</a>&nbsp;
+<a href="../tables/source.html">source.change_time</a>&nbsp;
+<a href="../tables/archive.html">archive.change_time</a>&nbsp;
+<a href="../tables/spatial_source_measurement.html">spatial_source_measurement.change_time</a>&nbsp;
+<a href="../tables/power_of_attorney.html">power_of_attorney.change_time</a>&nbsp;
 <a href="../tables/source.html">source.rowidentifier</a>&nbsp;
 <a href="../tables/spatial_source_measurement.html">spatial_source_measurement.rowidentifier</a>&nbsp;
-<a href="../tables/spatial_source.html">spatial_source.change_user</a>&nbsp;
-<a href="../tables/archive.html">archive.change_time</a>&nbsp;
+<a href="../tables/power_of_attorney.html">power_of_attorney.change_user</a>&nbsp;
+<a href="../tables/power_of_attorney.html">power_of_attorney.change_action</a>&nbsp;
 <a href="../tables/archive.html">archive.rowidentifier</a>&nbsp;
-<a href="../tables/spatial_source_measurement.html">spatial_source_measurement.change_action</a>&nbsp;
-<a href="../tables/spatial_source.html">spatial_source.change_time</a>&nbsp;
 <a href="../tables/source.html">source.rowversion</a>&nbsp;
-<a href="../tables/source.html">source.change_user</a>&nbsp;
-<a href="../tables/spatial_source_measurement.html">spatial_source_measurement.change_time</a>&nbsp;
+<a href="../tables/archive.html">archive.change_user</a>&nbsp;
+<a href="../tables/power_of_attorney.html">power_of_attorney.rowidentifier</a>&nbsp;
+<a href="../tables/archive.html">archive.rowversion</a>&nbsp;
+<a href="../tables/power_of_attorney.html">power_of_attorney.rowversion</a>&nbsp;
+<a href="../tables/spatial_source_measurement.html">spatial_source_measurement.change_user</a>&nbsp;
 <a href="../tables/spatial_source_measurement.html">spatial_source_measurement.rowversion</a>&nbsp;
+<a href="../tables/spatial_source.html">spatial_source.change_time</a>&nbsp;
+<a href="../tables/source.html">source.change_user</a>&nbsp;
+<a href="../tables/source.html">source.change_action</a>&nbsp;
+<a href="../tables/spatial_source.html">spatial_source.rowidentifier</a>&nbsp;
+<a href="../tables/spatial_source.html">spatial_source.change_action</a>&nbsp;
+<a href="../tables/spatial_source.html">spatial_source.rowversion</a>&nbsp;
+<a href="../tables/spatial_source.html">spatial_source.change_user</a>&nbsp;
+<a href="../tables/spatial_source_measurement.html">spatial_source_measurement.change_action</a>&nbsp;
 </span>
 </div>
 </body>

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<database name="sola" schema="source" type="PostgreSQL - 9.2.3">
+<database name="sola" schema="source" type="PostgreSQL - 9.3.2">
    <tables>
-      <table name="administrative_source_type" remarks="Code list of administrative source types. Used by SOLA to identify document types.&#10;Implementation of the LADM LA_AdministrativeSourceType class.&#10;Tags: Reference Table, LADM Reference Object" schema="source" type="TABLE">
+      <table name="administrative_source_type" remarks="Code list of administrative source types. Used by SOLA to identify document types.&#13;&#10;Implementation of the LADM LA_AdministrativeSourceType class.&#13;&#10;Tags: Reference Table, LADM Reference Object" schema="source" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="LADM Definition: The code for the administrative source type." size="20" type="varchar">
+            <child column="type_code" foreignKey="source_type_code_fk3" implied="false" onDeleteCascade="false" table="attachment"/>
             <child column="source_type_code" foreignKey="request_type_requires_source_type_source_type_code_fk128" implied="false" onDeleteCascade="true" table="request_type_requires_source_type"/>
             <child column="type_code" foreignKey="source_type_code_fk3" implied="false" onDeleteCascade="false" table="source"/>
          </column>
@@ -18,7 +19,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="archive" remarks="Represents an archive where collections of physical documents may be kept such as a filing cabinet, library or storage unit. May also refer to digital archives if applicable. &#10;Tags: FLOSS SOLA Extension, Change History" schema="source" type="TABLE">
+      <table name="archive" remarks="Represents an archive where collections of physical documents may be kept such as a filing cabinet, library or storage unit. May also refer to digital archives if applicable. &#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="source" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="Identifier for the archive." size="40" type="varchar">
             <child column="archive_id" foreignKey="source_archive_id_fk0" implied="false" onDeleteCascade="false" table="source"/>
          </column>
@@ -36,7 +37,7 @@
             <column ascending="true" name="rowidentifier"/>
          </index>
       </table>
-      <table name="availability_status_type" remarks="Code list of availability status types. Indicates if a  document is available, archived, destroyed or incomplete. Implementation of the LADM LA_AvailabilityStatusType class.&#10;Tags: Reference Table, LADM Reference Object" schema="source" type="TABLE">
+      <table name="availability_status_type" remarks="Code list of availability status types. Indicates if a  document is available, archived, destroyed or incomplete. Implementation of the LADM LA_AvailabilityStatusType class.&#13;&#10;Tags: Reference Table, LADM Reference Object" schema="source" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="LADM Definition: The code for the availability status type." size="20" type="varchar">
             <child column="availability_status_code" foreignKey="source_availability_status_code_fk2" implied="false" onDeleteCascade="false" table="source"/>
          </column>
@@ -51,7 +52,7 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
-      <table name="power_of_attorney" remarks="An extension of the soure.source table that captures details for power of attorney documents. &#10;Tags: FLOSS SOLA Extension, Change History" schema="source" type="TABLE">
+      <table name="power_of_attorney" remarks="An extension of the soure.source table that captures details for power of attorney documents. &#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="source" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="Identifier for the power of attorney record. Matches the source identifier for the power of attorney record." size="40" type="varchar">
             <parent column="id" foreignKey="power_of_attorney_id_fk31" implied="false" onDeleteCascade="true" table="source"/>
          </column>
@@ -73,7 +74,7 @@
             <column ascending="true" name="rowidentifier"/>
          </index>
       </table>
-      <table name="presentation_form_type" remarks="Code list of presentation form types. Indicates the original format of the document when presented to the land office (e.g. Hardcopy, digital, image, video, etc). Implementation of the LADM CI_PresentationFormCode class.&#10;Tags: Reference Table, LADM Reference Object" schema="source" type="TABLE">
+      <table name="presentation_form_type" remarks="Code list of presentation form types. Indicates the original format of the document when presented to the land office (e.g. Hardcopy, digital, image, video, etc). Implementation of the LADM CI_PresentationFormCode class.&#13;&#10;Tags: Reference Table, LADM Reference Object" schema="source" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="LADM Definition: The code for the presentation form type." size="20" type="varchar">
             <child column="maintype" foreignKey="source_maintype_fk1" implied="false" onDeleteCascade="false" table="source"/>
          </column>
@@ -89,7 +90,7 @@
          </index>
       </table>
       <table name="Sequence: source_la_nr_seq" remarks="Sequence number used as the basis for the Source nr field. This sequence is used by the generate-source-nr business rule." schema="source" type="TABLE"/>
-      <table name="source" remarks="Represents metadata about documents or recognised facts that provide the basis for the recording of a registration, cadastre change, right, responsibility or administrative action by the land office. Implementation of the LADM LA_Source class.&#10;Tags: LADM Reference Object, Change History" schema="source" type="TABLE">
+      <table name="source" remarks="Represents metadata about documents or recognised facts that provide the basis for the recording of a registration, cadastre change, right, responsibility or administrative action by the land office. Implementation of the LADM LA_Source class.&#13;&#10;Tags: LADM Reference Object, Change History" schema="source" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="LADM Definition: Source identifier." size="40" type="varchar">
             <child column="source_id" foreignKey="application_uses_source_source_id_fk127" implied="false" onDeleteCascade="true" table="application_uses_source"/>
             <child column="id" foreignKey="power_of_attorney_id_fk31" implied="false" onDeleteCascade="true" table="power_of_attorney"/>
@@ -159,7 +160,7 @@
             <column ascending="true" name="type_code"/>
          </index>
       </table>
-      <table name="spatial_source" remarks="A spatial source may be the final (sometimes formal) documents, or all documents related to a survey. Sometimes serveral documents are the result of a single survey. A spatial source may be official or not (i.e. a registered survey plan or an aerial photograph). Implementation of the LADM LA_Source class. Not used by SOLA.&#10;Tags: LADM Reference Object, Change History, Not Used" schema="source" type="TABLE">
+      <table name="spatial_source" remarks="A spatial source may be the final (sometimes formal) documents, or all documents related to a survey. Sometimes serveral documents are the result of a single survey. A spatial source may be official or not (i.e. a registered survey plan or an aerial photograph). Implementation of the LADM LA_Source class. Not used by SOLA.&#13;&#10;Tags: LADM Reference Object, Change History, Not Used" schema="source" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="LADM Definition: Spatial source identifier." size="40" type="varchar">
             <child column="spatial_source_id" foreignKey="spatial_source_measurement_spatial_source_id_fk30" implied="false" onDeleteCascade="true" table="spatial_source_measurement"/>
             <parent column="id" foreignKey="spatial_source_id_fk28" implied="false" onDeleteCascade="true" table="source"/>
@@ -187,7 +188,7 @@
             <column ascending="true" name="type_code"/>
          </index>
       </table>
-      <table name="spatial_source_measurement" remarks="The observations and measurements as a basis of mapping, and as a basis for historical reconstruction of the location of (parts of) the spatial unit in the field. Implementation of the LADM OM_Observation class. Not used by SOLA.&#10;Tags: LADM Reference Object, Change History, Not Used" schema="source" type="TABLE">
+      <table name="spatial_source_measurement" remarks="The observations and measurements as a basis of mapping, and as a basis for historical reconstruction of the location of (parts of) the spatial unit in the field. Implementation of the LADM OM_Observation class. Not used by SOLA.&#13;&#10;Tags: LADM Reference Object, Change History, Not Used" schema="source" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="spatial_source_id" nullable="false" remarks="LADM Definition: Spatial source identifier." size="40" type="varchar">
             <parent column="id" foreignKey="spatial_source_measurement_spatial_source_id_fk30" implied="false" onDeleteCascade="true" table="spatial_source"/>
          </column>
@@ -210,7 +211,7 @@
             <column ascending="true" name="spatial_source_id"/>
          </index>
       </table>
-      <table name="spatial_source_type" remarks="Code list of spatial source types. Implementation of the LADM LA_SpatialSourceType class. Not used by SOLA.&#10;Tags: Reference Table, LADM Reference Object, Not Used" schema="source" type="TABLE">
+      <table name="spatial_source_type" remarks="Code list of spatial source types. Implementation of the LADM LA_SpatialSourceType class. Not used by SOLA.&#13;&#10;Tags: Reference Table, LADM Reference Object, Not Used" schema="source" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="LADM Definition: The code for the spatial source type." size="20" type="varchar">
             <child column="type_code" foreignKey="spatial_source_type_code_fk29" implied="false" onDeleteCascade="false" table="spatial_source"/>
          </column>
