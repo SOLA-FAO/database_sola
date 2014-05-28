@@ -10319,6 +10319,7 @@ CREATE TABLE claim (
     change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
     change_user character varying(50),
     change_time timestamp without time zone DEFAULT now() NOT NULL,
+    type_code character varying(20) NOT NULL,
     CONSTRAINT enforce_geotype_gps_geometry CHECK ((((public.geometrytype(gps_geometry) = 'POLYGON'::text) OR (public.geometrytype(gps_geometry) = 'POINT'::text)) OR (gps_geometry IS NULL))),
     CONSTRAINT enforce_geotype_mapped_geometry CHECK ((((public.geometrytype(mapped_geometry) = 'POLYGON'::text) OR (public.geometrytype(mapped_geometry) = 'POINT'::text)) OR (mapped_geometry IS NULL))),
     CONSTRAINT enforce_valid_gps_geometry CHECK (public.st_isvalid(gps_geometry)),
@@ -10455,6 +10456,13 @@ COMMENT ON COLUMN claim.change_time IS 'The date and time the row was last modif
 
 
 --
+-- Name: COLUMN claim.type_code; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.type_code IS 'Type of claim (e.g. ownership, usufruct, occupation).';
+
+
+--
 -- Name: claim_historic; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
 --
 
@@ -10476,7 +10484,8 @@ CREATE TABLE claim_historic (
     change_action character(1),
     change_user character varying(50),
     change_time timestamp without time zone,
-    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL
+    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL,
+    type_code character varying(20)
 );
 
 
@@ -12419,7 +12428,8 @@ CREATE TABLE appuser (
     rowversion integer DEFAULT 0 NOT NULL,
     change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
     change_user character varying(50),
-    change_time timestamp without time zone DEFAULT now() NOT NULL
+    change_time timestamp without time zone DEFAULT now() NOT NULL,
+    activation_expiration timestamp without time zone
 );
 
 
@@ -12459,6 +12469,13 @@ COMMENT ON COLUMN appuser.first_name IS 'The first name of the SOLA user.';
 --
 
 COMMENT ON COLUMN appuser.last_name IS 'The last name of the SOLA user.';
+
+
+--
+-- Name: COLUMN appuser.activation_expiration; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN appuser.activation_expiration IS 'Account activation timeout. It can be used to delete account if it was not activated in time.';
 
 
 --
@@ -12555,7 +12572,8 @@ CREATE TABLE appuser_historic (
     change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
     change_user character varying(50),
     change_time timestamp without time zone DEFAULT now() NOT NULL,
-    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL
+    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL,
+    activation_expiration timestamp without time zone
 );
 
 
@@ -13565,6 +13583,127 @@ COMMENT ON COLUMN crs.to_long IS 'The longitude in WGS84 identifying the where t
 --
 
 COMMENT ON COLUMN crs.item_order IS 'Identifies the order the CRS is displayed in the drop down menu on the Map Viewer. The CRS with the lowest item order will be used as the default CRS for the initial display of the map.';
+
+
+--
+-- Name: email; Type: TABLE; Schema: system; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE email (
+    id character varying(40) NOT NULL,
+    recipient character varying(255) NOT NULL,
+    recipient_name character varying(255),
+    cc character varying(5000),
+    bcc character varying(5000),
+    subject character varying(250) NOT NULL,
+    body character varying(8000) NOT NULL,
+    attachment bytea,
+    attachment_mime_type character varying(250),
+    attachment_name character varying(250),
+    time_to_send timestamp without time zone DEFAULT now() NOT NULL,
+    attempt integer DEFAULT 1 NOT NULL,
+    error character varying(5000)
+);
+
+
+ALTER TABLE system.email OWNER TO postgres;
+
+--
+-- Name: TABLE email; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON TABLE email IS 'Table for email messages to be sent.';
+
+
+--
+-- Name: COLUMN email.id; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN email.id IS 'Unique identifier of the record.';
+
+
+--
+-- Name: COLUMN email.recipient; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN email.recipient IS 'Email address of recipient.';
+
+
+--
+-- Name: COLUMN email.recipient_name; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN email.recipient_name IS 'Name of recipient.';
+
+
+--
+-- Name: COLUMN email.cc; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN email.cc IS 'List of names and email address to send a copy of the message';
+
+
+--
+-- Name: COLUMN email.bcc; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN email.bcc IS 'List of names and email address to send a blind copy of the message';
+
+
+--
+-- Name: COLUMN email.subject; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN email.subject IS 'Subject of the message';
+
+
+--
+-- Name: COLUMN email.body; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN email.body IS 'Message body';
+
+
+--
+-- Name: COLUMN email.attachment; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN email.attachment IS 'Attachment file to send';
+
+
+--
+-- Name: COLUMN email.attachment_mime_type; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN email.attachment_mime_type IS 'attachment_mime_type';
+
+
+--
+-- Name: COLUMN email.attachment_name; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN email.attachment_name IS 'Attachment file name';
+
+
+--
+-- Name: COLUMN email.time_to_send; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN email.time_to_send IS 'Date and time when to send the message.';
+
+
+--
+-- Name: COLUMN email.attempt; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN email.attempt IS 'Number of attempt of sending message.';
+
+
+--
+-- Name: COLUMN email.error; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN email.error IS 'Error message received when sending the message.';
 
 
 --
@@ -15299,6 +15438,14 @@ ALTER TABLE ONLY consolidation_config
 
 ALTER TABLE ONLY crs
     ADD CONSTRAINT crs_pkey PRIMARY KEY (srid);
+
+
+--
+-- Name: email_pk_id; Type: CONSTRAINT; Schema: system; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY email
+    ADD CONSTRAINT email_pk_id PRIMARY KEY (id);
 
 
 --
@@ -18710,6 +18857,14 @@ SET search_path = opentenure, pg_catalog;
 
 ALTER TABLE ONLY claim
     ADD CONSTRAINT claim_claimant_id_fk8 FOREIGN KEY (claimant_id) REFERENCES claimant(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- Name: claim_fk_type_code; Type: FK CONSTRAINT; Schema: opentenure; Owner: postgres
+--
+
+ALTER TABLE ONLY claim
+    ADD CONSTRAINT claim_fk_type_code FOREIGN KEY (type_code) REFERENCES administrative.rrr_type(code);
 
 
 --

@@ -262,6 +262,34 @@ INSERT INTO setting (name, vl, active, description) VALUES ('zip-pass', 'wownow3
 INSERT INTO setting (name, vl, active, description) VALUES ('max-file-size', '10000', true, 'Maximum file size in KB for uploading.');
 INSERT INTO setting (name, vl, active, description) VALUES ('max-uploading-daily-limit', '100000', true, 'Maximum size of files uploaded daily.');
 INSERT INTO setting (name, vl, active, description) VALUES ('moderation-days', '30', true, 'Duration of moderation time in days');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-enable-email-service', '0', true, 'Enables or disables email service. 1 - enable, 0 - disable');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-admin-address', '', true, 'Email address of server administrator. If empty, no notifications will be sent');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-admin-name', '', true, 'Name of server administrator');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-body-format', 'html', true, 'Message body format. text - for simple text format, html - for html format');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-service-interval', '10', true, 'Time interval in seconds for email service to check and process scheduled messages.');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-send-interval1', '1', true, 'Time interval in minutes for the first attempt to send email message.');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-send-attempts1', '2', true, 'Number of attempts to send email with first interval');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-send-interval2', '120', true, 'Time interval in minutes for the second attempt to send email message.');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-send-attempts2', '2', true, 'Number of attempts to send email with second interval');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-send-interval3', '1440', true, 'Time interval in minutes for the third attempt to send email message.');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-send-attempts3', '1', true, 'Number of attempts to send email with third interval');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-user-registration-subject', 'New user registration', true, 'Subject text for new user registration on OpenTenure Web-site. Sent to administrator.');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-user-registration-body', 'New user "#{userName}" has been registered registered on SOLA OpenTenure Web-site.', true, 'Message text for new user registration on OpenTenure Web-site');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-failed-send-subject', 'Delivery failure', true, 'Subject text for delivery failure of message');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-failed-send-body', 'Message send to the user #{userName} has been failed to deliver after number of attempts with the following error: <br/>#{error}', true, 'Message text for delivery failure');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-reg-subject', 'SOLA OpenTenure - registration', true, 'Subject text for new user registration on OpenTenure Web-site. Sent to user.');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-reg-body', 'Dear #{userFullName},<p></p>You have registered on SOLA OpenTenure Web-site. In order to start using it, first you need activate your account. Click the following link <a href ="#{activationLink}">for activation.</a><p></p>Your user name is<br />#{userName}<p></p><p></p>Regards,<br />SOLA OpenTenure Team', true, 'Message text for new user registration on OpenTenure Web-site. Sent to user.');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-pswd-restore-subject', 'SOLA OpenTenure - password restore', true, 'Password restore subject');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-pswd-restore-body', 'Dear #{userFullName},<p></p>You have requested to restore the password. If you didn''t ask for this action, just ignore this message. Otherwise, follow <a href="#{passwordRestoreLink}">this link</a> to reset your password.<p></p><p></p>Regards,<br />SOLA OpenTenure Team', true, 'Message text for password restore');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-submit-subject', 'SOLA OpenTenure - new claim submitted', true, 'New claim subject text');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-submit-body', 'Dear #{userFullName},<p></p>You have submitted new claim <b>##{claimNumber}</b>. You can follow its status by <a href="#{claimLink}">this address</a>.<p></p><p></p>Regards,<br />SOLA OpenTenure Team', true, 'New claim body text');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-updated-subject', 'SOLA OpenTenure - claim #%s update', true, 'Claim update subject text');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-updated-body', 'Dear #{userFullName},<p></p>Claim <b>##{claimNumber}</b> has been updated. Follow <a href="#{claimLink}">this link</a> to check claim status and updated information.<p></p><p></p>Regards,<br />SOLA OpenTenure Team', true, 'Claim update body text');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-challenge-updated-subject', 'SOLA OpenTenure - claim challenge #%s update', true, 'Claim challenge update subject text');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-challenge-updated-body', 'Dear #{userFullName},<p></p>Claim challenge <b>##{challengeNumber}</b> has been updated. Follow <a href="#{challengeLink}">this link</a> to check updated information.<p></p><p></p>Regards,<br />SOLA OpenTenure Team', true, 'Claim challenge update body text');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-challenge-submitted-subject', 'SOLA OpenTenure - new claim challenge to #%s', true, 'New claim challenge subject text');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-challenge-submitted-body', 'Dear #{userFullName},<p></p>New claim challenge <a href="#{challengeLink}"><b>##{challengeNumber}</b></a> has been submitted to challenge the claim <a href="#{claimLink}"><b>##{claimNumber}</b></a>.<p></p><p></p>Regards,<br />SOLA OpenTenure Team', true, 'New claim challenge body text');
+INSERT INTO setting (name, vl, active, description) VALUES ('account-activation-timeout', '70', true, 'Account activation timeout in hours. After this time, activation should expire.');
 
 
 ALTER TABLE setting ENABLE TRIGGER ALL;
