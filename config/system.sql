@@ -266,7 +266,6 @@ INSERT INTO setting (name, vl, active, description) VALUES ('email-enable-email-
 INSERT INTO setting (name, vl, active, description) VALUES ('email-admin-address', '', true, 'Email address of server administrator. If empty, no notifications will be sent');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-admin-name', '', true, 'Name of server administrator');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-body-format', 'html', true, 'Message body format. text - for simple text format, html - for html format');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-service-interval', '600', true, 'Time interval in seconds for email service to check and process scheduled messages.');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-send-interval1', '1', true, 'Time interval in minutes for the first attempt to send email message.');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-send-attempts1', '2', true, 'Number of attempts to send email with first interval');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-send-interval2', '120', true, 'Time interval in minutes for the second attempt to send email message.');
@@ -290,6 +289,7 @@ INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-cha
 INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-challenge-submitted-subject', 'SOLA OpenTenure - new claim challenge to #%s', true, 'New claim challenge subject text');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-challenge-submitted-body', 'Dear #{userFullName},<p></p>New claim challenge <a href="#{challengeLink}"><b>##{challengeNumber}</b></a> has been submitted to challenge the claim <a href="#{claimLink}"><b>##{claimNumber}</b></a>.<p></p><p></p>Regards,<br />SOLA OpenTenure Team', true, 'New claim challenge body text');
 INSERT INTO setting (name, vl, active, description) VALUES ('account-activation-timeout', '70', true, 'Account activation timeout in hours. After this time, activation should expire.');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-service-interval', '10', true, 'Time interval in seconds for email service to check and process scheduled messages.');
 
 
 ALTER TABLE setting ENABLE TRIGGER ALL;
@@ -314,6 +314,7 @@ INSERT INTO version (version_num) VALUES ('1403a');
 INSERT INTO version (version_num) VALUES ('1403b');
 INSERT INTO version (version_num) VALUES ('1404a');
 INSERT INTO version (version_num) VALUES ('1404b');
+INSERT INTO version (version_num) VALUES ('1406a');
 
 
 ALTER TABLE version ENABLE TRIGGER ALL;

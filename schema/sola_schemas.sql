@@ -10521,6 +10521,115 @@ COMMENT ON SEQUENCE claim_nr_seq IS 'Sequence number used as the basis for the c
 
 
 --
+-- Name: claim_share; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE claim_share (
+    id character varying(40) NOT NULL,
+    claim_id character varying(40) NOT NULL,
+    nominator smallint NOT NULL,
+    denominator smallint NOT NULL,
+    rowidentifier character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
+    rowversion integer DEFAULT 0 NOT NULL,
+    change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
+    change_user character varying(50),
+    change_time timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE opentenure.claim_share OWNER TO postgres;
+
+--
+-- Name: TABLE claim_share; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON TABLE claim_share IS 'Identifies the share a party has in a claim.';
+
+
+--
+-- Name: COLUMN claim_share.id; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_share.id IS 'Identifier for the claim share.';
+
+
+--
+-- Name: COLUMN claim_share.claim_id; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_share.claim_id IS 'Identifier of the claim the share is assocaited with.';
+
+
+--
+-- Name: COLUMN claim_share.nominator; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_share.nominator IS 'Nominiator part of the share (i.e. top number of fraction)';
+
+
+--
+-- Name: COLUMN claim_share.denominator; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_share.denominator IS 'Denominator part of the share (i.e. bottom number of fraction)';
+
+
+--
+-- Name: COLUMN claim_share.rowidentifier; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_share.rowidentifier IS 'Identifies the all change records for the row in the claim_share_historic table';
+
+
+--
+-- Name: COLUMN claim_share.rowversion; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_share.rowversion IS 'Sequential value indicating the number of times this row has been modified.';
+
+
+--
+-- Name: COLUMN claim_share.change_action; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_share.change_action IS 'Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).';
+
+
+--
+-- Name: COLUMN claim_share.change_user; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_share.change_user IS 'The user id of the last person to modify the row.';
+
+
+--
+-- Name: COLUMN claim_share.change_time; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_share.change_time IS 'The date and time the row was last modified.';
+
+
+--
+-- Name: claim_share_historic; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE claim_share_historic (
+    id character varying(40),
+    claim_id character varying(40),
+    nominator smallint,
+    denominator smallint,
+    rowidentifier character varying(40),
+    rowversion integer,
+    change_action character(1),
+    change_user character varying(50),
+    change_time timestamp without time zone,
+    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE opentenure.claim_share_historic OWNER TO postgres;
+
+--
 -- Name: claim_status; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
 --
 
@@ -10668,10 +10777,10 @@ COMMENT ON TABLE claim_uses_attachment_historic IS 'Historic table for opentenur
 
 
 --
--- Name: claimant; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
+-- Name: party; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE claimant (
+CREATE TABLE party (
     id character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
     name character varying(255) NOT NULL,
     last_name character varying(50),
@@ -10692,139 +10801,230 @@ CREATE TABLE claimant (
 );
 
 
-ALTER TABLE opentenure.claimant OWNER TO postgres;
+ALTER TABLE opentenure.party OWNER TO postgres;
 
 --
--- Name: TABLE claimant; Type: COMMENT; Schema: opentenure; Owner: postgres
+-- Name: TABLE party; Type: COMMENT; Schema: opentenure; Owner: postgres
 --
 
-COMMENT ON TABLE claimant IS 'Extension to the LADM used by SOLA to store claimant information.';
-
-
---
--- Name: COLUMN claimant.id; Type: COMMENT; Schema: opentenure; Owner: postgres
---
-
-COMMENT ON COLUMN claimant.id IS 'Unique identifier for the claimant.';
+COMMENT ON TABLE party IS 'Extension to the LADM used by SOLA to store party information (cliamant or owner).';
 
 
 --
--- Name: COLUMN claimant.name; Type: COMMENT; Schema: opentenure; Owner: postgres
+-- Name: COLUMN party.id; Type: COMMENT; Schema: opentenure; Owner: postgres
 --
 
-COMMENT ON COLUMN claimant.name IS 'First name of claimant.';
-
-
---
--- Name: COLUMN claimant.last_name; Type: COMMENT; Schema: opentenure; Owner: postgres
---
-
-COMMENT ON COLUMN claimant.last_name IS 'Last name of claimant.';
+COMMENT ON COLUMN party.id IS 'Unique identifier for the party.';
 
 
 --
--- Name: COLUMN claimant.id_type_code; Type: COMMENT; Schema: opentenure; Owner: postgres
+-- Name: COLUMN party.name; Type: COMMENT; Schema: opentenure; Owner: postgres
 --
 
-COMMENT ON COLUMN claimant.id_type_code IS 'ID document type code';
-
-
---
--- Name: COLUMN claimant.id_number; Type: COMMENT; Schema: opentenure; Owner: postgres
---
-
-COMMENT ON COLUMN claimant.id_number IS 'ID document number.';
+COMMENT ON COLUMN party.name IS 'First name of party.';
 
 
 --
--- Name: COLUMN claimant.birth_date; Type: COMMENT; Schema: opentenure; Owner: postgres
+-- Name: COLUMN party.last_name; Type: COMMENT; Schema: opentenure; Owner: postgres
 --
 
-COMMENT ON COLUMN claimant.birth_date IS 'Date of birth of the claimant.';
-
-
---
--- Name: COLUMN claimant.gender_code; Type: COMMENT; Schema: opentenure; Owner: postgres
---
-
-COMMENT ON COLUMN claimant.gender_code IS 'Gender code of the claimant.';
+COMMENT ON COLUMN party.last_name IS 'Last name of claimant.';
 
 
 --
--- Name: COLUMN claimant.mobile_phone; Type: COMMENT; Schema: opentenure; Owner: postgres
+-- Name: COLUMN party.id_type_code; Type: COMMENT; Schema: opentenure; Owner: postgres
 --
 
-COMMENT ON COLUMN claimant.mobile_phone IS 'Mobile phone number of the claimant.';
-
-
---
--- Name: COLUMN claimant.phone; Type: COMMENT; Schema: opentenure; Owner: postgres
---
-
-COMMENT ON COLUMN claimant.phone IS 'Landline phone number of the claimant.';
+COMMENT ON COLUMN party.id_type_code IS 'ID document type code';
 
 
 --
--- Name: COLUMN claimant.email; Type: COMMENT; Schema: opentenure; Owner: postgres
+-- Name: COLUMN party.id_number; Type: COMMENT; Schema: opentenure; Owner: postgres
 --
 
-COMMENT ON COLUMN claimant.email IS 'Email address of the claimant.';
-
-
---
--- Name: COLUMN claimant.address; Type: COMMENT; Schema: opentenure; Owner: postgres
---
-
-COMMENT ON COLUMN claimant.address IS 'Living address of the claimant.';
+COMMENT ON COLUMN party.id_number IS 'ID document number.';
 
 
 --
--- Name: COLUMN claimant.user_name; Type: COMMENT; Schema: opentenure; Owner: postgres
+-- Name: COLUMN party.birth_date; Type: COMMENT; Schema: opentenure; Owner: postgres
 --
 
-COMMENT ON COLUMN claimant.user_name IS 'User name who has created the record.';
-
-
---
--- Name: COLUMN claimant.rowidentifier; Type: COMMENT; Schema: opentenure; Owner: postgres
---
-
-COMMENT ON COLUMN claimant.rowidentifier IS 'Identifies the all change records for the row in the document_historic table';
+COMMENT ON COLUMN party.birth_date IS 'Date of birth of the party.';
 
 
 --
--- Name: COLUMN claimant.rowversion; Type: COMMENT; Schema: opentenure; Owner: postgres
+-- Name: COLUMN party.gender_code; Type: COMMENT; Schema: opentenure; Owner: postgres
 --
 
-COMMENT ON COLUMN claimant.rowversion IS 'Sequential value indicating the number of times this row has been modified.';
-
-
---
--- Name: COLUMN claimant.change_action; Type: COMMENT; Schema: opentenure; Owner: postgres
---
-
-COMMENT ON COLUMN claimant.change_action IS 'Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).';
+COMMENT ON COLUMN party.gender_code IS 'Gender code of the party.';
 
 
 --
--- Name: COLUMN claimant.change_user; Type: COMMENT; Schema: opentenure; Owner: postgres
+-- Name: COLUMN party.mobile_phone; Type: COMMENT; Schema: opentenure; Owner: postgres
 --
 
-COMMENT ON COLUMN claimant.change_user IS 'The user id of the last person to modify the row.';
-
-
---
--- Name: COLUMN claimant.change_time; Type: COMMENT; Schema: opentenure; Owner: postgres
---
-
-COMMENT ON COLUMN claimant.change_time IS 'The date and time the row was last modified.';
+COMMENT ON COLUMN party.mobile_phone IS 'Mobile phone number of the party.';
 
 
 --
--- Name: claimant_historic; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
+-- Name: COLUMN party.phone; Type: COMMENT; Schema: opentenure; Owner: postgres
 --
 
-CREATE TABLE claimant_historic (
+COMMENT ON COLUMN party.phone IS 'Landline phone number of the party.';
+
+
+--
+-- Name: COLUMN party.email; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN party.email IS 'Email address of the party.';
+
+
+--
+-- Name: COLUMN party.address; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN party.address IS 'Living address of the party.';
+
+
+--
+-- Name: COLUMN party.user_name; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN party.user_name IS 'User name who has created the record.';
+
+
+--
+-- Name: COLUMN party.rowidentifier; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN party.rowidentifier IS 'Identifies the all change records for the row in the document_historic table';
+
+
+--
+-- Name: COLUMN party.rowversion; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN party.rowversion IS 'Sequential value indicating the number of times this row has been modified.';
+
+
+--
+-- Name: COLUMN party.change_action; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN party.change_action IS 'Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).';
+
+
+--
+-- Name: COLUMN party.change_user; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN party.change_user IS 'The user id of the last person to modify the row.';
+
+
+--
+-- Name: COLUMN party.change_time; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN party.change_time IS 'The date and time the row was last modified.';
+
+
+--
+-- Name: party_for_claim_share; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE party_for_claim_share (
+    party_id character varying(40) NOT NULL,
+    claim_share_id character varying(40) NOT NULL,
+    rowidentifier character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
+    rowversion integer DEFAULT 0 NOT NULL,
+    change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
+    change_user character varying(50),
+    change_time timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE opentenure.party_for_claim_share OWNER TO postgres;
+
+--
+-- Name: TABLE party_for_claim_share; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON TABLE party_for_claim_share IS 'Identifies parties involved in the claim share.';
+
+
+--
+-- Name: COLUMN party_for_claim_share.party_id; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN party_for_claim_share.party_id IS 'Identifier for the party.';
+
+
+--
+-- Name: COLUMN party_for_claim_share.claim_share_id; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN party_for_claim_share.claim_share_id IS 'Identifier of the claim share.';
+
+
+--
+-- Name: COLUMN party_for_claim_share.rowidentifier; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN party_for_claim_share.rowidentifier IS 'Identifies the all change records for the row in the party_for_claim_share_historic table';
+
+
+--
+-- Name: COLUMN party_for_claim_share.rowversion; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN party_for_claim_share.rowversion IS 'Sequential value indicating the number of times this row has been modified.';
+
+
+--
+-- Name: COLUMN party_for_claim_share.change_action; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN party_for_claim_share.change_action IS 'Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).';
+
+
+--
+-- Name: COLUMN party_for_claim_share.change_user; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN party_for_claim_share.change_user IS 'The user id of the last person to modify the row.';
+
+
+--
+-- Name: COLUMN party_for_claim_share.change_time; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN party_for_claim_share.change_time IS 'The date and time the row was last modified.';
+
+
+--
+-- Name: party_for_claim_share_historic; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE party_for_claim_share_historic (
+    party_id character varying(40),
+    claim_share_id character varying(40),
+    rowidentifier character varying(40),
+    rowversion integer,
+    change_action character(1),
+    change_user character varying(50),
+    change_time timestamp without time zone,
+    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE opentenure.party_for_claim_share_historic OWNER TO postgres;
+
+--
+-- Name: party_historic; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE party_historic (
     id character varying(40),
     name character varying(255),
     last_name character varying(50),
@@ -10846,13 +11046,13 @@ CREATE TABLE claimant_historic (
 );
 
 
-ALTER TABLE opentenure.claimant_historic OWNER TO postgres;
+ALTER TABLE opentenure.party_historic OWNER TO postgres;
 
 --
--- Name: TABLE claimant_historic; Type: COMMENT; Schema: opentenure; Owner: postgres
+-- Name: TABLE party_historic; Type: COMMENT; Schema: opentenure; Owner: postgres
 --
 
-COMMENT ON TABLE claimant_historic IS 'Historic table for opentenure.claimant. Keeps all changes done to the main table.';
+COMMENT ON TABLE party_historic IS 'Historic table for opentenure.party. Keeps all changes done to the main table.';
 
 
 SET search_path = party, pg_catalog;
@@ -14923,6 +15123,14 @@ ALTER TABLE ONLY claim
 
 
 --
+-- Name: claim_share_pkey; Type: CONSTRAINT; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY claim_share
+    ADD CONSTRAINT claim_share_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: claim_status_display_value_unique; Type: CONSTRAINT; Schema: opentenure; Owner: postgres; Tablespace: 
 --
 
@@ -14950,7 +15158,7 @@ ALTER TABLE ONLY claim_uses_attachment
 -- Name: claimant_pkey; Type: CONSTRAINT; Schema: opentenure; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY claimant
+ALTER TABLE ONLY party
     ADD CONSTRAINT claimant_pkey PRIMARY KEY (id);
 
 
@@ -14960,6 +15168,14 @@ ALTER TABLE ONLY claimant
 
 ALTER TABLE ONLY attachment_chunk
     ADD CONSTRAINT id_pkey_document_chunk PRIMARY KEY (id);
+
+
+--
+-- Name: party_for_claim_share_pkey; Type: CONSTRAINT; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY party_for_claim_share
+    ADD CONSTRAINT party_for_claim_share_pkey PRIMARY KEY (party_id, claim_share_id);
 
 
 --
@@ -17850,7 +18066,7 @@ SET search_path = opentenure, pg_catalog;
 -- Name: __track_changes; Type: TRIGGER; Schema: opentenure; Owner: postgres
 --
 
-CREATE TRIGGER __track_changes BEFORE INSERT OR UPDATE ON claimant FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_changes();
+CREATE TRIGGER __track_changes BEFORE INSERT OR UPDATE ON party FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_changes();
 
 
 --
@@ -17875,10 +18091,24 @@ CREATE TRIGGER __track_changes BEFORE INSERT OR UPDATE ON claim_uses_attachment 
 
 
 --
+-- Name: __track_changes; Type: TRIGGER; Schema: opentenure; Owner: postgres
+--
+
+CREATE TRIGGER __track_changes BEFORE INSERT OR UPDATE ON claim_share FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_changes();
+
+
+--
+-- Name: __track_changes; Type: TRIGGER; Schema: opentenure; Owner: postgres
+--
+
+CREATE TRIGGER __track_changes BEFORE INSERT OR UPDATE ON party_for_claim_share FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_changes();
+
+
+--
 -- Name: __track_history; Type: TRIGGER; Schema: opentenure; Owner: postgres
 --
 
-CREATE TRIGGER __track_history AFTER DELETE OR UPDATE ON claimant FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_history();
+CREATE TRIGGER __track_history AFTER DELETE OR UPDATE ON party FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_history();
 
 
 --
@@ -17900,6 +18130,20 @@ CREATE TRIGGER __track_history AFTER DELETE OR UPDATE ON attachment FOR EACH ROW
 --
 
 CREATE TRIGGER __track_history AFTER DELETE OR UPDATE ON claim_uses_attachment FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_history();
+
+
+--
+-- Name: __track_history; Type: TRIGGER; Schema: opentenure; Owner: postgres
+--
+
+CREATE TRIGGER __track_history AFTER DELETE OR UPDATE ON claim_share FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_history();
+
+
+--
+-- Name: __track_history; Type: TRIGGER; Schema: opentenure; Owner: postgres
+--
+
+CREATE TRIGGER __track_history AFTER DELETE OR UPDATE ON party_for_claim_share FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_history();
 
 
 SET search_path = party, pg_catalog;
@@ -18856,7 +19100,7 @@ SET search_path = opentenure, pg_catalog;
 --
 
 ALTER TABLE ONLY claim
-    ADD CONSTRAINT claim_claimant_id_fk8 FOREIGN KEY (claimant_id) REFERENCES claimant(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+    ADD CONSTRAINT claim_claimant_id_fk8 FOREIGN KEY (claimant_id) REFERENCES party(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
@@ -18865,6 +19109,14 @@ ALTER TABLE ONLY claim
 
 ALTER TABLE ONLY claim
     ADD CONSTRAINT claim_fk_type_code FOREIGN KEY (type_code) REFERENCES administrative.rrr_type(code);
+
+
+--
+-- Name: claim_share_claim_id_fk12; Type: FK CONSTRAINT; Schema: opentenure; Owner: postgres
+--
+
+ALTER TABLE ONLY claim_share
+    ADD CONSTRAINT claim_share_claim_id_fk12 FOREIGN KEY (claim_id) REFERENCES claim(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -18889,6 +19141,22 @@ ALTER TABLE ONLY claim_uses_attachment
 
 ALTER TABLE ONLY claim
     ADD CONSTRAINT fk_challenged_claim FOREIGN KEY (challenged_claim_id) REFERENCES claim(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- Name: party_for_claim_share_claim_id_fk43; Type: FK CONSTRAINT; Schema: opentenure; Owner: postgres
+--
+
+ALTER TABLE ONLY party_for_claim_share
+    ADD CONSTRAINT party_for_claim_share_claim_id_fk43 FOREIGN KEY (claim_share_id) REFERENCES claim_share(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: party_for_claim_share_party_id_fk23; Type: FK CONSTRAINT; Schema: opentenure; Owner: postgres
+--
+
+ALTER TABLE ONLY party_for_claim_share
+    ADD CONSTRAINT party_for_claim_share_party_id_fk23 FOREIGN KEY (party_id) REFERENCES party(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 SET search_path = party, pg_catalog;
