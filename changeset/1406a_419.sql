@@ -135,4 +135,10 @@ WITH (
   OIDS=FALSE
 );
 
+insert into system.approle (code,display_value,status,description) values ('ModerateClaim', 'Moderate claim', 'c', 'Allows to moderate claims submitted by other community recorders.');
+insert into system.appgroup (id,name,description) values ('claim-moderators', 'Claim moderators', 'Group for users who can moderate claims, submitted by community recorders');
+insert into system.appuser_appgroup (appuser_id, appgroup_id) values ('test-id', 'claim-moderators');
+insert into system.approle_appgroup (approle_code, appgroup_id) values ('ModerateClaim', 'claim-moderators');
+insert into system.approle_appgroup (approle_code, appgroup_id) values ('AccessCS', 'claim-moderators');
+
 INSERT INTO system.version SELECT '1406a' WHERE NOT EXISTS (SELECT version_num FROM system.version WHERE version_num = '1406a');

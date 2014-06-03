@@ -20,6 +20,7 @@ ALTER TABLE appgroup DISABLE TRIGGER ALL;
 
 INSERT INTO appgroup (id, name, description) VALUES ('super-group-id', 'Super group', 'This is a group of users that has right in anything. It is used in developement. In production must be removed.');
 INSERT INTO appgroup (id, name, description) VALUES ('CommunityRecorders', 'Community recorders', 'Community recorders users, who can submit claims');
+INSERT INTO appgroup (id, name, description) VALUES ('claim-moderators', 'Claim moderators', 'Group for users who can moderate claims, submitted by community recorders');
 
 
 ALTER TABLE appgroup ENABLE TRIGGER ALL;
@@ -113,6 +114,8 @@ INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversi
 INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('consolidationCons', 'super-group-id', 'be432036-99dd-11e3-a806-e3af0fb1848a', 1, 'i', 'db:postgres', '2014-02-20 16:19:00.912');
 INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('AccessCS', 'CommunityRecorders', 'ea10c034-b845-11e3-b045-db6f34a547f8', 1, 'i', 'db:postgres', '2014-03-31 02:00:16.97');
 INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('AccessCS', 'super-group-id', '65dfc8ea-cc69-11e3-999c-53ccd0502f3a', 1, 'i', 'db:postgres', '2014-04-25 17:04:40.353');
+INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('ModerateClaim', 'claim-moderators', '0c36e100-eb60-11e3-9533-178ebeef4b74', 1, 'i', 'db:postgres', '2014-06-04 02:45:50.554');
+INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('AccessCS', 'claim-moderators', '0c45d552-eb60-11e3-809a-d76734fbffdd', 1, 'i', 'db:postgres', '2014-06-04 02:45:50.554');
 
 
 ALTER TABLE approle_appgroup ENABLE TRIGGER ALL;
@@ -137,6 +140,7 @@ ALTER TABLE appuser_appgroup DISABLE TRIGGER ALL;
 
 INSERT INTO appuser_appgroup (appuser_id, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('test-id', 'super-group-id', 'be56cf8c-99dd-11e3-ac27-0343410f6672', 1, 'i', 'db:postgres', '2014-02-20 16:19:01.139');
 INSERT INTO appuser_appgroup (appuser_id, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('e21f7c3d-bb02-4a15-94f3-d076861bf343', 'CommunityRecorders', 'bae0f1f3-cfbe-4135-aa25-5059fbdd9edf', 1, 'i', 'ANONYMOUS', '2014-04-25 18:34:02.579');
+INSERT INTO appuser_appgroup (appuser_id, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('test-id', 'claim-moderators', 'cd1007b8-eb5f-11e3-8c6d-afdc9e2ad33d', 1, 'i', 'db:postgres', '2014-06-04 02:44:04.493');
 
 
 ALTER TABLE appuser_appgroup ENABLE TRIGGER ALL;
