@@ -256,7 +256,6 @@ INSERT INTO setting (name, vl, active, description) VALUES ('map-tolerance', '0.
 INSERT INTO setting (name, vl, active, description) VALUES ('map-shift-tolerance-rural', '20', true, 'The shift tolerance of boundary points used in cadastre change in rural areas.');
 INSERT INTO setting (name, vl, active, description) VALUES ('map-shift-tolerance-urban', '5', true, 'The shift tolerance of boundary points used in cadastre change in urban areas.');
 INSERT INTO setting (name, vl, active, description) VALUES ('public-notification-duration', '30', true, 'The notification duration for the public display.');
-INSERT INTO setting (name, vl, active, description) VALUES ('pword-expiry-days', '90', true, 'The number of days a users password remains valid');
 INSERT INTO setting (name, vl, active, description) VALUES ('system-id', '', true, 'A unique number that identifies the installed SOLA system. This unique number is used in the br that generate unique identifiers.');
 INSERT INTO setting (name, vl, active, description) VALUES ('zip-pass', 'wownow3nnZv3r', true, 'A password that is used during the consolidation process. It is used only in server side.');
 INSERT INTO setting (name, vl, active, description) VALUES ('max-file-size', '10000', true, 'Maximum file size in KB for uploading.');
@@ -290,6 +289,7 @@ INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-cha
 INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-challenge-submitted-body', 'Dear #{userFullName},<p></p>New claim challenge <a href="#{challengeLink}"><b>##{challengeNumber}</b></a> has been submitted to challenge the claim <a href="#{claimLink}"><b>##{claimNumber}</b></a>.<p></p><p></p>Regards,<br />SOLA OpenTenure Team', true, 'New claim challenge body text');
 INSERT INTO setting (name, vl, active, description) VALUES ('account-activation-timeout', '70', true, 'Account activation timeout in hours. After this time, activation should expire.');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-service-interval', '10', true, 'Time interval in seconds for email service to check and process scheduled messages.');
+INSERT INTO setting (name, vl, active, description) VALUES ('pword-expiry-days', '90', false, 'The number of days a users password remains valid');
 
 
 ALTER TABLE setting ENABLE TRIGGER ALL;
@@ -315,6 +315,7 @@ INSERT INTO version (version_num) VALUES ('1403b');
 INSERT INTO version (version_num) VALUES ('1404a');
 INSERT INTO version (version_num) VALUES ('1404b');
 INSERT INTO version (version_num) VALUES ('1406a');
+INSERT INTO version (version_num) VALUES ('1406b');
 
 
 ALTER TABLE version ENABLE TRIGGER ALL;

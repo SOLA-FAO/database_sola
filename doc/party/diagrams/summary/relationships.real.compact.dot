@@ -1,4 +1,4 @@
-// dot 2.36.0 on Windows 8 6.2
+// dot 2.36.0 on Windows 7 6.1
 // SchemaSpy rev 590
 digraph "compactRelationshipsDiagram" {
   graph [
@@ -54,19 +54,6 @@ digraph "compactRelationshipsDiagram" {
     URL="tables/../../administrative/tables/ba_unit_as_party.html"
     tooltip="administrative.ba_unit_as_party"
   ];
-  "opentenure.claimant" [
-    label=<
-    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
-      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">opentenure.claimant</TD></TR>
-      <TR><TD PORT="id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">id</TD></TR>
-      <TR><TD PORT="id_type_code" COLSPAN="3" ALIGN="LEFT">id_type_code</TD></TR>
-      <TR><TD PORT="gender_code" COLSPAN="3" ALIGN="LEFT">gender_code</TD></TR>
-      <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 2</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
-    </TABLE>>
-    URL="tables/../../opentenure/tables/claimant.html"
-    tooltip="opentenure.claimant"
-  ];
   "communication_type" [
     label=<
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
@@ -86,7 +73,7 @@ digraph "compactRelationshipsDiagram" {
       <TR><TD PORT="code" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">code</TD></TR>
       <TR><TD PORT="display_value" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">display_value</TD></TR>
       <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
     </TABLE>>
     URL="tables/gender_type.html"
     tooltip="gender_type"
@@ -123,7 +110,7 @@ digraph "compactRelationshipsDiagram" {
       <TR><TD PORT="code" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">code</TD></TR>
       <TR><TD PORT="display_value" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">display_value</TD></TR>
       <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
     </TABLE>>
     URL="tables/id_type.html"
     tooltip="id_type"
@@ -210,8 +197,6 @@ digraph "compactRelationshipsDiagram" {
   "application.application":"agent_id":w -> "party":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "application.application":"contact_person_id":w -> "party":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "administrative.ba_unit_as_party":"party_id":w -> "party":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "opentenure.claimant":"gender_code":w -> "gender_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
-  "opentenure.claimant":"id_type_code":w -> "id_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "group_party":"id":w -> "party":"id":e [arrowhead=none dir=back arrowtail=teeodot];
   "group_party":"type_code":w -> "group_party_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "party":"address_id":w -> "address.address":"id":e [arrowhead=none dir=back arrowtail=crowodot];

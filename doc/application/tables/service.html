@@ -104,7 +104,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </tr>
 </thead>
 <tbody valign='top'>
-<tr class='even'>
+<tr class='odd'>
  <td class='primaryKey' title='Primary Key'>id</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>40</td>
@@ -113,7 +113,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative even' valign='top'>
+   <tr class='relative odd' valign='top'>
     <td class='relatedTable detail' title="transaction.from_service_id refs service.id via transaction_from_service_id_fk6"><a href='../../transaction/tables/transaction.html'>transaction</a><span class='relatedKey'>.from_service_id</span>
     </td>
     <td class='constraint detail'>transaction_from_service_id_fk6<span title='Restrict delete:
@@ -124,7 +124,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>Identifier for the service.</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='indexedColumn' title='Indexed'>application_id</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>40</td>
@@ -134,7 +134,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="service.application_id refs application.id via service_application_id_fk7"><a href='application.html'>application</a><span class='relatedKey'>.id</span>
     </td>
     <td class='constraint detail'>service_application_id_fk7<span title='Restrict delete:
@@ -144,7 +144,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  </td>
  <td class='comment detail'>Identifier for the application the service is associated with.</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='indexedColumn' title='Indexed'>request_type_code</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>20</td>
@@ -154,7 +154,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative even' valign='top'>
+   <tr class='relative odd' valign='top'>
     <td class='relatedTable detail' title="service.request_type_code refs request_type.code via service_request_type_code_fk19"><a href='request_type.html'>request_type</a><span class='relatedKey'>.code</span>
     </td>
     <td class='constraint detail'>service_request_type_code_fk19<span title='Restrict delete:
@@ -164,7 +164,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  </td>
  <td class='comment detail'>The request type identifying the purpose of the service.</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>service_order</td>
  <td class='detail'>int4</td>
  <td class='detail' align='right'>10</td>
@@ -175,7 +175,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>The relative order of the service within the application. Can be used to imply a workflow sequence for application related tasks.</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>lodging_datetime</td>
  <td class='detail'>timestamp</td>
  <td class='detail' align='right'>29,6</td>
@@ -186,7 +186,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>The date the service was lodged on the application. Typically will match the application lodgement_datetime, but may vary if a service is added after the application is lodged.</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>expected_completion_date</td>
  <td class='detail'>date</td>
  <td class='detail' align='right'>13</td>
@@ -197,7 +197,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>Date when the service is expected to be completed by. Calculated using the service lodging_datetime and the nr_days_to_complete for the service request type.</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='indexedColumn' title='Indexed'>status_code</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>20</td>
@@ -207,7 +207,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative even' valign='top'>
+   <tr class='relative odd' valign='top'>
     <td class='relatedTable detail' title="service.status_code refs service_status_type.code via service_status_code_fk24"><a href='service_status_type.html'>service_status_type</a><span class='relatedKey'>.code</span>
     </td>
     <td class='constraint detail'>service_status_code_fk24<span title='Restrict delete:
@@ -217,7 +217,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  </td>
  <td class='comment detail'>Service status code.</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='indexedColumn' title='Indexed'>action_code</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>20</td>
@@ -227,7 +227,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="service.action_code refs service_action_type.code via service_action_code_fk25"><a href='service_action_type.html'>service_action_type</a><span class='relatedKey'>.code</span>
     </td>
     <td class='constraint detail'>service_action_code_fk25<span title='Restrict delete:
@@ -237,7 +237,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  </td>
  <td class='comment detail'>Service action code. Indicates the last action to occur on the service. E.g. lodge, start, complete, cancel, etc.</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>action_notes</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>255</td>
@@ -248,7 +248,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>Provides extra detail related to the last action to occur on the service. Not Used.</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>base_fee</td>
  <td class='detail'>numeric</td>
  <td class='detail' align='right'>20,2</td>
@@ -259,7 +259,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>The fixed fee charged for the service. Obtained from the base_fee value in request_type.</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>area_fee</td>
  <td class='detail'>numeric</td>
  <td class='detail' align='right'>20,2</td>
@@ -270,7 +270,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>The area fee charged for the service. Calculated from the sum of all areas listed for properties on the application multiplied by the request_type.area_base_fee.</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>value_fee</td>
  <td class='detail'>numeric</td>
  <td class='detail' align='right'>20,2</td>
@@ -281,7 +281,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>The value fee charged for the service. Calculated from the sum of all values listed for properties on the application multiplied by the request_type.value_base_fee.</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='indexedColumn' title='Indexed'>rowidentifier</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>40</td>
@@ -292,7 +292,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>rowversion</td>
  <td class='detail'>int4</td>
  <td class='detail' align='right'>10</td>
@@ -303,7 +303,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>change_action</td>
  <td class='detail'>bpchar</td>
  <td class='detail' align='right'>1</td>
@@ -314,7 +314,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>change_user</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>50</td>
@@ -325,7 +325,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>change_time</td>
  <td class='detail'>timestamp</td>
  <td class='detail' align='right'>29,6</td>
@@ -337,7 +337,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='comment detail'></td>
 </tr>
 </table>
-<p title='17 columns'>Analyzed at za mei 17 01:13 CEST 2014<p/>
+<p title='17 columns'>Analyzed at Tue Jun 03 20:32 NZST 2014<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
@@ -393,12 +393,12 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 <br><form action='get'><b>Close relationships</b><span class='degrees' id='degrees' title='Detail diminishes with increased separation from service'>
 &nbsp;within <label for='oneDegree'><input type='radio' name='degrees' id='oneDegree' checked>one</label>  <label for='twoDegrees'><input type='radio' name='degrees' id='twoDegrees'>two degrees</label> of separation</span><b>:</b></form>
 <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="service.html" title="service" alt="" coords="462,714,786,1187">
-<area shape="rect" id="node2" href="service_action_type.html" title="service_action_type" alt="" coords="235,1061,395,1241">
+<area shape="rect" id="node1" href="service.html" title="service" alt="" coords="462,726,786,1199">
+<area shape="rect" id="node2" href="service_action_type.html" title="service_action_type" alt="" coords="235,1085,395,1265">
 <area shape="rect" id="node3" href="application.html" title="application" alt="" coords="212,5,417,617">
-<area shape="rect" id="node4" href="request_type.html" title="request_type" alt="" coords="223,634,407,1006">
-<area shape="rect" id="node5" href="service_status_type.html" title="service_status_type" alt="" coords="6,1050,167,1206">
-<area shape="rect" id="node6" href="../../transaction/tables/transaction.html" title="transaction.transaction" alt="" coords="831,693,1019,1017">
+<area shape="rect" id="node4" href="request_type.html" title="request_type" alt="" coords="223,634,407,1030">
+<area shape="rect" id="node5" href="service_status_type.html" title="service_status_type" alt="" coords="6,1074,167,1230">
+<area shape="rect" id="node6" href="../../transaction/tables/transaction.html" title="transaction.transaction" alt="" coords="831,705,1019,1029">
 </map>
   <a name='diagram'><img id='oneDegreeImg' src='../diagrams/service.1degree.png' usemap='#oneDegreeRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
@@ -410,42 +410,42 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 <area shape="rect" id="node6" href="application_property.html" title="application_property" alt="" coords="793,5,954,89">
 <area shape="rect" id="node7" href="application_spatial_unit.html" title="application_spatial_unit" alt="" coords="783,106,964,190">
 <area shape="rect" id="node8" href="application_uses_source.html" title="application_uses_source" alt="" coords="777,207,970,291">
-<area shape="rect" id="node9" href="../../system/tables/br_validation.html" title="system.br_validation" alt="" coords="791,1206,955,1290">
-<area shape="rect" id="node10" href="request_type.html" title="request_type" alt="" coords="472,773,656,1145">
-<area shape="rect" id="node11" href="service_action_type.html" title="service_action_type" alt="" coords="484,1199,644,1379">
+<area shape="rect" id="node9" href="../../system/tables/br_validation.html" title="system.br_validation" alt="" coords="791,1218,955,1302">
+<area shape="rect" id="node10" href="request_type.html" title="request_type" alt="" coords="472,773,656,1169">
+<area shape="rect" id="node11" href="service_action_type.html" title="service_action_type" alt="" coords="484,1223,644,1403">
 <area shape="rect" id="node12" href="request_category_type.html" title="request_category_type" alt="" coords="235,797,415,881">
 <area shape="rect" id="node13" href="../../administrative/tables/rrr_type.html" title="administrative.rrr_type" alt="" coords="237,998,413,1082">
 <area shape="rect" id="node14" href="type_action.html" title="type_action" alt="" coords="273,1099,378,1183">
-<area shape="rect" id="node17" href="service_status_type.html" title="service_status_type" alt="" coords="245,1205,406,1361">
-<area shape="rect" id="node15" href="request_type_requires_source_type.html" title="request_type_requires_source_type" alt="" coords="741,614,1005,698">
-<area shape="rect" id="node16" href="service.html" title="service" alt="" coords="711,715,1035,1189">
-<area shape="rect" id="node18" href="../../transaction/tables/transaction.html" title="transaction.transaction" alt="" coords="1081,694,1269,1018">
+<area shape="rect" id="node17" href="service_status_type.html" title="service_status_type" alt="" coords="245,1217,406,1373">
+<area shape="rect" id="node15" href="request_type_requires_source_type.html" title="request_type_requires_source_type" alt="" coords="741,626,1005,710">
+<area shape="rect" id="node16" href="service.html" title="service" alt="" coords="711,727,1035,1201">
+<area shape="rect" id="node18" href="../../transaction/tables/transaction.html" title="transaction.transaction" alt="" coords="1081,706,1269,1030">
 </map>
 
   <a name='diagram'><img id='twoDegreesImg' src='../diagrams/service.2degrees.png' usemap='#twoDegreesRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 </td></tr></table>
 <span class='excludedRelationship'>
 <br>Excluded from diagram's relationships: 
-<a href="../tables/application.html">application.rowidentifier</a>&nbsp;
 <a href="../tables/application_spatial_unit.html">application_spatial_unit.change_time</a>&nbsp;
-<a href="../tables/application_property.html">application_property.rowidentifier</a>&nbsp;
-<a href="../tables/application.html">application.change_user</a>&nbsp;
-<a href="../tables/application_uses_source.html">application_uses_source.rowidentifier</a>&nbsp;
-<a href="../tables/application_uses_source.html">application_uses_source.change_user</a>&nbsp;
-<a href="../tables/application_spatial_unit.html">application_spatial_unit.change_action</a>&nbsp;
-<a href="../tables/application_spatial_unit.html">application_spatial_unit.change_user</a>&nbsp;
-<a href="../tables/application_spatial_unit.html">application_spatial_unit.rowidentifier</a>&nbsp;
-<a href="../tables/application.html">application.change_time</a>&nbsp;
-<a href="../tables/application_uses_source.html">application_uses_source.rowversion</a>&nbsp;
-<a href="../tables/application_property.html">application_property.change_user</a>&nbsp;
-<a href="../tables/application_property.html">application_property.change_time</a>&nbsp;
-<a href="../tables/application_property.html">application_property.change_action</a>&nbsp;
-<a href="../tables/application_uses_source.html">application_uses_source.change_time</a>&nbsp;
-<a href="../tables/application_property.html">application_property.rowversion</a>&nbsp;
-<a href="../tables/application_spatial_unit.html">application_spatial_unit.rowversion</a>&nbsp;
-<a href="../tables/application.html">application.change_action</a>&nbsp;
 <a href="../tables/application.html">application.rowversion</a>&nbsp;
+<a href="../tables/application_spatial_unit.html">application_spatial_unit.rowversion</a>&nbsp;
+<a href="../tables/application_uses_source.html">application_uses_source.change_time</a>&nbsp;
+<a href="../tables/application_property.html">application_property.change_user</a>&nbsp;
+<a href="../tables/application_property.html">application_property.change_action</a>&nbsp;
+<a href="../tables/application.html">application.rowidentifier</a>&nbsp;
+<a href="../tables/application_spatial_unit.html">application_spatial_unit.change_user</a>&nbsp;
+<a href="../tables/application_property.html">application_property.change_time</a>&nbsp;
+<a href="../tables/application_spatial_unit.html">application_spatial_unit.rowidentifier</a>&nbsp;
+<a href="../tables/application_property.html">application_property.rowidentifier</a>&nbsp;
+<a href="../tables/application.html">application.change_action</a>&nbsp;
 <a href="../tables/application_uses_source.html">application_uses_source.change_action</a>&nbsp;
+<a href="../tables/application.html">application.change_time</a>&nbsp;
+<a href="../tables/application_uses_source.html">application_uses_source.change_user</a>&nbsp;
+<a href="../tables/application_property.html">application_property.rowversion</a>&nbsp;
+<a href="../tables/application_uses_source.html">application_uses_source.rowidentifier</a>&nbsp;
+<a href="../tables/application_spatial_unit.html">application_spatial_unit.change_action</a>&nbsp;
+<a href="../tables/application.html">application.change_user</a>&nbsp;
+<a href="../tables/application_uses_source.html">application_uses_source.rowversion</a>&nbsp;
 </span>
 </div>
 </body>

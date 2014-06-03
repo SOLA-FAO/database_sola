@@ -1,7 +1,7 @@
-gender_type
-id_type
 communication_type
+gender_type
 group_party_type
+id_type
 party_role_type
 party_type
 party

@@ -7499,7 +7499,8 @@ CREATE TABLE request_type (
     nr_properties_required integer DEFAULT 0 NOT NULL,
     notation_template character varying(1000),
     rrr_type_code character varying(20),
-    type_action_code character varying(20)
+    type_action_code character varying(20),
+    display_group_name character varying(500)
 );
 
 
@@ -7602,6 +7603,13 @@ COMMENT ON COLUMN request_type.rrr_type_code IS 'Used by the Property Details sc
 --
 
 COMMENT ON COLUMN request_type.type_action_code IS 'Used by teh Property Details screen to identify what action applies to the RRR affected by the service. One of new, vary or cancel. If null, the Property Details screen will allow the user to create or vary RRRs matching the rrr_type_code.';
+
+
+--
+-- Name: COLUMN request_type.display_group_name; Type: COMMENT; Schema: application; Owner: postgres
+--
+
+COMMENT ON COLUMN request_type.display_group_name IS 'SOLA Extension. Used to group request types that have a similar purpose (e.g. Mortgage types or Systematic Registration types). Used by the Add Service dialog to group the request types for display.';
 
 
 --
