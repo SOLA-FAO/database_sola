@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<database name="sola" schema="system" type="PostgreSQL - 9.3.2">
+<database name="sola" schema="system" type="PostgreSQL - 9.2.3">
    <tables>
       <table name="active_users" remarks="Identifies the users currently active in the system. If the users password has expired, then they are treated as inactive users, unless they are System Administrators. This view is intended to replace the system.appuser table in the SolaRealm configuration in Glassfish." schema="system" type="VIEW">
          <column autoUpdated="false" digits="0" id="0" name="username" nullable="true" remarks="" size="40" type="varchar"/>
@@ -80,6 +80,7 @@
          <column autoUpdated="false" defaultValue="'i'::bpchar" digits="0" id="12" name="change_action" nullable="false" remarks="" size="1" type="bpchar"/>
          <column autoUpdated="false" digits="0" id="13" name="change_user" nullable="true" remarks="" size="50" type="varchar"/>
          <column autoUpdated="false" defaultValue="now()" digits="6" id="14" name="change_time" nullable="false" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="6" id="15" name="activation_expiration" nullable="true" remarks="Account activation timeout. It can be used to delete account if it was not activated in time." size="29" type="timestamp"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="appuser_pkey" unique="true">
             <column ascending="true" name="id"/>
@@ -339,6 +340,7 @@
          <column autoUpdated="false" digits="0" id="17" name="security_password" nullable="true" remarks="The password to access a secure wms layer. Not currently used." size="30" type="varchar"/>
          <column autoUpdated="false" defaultValue="false" digits="0" id="18" name="added_from_bulk_operation" nullable="false" remarks="Flag to indicate the layer was added when using the SOLA Bulk Operation feature." size="1" type="bool"/>
          <column autoUpdated="false" defaultValue="false" digits="0" id="19" name="use_in_public_display" nullable="false" remarks="Flag to indicate if the layer must be visible when printing the public display map. Not relevant for other kinds of map operations." size="1" type="bool"/>
+         <column autoUpdated="false" defaultValue="false" digits="0" id="20" name="use_for_ot" nullable="false" remarks="Flag to indicate if the layer must be visible on open tenure map." size="1" type="bool"/>
          <primaryKey column="name" sequenceNumberInPK="1"/>
          <index name="config_map_layer_pkey" unique="true">
             <column ascending="true" name="name"/>
@@ -406,6 +408,25 @@
          <primaryKey column="srid" sequenceNumberInPK="1"/>
          <index name="crs_pkey" unique="true">
             <column ascending="true" name="srid"/>
+         </index>
+      </table>
+      <table name="email" remarks="Table for email messages to be sent." schema="system" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="Unique identifier of the record." size="40" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="1" name="recipient" nullable="false" remarks="Email address of recipient." size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="2" name="recipient_name" nullable="true" remarks="Name of recipient." size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="3" name="cc" nullable="true" remarks="List of names and email address to send a copy of the message" size="5000" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="4" name="bcc" nullable="true" remarks="List of names and email address to send a blind copy of the message" size="5000" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="5" name="subject" nullable="false" remarks="Subject of the message" size="250" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="6" name="body" nullable="false" remarks="Message body" size="8000" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="7" name="attachment" nullable="true" remarks="Attachment file to send" size="2147483647" type="bytea"/>
+         <column autoUpdated="false" digits="0" id="8" name="attachment_mime_type" nullable="true" remarks="attachment_mime_type" size="250" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="9" name="attachment_name" nullable="true" remarks="Attachment file name" size="250" type="varchar"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="10" name="time_to_send" nullable="false" remarks="Date and time when to send the message." size="29" type="timestamp"/>
+         <column autoUpdated="false" defaultValue="1" digits="0" id="11" name="attempt" nullable="false" remarks="Number of attempt of sending message." size="10" type="int4"/>
+         <column autoUpdated="false" digits="0" id="12" name="error" nullable="true" remarks="Error message received when sending the message." size="5000" type="varchar"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="email_pk_id" unique="true">
+            <column ascending="true" name="id"/>
          </index>
       </table>
       <table name="Function: consolidation_consolidate" remarks="Moves records from the temporary consolidation schema into the main SOLA tables. Used by the bulk consolidation process." schema="system" type="TABLE"/>

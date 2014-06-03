@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<database name="sola" schema="administrative" type="PostgreSQL - 9.3.2">
+<database name="sola" schema="administrative" type="PostgreSQL - 9.2.3">
    <tables>
       <table name="ba_unit" remarks="A Basic Administrative Unit a.k.a. BA Unit or Property. Used to link the rights and restrictions over one or more parcels to the parties that hold those rights and restrictions. A right must be homogeneous over the entire BA Unit. Implementation of the LADM LA_BAUnit class.&#13;&#10;Tags: LADM Reference Object, Change History" schema="administrative" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="LADM Definition: Identifier for the BA Unit." size="40" type="varchar">
@@ -505,6 +505,7 @@
       <table name="rrr_type" remarks="Code list of RRR types. E.g. freehold owernship, lease, mortgage, caveat, etc. Implementation of the LADM LA_ResponsibilityType, LA_RightType and LA_RestrictionType classes.&#13;&#10;Tags: LADM Reference Object, Reference Table" schema="administrative" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="LADM Defintion: The code for the RRR type." size="20" type="varchar">
             <child column="target_rrr_type_code" foreignKey="br_validation_target_rrr_type_code_fk112" implied="false" onDeleteCascade="false" table="br_validation"/>
+            <child column="type_code" foreignKey="claim_fk_type_code" implied="false" onDeleteCascade="false" table="claim"/>
             <child column="rrr_type_code" foreignKey="request_type_rrr_type_code_fk21" implied="false" onDeleteCascade="false" table="request_type"/>
             <child column="type_code" foreignKey="rrr_type_code_fk41" implied="false" onDeleteCascade="false" table="rrr"/>
          </column>

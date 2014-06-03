@@ -18,6 +18,7 @@ appuser_appgroup
 br_validation
 consolidation_config
 crs
+email
 Function: consolidation_consolidate
 Function: consolidation_extract
 Function: get_setting

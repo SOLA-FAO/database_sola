@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<database name="sola" schema="application" type="PostgreSQL - 9.3.2">
+<database name="sola" schema="application" type="PostgreSQL - 9.2.3">
    <tables>
       <table name="application" remarks="Applications capture details and manage requests received by the land administration agency to change, update or report on land registry and/or cadastre information. Applications have a lifecycle and transition into different states as the land administration agency processes the request that instigated the application. The primary role of an application is to implement case management functionality in SOLA.&#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="application" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="Identifier for the application." size="40" type="varchar">
@@ -247,6 +247,7 @@
          <column autoUpdated="false" digits="0" id="12" name="type_action_code" nullable="true" remarks="Used by teh Property Details screen to identify what action applies to the RRR affected by the service. One of new, vary or cancel. If null, the Property Details screen will allow the user to create or vary RRRs matching the rrr_type_code." size="20" type="varchar">
             <parent column="code" foreignKey="request_type_type_action_code_fk23" implied="false" onDeleteCascade="false" table="type_action"/>
          </column>
+         <column autoUpdated="false" digits="0" id="13" name="display_group_name" nullable="true" remarks="SOLA Extension. Used to group request types that have a similar purpose (e.g. Mortgage types or Systematic Registration types). Used by the Add Service dialog to group the request types for display." size="500" type="varchar"/>
          <primaryKey column="code" sequenceNumberInPK="1"/>
          <index name="request_type_pkey" unique="true">
             <column ascending="true" name="code"/>
