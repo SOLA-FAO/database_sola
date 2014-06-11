@@ -489,6 +489,7 @@ ALTER TABLE gender_type DISABLE TRIGGER ALL;
 
 INSERT INTO gender_type (code, display_value, status, description) VALUES ('female', 'Female::::Женский::::أنثى::::Femme', 'c', '...::::::::...::::...');
 INSERT INTO gender_type (code, display_value, status, description) VALUES ('male', 'Male::::Мужской::::ذكر::::Homme', 'c', '...::::::::...::::...');
+INSERT INTO gender_type (code, display_value, status, description) VALUES ('na', 'Not applicable', 'c', NULL);
 
 
 ALTER TABLE gender_type ENABLE TRIGGER ALL;
