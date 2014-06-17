@@ -84,6 +84,56 @@ INSERT INTO config_map_layer (name, title, type_code, active, visible_in_start, 
 ALTER TABLE config_map_layer ENABLE TRIGGER ALL;
 
 --
+-- Data for Name: config_map_layer_metadata; Type: TABLE DATA; Schema: system; Owner: postgres
+--
+
+ALTER TABLE config_map_layer_metadata DISABLE TRIGGER ALL;
+
+
+
+ALTER TABLE config_map_layer_metadata ENABLE TRIGGER ALL;
+
+--
+-- Data for Name: panel_launcher_group; Type: TABLE DATA; Schema: system; Owner: postgres
+--
+
+ALTER TABLE panel_launcher_group DISABLE TRIGGER ALL;
+
+INSERT INTO panel_launcher_group (code, display_value, description, status) VALUES ('nullConstructor', 'Nullary Constructor', 'Panels that do not take any constructor arguments', 'c');
+INSERT INTO panel_launcher_group (code, display_value, description, status) VALUES ('documentServices', 'Document Services', 'Panels used for document services', 'c');
+INSERT INTO panel_launcher_group (code, display_value, description, status) VALUES ('cadastreServices', 'Cadastre Services', 'Panels used for cadastre services', 'c');
+INSERT INTO panel_launcher_group (code, display_value, description, status) VALUES ('propertyServices', 'Property Services', 'Panels used for property services', 'c');
+INSERT INTO panel_launcher_group (code, display_value, description, status) VALUES ('newPropServices', 'New Property Services', 'Panels used for new property services', 'c');
+INSERT INTO panel_launcher_group (code, display_value, description, status) VALUES ('generalRRR', 'General RRR', 'Panels used for general RRRs', 'c');
+INSERT INTO panel_launcher_group (code, display_value, description, status) VALUES ('leaseRRR', 'Lease RRR', 'Panels used for Lease RRR', 'c');
+
+
+ALTER TABLE panel_launcher_group ENABLE TRIGGER ALL;
+
+--
+-- Data for Name: config_panel_launcher; Type: TABLE DATA; Schema: system; Owner: postgres
+--
+
+ALTER TABLE config_panel_launcher DISABLE TRIGGER ALL;
+
+INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('documentTrans', 'Document Transaction Panel', NULL, 'c', 'documentServices', 'org.sola.clients.swing.desktop.source.TransactionedDocumentsPanel', 'cliprgs016', 'transactionedDocumentPanel');
+INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('documentSearch', 'Document Search Panel', NULL, 'c', 'nullConstructor', 'org.sola.clients.swing.desktop.source.DocumentSearchForm', 'cliprgs007', 'documentsearch');
+INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('map', 'Map Panel', NULL, 'c', 'nullConstructor', 'org.sola.clients.swing.desktop.cadastre.MapPanelForm', 'cliprgs004', 'map');
+INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('applicationSearch', 'Application Search Panel', NULL, 'c', 'nullConstructor', 'org.sola.clients.swing.desktop.application.ApplicationSearchPanel', 'cliprgs003', 'appsearch');
+INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('cadastreTransMap', 'Cadastre Transaction Map Panel', NULL, 'c', 'cadastreServices', 'org.sola.clients.swing.desktop.cadastre.CadastreTransactionMapPanel', 'cliprgs017', 'cadastreChange');
+INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('property', 'Property Panel', NULL, 'c', 'propertyServices', 'org.sola.clients.swing.desktop.administrative.PropertyPanel', 'cliprgs009', 'propertyPanel');
+INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('newProperty', 'New Property Panel', NULL, 'c', 'newPropServices', 'org.sola.clients.swing.desktop.administrative.PropertyPanel', 'cliprgs009', 'propertyPanel');
+INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('propertySearch', 'Property Search Panel', NULL, 'c', 'nullConstructor', 'org.sola.clients.swing.desktop.administrative.BaUnitSearchPanel', 'cliprgs006', 'baunitsearch');
+INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('simpleRight', 'Simple Right Panel', NULL, 'c', 'generalRRR', 'org.sola.clients.swing.desktop.administrative.SimpleRightPanel', NULL, 'simpleRightPanel');
+INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('simpleRightholder', 'Simple Rightholder Panel', NULL, 'c', 'generalRRR', 'org.sola.clients.swing.desktop.administrative.SimpleRightholderPanel', NULL, 'simpleOwnershipPanel');
+INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('mortgage', 'Mortgage Panel', NULL, 'c', 'generalRRR', 'org.sola.clients.swing.desktop.administrative.MortgagePanel', NULL, 'mortgagePanel');
+INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('lease', 'Lease Panel', NULL, 'c', 'leaseRRR', 'org.sola.clients.swing.desktop.administrative.LeasePanel', NULL, 'leasePanel');
+INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('ownership', 'Ownership Share Panel', NULL, 'c', 'generalRRR', 'org.sola.clients.swing.desktop.administrative.OwnershipPanel', NULL, 'ownershipPanel');
+
+
+ALTER TABLE config_panel_launcher ENABLE TRIGGER ALL;
+
+--
 -- Data for Name: consolidation_config; Type: TABLE DATA; Schema: system; Owner: postgres
 --
 
@@ -316,6 +366,7 @@ INSERT INTO version (version_num) VALUES ('1404a');
 INSERT INTO version (version_num) VALUES ('1404b');
 INSERT INTO version (version_num) VALUES ('1406a');
 INSERT INTO version (version_num) VALUES ('1406b');
+INSERT INTO version (version_num) VALUES ('1406x');
 
 
 ALTER TABLE version ENABLE TRIGGER ALL;

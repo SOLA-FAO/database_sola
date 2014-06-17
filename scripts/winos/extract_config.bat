@@ -71,6 +71,8 @@ echo ### Dumping system tables... >> %EXTRACT_LOG% 2>&1
     -t system.config_map_layer -t system.consolidation_config ^
 	-t system.crs -t system.map_search_option ^
     -t system.query_field -t system.setting -t system.version ^
+	-t system.config_panel_launcher -t system.panel_launcher_group ^
+	-t system.config_map_layer_metadata ^
 	-f "%config_path%system.sql" %db_name% >> %EXTRACT_LOG% 2>&1
 	
 echo Dumping user tables...

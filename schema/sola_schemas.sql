@@ -5845,7 +5845,8 @@ CREATE TABLE rrr_type (
     share_check boolean NOT NULL,
     party_required boolean NOT NULL,
     description character varying(1000),
-    status character(1) DEFAULT 't'::bpchar NOT NULL
+    status character(1) DEFAULT 't'::bpchar NOT NULL,
+    rrr_panel_code character varying(20)
 );
 
 
@@ -5913,6 +5914,13 @@ COMMENT ON COLUMN rrr_type.description IS 'LADM Defintion: Description of the RR
 --
 
 COMMENT ON COLUMN rrr_type.status IS 'SOLA Extension: Status of the RRR type.';
+
+
+--
+-- Name: COLUMN rrr_type.rrr_panel_code; Type: COMMENT; Schema: administrative; Owner: postgres
+--
+
+COMMENT ON COLUMN rrr_type.rrr_panel_code IS 'SOLA Extension. Used to identify the SOLA panel class to display to the user when they view or edit the RRR.';
 
 
 --
@@ -7665,7 +7673,8 @@ CREATE TABLE request_type (
     notation_template character varying(1000),
     rrr_type_code character varying(20),
     type_action_code character varying(20),
-    display_group_name character varying(500)
+    display_group_name character varying(500),
+    service_panel_code character varying(20)
 );
 
 
@@ -7775,6 +7784,13 @@ COMMENT ON COLUMN request_type.type_action_code IS 'Used by teh Property Details
 --
 
 COMMENT ON COLUMN request_type.display_group_name IS 'SOLA Extension. Used to group request types that have a similar purpose (e.g. Mortgage types or Systematic Registration types). Used by the Add Service dialog to group the request types for display.';
+
+
+--
+-- Name: COLUMN request_type.service_panel_code; Type: COMMENT; Schema: application; Owner: postgres
+--
+
+COMMENT ON COLUMN request_type.service_panel_code IS 'SOLA Extension. Used to identify the SOLA panel class to display to the user when they start the service';
 
 
 --
@@ -13885,6 +13901,88 @@ COMMENT ON COLUMN config_map_layer_type.description IS 'A description of the map
 
 
 --
+-- Name: config_panel_launcher; Type: TABLE; Schema: system; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE config_panel_launcher (
+    code character varying(20) NOT NULL,
+    display_value character varying(500) NOT NULL,
+    description character varying(1000),
+    status character(1) DEFAULT 't'::bpchar NOT NULL,
+    launch_group character varying(20) NOT NULL,
+    panel_class character varying(100),
+    message_code character varying(50),
+    card_name character varying(50)
+);
+
+
+ALTER TABLE system.config_panel_launcher OWNER TO postgres;
+
+--
+-- Name: TABLE config_panel_launcher; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON TABLE config_panel_launcher IS 'Configuration data used by the PanelLauncher to determine the appropriate panel or form to display to the user when starting a Service or opening an RRR. 
+Tags: FLOSS SOLA Extension, Reference Table';
+
+
+--
+-- Name: COLUMN config_panel_launcher.code; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN config_panel_launcher.code IS 'The code for the panel to launch';
+
+
+--
+-- Name: COLUMN config_panel_launcher.display_value; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN config_panel_launcher.display_value IS 'The user friendly name for the panel to launch';
+
+
+--
+-- Name: COLUMN config_panel_launcher.description; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN config_panel_launcher.description IS 'Description for the panel to launch';
+
+
+--
+-- Name: COLUMN config_panel_launcher.status; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN config_panel_launcher.status IS 'Status of this configuration record.';
+
+
+--
+-- Name: COLUMN config_panel_launcher.launch_group; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN config_panel_launcher.launch_group IS 'The launch group for the panel.';
+
+
+--
+-- Name: COLUMN config_panel_launcher.panel_class; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN config_panel_launcher.panel_class IS 'The full package and class name for the panel to launch. e.g. org.sola.clients.swing.desktop.administrative.PropertyPanel';
+
+
+--
+-- Name: COLUMN config_panel_launcher.message_code; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN config_panel_launcher.message_code IS 'The code of the message to display when opening the panel. See the ClientMessage class for a list of codes. ';
+
+
+--
+-- Name: COLUMN config_panel_launcher.card_name; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN config_panel_launcher.card_name IS 'The MainContentPanel card name for the panel to launch';
+
+
+--
 -- Name: consolidation_config; Type: TABLE; Schema: system; Owner: postgres; Tablespace: 
 --
 
@@ -14209,6 +14307,56 @@ COMMENT ON COLUMN map_search_option.zoom_in_buffer IS 'The buffer distance to us
 --
 
 COMMENT ON COLUMN map_search_option.description IS 'A description for the search option.';
+
+
+--
+-- Name: panel_launcher_group; Type: TABLE; Schema: system; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE panel_launcher_group (
+    code character varying(20) NOT NULL,
+    display_value character varying(500) NOT NULL,
+    description character varying(1000),
+    status character(1) DEFAULT 't'::bpchar NOT NULL
+);
+
+
+ALTER TABLE system.panel_launcher_group OWNER TO postgres;
+
+--
+-- Name: TABLE panel_launcher_group; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON TABLE panel_launcher_group IS 'Used to group the panel launcher configuration values to make the PanelLancher logic flexible. 
+Tags: FLOSS SOLA Extension, Reference Table';
+
+
+--
+-- Name: COLUMN panel_launcher_group.code; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN panel_launcher_group.code IS 'The code for the panel launcher group';
+
+
+--
+-- Name: COLUMN panel_launcher_group.display_value; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN panel_launcher_group.display_value IS 'The user friendly name for the panel launcher group';
+
+
+--
+-- Name: COLUMN panel_launcher_group.description; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN panel_launcher_group.description IS 'Description for the panel launcher group';
+
+
+--
+-- Name: COLUMN panel_launcher_group.status; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN panel_launcher_group.status IS 'Status of this panel launcher group';
 
 
 --
@@ -15806,6 +15954,22 @@ ALTER TABLE ONLY config_map_layer_type
 
 
 --
+-- Name: config_panel_launcher_display_value_unique; Type: CONSTRAINT; Schema: system; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY config_panel_launcher
+    ADD CONSTRAINT config_panel_launcher_display_value_unique UNIQUE (display_value);
+
+
+--
+-- Name: config_panel_launcher_pkey; Type: CONSTRAINT; Schema: system; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY config_panel_launcher
+    ADD CONSTRAINT config_panel_launcher_pkey PRIMARY KEY (code);
+
+
+--
 -- Name: consolidation_config_lkey; Type: CONSTRAINT; Schema: system; Owner: postgres; Tablespace: 
 --
 
@@ -15867,6 +16031,22 @@ ALTER TABLE ONLY map_search_option
 
 ALTER TABLE ONLY map_search_option
     ADD CONSTRAINT map_search_option_title_unique UNIQUE (title);
+
+
+--
+-- Name: panel_launcher_group_display_value_unique; Type: CONSTRAINT; Schema: system; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY panel_launcher_group
+    ADD CONSTRAINT panel_launcher_group_display_value_unique UNIQUE (display_value);
+
+
+--
+-- Name: panel_launcher_group_pkey; Type: CONSTRAINT; Schema: system; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY panel_launcher_group
+    ADD CONSTRAINT panel_launcher_group_pkey PRIMARY KEY (code);
 
 
 --
@@ -16372,6 +16552,13 @@ CREATE INDEX rrr_type_code_fk41_ind ON rrr USING btree (type_code);
 
 
 --
+-- Name: rrr_type_config_panel_launcher_fkey_ind; Type: INDEX; Schema: administrative; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX rrr_type_config_panel_launcher_fkey_ind ON rrr_type USING btree (rrr_panel_code);
+
+
+--
 -- Name: rrr_type_rrr_group_type_code_fk22_ind; Type: INDEX; Schema: administrative; Owner: postgres; Tablespace: 
 --
 
@@ -16609,6 +16796,13 @@ CREATE INDEX application_uses_source_index_on_rowidentifier ON application_uses_
 --
 
 CREATE INDEX application_uses_source_source_id_fk127_ind ON application_uses_source USING btree (source_id);
+
+
+--
+-- Name: request_type_config_panel_launcher_fkey_ind; Type: INDEX; Schema: application; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX request_type_config_panel_launcher_fkey_ind ON request_type USING btree (service_panel_code);
 
 
 --
@@ -17678,6 +17872,13 @@ CREATE INDEX config_map_layer_pojo_query_name_for_select_fk106_ind ON config_map
 --
 
 CREATE INDEX config_map_layer_type_code_fk104_ind ON config_map_layer USING btree (type_code);
+
+
+--
+-- Name: config_panel_launcher_launch_group_fkey_ind; Type: INDEX; Schema: system; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX config_panel_launcher_launch_group_fkey_ind ON config_panel_launcher USING btree (launch_group);
 
 
 --
@@ -18789,6 +18990,14 @@ ALTER TABLE ONLY rrr
 
 
 --
+-- Name: rrr_type_config_panel_launcher_fkey; Type: FK CONSTRAINT; Schema: administrative; Owner: postgres
+--
+
+ALTER TABLE ONLY rrr_type
+    ADD CONSTRAINT rrr_type_config_panel_launcher_fkey FOREIGN KEY (rrr_panel_code) REFERENCES system.config_panel_launcher(code) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
 -- Name: rrr_type_rrr_group_type_code_fk22; Type: FK CONSTRAINT; Schema: administrative; Owner: postgres
 --
 
@@ -18932,6 +19141,14 @@ ALTER TABLE ONLY application_uses_source
 
 ALTER TABLE ONLY application_uses_source
     ADD CONSTRAINT application_uses_source_source_id_fk127 FOREIGN KEY (source_id) REFERENCES source.source(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: request_type_config_panel_launcher_fkey; Type: FK CONSTRAINT; Schema: application; Owner: postgres
+--
+
+ALTER TABLE ONLY request_type
+    ADD CONSTRAINT request_type_config_panel_launcher_fkey FOREIGN KEY (service_panel_code) REFERENCES system.config_panel_launcher(code) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
@@ -19656,6 +19873,14 @@ ALTER TABLE ONLY config_map_layer
 
 ALTER TABLE ONLY config_map_layer
     ADD CONSTRAINT config_map_layer_type_code_fk104 FOREIGN KEY (type_code) REFERENCES config_map_layer_type(code) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- Name: config_panel_launcher_launch_group_fkey; Type: FK CONSTRAINT; Schema: system; Owner: postgres
+--
+
+ALTER TABLE ONLY config_panel_launcher
+    ADD CONSTRAINT config_panel_launcher_launch_group_fkey FOREIGN KEY (launch_group) REFERENCES panel_launcher_group(code) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
