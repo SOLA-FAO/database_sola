@@ -129,7 +129,7 @@ echo ### Dumping bulk operation tables... >> %EXTRACT_LOG% 2>&1
     --column-inserts --disable-dollar-quoting --disable-triggers ^
     -t bulk_operation.spatial_unit_temporary ^
 	-f "%data_path%09_bulk_operation.sql" %db_name% >> %EXTRACT_LOG% 2>&1
-		
+
 REM Compress the test/demo data using 7z. 
 echo Compressing data files...
 echo ### Compressing data files... >> %EXTRACT_LOG% 2>&1

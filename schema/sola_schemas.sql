@@ -10509,6 +10509,15 @@ CREATE TABLE claim (
     change_user character varying(50),
     change_time timestamp without time zone DEFAULT now() NOT NULL,
     type_code character varying(20) NOT NULL,
+    start_date date,
+    land_use_code character varying(20),
+    notes character varying(1000),
+    north_adjacency character varying(500),
+    south_adjacency character varying(500),
+    east_adjacency character varying(500),
+    west_adjacency character varying(500),
+    assignee_name character varying(50),
+    rejection_reason_code character varying(20),
     CONSTRAINT enforce_geotype_gps_geometry CHECK ((((public.geometrytype(gps_geometry) = 'POLYGON'::text) OR (public.geometrytype(gps_geometry) = 'POINT'::text)) OR (gps_geometry IS NULL))),
     CONSTRAINT enforce_geotype_mapped_geometry CHECK ((((public.geometrytype(mapped_geometry) = 'POLYGON'::text) OR (public.geometrytype(mapped_geometry) = 'POINT'::text)) OR (mapped_geometry IS NULL))),
     CONSTRAINT enforce_valid_gps_geometry CHECK (public.st_isvalid(gps_geometry)),
@@ -10652,6 +10661,180 @@ COMMENT ON COLUMN claim.type_code IS 'Type of claim (e.g. ownership, usufruct, o
 
 
 --
+-- Name: COLUMN claim.start_date; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.start_date IS 'Start date of right (occupation)';
+
+
+--
+-- Name: COLUMN claim.land_use_code; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.land_use_code IS 'Land use code';
+
+
+--
+-- Name: COLUMN claim.notes; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.notes IS 'Any note that could be usefully stored as part of the claim';
+
+
+--
+-- Name: COLUMN claim.north_adjacency; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.north_adjacency IS 'Optional information about adjacency on the north';
+
+
+--
+-- Name: COLUMN claim.south_adjacency; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.south_adjacency IS 'Optional information about adjacency on the south';
+
+
+--
+-- Name: COLUMN claim.east_adjacency; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.east_adjacency IS 'Optional information about adjacency on the east';
+
+
+--
+-- Name: COLUMN claim.west_adjacency; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.west_adjacency IS 'Optional information about adjacency on the west';
+
+
+--
+-- Name: COLUMN claim.assignee_name; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.assignee_name IS 'User name who is assigned to work with claim';
+
+
+--
+-- Name: COLUMN claim.rejection_reason_code; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.rejection_reason_code IS 'Rejection reason code.';
+
+
+--
+-- Name: claim_comment; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE claim_comment (
+    id character varying(40) NOT NULL,
+    claim_id character varying(40) NOT NULL,
+    comment character varying(500) NOT NULL,
+    comment_user character varying(50) NOT NULL,
+    creation_time timestamp without time zone DEFAULT now() NOT NULL,
+    rowidentifier character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
+    rowversion integer DEFAULT 0 NOT NULL,
+    change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
+    change_user character varying(50),
+    change_time timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE opentenure.claim_comment OWNER TO postgres;
+
+--
+-- Name: COLUMN claim_comment.id; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_comment.id IS 'Identifier for the claim comment.';
+
+
+--
+-- Name: COLUMN claim_comment.claim_id; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_comment.claim_id IS 'Identifier for the claim.';
+
+
+--
+-- Name: COLUMN claim_comment.comment; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_comment.comment IS 'Comment text.';
+
+
+--
+-- Name: COLUMN claim_comment.comment_user; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_comment.comment_user IS 'The user id who has created comment.';
+
+
+--
+-- Name: COLUMN claim_comment.creation_time; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_comment.creation_time IS 'The date and time when comment was created.';
+
+
+--
+-- Name: COLUMN claim_comment.rowidentifier; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_comment.rowidentifier IS 'Identifies the all change records for the row in the claim_historic table.';
+
+
+--
+-- Name: COLUMN claim_comment.rowversion; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_comment.rowversion IS 'Sequential value indicating the number of times this row has been modified.';
+
+
+--
+-- Name: COLUMN claim_comment.change_action; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_comment.change_action IS 'Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).';
+
+
+--
+-- Name: COLUMN claim_comment.change_user; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_comment.change_user IS 'The user id of the last person to modify the row.';
+
+
+--
+-- Name: COLUMN claim_comment.change_time; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_comment.change_time IS 'The date and time the row was last modified.';
+
+
+--
+-- Name: claim_comment_historic; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE claim_comment_historic (
+    id character varying(40),
+    claim_id character varying(40),
+    comment character varying(500),
+    comment_user character varying(50),
+    creation_time timestamp without time zone,
+    rowidentifier character varying(40),
+    rowversion integer,
+    change_action character(1),
+    change_user character varying(50),
+    change_time timestamp without time zone,
+    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE opentenure.claim_comment_historic OWNER TO postgres;
+
+--
 -- Name: claim_historic; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
 --
 
@@ -10663,7 +10846,7 @@ CREATE TABLE claim_historic (
     decision_date timestamp without time zone,
     description character varying(250),
     challenged_claim_id character varying(40),
-    claimant_id character varying(40) NOT NULL,
+    claimant_id character varying(40),
     mapped_geometry public.geometry,
     gps_geometry public.geometry,
     status_code character varying(20),
@@ -10674,7 +10857,16 @@ CREATE TABLE claim_historic (
     change_user character varying(50),
     change_time timestamp without time zone,
     change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL,
-    type_code character varying(20)
+    type_code character varying(20),
+    notes character varying(1000),
+    start_date date,
+    north_adjacency character varying(500),
+    south_adjacency character varying(500),
+    east_adjacency character varying(500),
+    west_adjacency character varying(500),
+    assignee_name character varying(50),
+    land_use_code character varying(20),
+    rejection_reason_code character varying(20)
 );
 
 
@@ -10686,6 +10878,121 @@ ALTER TABLE opentenure.claim_historic OWNER TO postgres;
 
 COMMENT ON TABLE claim_historic IS 'Historic table for the main table with claims opentenure.claim. Keeps all changes done to the main table.';
 
+
+--
+-- Name: claim_location; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE claim_location (
+    id character varying(40) NOT NULL,
+    claim_id character varying(40) NOT NULL,
+    mapped_location public.geometry NOT NULL,
+    gps_location public.geometry,
+    description character varying(500),
+    rowidentifier character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
+    rowversion integer DEFAULT 0 NOT NULL,
+    change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
+    change_user character varying(50),
+    change_time timestamp without time zone DEFAULT now() NOT NULL,
+    CONSTRAINT enforce_geotype_gps_location CHECK ((((public.geometrytype(gps_location) = 'POLYGON'::text) OR (public.geometrytype(gps_location) = 'POINT'::text)) OR (gps_location IS NULL))),
+    CONSTRAINT enforce_geotype_mapped_location CHECK (((public.geometrytype(mapped_location) = 'POLYGON'::text) OR (public.geometrytype(mapped_location) = 'POINT'::text))),
+    CONSTRAINT enforce_valid_gps_location CHECK (public.st_isvalid(gps_location)),
+    CONSTRAINT enforce_valid_mapped_location CHECK (public.st_isvalid(mapped_location))
+);
+
+
+ALTER TABLE opentenure.claim_location OWNER TO postgres;
+
+--
+-- Name: COLUMN claim_location.id; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_location.id IS 'Identifier for the claim location.';
+
+
+--
+-- Name: COLUMN claim_location.claim_id; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_location.claim_id IS 'Identifier for the claim.';
+
+
+--
+-- Name: COLUMN claim_location.mapped_location; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_location.mapped_location IS 'Additional claim location geometry.';
+
+
+--
+-- Name: COLUMN claim_location.gps_location; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_location.gps_location IS 'Additional claim location geometry in Lat/Long format.';
+
+
+--
+-- Name: COLUMN claim_location.description; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_location.description IS 'Claim location description.';
+
+
+--
+-- Name: COLUMN claim_location.rowidentifier; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_location.rowidentifier IS 'Identifies the all change records for the row in the claim_historic table.';
+
+
+--
+-- Name: COLUMN claim_location.rowversion; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_location.rowversion IS 'Sequential value indicating the number of times this row has been modified.';
+
+
+--
+-- Name: COLUMN claim_location.change_action; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_location.change_action IS 'Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).';
+
+
+--
+-- Name: COLUMN claim_location.change_user; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_location.change_user IS 'The user id of the last person to modify the row.';
+
+
+--
+-- Name: COLUMN claim_location.change_time; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_location.change_time IS 'The date and time the row was last modified.';
+
+
+--
+-- Name: claim_location_historic; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE claim_location_historic (
+    id character varying(40),
+    claim_id character varying(40),
+    mapped_location public.geometry,
+    gps_location public.geometry,
+    description character varying(500),
+    rowidentifier character varying(40),
+    rowversion integer NOT NULL,
+    change_action character(1),
+    change_user character varying(50),
+    change_time timestamp without time zone,
+    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE opentenure.claim_location_historic OWNER TO postgres;
 
 --
 -- Name: claim_nr_seq; Type: SEQUENCE; Schema: opentenure; Owner: postgres
@@ -10966,6 +11273,48 @@ COMMENT ON TABLE claim_uses_attachment_historic IS 'Historic table for opentenur
 
 
 --
+-- Name: land_use; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE land_use (
+    code character varying(20) NOT NULL,
+    display_value character varying(500) NOT NULL,
+    status character(1) DEFAULT 't'::bpchar NOT NULL,
+    description character varying(1000)
+);
+
+
+ALTER TABLE opentenure.land_use OWNER TO postgres;
+
+--
+-- Name: COLUMN land_use.code; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN land_use.code IS 'The code for the land use.';
+
+
+--
+-- Name: COLUMN land_use.display_value; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN land_use.display_value IS 'Displayed value of the land use.';
+
+
+--
+-- Name: COLUMN land_use.status; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN land_use.status IS 'Status of the land use.';
+
+
+--
+-- Name: COLUMN land_use.description; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN land_use.description IS 'Description of the land use.';
+
+
+--
 -- Name: party; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
 --
 
@@ -10986,7 +11335,8 @@ CREATE TABLE party (
     rowversion integer DEFAULT 0 NOT NULL,
     change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
     change_user character varying(50),
-    change_time timestamp without time zone DEFAULT now() NOT NULL
+    change_time timestamp without time zone DEFAULT now() NOT NULL,
+    is_person boolean DEFAULT true NOT NULL
 );
 
 
@@ -11119,6 +11469,13 @@ COMMENT ON COLUMN party.change_time IS 'The date and time the row was last modif
 
 
 --
+-- Name: COLUMN party.is_person; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN party.is_person IS 'Indicates if record is for individual or company (legal entity)';
+
+
+--
 -- Name: party_for_claim_share; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
 --
 
@@ -11231,7 +11588,8 @@ CREATE TABLE party_historic (
     change_action character(1),
     change_user character varying(50),
     change_time timestamp without time zone,
-    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL
+    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL,
+    is_person boolean
 );
 
 
@@ -11242,6 +11600,55 @@ ALTER TABLE opentenure.party_historic OWNER TO postgres;
 --
 
 COMMENT ON TABLE party_historic IS 'Historic table for opentenure.party. Keeps all changes done to the main table.';
+
+
+--
+-- Name: rejection_reason; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE rejection_reason (
+    code character varying(20) NOT NULL,
+    display_value character varying(2000) NOT NULL,
+    status character(1) DEFAULT 't'::bpchar NOT NULL,
+    description character varying(1000)
+);
+
+
+ALTER TABLE opentenure.rejection_reason OWNER TO postgres;
+
+--
+-- Name: TABLE rejection_reason; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON TABLE rejection_reason IS 'Rejection reason codes';
+
+
+--
+-- Name: COLUMN rejection_reason.code; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN rejection_reason.code IS 'The code for the rejection reason.';
+
+
+--
+-- Name: COLUMN rejection_reason.display_value; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN rejection_reason.display_value IS 'Displayed value of the rejection reason.';
+
+
+--
+-- Name: COLUMN rejection_reason.status; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN rejection_reason.status IS 'Status of the rejection reason.';
+
+
+--
+-- Name: COLUMN rejection_reason.description; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN rejection_reason.description IS 'Description of the rejection reason.';
 
 
 SET search_path = party, pg_catalog;
@@ -12809,7 +13216,7 @@ CREATE TABLE appuser (
     last_name character varying(30) NOT NULL,
     email character varying(40),
     mobile_number character varying(20),
-    activation_code character varying(20),
+    activation_code character varying(40),
     passwd character varying(100) DEFAULT public.uuid_generate_v1() NOT NULL,
     active boolean DEFAULT true NOT NULL,
     description character varying(255),
@@ -12952,7 +13359,7 @@ CREATE TABLE appuser_historic (
     last_name character varying(30),
     email character varying(40),
     mobile_number character varying(20),
-    activation_code character varying(20),
+    activation_code character varying(40),
     passwd character varying(100) DEFAULT public.uuid_generate_v1() NOT NULL,
     active boolean DEFAULT true NOT NULL,
     description character varying(255),
@@ -15436,6 +15843,22 @@ ALTER TABLE ONLY attachment
 
 
 --
+-- Name: claim_comment_pkey; Type: CONSTRAINT; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY claim_comment
+    ADD CONSTRAINT claim_comment_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: claim_location_pkey; Type: CONSTRAINT; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY claim_location
+    ADD CONSTRAINT claim_location_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: claim_pkey; Type: CONSTRAINT; Schema: opentenure; Owner: postgres; Tablespace: 
 --
 
@@ -15492,11 +15915,43 @@ ALTER TABLE ONLY attachment_chunk
 
 
 --
+-- Name: land_use_status_display_value_unique; Type: CONSTRAINT; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY land_use
+    ADD CONSTRAINT land_use_status_display_value_unique UNIQUE (display_value);
+
+
+--
+-- Name: land_use_status_pkey; Type: CONSTRAINT; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY land_use
+    ADD CONSTRAINT land_use_status_pkey PRIMARY KEY (code);
+
+
+--
 -- Name: party_for_claim_share_pkey; Type: CONSTRAINT; Schema: opentenure; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY party_for_claim_share
     ADD CONSTRAINT party_for_claim_share_pkey PRIMARY KEY (party_id, claim_share_id);
+
+
+--
+-- Name: rejection_reason_display_value_unique; Type: CONSTRAINT; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY rejection_reason
+    ADD CONSTRAINT rejection_reason_display_value_unique UNIQUE (display_value);
+
+
+--
+-- Name: rejection_reason_pkey; Type: CONSTRAINT; Schema: opentenure; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY rejection_reason
+    ADD CONSTRAINT rejection_reason_pkey PRIMARY KEY (code);
 
 
 --
@@ -15791,6 +16246,14 @@ ALTER TABLE ONLY approle
 
 ALTER TABLE ONLY appuser_appgroup
     ADD CONSTRAINT appuser_appgroup_pkey PRIMARY KEY (appuser_id, appgroup_id);
+
+
+--
+-- Name: appuser_email_unique; Type: CONSTRAINT; Schema: system; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY appuser
+    ADD CONSTRAINT appuser_email_unique UNIQUE (email);
 
 
 --
@@ -18479,6 +18942,20 @@ CREATE TRIGGER __track_changes BEFORE INSERT OR UPDATE ON party_for_claim_share 
 
 
 --
+-- Name: __track_changes; Type: TRIGGER; Schema: opentenure; Owner: postgres
+--
+
+CREATE TRIGGER __track_changes BEFORE INSERT OR UPDATE ON claim_location FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_changes();
+
+
+--
+-- Name: __track_changes; Type: TRIGGER; Schema: opentenure; Owner: postgres
+--
+
+CREATE TRIGGER __track_changes BEFORE INSERT OR UPDATE ON claim_comment FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_changes();
+
+
+--
 -- Name: __track_history; Type: TRIGGER; Schema: opentenure; Owner: postgres
 --
 
@@ -18518,6 +18995,20 @@ CREATE TRIGGER __track_history AFTER DELETE OR UPDATE ON claim_share FOR EACH RO
 --
 
 CREATE TRIGGER __track_history AFTER DELETE OR UPDATE ON party_for_claim_share FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_history();
+
+
+--
+-- Name: __track_history; Type: TRIGGER; Schema: opentenure; Owner: postgres
+--
+
+CREATE TRIGGER __track_history AFTER DELETE OR UPDATE ON claim_location FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_history();
+
+
+--
+-- Name: __track_history; Type: TRIGGER; Schema: opentenure; Owner: postgres
+--
+
+CREATE TRIGGER __track_history AFTER DELETE OR UPDATE ON claim_comment FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_history();
 
 
 SET search_path = party, pg_catalog;
@@ -19494,11 +19985,27 @@ ALTER TABLE ONLY claim
 
 
 --
+-- Name: claim_comment_claim_id_fk8; Type: FK CONSTRAINT; Schema: opentenure; Owner: postgres
+--
+
+ALTER TABLE ONLY claim_comment
+    ADD CONSTRAINT claim_comment_claim_id_fk8 FOREIGN KEY (claim_id) REFERENCES claim(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: claim_fk_type_code; Type: FK CONSTRAINT; Schema: opentenure; Owner: postgres
 --
 
 ALTER TABLE ONLY claim
     ADD CONSTRAINT claim_fk_type_code FOREIGN KEY (type_code) REFERENCES administrative.rrr_type(code);
+
+
+--
+-- Name: claim_location_claim_id_fk8; Type: FK CONSTRAINT; Schema: opentenure; Owner: postgres
+--
+
+ALTER TABLE ONLY claim_location
+    ADD CONSTRAINT claim_location_claim_id_fk8 FOREIGN KEY (claim_id) REFERENCES claim(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -19531,6 +20038,30 @@ ALTER TABLE ONLY claim_uses_attachment
 
 ALTER TABLE ONLY claim
     ADD CONSTRAINT fk_challenged_claim FOREIGN KEY (challenged_claim_id) REFERENCES claim(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- Name: fk_claim_land_use; Type: FK CONSTRAINT; Schema: opentenure; Owner: postgres
+--
+
+ALTER TABLE ONLY claim
+    ADD CONSTRAINT fk_claim_land_use FOREIGN KEY (land_use_code) REFERENCES land_use(code);
+
+
+--
+-- Name: fk_claim_rejection_reason_code; Type: FK CONSTRAINT; Schema: opentenure; Owner: postgres
+--
+
+ALTER TABLE ONLY claim
+    ADD CONSTRAINT fk_claim_rejection_reason_code FOREIGN KEY (rejection_reason_code) REFERENCES rejection_reason(code);
+
+
+--
+-- Name: fk_document_type_code; Type: FK CONSTRAINT; Schema: opentenure; Owner: postgres
+--
+
+ALTER TABLE ONLY attachment
+    ADD CONSTRAINT fk_document_type_code FOREIGN KEY (type_code) REFERENCES source.administrative_source_type(code);
 
 
 --

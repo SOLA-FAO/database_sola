@@ -458,11 +458,53 @@ SET search_path = opentenure, pg_catalog;
 ALTER TABLE claim_status DISABLE TRIGGER ALL;
 
 INSERT INTO claim_status (code, display_value, status, description) VALUES ('unmoderated', 'Un-moderated', 'i', '');
-INSERT INTO claim_status (code, display_value, status, description) VALUES ('challenged', 'Challenged', 'i', '');
 INSERT INTO claim_status (code, display_value, status, description) VALUES ('moderated', 'Moderated', 'i', '');
+INSERT INTO claim_status (code, display_value, status, description) VALUES ('withdrawn', 'Withdrawn', 'c', 'Status for withdrawn claims');
+INSERT INTO claim_status (code, display_value, status, description) VALUES ('reviewed', 'Reviewed', 'c', 'Status for reviewed claims');
+INSERT INTO claim_status (code, display_value, status, description) VALUES ('rejected', 'Rejected', 'c', 'Status for rejected claims');
 
 
 ALTER TABLE claim_status ENABLE TRIGGER ALL;
+
+--
+-- Data for Name: land_use; Type: TABLE DATA; Schema: opentenure; Owner: postgres
+--
+
+ALTER TABLE land_use DISABLE TRIGGER ALL;
+
+INSERT INTO land_use (code, display_value, status, description) VALUES ('cropProduction', 'Crop Production', 'c', 'Crop Production');
+INSERT INTO land_use (code, display_value, status, description) VALUES ('forestry', 'Forestry', 'c', 'Forestry');
+INSERT INTO land_use (code, display_value, status, description) VALUES ('hunting', 'Hunting', 'c', 'Hunting');
+INSERT INTO land_use (code, display_value, status, description) VALUES ('cropResidential', 'Crop Production and Residential', 'c', 'Crop Production and Residential');
+INSERT INTO land_use (code, display_value, status, description) VALUES ('residential', 'Residential', 'c', 'Residential');
+INSERT INTO land_use (code, display_value, status, description) VALUES ('construction', 'Construction', 'c', 'Construction');
+INSERT INTO land_use (code, display_value, status, description) VALUES ('commerce', 'Commerce, finance and business', 'c', 'Commerce, finance and business');
+INSERT INTO land_use (code, display_value, status, description) VALUES ('unused', 'Unused', 'c', 'Unused');
+INSERT INTO land_use (code, display_value, status, description) VALUES ('mining', 'Mining and quarrying', 'c', 'Mining and quarrying');
+INSERT INTO land_use (code, display_value, status, description) VALUES ('livestockProduction', 'Livestock Production', 'c', 'Livestock Production');
+INSERT INTO land_use (code, display_value, status, description) VALUES ('commonage', 'Commonage', 'c', 'Commonage');
+INSERT INTO land_use (code, display_value, status, description) VALUES ('tourism', 'Tourism', 'c', 'Tourism');
+INSERT INTO land_use (code, display_value, status, description) VALUES ('leisure', 'Recreational, leisure and sport', 'c', 'Recreational, leisure and sport');
+INSERT INTO land_use (code, display_value, status, description) VALUES ('industry', 'Industry and manufacturing', 'c', 'Industry and manufacturing');
+
+
+ALTER TABLE land_use ENABLE TRIGGER ALL;
+
+--
+-- Data for Name: rejection_reason; Type: TABLE DATA; Schema: opentenure; Owner: postgres
+--
+
+ALTER TABLE rejection_reason DISABLE TRIGGER ALL;
+
+INSERT INTO rejection_reason (code, display_value, status, description) VALUES ('boundaryUnclear', 'The definition of the boundaries (of the claimed tenure rights) is missing from the claim, unclear, incorrectly defined or subject to an unresolved boundary dispute', 'c', 'Boundary unclear');
+INSERT INTO rejection_reason (code, display_value, status, description) VALUES ('missingEvidence', 'Documentary evidence in support of the claimed tenure rights is missing', 'c', 'Missing evidence');
+INSERT INTO rejection_reason (code, display_value, status, description) VALUES ('inconclusiveEvidence', 'Documentary evidence provided is insufficient to substantiate the claim to the tenure rights', 'c', 'Inconclusive evidence');
+INSERT INTO rejection_reason (code, display_value, status, description) VALUES ('validityOfEvidence', 'There are significant doubts concerning the validity of the documentary evidence provided in support of the claim to tenure rights', 'c', 'Invalid evidence');
+INSERT INTO rejection_reason (code, display_value, status, description) VALUES ('alternativeProcess', 'An alternative process must be completed before the claim to these tenure rights can be considered', 'c', 'Alternative process');
+INSERT INTO rejection_reason (code, display_value, status, description) VALUES ('others', 'Other reasons', 'c', 'Other reasons');
+
+
+ALTER TABLE rejection_reason ENABLE TRIGGER ALL;
 
 SET search_path = party, pg_catalog;
 
@@ -596,6 +638,8 @@ INSERT INTO administrative_source_type (code, display_value, status, description
 INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('will', 'Will::::Завещание::::وصية::::Testament', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM', false);
 INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('tiff', 'Tiff Scanned Document::::Отсканированный Документ TIFF::::وثيقة ممسوحة (Tiff)::::Document Scanné en TIFF', 'x', '...::::::::::::...', false);
 INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('agriLease', 'Agricultural Lease::::Сельскохозяйственная Аренда::::اجارة زراعية::::Bail Agricole', 'x', '...::::::::::::...', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('utilityBill', 'Utility bill', 'c', 'Utility bill', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('taxPayment', 'Tax payment', 'c', 'Tax payment', false);
 
 
 ALTER TABLE administrative_source_type ENABLE TRIGGER ALL;
@@ -751,6 +795,8 @@ INSERT INTO approle (code, display_value, status, description) VALUES ('consolid
 INSERT INTO approle (code, display_value, status, description) VALUES ('consolidationCons', 'Admin - Consolidation Consolidate::::Admin - Consolidation Consolidate::::Admin - Consolidation Consolidate::::Admin - Consolidation Consolidate', 'c', 'Allows system administrators to consolidate records coming from another system.::::Allows system administrators to start the extraction or records for consolidating in another system.::::Allows system administrators to start the extraction or records for consolidating in another system.::::Allows system administrators to start the extraction or records for consolidating in another system.');
 INSERT INTO approle (code, display_value, status, description) VALUES ('AccessCS', 'Access Community Server', 'c', 'Allows to access Community Server as Community recorder user');
 INSERT INTO approle (code, display_value, status, description) VALUES ('ModerateClaim', 'Moderate claim', 'c', 'Allows to moderate claims submitted by other community recorders.');
+INSERT INTO approle (code, display_value, status, description) VALUES ('ReviewClaim', 'Review claim', 'c', 'Review claim role');
+INSERT INTO approle (code, display_value, status, description) VALUES ('RecordClaim', 'Record claim', 'c', 'Community recorder role');
 
 
 ALTER TABLE approle ENABLE TRIGGER ALL;
