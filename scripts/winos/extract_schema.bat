@@ -8,6 +8,7 @@ REM
 REM Configure variables to use for script
 SET current_dir=%~dp0
 SET pg_dump="%current_dir%bin\psql\pg_dump"
+REM SET pg_dump="C:\Program Files\PostgreSQL\9.3\bin\pg_dump"
 SET schema_path=%current_dir%..\..\schema\
 SET EXTRACT_LOG="%current_dir%schema.log"
 SET host=localhost
