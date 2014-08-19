@@ -457,6 +457,7 @@ SET search_path = opentenure, pg_catalog;
 
 ALTER TABLE claim_status DISABLE TRIGGER ALL;
 
+INSERT INTO claim_status (code, display_value, status, description) VALUES ('created', 'Created', 'i', '');
 INSERT INTO claim_status (code, display_value, status, description) VALUES ('unmoderated', 'Un-moderated', 'i', '');
 INSERT INTO claim_status (code, display_value, status, description) VALUES ('moderated', 'Moderated', 'i', '');
 INSERT INTO claim_status (code, display_value, status, description) VALUES ('withdrawn', 'Withdrawn', 'c', 'Status for withdrawn claims');

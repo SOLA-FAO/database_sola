@@ -64,6 +64,9 @@ insert into opentenure.claim_status (code, display_value, status, description) v
 insert into opentenure.claim_status (code, display_value, status, description) values 
 ('moderated', 'Moderated', 'i', '');
 
+insert into opentenure.claim_status (code, display_value, status, description) values 
+('created', 'Created', 'i', '');
+
 -- Claimant
 CREATE TABLE opentenure.claimant
 (
