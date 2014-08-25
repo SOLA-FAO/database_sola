@@ -80,7 +80,7 @@ COMMENT ON COLUMN system.email.time_to_send IS 'Date and time when to send the m
 COMMENT ON COLUMN system.email.attempt IS 'Number of attempt of sending message.';
 COMMENT ON COLUMN system.email.error IS 'Error message received when sending the message.';
 
-ALTER TABLE opentenure.claim ADD COLUMN type_code character varying(20) NOT NULL;
+ALTER TABLE opentenure.claim ADD COLUMN type_code character varying(20);
 ALTER TABLE opentenure.claim DROP CONSTRAINT claim_claimant_id_fk8;
 ALTER TABLE opentenure.claim DROP CONSTRAINT claim_status_code_fk18;
 ALTER TABLE opentenure.claim DROP CONSTRAINT fk_challenged_claim;
