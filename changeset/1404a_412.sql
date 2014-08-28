@@ -274,7 +274,7 @@ CREATE TABLE opentenure.attachment
   description character varying(255),
   body bytea NOT NULL,
   size bigint NOT NULL,
-  mime_type character varying(20) NOT NULL,
+  mime_type character varying(255) NOT NULL,
   file_name character varying(255) NOT NULL,
   file_extension character varying(5) NOT NULL,
   user_name character varying(50) NOT NULL,
@@ -334,7 +334,7 @@ CREATE TABLE opentenure.attachment_historic
   description character varying(255),
   body bytea,
   size bigint,
-  mime_type character varying(20),
+  mime_type character varying(255),
   file_name character varying(255),
   file_extension character varying(5),
   user_name character varying(50),
@@ -457,10 +457,10 @@ COMMENT ON COLUMN party.party.birth_date IS 'SOLA Extension: Date of birth.';
 ALTER TABLE party.party_historic ADD COLUMN birth_date date;
    
 -- ADD MIME TYPE FIELD TO DOCUMENT TABLE
-ALTER TABLE document.document ADD COLUMN mime_type character varying(20);
+ALTER TABLE document.document ADD COLUMN mime_type character varying(255);
 COMMENT ON COLUMN document.document.mime_type IS 'File mime type.';
 
 -- ADD MIME TYPE FIELD TO DOCUMENT_HISTORIC TABLE
-ALTER TABLE document.document_historic ADD COLUMN mime_type character varying(20);
+ALTER TABLE document.document_historic ADD COLUMN mime_type character varying(255);
   
 INSERT INTO system.version SELECT '1404a' WHERE NOT EXISTS (SELECT version_num FROM system.version WHERE version_num = '1404a');
