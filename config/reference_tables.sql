@@ -468,6 +468,52 @@ INSERT INTO claim_status (code, display_value, status, description) VALUES ('rej
 ALTER TABLE claim_status ENABLE TRIGGER ALL;
 
 --
+-- Data for Name: field_constraint_type; Type: TABLE DATA; Schema: opentenure; Owner: postgres
+--
+
+ALTER TABLE field_constraint_type DISABLE TRIGGER ALL;
+
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('DATETIME', 'DATETIME', 'c', NULL);
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('INTEGER', 'INTEGER', 'c', NULL);
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('NOT_NULL', 'NOT_NULL', 'c', NULL);
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('INTEGER_RANGE', 'INTEGER_RANGE', 'c', NULL);
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('DOUBLE_RANGE', 'DOUBLE_RANGE', 'c', NULL);
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('REGEXP', 'REGEXP', 'c', NULL);
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('LENGTH', 'LENGTH', 'c', NULL);
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('OPTION', 'OPTION', 'c', NULL);
+
+
+ALTER TABLE field_constraint_type ENABLE TRIGGER ALL;
+
+--
+-- Data for Name: field_type; Type: TABLE DATA; Schema: opentenure; Owner: postgres
+--
+
+ALTER TABLE field_type DISABLE TRIGGER ALL;
+
+INSERT INTO field_type (code, display_value, status, description) VALUES ('BOOL', 'BOOL', 'c', NULL);
+INSERT INTO field_type (code, display_value, status, description) VALUES ('TEXT', 'TEXT', 'c', NULL);
+INSERT INTO field_type (code, display_value, status, description) VALUES ('INTEGER', 'INTEGER', 'c', NULL);
+INSERT INTO field_type (code, display_value, status, description) VALUES ('DECIMAL', 'DECIMAL', 'c', NULL);
+INSERT INTO field_type (code, display_value, status, description) VALUES ('DATE', 'DATE', 'c', NULL);
+
+
+ALTER TABLE field_type ENABLE TRIGGER ALL;
+
+--
+-- Data for Name: field_value_type; Type: TABLE DATA; Schema: opentenure; Owner: postgres
+--
+
+ALTER TABLE field_value_type DISABLE TRIGGER ALL;
+
+INSERT INTO field_value_type (code, display_value, status, description) VALUES ('TEXT', 'TEXT', 'c', NULL);
+INSERT INTO field_value_type (code, display_value, status, description) VALUES ('NUMBER', 'NUMBER', 'c', NULL);
+INSERT INTO field_value_type (code, display_value, status, description) VALUES ('BOOL', 'BOOL', 'c', NULL);
+
+
+ALTER TABLE field_value_type ENABLE TRIGGER ALL;
+
+--
 -- Data for Name: land_use; Type: TABLE DATA; Schema: opentenure; Owner: postgres
 --
 
