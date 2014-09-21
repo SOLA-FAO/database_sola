@@ -20,6 +20,7 @@ SET port=5432
 SET dbname=sola
 SET username=postgres
 SET createDb=N
+SET fillWithSampleData=Y
 
 REM Prompt the user for variable override values
 SET /p host= Host name [%host%] :
@@ -28,6 +29,7 @@ SET /p dbname= Database name [%dbname%] :
 SET /p username= Username [%username%] :
 SET /p pword= DB Password [?] :
 SET /p createDb= Create or replace the database? (Y/N) [%createDb%] :
+SET /p fillWithSampleData= Fill database with sample data? (Y/N) [%fillWithSampleData%] :
 
 REM Get the password from the command line and set the PGPASSWORD environ variable
 SET PGPASSWORD=%pword%
@@ -59,6 +61,7 @@ for %%f in (schema\*.sql config\*.sql) do (
    %psql% --host=%host% --port=%port% --dbname=%dbname% --username=%username% --file=%%f >NUL 2>> %BUILD_LOG%
 )
 
+IF /I "%fillWithSampleData%"=="N" GOTO FINISH
 REM Extract the test data from the 7z archive and load it into the database. 
 echo Extracting data files...
 echo ### Extracting data files... >> %BUILD_LOG% 2>&1
@@ -73,6 +76,7 @@ for %%f in (data\*.sql) do (
    %psql% --host=%host% --port=%port% --dbname=%dbname% --username=%username% --file=%%f >NUL 2>> %BUILD_LOG%
 )
 
+:FINISH
 REM Report the finish time
 echo Finished at %time% - Check build.log for errors!
 echo Finished at %time% >> %BUILD_LOG% 2>&1

@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -131,6 +132,8 @@ INSERT INTO application_status_type (code, display_value, status, description) V
 INSERT INTO application_status_type (code, display_value, status, description) VALUES ('annulled', 'Annulled::::Аннулировано::::ملغى::::Annulée', 'c', '');
 INSERT INTO application_status_type (code, display_value, status, description) VALUES ('completed', 'Completed::::Завершено::::مكتمل::::Exécutée', 'c', '');
 INSERT INTO application_status_type (code, display_value, status, description) VALUES ('requisitioned', 'Requisitioned::::Запрошена доп. информация::::يحتاج بيانات::::Réquisitionnée', 'c', '');
+INSERT INTO application_status_type (code, display_value, status, description) VALUES ('to-be-transferred', 'To be transferred', 'c', 'Application is marked for transfer.');
+INSERT INTO application_status_type (code, display_value, status, description) VALUES ('transferred', 'Transferred', 'c', 'Application is transferred.');
 
 
 ALTER TABLE application_status_type ENABLE TRIGGER ALL;
@@ -157,6 +160,7 @@ INSERT INTO application_action_type (code, display_value, status_to_set, status,
 INSERT INTO application_action_type (code, display_value, status_to_set, status, description) VALUES ('withdraw', 'Withdraw application::::Забрано::::اسحب الطلب::::Retirer Demande', 'annulled', 'c', 'Application withdrawn by Applicant (action is manually logged)::::Заявление было забрано заявителем::::Application withdrawn by Applicant (action is manually logged)::::Demande retirée par le demandeur (l''action est automatiquement déposée)');
 INSERT INTO application_action_type (code, display_value, status_to_set, status, description) VALUES ('resubmit', 'Resubmit::::Подано заново::::اعادة تقديم::::Resoumettre', 'lodged', 'c', '');
 INSERT INTO application_action_type (code, display_value, status_to_set, status, description) VALUES ('addSpatialUnit', 'Add spatial unit::::Add spatial unit::::Add spatial unit::::Add spatial unit', NULL, 'c', '');
+INSERT INTO application_action_type (code, display_value, status_to_set, status, description) VALUES ('transfer', 'Transfer', 'to-be-transferred', 'c', 'Marks the application for transfer');
 
 
 ALTER TABLE application_action_type ENABLE TRIGGER ALL;
@@ -844,6 +848,7 @@ INSERT INTO approle (code, display_value, status, description) VALUES ('AccessCS
 INSERT INTO approle (code, display_value, status, description) VALUES ('ModerateClaim', 'Moderate claim', 'c', 'Allows to moderate claims submitted by other community recorders.');
 INSERT INTO approle (code, display_value, status, description) VALUES ('ReviewClaim', 'Review claim', 'c', 'Review claim role');
 INSERT INTO approle (code, display_value, status, description) VALUES ('RecordClaim', 'Record claim', 'c', 'Community recorder role');
+INSERT INTO approle (code, display_value, status, description) VALUES ('ApplnTransfer', 'Appln Action - Transfer', 'c', 'The action that bring the application in the To be transferred state.');
 
 
 ALTER TABLE approle ENABLE TRIGGER ALL;
