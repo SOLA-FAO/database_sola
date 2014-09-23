@@ -28,7 +28,7 @@
          <column autoUpdated="false" digits="0" id="8" name="transaction_id" nullable="true" remarks="SOLA Extension: Reference to the SOLA transaction that created the BA Unit." size="40" type="varchar">
             <parent column="id" foreignKey="ba_unit_transaction_id_fk40" implied="false" onDeleteCascade="true" table="transaction"/>
          </column>
-         <column autoUpdated="false" defaultValue="uuid_generate_v1()" digits="0" id="9" name="rowidentifier" nullable="false" remarks="SOLA Extension: Identifies the all change records for the row in the ba_unit_historic table" size="40" type="varchar"/>
+         <column autoUpdated="false" defaultValue="uuid_generate_v1()" digits="0" id="9" name="rowidentifier" nullable="false" remarks="SOLA Extension: Identifies the all change records for the row in the ba_unit_as_party table" size="40" type="varchar"/>
          <column autoUpdated="false" defaultValue="0" digits="0" id="10" name="rowversion" nullable="false" remarks="SOLA Extension: Sequential value indicating the number of times this row has been modified." size="10" type="int4"/>
          <column autoUpdated="false" defaultValue="'i'::bpchar" digits="0" id="11" name="change_action" nullable="false" remarks="SOLA Extension: Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d)." size="1" type="bpchar"/>
          <column autoUpdated="false" digits="0" id="12" name="change_user" nullable="true" remarks="SOLA Extension: The user id of the last person to modify the row." size="50" type="varchar"/>
@@ -85,6 +85,7 @@
          <column autoUpdated="false" digits="0" id="1" name="party_id" nullable="false" remarks="Identifier for the Party." size="40" type="varchar">
             <parent column="id" foreignKey="ba_unit_as_party_party_id_fk72" implied="false" onDeleteCascade="true" table="party"/>
          </column>
+         <column autoUpdated="false" defaultValue="uuid_generate_v1()" digits="0" id="2" name="rowidentifier" nullable="false" remarks="SOLA Extension: Identifies the all change records for the row in the ba_unit_as_party table" size="40" type="varchar"/>
          <primaryKey column="ba_unit_id" sequenceNumberInPK="1"/>
          <primaryKey column="party_id" sequenceNumberInPK="2"/>
          <index name="ba_unit_as_party_pkey" unique="true">
@@ -103,8 +104,8 @@
             <parent column="id" foreignKey="ba_unit_contains_spatial_unit_ba_unit_id_fk68" implied="false" onDeleteCascade="true" table="ba_unit"/>
          </column>
          <column autoUpdated="false" digits="0" id="1" name="spatial_unit_id" nullable="false" remarks="Identifier for the Spatial Unit associated to the BA Unit." size="40" type="varchar">
-            <parent column="id" foreignKey="ba_unit_contains_spatial_unit_spatial_unit_id_fk69" implied="false" onDeleteCascade="true" table="spatial_unit"/>
             <parent column="id" foreignKey="ba_unit_contains_spatial_unit_spatial_unit_id_fk70" implied="false" onDeleteCascade="true" table="cadastre_object"/>
+            <parent column="id" foreignKey="ba_unit_contains_spatial_unit_spatial_unit_id_fk69" implied="false" onDeleteCascade="true" table="spatial_unit"/>
          </column>
          <column autoUpdated="false" defaultValue="uuid_generate_v1()" digits="0" id="2" name="rowidentifier" nullable="false" remarks="Identifies the all change records for the row in the ba_unit_contains_spatial_unit_historic table" size="40" type="varchar"/>
          <column autoUpdated="false" defaultValue="0" digits="0" id="3" name="rowversion" nullable="false" remarks="Sequential value indicating the number of times this row has been modified." size="10" type="int4"/>
@@ -518,9 +519,15 @@
          <column autoUpdated="false" digits="0" id="5" name="party_required" nullable="false" remarks="LADM Defintion: Flag to indicate at least one party must be associated with this RRR." size="1" type="bool"/>
          <column autoUpdated="false" digits="0" id="6" name="description" nullable="true" remarks="LADM Defintion: Description of the RRR type." size="1000" type="varchar"/>
          <column autoUpdated="false" defaultValue="'t'::bpchar" digits="0" id="7" name="status" nullable="false" remarks="SOLA Extension: Status of the RRR type." size="1" type="bpchar"/>
+         <column autoUpdated="false" digits="0" id="8" name="rrr_panel_code" nullable="true" remarks="SOLA Extension. Used to identify the SOLA panel class to display to the user when they view or edit the RRR." size="20" type="varchar">
+            <parent column="code" foreignKey="rrr_type_config_panel_launcher_fkey" implied="false" onDeleteCascade="false" table="config_panel_launcher"/>
+         </column>
          <primaryKey column="code" sequenceNumberInPK="1"/>
          <index name="rrr_type_pkey" unique="true">
             <column ascending="true" name="code"/>
+         </index>
+         <index name="rrr_type_config_panel_launcher_fkey_ind" unique="false">
+            <column ascending="true" name="rrr_panel_code"/>
          </index>
          <index name="rrr_type_display_value_unique" unique="true">
             <column ascending="true" name="display_value"/>

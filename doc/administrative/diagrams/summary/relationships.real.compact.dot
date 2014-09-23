@@ -77,6 +77,7 @@ digraph "compactRelationshipsDiagram" {
       <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">ba_unit_as_party</TD></TR>
       <TR><TD PORT="ba_unit_id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">ba_unit_id</TD></TR>
       <TR><TD PORT="party_id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">party_id</TD></TR>
+      <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
       <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 2</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
     </TABLE>>
     URL="tables/ba_unit_as_party.html"
@@ -192,6 +193,17 @@ digraph "compactRelationshipsDiagram" {
     </TABLE>>
     URL="tables/condition_type.html"
     tooltip="condition_type"
+  ];
+  "system.config_panel_launcher" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">system.config_panel_launcher</TD></TR>
+      <TR><TD PORT="code" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">code</TD></TR>
+      <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
+    </TABLE>>
+    URL="tables/../../system/tables/config_panel_launcher.html"
+    tooltip="system.config_panel_launcher"
   ];
   "mortgage_isbased_in_rrr" [
     label=<
@@ -345,8 +357,9 @@ digraph "compactRelationshipsDiagram" {
       <TR><TD PORT="code" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">code</TD></TR>
       <TR><TD PORT="rrr_group_type_code" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">rrr_group_type_code</TD></TR>
       <TR><TD PORT="display_value" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">display_value</TD></TR>
+      <TR><TD PORT="rrr_panel_code" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">rrr_panel_code</TD></TR>
       <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">4 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 2</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">4 &gt;</TD></TR>
     </TABLE>>
     URL="tables/rrr_type.html"
     tooltip="rrr_type"
@@ -448,6 +461,7 @@ digraph "compactRelationshipsDiagram" {
   "rrr":"type_code":w -> "rrr_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "rrr_share":"rrr_id":w -> "rrr":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "rrr_type":"rrr_group_type_code":w -> "rrr_group_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
+  "rrr_type":"rrr_panel_code":w -> "system.config_panel_launcher":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "source_describes_ba_unit":"ba_unit_id":w -> "ba_unit":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "source_describes_ba_unit":"source_id":w -> "source.source":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "source_describes_rrr":"rrr_id":w -> "rrr":"id":e [arrowhead=none dir=back arrowtail=crowodot];

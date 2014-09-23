@@ -28,6 +28,8 @@ digraph "consolidation_config" {
       <TR><TD PORT="condition_sql" COLSPAN="3" ALIGN="LEFT">condition_sql</TD></TR>
       <TR><TD PORT="remove_before_insert" COLSPAN="3" ALIGN="LEFT">remove_before_insert</TD></TR>
       <TR><TD PORT="order_of_execution" COLSPAN="3" ALIGN="LEFT">order_of_execution</TD></TR>
+      <TR><TD PORT="nr_rows_at_once" COLSPAN="3" ALIGN="LEFT">nr_rows_at_once</TD></TR>
+      <TR><TD PORT="log_in_extracted_rows" COLSPAN="3" ALIGN="LEFT">log_in_extracted_rows</TD></TR>
       <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
     </TABLE>>
     URL="tables/consolidation_config.html"

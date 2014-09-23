@@ -71,7 +71,7 @@
          <column autoUpdated="false" digits="0" id="3" name="last_name" nullable="false" remarks="The last name of the SOLA user." size="30" type="varchar"/>
          <column autoUpdated="false" digits="0" id="4" name="email" nullable="true" remarks="" size="40" type="varchar"/>
          <column autoUpdated="false" digits="0" id="5" name="mobile_number" nullable="true" remarks="" size="20" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="6" name="activation_code" nullable="true" remarks="" size="20" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="6" name="activation_code" nullable="true" remarks="" size="40" type="varchar"/>
          <column autoUpdated="false" defaultValue="uuid_generate_v1()" digits="0" id="7" name="passwd" nullable="false" remarks="" size="100" type="varchar"/>
          <column autoUpdated="false" defaultValue="true" digits="0" id="8" name="active" nullable="false" remarks="" size="1" type="bool"/>
          <column autoUpdated="false" digits="0" id="9" name="description" nullable="true" remarks="" size="255" type="varchar"/>
@@ -84,6 +84,9 @@
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="appuser_pkey" unique="true">
             <column ascending="true" name="id"/>
+         </index>
+         <index name="appuser_email_unique" unique="true">
+            <column ascending="true" name="email"/>
          </index>
          <index name="appuser_index_on_rowidentifier" unique="false">
             <column ascending="true" name="rowidentifier"/>
@@ -383,6 +386,31 @@
             <column ascending="true" name="display_value"/>
          </index>
       </table>
+      <table name="config_panel_launcher" remarks="Configuration data used by the PanelLauncher to determine the appropriate panel or form to display to the user when starting a Service or opening an RRR. &#13;&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="system" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="The code for the panel to launch" size="20" type="varchar">
+            <child column="service_panel_code" foreignKey="request_type_config_panel_launcher_fkey" implied="false" onDeleteCascade="false" table="request_type"/>
+            <child column="rrr_panel_code" foreignKey="rrr_type_config_panel_launcher_fkey" implied="false" onDeleteCascade="false" table="rrr_type"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="display_value" nullable="false" remarks="The user friendly name for the panel to launch" size="500" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="2" name="description" nullable="true" remarks="Description for the panel to launch" size="1000" type="varchar"/>
+         <column autoUpdated="false" defaultValue="'t'::bpchar" digits="0" id="3" name="status" nullable="false" remarks="Status of this configuration record." size="1" type="bpchar"/>
+         <column autoUpdated="false" digits="0" id="4" name="launch_group" nullable="false" remarks="The launch group for the panel." size="20" type="varchar">
+            <parent column="code" foreignKey="config_panel_launcher_launch_group_fkey" implied="false" onDeleteCascade="false" table="panel_launcher_group"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="5" name="panel_class" nullable="true" remarks="The full package and class name for the panel to launch. e.g. org.sola.clients.swing.desktop.administrative.PropertyPanel" size="100" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="6" name="message_code" nullable="true" remarks="The code of the message to display when opening the panel. See the ClientMessage class for a list of codes." size="50" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="7" name="card_name" nullable="true" remarks="The MainContentPanel card name for the panel to launch" size="50" type="varchar"/>
+         <primaryKey column="code" sequenceNumberInPK="1"/>
+         <index name="config_panel_launcher_pkey" unique="true">
+            <column ascending="true" name="code"/>
+         </index>
+         <index name="config_panel_launcher_display_value_unique" unique="true">
+            <column ascending="true" name="display_value"/>
+         </index>
+         <index name="config_panel_launcher_launch_group_fkey_ind" unique="false">
+            <column ascending="true" name="launch_group"/>
+         </index>
+      </table>
       <table name="consolidation_config" remarks="This table contains the list of instructions to run the consolidation process." schema="system" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="" size="100" type="varchar"/>
          <column autoUpdated="false" digits="0" id="1" name="schema_name" nullable="false" remarks="" size="100" type="varchar"/>
@@ -391,6 +419,8 @@
          <column autoUpdated="false" digits="0" id="4" name="condition_sql" nullable="true" remarks="" size="1000" type="varchar"/>
          <column autoUpdated="false" defaultValue="false" digits="0" id="5" name="remove_before_insert" nullable="false" remarks="" size="1" type="bool"/>
          <column autoUpdated="false" digits="0" id="6" name="order_of_execution" nullable="false" remarks="" size="10" type="int4"/>
+         <column autoUpdated="false" defaultValue="10000" digits="0" id="7" name="nr_rows_at_once" nullable="false" remarks="The number of rows to be extracted at once." size="10" type="int4"/>
+         <column autoUpdated="false" defaultValue="true" digits="0" id="8" name="log_in_extracted_rows" nullable="false" remarks="True - If the records has to be logged in the extracted rows table." size="1" type="bool"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="consolidation_config_pkey" unique="true">
             <column ascending="true" name="id"/>
@@ -427,6 +457,16 @@
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="email_pk_id" unique="true">
             <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="extracted_rows" remarks="It logs every record that has been extracted from this database for consolidation purposes." schema="system" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="table_name" nullable="false" remarks="The table where the record has been found. It has to be absolute table name including the schema name." size="200" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="1" name="rowidentifier" nullable="false" remarks="The rowidentifier of the record. Carefull: It is the rowidentifier and not the id." size="40" type="varchar"/>
+         <primaryKey column="table_name" sequenceNumberInPK="1"/>
+         <primaryKey column="rowidentifier" sequenceNumberInPK="2"/>
+         <index name="extracted_rows_pkey" unique="true">
+            <column ascending="true" name="table_name"/>
+            <column ascending="true" name="rowidentifier"/>
          </index>
       </table>
       <table name="Function: consolidation_consolidate" remarks="Moves records from the temporary consolidation schema into the main SOLA tables. Used by the bulk consolidation process." schema="system" type="TABLE"/>
@@ -468,6 +508,21 @@
          </index>
          <index name="map_search_option_title_unique" unique="true">
             <column ascending="true" name="title"/>
+         </index>
+      </table>
+      <table name="panel_launcher_group" remarks="Used to group the panel launcher configuration values to make the PanelLancher logic flexible. &#13;&#10;Tags: FLOSS SOLA Extension, Reference Table" schema="system" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="The code for the panel launcher group" size="20" type="varchar">
+            <child column="launch_group" foreignKey="config_panel_launcher_launch_group_fkey" implied="false" onDeleteCascade="false" table="config_panel_launcher"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="display_value" nullable="false" remarks="The user friendly name for the panel launcher group" size="500" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="2" name="description" nullable="true" remarks="Description for the panel launcher group" size="1000" type="varchar"/>
+         <column autoUpdated="false" defaultValue="'t'::bpchar" digits="0" id="3" name="status" nullable="false" remarks="Status of this panel launcher group" size="1" type="bpchar"/>
+         <primaryKey column="code" sequenceNumberInPK="1"/>
+         <index name="panel_launcher_group_pkey" unique="true">
+            <column ascending="true" name="code"/>
+         </index>
+         <index name="panel_launcher_group_display_value_unique" unique="true">
+            <column ascending="true" name="display_value"/>
          </index>
       </table>
       <table name="query" remarks="Defines SQL queries that can be executed dynamically by the Search EJB. Also defines queries to retrieve spatial features for each map layer.&#13;&#10;Tags: FLOSS SOLA Extension, Reference Table, System Configuration" schema="system" type="TABLE">

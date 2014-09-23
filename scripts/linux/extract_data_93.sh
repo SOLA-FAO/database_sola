@@ -148,7 +148,20 @@ $pg_dump -h $host -p $port -U $username -d $dbname -a -b \
     --column-inserts --disable-dollar-quoting --disable-triggers \
     -t bulk_operation.spatial_unit_temporary \
 	-f "$data_path/09_bulk_operation.sql" >> $EXTRACT_LOG 2>&1
-		
+
+echo "Dumping opentenure tables..."
+echo "### Dumping opentenure tables..." >> $EXTRACT_LOG 2>&1 
+$pg_dump -h $host -p $port -U $username -d $dbname -a -b \
+    --column-inserts --disable-dollar-quoting --disable-triggers \
+    -t opentenure.attachment -t opentenure.attachment_chunk -t opentenure.claim \
+	-t opentenure.claim_comment -t opentenure.claim_location -t opentenure.claim_share \
+	-t opentenure.claim_uses_attachment -t opentenure.field_constraint \
+	-t opentenure.field_constraint_option -t opentenure.field_payload -t opentenure.field_template \
+	-t opentenure.form_payload -t opentenure.form_template -t opentenure.party \
+	-t opentenure.party_for_claim_share -t opentenure.section_element_payload \
+	-t opentenure.section_payload -t opentenure.section_template \
+	-f "$data_path/10_opentenure.sql" >> $EXTRACT_LOG 2>&1
+	
 # Compress the test/demo data using 7z. 
 echo "Compressing data files..."
 echo "### Compressing data files..." >> $EXTRACT_LOG 2>&1

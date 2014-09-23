@@ -33,7 +33,7 @@
 <div class='indent'>
 <table width='100%'>
 <tr><td class='container' valign='bottom'><b>
-37 Foreign Key Constraints:</b>
+38 Foreign Key Constraints:</b>
 </td><td class='container' align='right'>
 <table>
   <tr><td class='container' align='right' valign='top'><a href='http://sourceforge.net' target='_blank'><img src='http://sourceforge.net/sflogo.php?group_id=137197&amp;type=1' alt='SourceForge.net' border='0' height='31' width='88'></a></td></tr>
@@ -297,34 +297,41 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
   <tr class='even'>
+  <td class='detail'>rrr_type_config_panel_launcher_fkey</td>
+  <td class='detail'><a href='tables/rrr_type.html'>rrr_type</a>.rrr_panel_code</td>
+  <td class='detail'><a href='tables/config_panel_launcher.html'>config_panel_launcher</a>.code</td>
+  <td class='detail'><span title='Restrict delete:
+ Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
+ </tr>
+  <tr class='odd'>
   <td class='detail'>rrr_type_rrr_group_type_code_fk22</td>
   <td class='detail'><a href='tables/rrr_type.html'>rrr_type</a>.rrr_group_type_code</td>
   <td class='detail'><a href='tables/rrr_group_type.html'>rrr_group_type</a>.code</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
-  <tr class='odd'>
+  <tr class='even'>
   <td class='detail'>source_describes_ba_unit_ba_unit_id_fk50</td>
   <td class='detail'><a href='tables/source_describes_ba_unit.html'>source_describes_ba_unit</a>.ba_unit_id</td>
   <td class='detail'><a href='tables/ba_unit.html'>ba_unit</a>.id</td>
   <td class='detail'><span title='Cascade on delete:
  Deletion of parent deletes child'>Cascade on delete&nbsp;</span></td>
  </tr>
-  <tr class='even'>
+  <tr class='odd'>
   <td class='detail'>source_describes_ba_unit_source_id_fk51</td>
   <td class='detail'><a href='tables/source_describes_ba_unit.html'>source_describes_ba_unit</a>.source_id</td>
   <td class='detail'><a href='tables/source.html'>source</a>.id</td>
   <td class='detail'><span title='Cascade on delete:
  Deletion of parent deletes child'>Cascade on delete&nbsp;</span></td>
  </tr>
-  <tr class='odd'>
+  <tr class='even'>
   <td class='detail'>source_describes_rrr_rrr_id_fk48</td>
   <td class='detail'><a href='tables/source_describes_rrr.html'>source_describes_rrr</a>.rrr_id</td>
   <td class='detail'><a href='tables/rrr.html'>rrr</a>.id</td>
   <td class='detail'><span title='Cascade on delete:
  Deletion of parent deletes child'>Cascade on delete&nbsp;</span></td>
  </tr>
-  <tr class='even'>
+  <tr class='odd'>
   <td class='detail'>source_describes_rrr_source_id_fk49</td>
   <td class='detail'><a href='tables/source_describes_rrr.html'>source_describes_rrr</a>.source_id</td>
   <td class='detail'><a href='tables/source.html'>source</a>.id</td>

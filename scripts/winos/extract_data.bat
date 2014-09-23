@@ -25,6 +25,7 @@ SET port=5432
 SET db_name=sola
 SET username=postgres
 SET dumpdocs=N
+SET dumpot=N
 
 REM Prompt the user for variable override values
 SET /p host= Host name [%host%] :
@@ -33,6 +34,7 @@ SET /p db_name= Database name [%db_name%] :
 SET /p username= Username [%username%] :
 SET /p pword= DB Password [?] :
 SET /p dumpdocs= Do you want to extract the document table? (Y/N) [%dumpdocs%] :
+SET /p dumpot= Do you want to extract the opentenure tables? (Y/N) [%dumpot%] :
 
 REM If the 7z data archive requires password encryption, prompt the user 
 REM for the password.
@@ -63,7 +65,7 @@ echo ### Dumping party tables... >> %EXTRACT_LOG% 2>&1
     -t party.party  -t party.party_role ^
 	-f "%data_path%02_party.sql" %db_name% >> %EXTRACT_LOG% 2>&1
 
-REM Skip dumping documents unless the user has explicity choosen to do so 
+REM Skip dumping documents unless the user has explicitly chosen to do so 
 IF /I "%dumpdocs%"=="N" GOTO SKIP_DOCUMENTS
 	
 echo Dumping document tables...
@@ -129,6 +131,25 @@ echo ### Dumping bulk operation tables... >> %EXTRACT_LOG% 2>&1
     --column-inserts --disable-dollar-quoting --disable-triggers ^
     -t bulk_operation.spatial_unit_temporary ^
 	-f "%data_path%09_bulk_operation.sql" %db_name% >> %EXTRACT_LOG% 2>&1
+
+
+REM Skip dumping open tenure tables unless the user has explicitly chosen to do so 
+IF /I "%dumpot%"=="N" GOTO SKIP_OT
+	
+echo Dumping opentenure tables...
+echo ### Dumping opentenure tables... >> %EXTRACT_LOG% 2>&1 
+%pg_dump% -h %host% -p %port% -U %username% -a -b ^
+    --column-inserts --disable-dollar-quoting --disable-triggers ^
+    -t opentenure.attachment -t opentenure.attachment_chunk -t opentenure.claim ^
+	-t opentenure.claim_comment -t opentenure.claim_location -t opentenure.claim_share ^
+	-t opentenure.claim_uses_attachment -t opentenure.field_constraint ^
+	-t opentenure.field_constraint_option -t opentenure.field_payload -t opentenure.field_template ^
+	-t opentenure.form_payload -t opentenure.form_template -t opentenure.party ^
+	-t opentenure.party_for_claim_share -t opentenure.section_element_payload ^
+	-t opentenure.section_payload -t opentenure.section_template ^
+	-f "%data_path%10_opentenure.sql" %db_name% >> %EXTRACT_LOG% 2>&1
+	
+:SKIP_OT
 
 REM Compress the test/demo data using 7z. 
 echo Compressing data files...

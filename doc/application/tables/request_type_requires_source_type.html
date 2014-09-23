@@ -104,7 +104,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </tr>
 </thead>
 <tbody valign='top'>
-<tr class='even'>
+<tr class='odd'>
  <td class='primaryKey' title='Primary Key'>source_type_code</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>20</td>
@@ -114,7 +114,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative even' valign='top'>
+   <tr class='relative odd' valign='top'>
     <td class='relatedTable detail' title="request_type_requires_source_type.source_type_code refs administrative_source_type.code in source via request_type_requires_source_type_source_type_code_fk128"><a href='../../source/tables/administrative_source_type.html'>administrative_source_type</a><span class='relatedKey'>.code</span>
     </td>
     <td class='constraint detail'>request_type_requires_source_type_source_type_code_fk128<span title='Cascade on delete:
@@ -124,7 +124,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  </td>
  <td class='comment detail'>The source type required by the request type.</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='primaryKey' title='Primary Key'>request_type_code</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>20</td>
@@ -134,7 +134,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="request_type_requires_source_type.request_type_code refs request_type.code via request_type_requires_source_type_request_type_code_fk129"><a href='request_type.html'>request_type</a><span class='relatedKey'>.code</span>
     </td>
     <td class='constraint detail'>request_type_requires_source_type_request_type_code_fk129<span title='Cascade on delete:
@@ -145,7 +145,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='comment detail'>The request type that requries the source to be present on the application.</td>
 </tr>
 </table>
-<p title='2 columns'>Analyzed at Tue Jun 03 20:32 NZST 2014<p/>
+<p title='2 columns'>Analyzed at Wed Sep 24 11:07 NZST 2014<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
@@ -184,50 +184,51 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 &nbsp;within <label for='oneDegree'><input type='radio' name='degrees' id='oneDegree' checked>one</label>  <label for='twoDegrees'><input type='radio' name='degrees' id='twoDegrees'>two degrees</label> of separation</span><b>:</b></form>
 <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
 <area shape="rect" id="node1" href="request_type_requires_source_type.html" title="request_type_requires_source_type" alt="" coords="308,89,577,202">
-<area shape="rect" id="node2" href="request_type.html" title="request_type" alt="" coords="43,202,227,598">
+<area shape="rect" id="node2" href="request_type.html" title="request_type" alt="" coords="43,202,227,622">
 <area shape="rect" id="node3" href="../../source/tables/administrative_source_type.html" title="source.administrative_source_type" alt="" coords="5,5,264,185">
 </map>
   <a name='diagram'><img id='oneDegreeImg' src='../diagrams/request_type_requires_source_type.1degree.png' usemap='#oneDegreeRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="../../system/tables/br_validation.html" title="system.br_validation" alt="" coords="586,106,750,190">
-<area shape="rect" id="node2" href="request_type.html" title="request_type" alt="" coords="268,55,452,451">
-<area shape="rect" id="node3" href="request_category_type.html" title="request_category_type" alt="" coords="6,79,186,163">
-<area shape="rect" id="node4" href="../../administrative/tables/rrr_type.html" title="administrative.rrr_type" alt="" coords="8,281,184,365">
-<area shape="rect" id="node5" href="type_action.html" title="type_action" alt="" coords="43,382,149,466">
-<area shape="rect" id="node6" href="request_type_requires_source_type.html" title="request_type_requires_source_type" alt="" coords="533,337,803,450">
-<area shape="rect" id="node7" href="../../source/tables/administrative_source_type.html" title="source.administrative_source_type" alt="" coords="231,469,489,649">
-<area shape="rect" id="node8" href="service.html" title="service" alt="" coords="619,5,717,89">
+<area shape="rect" id="node1" href="../../system/tables/br_validation.html" title="system.br_validation" alt="" coords="634,106,798,190">
+<area shape="rect" id="node2" href="request_type.html" title="request_type" alt="" coords="316,55,500,475">
+<area shape="rect" id="node3" href="request_category_type.html" title="request_category_type" alt="" coords="30,79,210,163">
+<area shape="rect" id="node4" href="../../administrative/tables/rrr_type.html" title="administrative.rrr_type" alt="" coords="32,242,208,326">
+<area shape="rect" id="node5" href="../../system/tables/config_panel_launcher.html" title="system.config_panel_launcher" alt="" coords="5,445,235,529">
+<area shape="rect" id="node6" href="type_action.html" title="type_action" alt="" coords="67,343,173,427">
+<area shape="rect" id="node7" href="request_type_requires_source_type.html" title="request_type_requires_source_type" alt="" coords="581,349,851,462">
+<area shape="rect" id="node8" href="../../source/tables/administrative_source_type.html" title="source.administrative_source_type" alt="" coords="279,493,537,673">
+<area shape="rect" id="node9" href="service.html" title="service" alt="" coords="667,5,765,89">
 </map>
 
   <a name='diagram'><img id='twoDegreesImg' src='../diagrams/request_type_requires_source_type.2degrees.png' usemap='#twoDegreesRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 </td></tr></table>
 <span class='excludedRelationship'>
 <br>Excluded from diagram's relationships: 
-<a href="../tables/application_spatial_unit.html">application_spatial_unit.change_time</a>&nbsp;
-<a href="../tables/application_property.html">application_property.change_user</a>&nbsp;
-<a href="../tables/application_property.html">application_property.change_action</a>&nbsp;
-<a href="../tables/service.html">service.change_user</a>&nbsp;
-<a href="../tables/application.html">application.rowidentifier</a>&nbsp;
-<a href="../tables/application_property.html">application_property.change_time</a>&nbsp;
-<a href="../tables/application_uses_source.html">application_uses_source.change_action</a>&nbsp;
-<a href="../tables/service.html">service.rowversion</a>&nbsp;
-<a href="../tables/application_uses_source.html">application_uses_source.change_user</a>&nbsp;
-<a href="../tables/application_property.html">application_property.rowversion</a>&nbsp;
-<a href="../tables/application_uses_source.html">application_uses_source.rowidentifier</a>&nbsp;
-<a href="../tables/application.html">application.change_user</a>&nbsp;
-<a href="../tables/application_uses_source.html">application_uses_source.rowversion</a>&nbsp;
-<a href="../tables/application.html">application.rowversion</a>&nbsp;
-<a href="../tables/application_spatial_unit.html">application_spatial_unit.rowversion</a>&nbsp;
-<a href="../tables/application_uses_source.html">application_uses_source.change_time</a>&nbsp;
-<a href="../tables/service.html">service.change_action</a>&nbsp;
 <a href="../tables/application_spatial_unit.html">application_spatial_unit.change_user</a>&nbsp;
+<a href="../tables/application.html">application.rowidentifier</a>&nbsp;
 <a href="../tables/application_spatial_unit.html">application_spatial_unit.rowidentifier</a>&nbsp;
-<a href="../tables/application_property.html">application_property.rowidentifier</a>&nbsp;
-<a href="../tables/application.html">application.change_action</a>&nbsp;
-<a href="../tables/application.html">application.change_time</a>&nbsp;
-<a href="../tables/service.html">service.rowidentifier</a>&nbsp;
+<a href="../tables/application_uses_source.html">application_uses_source.change_user</a>&nbsp;
+<a href="../tables/application_property.html">application_property.change_action</a>&nbsp;
+<a href="../tables/service.html">service.rowversion</a>&nbsp;
+<a href="../tables/application_property.html">application_property.rowversion</a>&nbsp;
+<a href="../tables/service.html">service.change_action</a>&nbsp;
+<a href="../tables/application_property.html">application_property.change_time</a>&nbsp;
 <a href="../tables/application_spatial_unit.html">application_spatial_unit.change_action</a>&nbsp;
+<a href="../tables/application_property.html">application_property.change_user</a>&nbsp;
+<a href="../tables/application_uses_source.html">application_uses_source.change_time</a>&nbsp;
 <a href="../tables/service.html">service.change_time</a>&nbsp;
+<a href="../tables/application.html">application.rowversion</a>&nbsp;
+<a href="../tables/service.html">service.rowidentifier</a>&nbsp;
+<a href="../tables/application_uses_source.html">application_uses_source.rowversion</a>&nbsp;
+<a href="../tables/application.html">application.change_user</a>&nbsp;
+<a href="../tables/application_spatial_unit.html">application_spatial_unit.change_time</a>&nbsp;
+<a href="../tables/application_uses_source.html">application_uses_source.change_action</a>&nbsp;
+<a href="../tables/application_property.html">application_property.rowidentifier</a>&nbsp;
+<a href="../tables/application.html">application.change_time</a>&nbsp;
+<a href="../tables/application_spatial_unit.html">application_spatial_unit.rowversion</a>&nbsp;
+<a href="../tables/service.html">service.change_user</a>&nbsp;
+<a href="../tables/application_uses_source.html">application_uses_source.rowidentifier</a>&nbsp;
+<a href="../tables/application.html">application.change_action</a>&nbsp;
 </span>
 </div>
 </body>

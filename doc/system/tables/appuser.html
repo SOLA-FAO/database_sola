@@ -170,7 +170,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='comment detail'>The last name of the SOLA user.</td>
 </tr>
 <tr class='even'>
- <td class='detail'>email</td>
+ <td class='indexedColumn' title='Indexed'>email</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>40</td>
  <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
@@ -194,7 +194,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 <tr class='even'>
  <td class='detail'>activation_code</td>
  <td class='detail'>varchar</td>
- <td class='detail' align='right'>20</td>
+ <td class='detail' align='right'>40</td>
  <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
  <td class='detail' align='center'></td>
  <td class='detail' align='right'>null</td>
@@ -302,17 +302,18 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='comment detail'>Account activation timeout. It can be used to delete account if it was not activated in time.</td>
 </tr>
 </table>
-<p title='16 columns'>Analyzed at Tue Jun 03 20:32 NZST 2014<p/>
+<p title='16 columns'>Analyzed at Wed Sep 24 11:08 NZST 2014<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
-<table class='dataTable' border='1' rules='groups'><colgroup><colgroup><colgroup><colgroup>
+<table class='dataTable' border='1' rules='groups'><colgroup><colgroup><colgroup><colgroup><colgroup>
 <thead>
  <tr>
   <th>Column(s)</th>
   <th>Type</th>
   <th>Sort</th>
   <th class='constraint' style='text-align:left;'>Constraint Name</th>
+  <th>Anomalies</th>
  </tr>
 </thead>
 <tbody>
@@ -321,18 +322,28 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
   <td class='detail'>Primary key</td>
   <td class='detail' style='text-align:left;'><span title='Ascending'>Asc</span></td>
   <td class='constraint' style='text-align:left;'>appuser_pkey</td>
+  <td>&nbsp;</td>
+ </tr>
+ <tr>
+  <td class='indexedColumn'>email</td>
+  <td class='detail'>Must be unique</td>
+  <td class='detail' style='text-align:left;'><span title='Ascending'>Asc</span></td>
+  <td class='constraint' style='text-align:left;'>appuser_email_unique</td>
+  <td class='detail'>This unique column is also nullable</td>
  </tr>
  <tr>
   <td class='indexedColumn'>rowidentifier</td>
   <td class='detail'>Performance</td>
   <td class='detail' style='text-align:left;'><span title='Ascending'>Asc</span></td>
   <td class='constraint' style='text-align:left;'>appuser_index_on_rowidentifier</td>
+  <td>&nbsp;</td>
  </tr>
  <tr>
   <td class='indexedColumn'>username</td>
   <td class='detail'>Must be unique</td>
   <td class='detail' style='text-align:left;'><span title='Ascending'>Asc</span></td>
   <td class='constraint' style='text-align:left;'>appuser_username_unique</td>
+  <td>&nbsp;</td>
  </tr>
 </table>
 </div>
@@ -358,16 +369,17 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </td></tr></table>
 <span class='excludedRelationship'>
 <br>Excluded from diagram's relationships: 
-<a href="../tables/approle_appgroup.html">approle_appgroup.change_time</a>&nbsp;
+<a href="../tables/approle_appgroup.html">approle_appgroup.change_user</a>&nbsp;
 <a href="../tables/approle_appgroup.html">approle_appgroup.rowidentifier</a>&nbsp;
+<a href="../tables/appuser_appgroup.html">appuser_appgroup.rowversion</a>&nbsp;
+<a href="../tables/approle_appgroup.html">approle_appgroup.change_time</a>&nbsp;
 <a href="../tables/appuser_appgroup.html">appuser_appgroup.change_user</a>&nbsp;
-<a href="../tables/appuser_appgroup.html">appuser_appgroup.rowidentifier</a>&nbsp;
 <a href="../tables/approle_appgroup.html">approle_appgroup.rowversion</a>&nbsp;
 <a href="../tables/appuser_appgroup.html">appuser_appgroup.change_time</a>&nbsp;
 <a href="../tables/user_pword_expiry.html">user_pword_expiry.pword_change_user</a>&nbsp;
-<a href="../tables/appuser_appgroup.html">appuser_appgroup.rowversion</a>&nbsp;
+<a href="../tables/appuser_appgroup.html">appuser_appgroup.rowidentifier</a>&nbsp;
+<a href="../tables/extracted_rows.html">extracted_rows.rowidentifier</a>&nbsp;
 <a href="../tables/appuser_appgroup.html">appuser_appgroup.change_action</a>&nbsp;
-<a href="../tables/approle_appgroup.html">approle_appgroup.change_user</a>&nbsp;
 <a href="../tables/approle_appgroup.html">approle_appgroup.change_action</a>&nbsp;
 </span>
 </div>

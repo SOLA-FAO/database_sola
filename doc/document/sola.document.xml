@@ -5,7 +5,7 @@
          <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="Identifier for the document." size="40" type="varchar"/>
          <column autoUpdated="false" digits="0" id="1" name="nr" nullable="false" remarks="Unique number to identify the document. Determined by the Digital Archive EJB when saving the document record." size="15" type="varchar"/>
          <column autoUpdated="false" digits="0" id="2" name="extension" nullable="false" remarks="The file extension of the electronic file. E.g. pdf, tiff, doc, etc" size="5" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="3" name="mime_type" nullable="true" remarks="Mime type of the file." size="20" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="3" name="mime_type" nullable="true" remarks="Mime type of the file." size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="4" name="body" nullable="false" remarks="The content of the electronic file." size="2147483647" type="bytea"/>
          <column autoUpdated="false" digits="0" id="5" name="description" nullable="true" remarks="A descriptive name to help recognizs the file such as the original file name." size="100" type="varchar"/>
          <column autoUpdated="false" defaultValue="uuid_generate_v1()" digits="0" id="6" name="rowidentifier" nullable="false" remarks="Identifies the all change records for the row in the document_historic table" size="40" type="varchar"/>

@@ -20,6 +20,7 @@ digraph "twoDegreesRelationshipsDiagram" {
     arrowsize="0.8"
   ];
   "application.application_uses_source":"source_id":w -> "source":"id.type":e [arrowhead=none dir=back arrowtail=crowodot];
+  "opentenure.attachment":"elipses":w -> "administrative_source_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "power_of_attorney":"id":w -> "source":"id.type":e [arrowhead=none dir=back arrowtail=teeodot];
   "application.request_type_requires_source_type":"elipses":w -> "administrative_source_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "source":"archive_id":w -> "archive":"id":e [arrowhead=none dir=back arrowtail=crowodot];
@@ -43,7 +44,7 @@ digraph "twoDegreesRelationshipsDiagram" {
       <TR><TD PORT="status" COLSPAN="3" ALIGN="LEFT">status</TD></TR>
       <TR><TD PORT="description" COLSPAN="3" ALIGN="LEFT">description</TD></TR>
       <TR><TD PORT="is_for_registration" COLSPAN="3" ALIGN="LEFT">is_for_registration</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">3 &gt;</TD></TR>
     </TABLE>>
     URL="administrative_source_type.html"
     tooltip="administrative_source_type"
@@ -79,6 +80,16 @@ digraph "twoDegreesRelationshipsDiagram" {
     </TABLE>>
     URL="archive.html"
     tooltip="archive"
+  ];
+  "opentenure.attachment" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">opentenure.attachment</TD></TR>
+      <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
+    </TABLE>>
+    URL="../../opentenure/tables/attachment.html"
+    tooltip="opentenure.attachment"
   ];
   "availability_status_type" [
     label=<

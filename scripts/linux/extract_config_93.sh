@@ -68,7 +68,8 @@ $pg_dump -h $host -p $port -U $username -d $dbname -a -b -F p \
 	-t cadastre.structure_type -t cadastre.surface_relation_type \
 	-t cadastre.utility_network_status_type -t cadastre.utility_network_type \
 	-t cadastre.cadastre_object_type -t party.communication_type \
-	-t opentenure.claim_status \
+	-t opentenure.claim_status -t opentenure.rejection_reason -t opentenure.land_use \
+	-t opentenure.field_type -t opentenure.field_constraint_type -t opentenure.field_value_type \
 	-t party.gender_type -t party.group_party_type \
 	-t party.id_type -t party.party_type \
 	-t party.party_role_type -t source.administrative_source_type \
@@ -87,6 +88,8 @@ $pg_dump -h $host -p $port -U $username -d $dbname -a -b -F p \
     -t system.config_map_layer -t system.consolidation_config \
 	-t system.crs -t system.map_search_option \
     -t system.query_field -t system.setting -t system.version \
+	-t system.config_panel_launcher -t system.panel_launcher_group \
+	-t system.config_map_layer_metadata \
 	-f "$config_path/system.sql" >> $EXTRACT_LOG 2>&1
 	
 echo "Dumping user tables..."

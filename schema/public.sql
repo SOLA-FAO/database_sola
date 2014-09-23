@@ -126,17 +126,15 @@ COMMENT ON FUNCTION public.clean_db(
 ) IS 'This function will delete any table and function in a schema that does not belong to the standard postgis template.';
     
 -- Function public.compare_strings --
-CREATE OR REPLACE FUNCTION public.compare_strings(
- string1 varchar
-  , string2 varchar
-) RETURNS bool 
-AS $$
+ CREATE OR REPLACE FUNCTION compare_strings(string1 character varying, string2 character varying)
+  RETURNS boolean AS
+$BODY$
   DECLARE
     rec record;
     result boolean;
   BEGIN
       result = false;
-      for rec in select regexp_split_to_table(lower(string1),'[^a-z0-9]') as word loop
+      for rec in select regexp_split_to_table(lower(string1),'[^a-z0-9\\s]') as word loop
           if rec.word != '' then 
             if not string2 ~* rec.word then
                 return false;
@@ -146,11 +144,12 @@ AS $$
       end loop;
       return result;
   END;
-$$ LANGUAGE plpgsql;
-COMMENT ON FUNCTION public.compare_strings(
- string1 varchar
-  , string2 varchar
-) IS 'Special string compare function.';
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION compare_strings(character varying, character varying)
+  OWNER TO postgres;
+COMMENT ON FUNCTION compare_strings(character varying, character varying) IS E'Special string compare function. Allows spaces to be recognized as valid search parameters when entered as \s';
     
 -- Function public.get_geometry_with_srid --
 CREATE OR REPLACE FUNCTION public.get_geometry_with_srid(

@@ -6,6 +6,8 @@ br_severity_type
 br_technical_type
 br_validation_target_type
 config_map_layer_type
+panel_launcher_group
+config_panel_launcher
 config_map_layer
 br
 appuser_setting
@@ -19,6 +21,7 @@ br_validation
 consolidation_config
 crs
 email
+extracted_rows
 Function: consolidation_consolidate
 Function: consolidation_extract
 Function: get_setting

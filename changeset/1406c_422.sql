@@ -1,4 +1,4 @@
-﻿INSERT INTO system.version SELECT '1406x' WHERE NOT EXISTS (SELECT version_num FROM system.version WHERE version_num = '1406x');
+﻿INSERT INTO system.version SELECT '1406c' WHERE NOT EXISTS (SELECT version_num FROM system.version WHERE version_num = '1406c');
 
 ALTER TABLE application.request_type DROP COLUMN IF EXISTS service_panel_code;
 ALTER TABLE administrative.rrr_type DROP COLUMN IF EXISTS rrr_panel_code;

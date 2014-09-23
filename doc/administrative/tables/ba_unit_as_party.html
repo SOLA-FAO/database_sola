@@ -104,7 +104,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </tr>
 </thead>
 <tbody valign='top'>
-<tr class='odd'>
+<tr class='even'>
  <td class='primaryKey' title='Primary Key'>ba_unit_id</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>40</td>
@@ -114,7 +114,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="ba_unit_as_party.ba_unit_id refs ba_unit.id via ba_unit_as_party_ba_unit_id_fk71"><a href='ba_unit.html'>ba_unit</a><span class='relatedKey'>.id</span>
     </td>
     <td class='constraint detail'>ba_unit_as_party_ba_unit_id_fk71<span title='Cascade on delete:
@@ -124,7 +124,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  </td>
  <td class='comment detail'>Identifier for the BA Unit.</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='primaryKey' title='Primary Key'>party_id</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>40</td>
@@ -134,7 +134,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative even' valign='top'>
+   <tr class='relative odd' valign='top'>
     <td class='relatedTable detail' title="ba_unit_as_party.party_id refs party.id in party via ba_unit_as_party_party_id_fk72"><a href='../../party/tables/party.html'>party</a><span class='relatedKey'>.id</span>
     </td>
     <td class='constraint detail'>ba_unit_as_party_party_id_fk72<span title='Cascade on delete:
@@ -144,8 +144,19 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  </td>
  <td class='comment detail'>Identifier for the Party.</td>
 </tr>
+<tr class='even'>
+ <td class='detail'>rowidentifier</td>
+ <td class='detail'>varchar</td>
+ <td class='detail' align='right'>40</td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='right'>uuid_generate_v1()</td>
+ <td class='detail'></td>
+ <td class='detail'> </td>
+ <td class='comment detail'>SOLA Extension: Identifies the all change records for the row in the ba_unit_as_party table</td>
+</tr>
 </table>
-<p title='2 columns'>Analyzed at Tue Jun 03 20:31 NZST 2014<p/>
+<p title='3 columns'>Analyzed at Wed Sep 24 11:07 NZST 2014<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
@@ -183,26 +194,26 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 <br><form action='get'><b>Close relationships</b><span class='degrees' id='degrees' title='Detail diminishes with increased separation from ba_unit_as_party'>
 &nbsp;within <label for='oneDegree'><input type='radio' name='degrees' id='oneDegree' checked>one</label>  <label for='twoDegrees'><input type='radio' name='degrees' id='twoDegrees'>two degrees</label> of separation</span><b>:</b></form>
 <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="ba_unit_as_party.html" title="ba_unit_as_party" alt="" coords="289,197,473,310">
+<area shape="rect" id="node1" href="ba_unit_as_party.html" title="ba_unit_as_party" alt="" coords="290,197,486,334">
 <area shape="rect" id="node2" href="ba_unit.html" title="ba_unit" alt="" coords="61,5,190,401">
 <area shape="rect" id="node3" href="../../party/tables/party.html" title="party.party" alt="" coords="6,418,245,1030">
 </map>
   <a name='diagram'><img id='oneDegreeImg' src='../diagrams/ba_unit_as_party.1degree.png' usemap='#oneDegreeRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="../../application/tables/application_property.html" title="application.application_property" alt="" coords="440,498,675,582">
-<area shape="rect" id="node2" href="ba_unit.html" title="ba_unit" alt="" coords="263,326,393,722">
-<area shape="rect" id="node3" href="../../transaction/tables/reg_status_type.html" title="transaction.reg_status_type" alt="" coords="6,742,218,826">
+<area shape="rect" id="node1" href="../../application/tables/application_property.html" title="application.application_property" alt="" coords="440,497,675,581">
+<area shape="rect" id="node2" href="ba_unit.html" title="ba_unit" alt="" coords="263,325,393,721">
+<area shape="rect" id="node3" href="../../transaction/tables/reg_status_type.html" title="transaction.reg_status_type" alt="" coords="6,741,218,825">
 <area shape="rect" id="node4" href="../../transaction/tables/transaction.html" title="transaction.transaction" alt="" coords="22,484,202,568">
-<area shape="rect" id="node5" href="ba_unit_type.html" title="ba_unit_type" alt="" coords="55,350,169,434">
+<area shape="rect" id="node5" href="ba_unit_type.html" title="ba_unit_type" alt="" coords="55,349,169,433">
 <area shape="rect" id="node6" href="ba_unit_area.html" title="ba_unit_area" alt="" coords="499,636,615,720">
-<area shape="rect" id="node7" href="ba_unit_as_party.html" title="ba_unit_as_party" alt="" coords="721,620,905,734">
+<area shape="rect" id="node7" href="ba_unit_as_party.html" title="ba_unit_as_party" alt="" coords="722,608,918,745">
 <area shape="rect" id="node8" href="../../party/tables/party.html" title="party.party" alt="" coords="438,876,677,1488">
 <area shape="rect" id="node9" href="ba_unit_contains_spatial_unit.html" title="ba_unit_contains_spatial_unit" alt="" coords="446,156,669,240">
 <area shape="rect" id="node10" href="ba_unit_target.html" title="ba_unit_target" alt="" coords="495,55,619,139">
-<area shape="rect" id="node11" href="notation.html" title="notation" alt="" coords="770,423,857,507">
-<area shape="rect" id="node12" href="rrr.html" title="rrr" alt="" coords="508,738,607,822">
-<area shape="rect" id="node13" href="party_for_rrr.html" title="party_for_rrr" alt="" coords="757,807,869,891">
-<area shape="rect" id="node14" href="required_relationship_baunit.html" title="required_relationship_baunit" alt="" coords="451,258,664,342">
+<area shape="rect" id="node11" href="notation.html" title="notation" alt="" coords="777,416,863,500">
+<area shape="rect" id="node12" href="rrr.html" title="rrr" alt="" coords="508,737,607,821">
+<area shape="rect" id="node13" href="party_for_rrr.html" title="party_for_rrr" alt="" coords="764,807,876,891">
+<area shape="rect" id="node14" href="required_relationship_baunit.html" title="required_relationship_baunit" alt="" coords="451,257,664,341">
 <area shape="rect" id="node15" href="source_describes_ba_unit.html" title="source_describes_ba_unit" alt="" coords="455,396,659,480">
 </map>
 
@@ -210,71 +221,71 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </td></tr></table>
 <span class='excludedRelationship'>
 <br>Excluded from diagram's relationships: 
-<a href="../tables/rrr.html">rrr.change_action</a>&nbsp;
-<a href="../tables/rrr_share.html">rrr_share.change_user</a>&nbsp;
-<a href="../tables/ba_unit_area.html">ba_unit_area.rowversion</a>&nbsp;
-<a href="../tables/ba_unit_contains_spatial_unit.html">ba_unit_contains_spatial_unit.change_user</a>&nbsp;
-<a href="../tables/ba_unit_contains_spatial_unit.html">ba_unit_contains_spatial_unit.rowidentifier</a>&nbsp;
-<a href="../tables/rrr.html">rrr.rowversion</a>&nbsp;
-<a href="../tables/ba_unit.html">ba_unit.rowidentifier</a>&nbsp;
-<a href="../tables/condition_for_rrr.html">condition_for_rrr.change_action</a>&nbsp;
-<a href="../tables/mortgage_isbased_in_rrr.html">mortgage_isbased_in_rrr.change_user</a>&nbsp;
-<a href="../tables/notation.html">notation.change_action</a>&nbsp;
-<a href="../tables/ba_unit_target.html">ba_unit_target.change_action</a>&nbsp;
-<a href="../tables/ba_unit_area.html">ba_unit_area.change_action</a>&nbsp;
-<a href="../tables/notation.html">notation.rowidentifier</a>&nbsp;
-<a href="../tables/source_describes_rrr.html">source_describes_rrr.change_time</a>&nbsp;
-<a href="../tables/ba_unit_target.html">ba_unit_target.change_user</a>&nbsp;
-<a href="../tables/notation.html">notation.rowversion</a>&nbsp;
-<a href="../tables/ba_unit.html">ba_unit.change_time</a>&nbsp;
-<a href="../tables/ba_unit_contains_spatial_unit.html">ba_unit_contains_spatial_unit.rowversion</a>&nbsp;
-<a href="../tables/source_describes_ba_unit.html">source_describes_ba_unit.rowversion</a>&nbsp;
-<a href="../tables/rrr.html">rrr.change_time</a>&nbsp;
-<a href="../tables/party_for_rrr.html">party_for_rrr.change_action</a>&nbsp;
-<a href="../tables/ba_unit_contains_spatial_unit.html">ba_unit_contains_spatial_unit.change_action</a>&nbsp;
-<a href="../tables/source_describes_rrr.html">source_describes_rrr.change_user</a>&nbsp;
-<a href="../tables/mortgage_isbased_in_rrr.html">mortgage_isbased_in_rrr.rowidentifier</a>&nbsp;
-<a href="../tables/required_relationship_baunit.html">required_relationship_baunit.change_time</a>&nbsp;
-<a href="../tables/mortgage_isbased_in_rrr.html">mortgage_isbased_in_rrr.rowversion</a>&nbsp;
-<a href="../tables/ba_unit.html">ba_unit.change_user</a>&nbsp;
-<a href="../tables/condition_for_rrr.html">condition_for_rrr.rowidentifier</a>&nbsp;
-<a href="../tables/source_describes_ba_unit.html">source_describes_ba_unit.rowidentifier</a>&nbsp;
-<a href="../tables/required_relationship_baunit.html">required_relationship_baunit.rowidentifier</a>&nbsp;
-<a href="../tables/source_describes_rrr.html">source_describes_rrr.change_action</a>&nbsp;
-<a href="../tables/party_for_rrr.html">party_for_rrr.rowidentifier</a>&nbsp;
-<a href="../tables/rrr_share.html">rrr_share.rowversion</a>&nbsp;
-<a href="../tables/required_relationship_baunit.html">required_relationship_baunit.change_action</a>&nbsp;
-<a href="../tables/ba_unit_area.html">ba_unit_area.rowidentifier</a>&nbsp;
-<a href="../tables/source_describes_rrr.html">source_describes_rrr.rowversion</a>&nbsp;
-<a href="../tables/source_describes_ba_unit.html">source_describes_ba_unit.change_user</a>&nbsp;
-<a href="../tables/ba_unit_area.html">ba_unit_area.change_user</a>&nbsp;
-<a href="../tables/source_describes_ba_unit.html">source_describes_ba_unit.change_action</a>&nbsp;
-<a href="../tables/ba_unit_target.html">ba_unit_target.rowversion</a>&nbsp;
-<a href="../tables/notation.html">notation.change_time</a>&nbsp;
-<a href="../tables/mortgage_isbased_in_rrr.html">mortgage_isbased_in_rrr.change_time</a>&nbsp;
-<a href="../tables/rrr.html">rrr.change_user</a>&nbsp;
-<a href="../tables/ba_unit.html">ba_unit.rowversion</a>&nbsp;
-<a href="../tables/party_for_rrr.html">party_for_rrr.change_user</a>&nbsp;
-<a href="../tables/condition_for_rrr.html">condition_for_rrr.change_time</a>&nbsp;
-<a href="../tables/party_for_rrr.html">party_for_rrr.change_time</a>&nbsp;
 <a href="../tables/condition_for_rrr.html">condition_for_rrr.rowversion</a>&nbsp;
-<a href="../tables/source_describes_ba_unit.html">source_describes_ba_unit.change_time</a>&nbsp;
-<a href="../tables/party_for_rrr.html">party_for_rrr.rowversion</a>&nbsp;
-<a href="../tables/ba_unit.html">ba_unit.change_action</a>&nbsp;
-<a href="../tables/notation.html">notation.change_user</a>&nbsp;
-<a href="../tables/condition_for_rrr.html">condition_for_rrr.change_user</a>&nbsp;
-<a href="../tables/ba_unit_area.html">ba_unit_area.change_time</a>&nbsp;
-<a href="../tables/ba_unit_contains_spatial_unit.html">ba_unit_contains_spatial_unit.change_time</a>&nbsp;
-<a href="../tables/mortgage_isbased_in_rrr.html">mortgage_isbased_in_rrr.change_action</a>&nbsp;
-<a href="../tables/required_relationship_baunit.html">required_relationship_baunit.rowversion</a>&nbsp;
-<a href="../tables/ba_unit_target.html">ba_unit_target.change_time</a>&nbsp;
-<a href="../tables/rrr.html">rrr.rowidentifier</a>&nbsp;
-<a href="../tables/rrr_share.html">rrr_share.change_time</a>&nbsp;
-<a href="../tables/rrr_share.html">rrr_share.rowidentifier</a>&nbsp;
-<a href="../tables/required_relationship_baunit.html">required_relationship_baunit.change_user</a>&nbsp;
-<a href="../tables/ba_unit_target.html">ba_unit_target.rowidentifier</a>&nbsp;
-<a href="../tables/source_describes_rrr.html">source_describes_rrr.rowidentifier</a>&nbsp;
 <a href="../tables/rrr_share.html">rrr_share.change_action</a>&nbsp;
+<a href="../tables/ba_unit_area.html">ba_unit_area.rowidentifier</a>&nbsp;
+<a href="../tables/mortgage_isbased_in_rrr.html">mortgage_isbased_in_rrr.change_action</a>&nbsp;
+<a href="../tables/ba_unit_contains_spatial_unit.html">ba_unit_contains_spatial_unit.change_time</a>&nbsp;
+<a href="../tables/condition_for_rrr.html">condition_for_rrr.rowidentifier</a>&nbsp;
+<a href="../tables/rrr.html">rrr.rowversion</a>&nbsp;
+<a href="../tables/ba_unit_contains_spatial_unit.html">ba_unit_contains_spatial_unit.change_action</a>&nbsp;
+<a href="../tables/notation.html">notation.rowversion</a>&nbsp;
+<a href="../tables/ba_unit_target.html">ba_unit_target.rowversion</a>&nbsp;
+<a href="../tables/ba_unit_area.html">ba_unit_area.rowversion</a>&nbsp;
+<a href="../tables/required_relationship_baunit.html">required_relationship_baunit.change_time</a>&nbsp;
+<a href="../tables/source_describes_rrr.html">source_describes_rrr.change_user</a>&nbsp;
+<a href="../tables/ba_unit_target.html">ba_unit_target.change_action</a>&nbsp;
+<a href="../tables/notation.html">notation.rowidentifier</a>&nbsp;
+<a href="../tables/ba_unit.html">ba_unit.change_user</a>&nbsp;
+<a href="../tables/mortgage_isbased_in_rrr.html">mortgage_isbased_in_rrr.rowidentifier</a>&nbsp;
+<a href="../tables/source_describes_ba_unit.html">source_describes_ba_unit.rowidentifier</a>&nbsp;
+<a href="../tables/condition_for_rrr.html">condition_for_rrr.change_user</a>&nbsp;
+<a href="../tables/party_for_rrr.html">party_for_rrr.rowversion</a>&nbsp;
+<a href="../tables/mortgage_isbased_in_rrr.html">mortgage_isbased_in_rrr.rowversion</a>&nbsp;
+<a href="../tables/source_describes_rrr.html">source_describes_rrr.change_action</a>&nbsp;
+<a href="../tables/source_describes_rrr.html">source_describes_rrr.change_time</a>&nbsp;
+<a href="../tables/required_relationship_baunit.html">required_relationship_baunit.change_user</a>&nbsp;
+<a href="../tables/ba_unit_contains_spatial_unit.html">ba_unit_contains_spatial_unit.rowidentifier</a>&nbsp;
+<a href="../tables/ba_unit.html">ba_unit.change_action</a>&nbsp;
+<a href="../tables/condition_for_rrr.html">condition_for_rrr.change_time</a>&nbsp;
+<a href="../tables/rrr.html">rrr.change_time</a>&nbsp;
+<a href="../tables/ba_unit.html">ba_unit.change_time</a>&nbsp;
+<a href="../tables/source_describes_rrr.html">source_describes_rrr.rowversion</a>&nbsp;
+<a href="../tables/source_describes_ba_unit.html">source_describes_ba_unit.change_time</a>&nbsp;
+<a href="../tables/rrr_share.html">rrr_share.rowidentifier</a>&nbsp;
+<a href="../tables/required_relationship_baunit.html">required_relationship_baunit.rowversion</a>&nbsp;
+<a href="../tables/notation.html">notation.change_time</a>&nbsp;
+<a href="../tables/source_describes_rrr.html">source_describes_rrr.rowidentifier</a>&nbsp;
+<a href="../tables/source_describes_ba_unit.html">source_describes_ba_unit.change_action</a>&nbsp;
+<a href="../tables/party_for_rrr.html">party_for_rrr.change_time</a>&nbsp;
+<a href="../tables/ba_unit_area.html">ba_unit_area.change_action</a>&nbsp;
+<a href="../tables/source_describes_ba_unit.html">source_describes_ba_unit.rowversion</a>&nbsp;
+<a href="../tables/ba_unit_target.html">ba_unit_target.rowidentifier</a>&nbsp;
+<a href="../tables/notation.html">notation.change_user</a>&nbsp;
+<a href="../tables/ba_unit_contains_spatial_unit.html">ba_unit_contains_spatial_unit.change_user</a>&nbsp;
+<a href="../tables/condition_for_rrr.html">condition_for_rrr.change_action</a>&nbsp;
+<a href="../tables/ba_unit.html">ba_unit.rowidentifier</a>&nbsp;
+<a href="../tables/party_for_rrr.html">party_for_rrr.change_action</a>&nbsp;
+<a href="../tables/rrr.html">rrr.change_user</a>&nbsp;
+<a href="../tables/party_for_rrr.html">party_for_rrr.change_user</a>&nbsp;
+<a href="../tables/rrr.html">rrr.rowidentifier</a>&nbsp;
+<a href="../tables/source_describes_ba_unit.html">source_describes_ba_unit.change_user</a>&nbsp;
+<a href="../tables/party_for_rrr.html">party_for_rrr.rowidentifier</a>&nbsp;
+<a href="../tables/ba_unit.html">ba_unit.rowversion</a>&nbsp;
+<a href="../tables/notation.html">notation.change_action</a>&nbsp;
+<a href="../tables/rrr.html">rrr.change_action</a>&nbsp;
+<a href="../tables/ba_unit_area.html">ba_unit_area.change_user</a>&nbsp;
+<a href="../tables/mortgage_isbased_in_rrr.html">mortgage_isbased_in_rrr.change_user</a>&nbsp;
+<a href="../tables/ba_unit_contains_spatial_unit.html">ba_unit_contains_spatial_unit.rowversion</a>&nbsp;
+<a href="../tables/required_relationship_baunit.html">required_relationship_baunit.rowidentifier</a>&nbsp;
+<a href="../tables/ba_unit_target.html">ba_unit_target.change_user</a>&nbsp;
+<a href="../tables/rrr_share.html">rrr_share.change_time</a>&nbsp;
+<a href="../tables/rrr_share.html">rrr_share.change_user</a>&nbsp;
+<a href="../tables/mortgage_isbased_in_rrr.html">mortgage_isbased_in_rrr.change_time</a>&nbsp;
+<a href="../tables/required_relationship_baunit.html">required_relationship_baunit.change_action</a>&nbsp;
+<a href="../tables/ba_unit_area.html">ba_unit_area.change_time</a>&nbsp;
+<a href="../tables/ba_unit_target.html">ba_unit_target.change_time</a>&nbsp;
+<a href="../tables/rrr_share.html">rrr_share.rowversion</a>&nbsp;
 </span>
 </div>
 </body>

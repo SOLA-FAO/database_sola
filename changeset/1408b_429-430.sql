@@ -1,4 +1,6 @@
-﻿CREATE OR REPLACE FUNCTION bulk_operation.move_other_objects(transaction_id_v character varying, change_user_v character varying)
+﻿INSERT INTO system.version SELECT '1408b' WHERE NOT EXISTS (SELECT version_num FROM system.version WHERE version_num = '1408b');
+
+CREATE OR REPLACE FUNCTION bulk_operation.move_other_objects(transaction_id_v character varying, change_user_v character varying)
   RETURNS void AS
 $BODY$
 declare

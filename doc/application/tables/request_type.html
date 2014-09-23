@@ -104,7 +104,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </tr>
 </thead>
 <tbody valign='top'>
-<tr class='even'>
+<tr class='odd'>
  <td class='primaryKey' title='Primary Key'>code</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>20</td>
@@ -113,19 +113,19 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative even' valign='top'>
+   <tr class='relative odd' valign='top'>
     <td class='relatedTable detail' title="br_validation.target_request_type_code refs request_type.code via br_validation_target_request_type_code_fk111"><a href='../../system/tables/br_validation.html'>br_validation</a><span class='relatedKey'>.target_request_type_code</span>
     </td>
     <td class='constraint detail'>br_validation_target_request_type_code_fk111<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
-   <tr class='relative even' valign='top'>
+   <tr class='relative odd' valign='top'>
     <td class='relatedTable detail' title="request_type_requires_source_type.request_type_code refs request_type.code via request_type_requires_source_type_request_type_code_fk129"><a href='request_type_requires_source_type.html'>request_type_requires_source_type</a><span class='relatedKey'>.request_type_code</span>
     </td>
     <td class='constraint detail'>request_type_requires_source_type_request_type_code_fk129<span title='Cascade on delete:
  Deletion of parent deletes child'>&nbsp;C</span></td>
    </tr>
-   <tr class='relative even' valign='top'>
+   <tr class='relative odd' valign='top'>
     <td class='relatedTable detail' title="service.request_type_code refs request_type.code via service_request_type_code_fk19"><a href='service.html'>service</a><span class='relatedKey'>.request_type_code</span>
     </td>
     <td class='constraint detail'>service_request_type_code_fk19<span title='Restrict delete:
@@ -136,7 +136,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>The code for the request type.</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='indexedColumn' title='Indexed'>request_category_code</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>20</td>
@@ -146,7 +146,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="request_type.request_category_code refs request_category_type.code via request_type_request_category_code_fk20"><a href='request_category_type.html'>request_category_type</a><span class='relatedKey'>.code</span>
     </td>
     <td class='constraint detail'>request_type_request_category_code_fk20<span title='Restrict delete:
@@ -156,7 +156,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  </td>
  <td class='comment detail'>The code for the request category type.</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='indexedColumn' title='Indexed'>display_value</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>500</td>
@@ -167,7 +167,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>Displayed value of the request type.</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>description</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>1000</td>
@@ -178,7 +178,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>Description of the request type.</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>status</td>
  <td class='detail'>bpchar</td>
  <td class='detail' align='right'>1</td>
@@ -189,7 +189,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>Status of the request type</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>nr_days_to_complete</td>
  <td class='detail'>int4</td>
  <td class='detail' align='right'>10</td>
@@ -200,7 +200,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>The number of days it should take for the service to be completed.  Can be used to manage and monitor transaction throughput targets for the land administration agency.</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>base_fee</td>
  <td class='detail'>numeric</td>
  <td class='detail' align='right'>20,2</td>
@@ -211,7 +211,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>The fixed fee component charged for the service or 0 if there is no fixed fee.</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>area_base_fee</td>
  <td class='detail'>numeric</td>
  <td class='detail' align='right'>20,2</td>
@@ -222,7 +222,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>The fee component charged for each square metre of the property or 0 if no area fee applies.</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>value_base_fee</td>
  <td class='detail'>numeric</td>
  <td class='detail' align='right'>20,2</td>
@@ -233,7 +233,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>The fee component charged against the value of the property or 0 if no value fee applies.</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>nr_properties_required</td>
  <td class='detail'>int4</td>
  <td class='detail' align='right'>10</td>
@@ -244,7 +244,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>The minimum number of properties that must be referenced by the application before services of this type can be processed.</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>notation_template</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>1000</td>
@@ -255,7 +255,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>Template text to use when completing the details of RRR records created by the service.</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='indexedColumn' title='Indexed'>rrr_type_code</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>20</td>
@@ -265,7 +265,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="request_type.rrr_type_code refs rrr_type.code in administrative via request_type_rrr_type_code_fk21"><a href='../../administrative/tables/rrr_type.html'>rrr_type</a><span class='relatedKey'>.code</span>
     </td>
     <td class='constraint detail'>request_type_rrr_type_code_fk21<span title='Restrict delete:
@@ -275,7 +275,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  </td>
  <td class='comment detail'>Used by the Property Details screen to identify the type of RRR affected by the service. If null, the Property Details screen will allow the user to process all RRR types.</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='indexedColumn' title='Indexed'>type_action_code</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>20</td>
@@ -285,7 +285,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative even' valign='top'>
+   <tr class='relative odd' valign='top'>
     <td class='relatedTable detail' title="request_type.type_action_code refs type_action.code via request_type_type_action_code_fk23"><a href='type_action.html'>type_action</a><span class='relatedKey'>.code</span>
     </td>
     <td class='constraint detail'>request_type_type_action_code_fk23<span title='Restrict delete:
@@ -295,7 +295,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  </td>
  <td class='comment detail'>Used by teh Property Details screen to identify what action applies to the RRR affected by the service. One of new, vary or cancel. If null, the Property Details screen will allow the user to create or vary RRRs matching the rrr_type_code.</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='detail'>display_group_name</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>500</td>
@@ -306,8 +306,28 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>SOLA Extension. Used to group request types that have a similar purpose (e.g. Mortgage types or Systematic Registration types). Used by the Add Service dialog to group the request types for display.</td>
 </tr>
+<tr class='odd'>
+ <td class='indexedColumn' title='Indexed'>service_panel_code</td>
+ <td class='detail'>varchar</td>
+ <td class='detail' align='right'>20</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='right'>null</td>
+ <td class='detail'></td>
+ <td class='detail'>
+  <table border='0' width='100%' cellspacing='0' cellpadding='0'>
+   <tr class='relative odd' valign='top'>
+    <td class='relatedTable detail' title="request_type.service_panel_code refs config_panel_launcher.code in system via request_type_config_panel_launcher_fkey"><a href='../../system/tables/config_panel_launcher.html'>config_panel_launcher</a><span class='relatedKey'>.code</span>
+    </td>
+    <td class='constraint detail'>request_type_config_panel_launcher_fkey<span title='Restrict delete:
+ Parent cannot be deleted if children exist'>&nbsp;R</span></td>
+   </tr>
+  </table>
+ </td>
+ <td class='comment detail'>SOLA Extension. Used to identify the SOLA panel class to display to the user when they start the service</td>
+</tr>
 </table>
-<p title='14 columns'>Analyzed at Tue Jun 03 20:32 NZST 2014<p/>
+<p title='15 columns'>Analyzed at Wed Sep 24 11:07 NZST 2014<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
@@ -326,6 +346,12 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
   <td class='detail'>Primary key</td>
   <td class='detail' style='text-align:left;'><span title='Ascending'>Asc</span></td>
   <td class='constraint' style='text-align:left;'>request_type_pkey</td>
+ </tr>
+ <tr>
+  <td class='indexedColumn'>service_panel_code</td>
+  <td class='detail'>Performance</td>
+  <td class='detail' style='text-align:left;'><span title='Ascending'>Asc</span></td>
+  <td class='constraint' style='text-align:left;'>request_type_config_panel_launcher_fkey_ind</td>
  </tr>
  <tr>
   <td class='indexedColumn'>display_value</td>
@@ -357,60 +383,62 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 <br><form action='get'><b>Close relationships</b><span class='degrees' id='degrees' title='Detail diminishes with increased separation from request_type'>
 &nbsp;within <label for='oneDegree'><input type='radio' name='degrees' id='oneDegree' checked>one</label>  <label for='twoDegrees'><input type='radio' name='degrees' id='twoDegrees'>two degrees</label> of separation</span><b>:</b></form>
 <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="../../system/tables/br_validation.html" title="system.br_validation" alt="" coords="591,5,799,305">
-<area shape="rect" id="node2" href="request_type.html" title="request_type" alt="" coords="231,343,518,745">
-<area shape="rect" id="node3" href="request_category_type.html" title="request_category_type" alt="" coords="6,370,186,526">
-<area shape="rect" id="node4" href="../../administrative/tables/rrr_type.html" title="administrative.rrr_type" alt="" coords="8,577,184,829">
-<area shape="rect" id="node5" href="type_action.html" title="type_action" alt="" coords="37,846,155,1002">
-<area shape="rect" id="node6" href="request_type_requires_source_type.html" title="request_type_requires_source_type" alt="" coords="563,322,827,430">
-<area shape="rect" id="node7" href="service.html" title="service" alt="" coords="592,447,797,915">
+<area shape="rect" id="node1" href="../../system/tables/br_validation.html" title="system.br_validation" alt="" coords="639,5,847,305">
+<area shape="rect" id="node2" href="request_type.html" title="request_type" alt="" coords="279,343,566,769">
+<area shape="rect" id="node3" href="request_category_type.html" title="request_category_type" alt="" coords="30,269,210,425">
+<area shape="rect" id="node4" href="../../administrative/tables/rrr_type.html" title="administrative.rrr_type" alt="" coords="32,442,208,718">
+<area shape="rect" id="node5" href="../../system/tables/config_panel_launcher.html" title="system.config_panel_launcher" alt="" coords="5,909,235,1161">
+<area shape="rect" id="node6" href="type_action.html" title="type_action" alt="" coords="61,735,179,891">
+<area shape="rect" id="node7" href="request_type_requires_source_type.html" title="request_type_requires_source_type" alt="" coords="611,322,875,430">
+<area shape="rect" id="node8" href="service.html" title="service" alt="" coords="640,447,845,915">
 </map>
   <a name='diagram'><img id='oneDegreeImg' src='../diagrams/request_type.1degree.png' usemap='#oneDegreeRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="application.html" title="application" alt="" coords="327,618,427,702">
-<area shape="rect" id="node2" href="application_action_type.html" title="application_action_type" alt="" coords="6,621,189,705">
-<area shape="rect" id="node3" href="../../system/tables/br_validation.html" title="system.br_validation" alt="" coords="593,277,801,577">
-<area shape="rect" id="node4" href="request_type.html" title="request_type" alt="" coords="234,157,521,558">
-<area shape="rect" id="node5" href="service_action_type.html" title="service_action_type" alt="" coords="297,719,457,803">
-<area shape="rect" id="node6" href="request_category_type.html" title="request_category_type" alt="" coords="7,5,187,161">
-<area shape="rect" id="node7" href="../../administrative/tables/rrr_type.html" title="administrative.rrr_type" alt="" coords="9,178,185,430">
-<area shape="rect" id="node8" href="type_action.html" title="type_action" alt="" coords="38,447,157,603">
-<area shape="rect" id="node12" href="service_status_type.html" title="service_status_type" alt="" coords="17,754,178,838">
-<area shape="rect" id="node9" href="request_type_requires_source_type.html" title="request_type_requires_source_type" alt="" coords="565,95,829,203">
-<area shape="rect" id="node10" href="../../source/tables/administrative_source_type.html" title="source.administrative_source_type" alt="" coords="248,55,507,139">
-<area shape="rect" id="node11" href="service.html" title="service" alt="" coords="595,594,800,1062">
-<area shape="rect" id="node13" href="../../transaction/tables/transaction.html" title="transaction.transaction" alt="" coords="874,594,1054,678">
+<area shape="rect" id="node1" href="application.html" title="application" alt="" coords="373,897,473,981">
+<area shape="rect" id="node2" href="application_action_type.html" title="application_action_type" alt="" coords="29,914,211,998">
+<area shape="rect" id="node3" href="../../system/tables/br_validation.html" title="system.br_validation" alt="" coords="639,555,847,855">
+<area shape="rect" id="node4" href="request_type.html" title="request_type" alt="" coords="279,243,566,669">
+<area shape="rect" id="node5" href="service_action_type.html" title="service_action_type" alt="" coords="343,998,503,1082">
+<area shape="rect" id="node6" href="request_category_type.html" title="request_category_type" alt="" coords="30,5,210,161">
+<area shape="rect" id="node7" href="../../administrative/tables/rrr_type.html" title="administrative.rrr_type" alt="" coords="32,178,208,454">
+<area shape="rect" id="node8" href="../../system/tables/config_panel_launcher.html" title="system.config_panel_launcher" alt="" coords="5,645,235,897">
+<area shape="rect" id="node9" href="type_action.html" title="type_action" alt="" coords="61,471,179,627">
+<area shape="rect" id="node13" href="service_status_type.html" title="service_status_type" alt="" coords="39,1033,201,1117">
+<area shape="rect" id="node10" href="request_type_requires_source_type.html" title="request_type_requires_source_type" alt="" coords="611,182,875,290">
+<area shape="rect" id="node11" href="../../source/tables/administrative_source_type.html" title="source.administrative_source_type" alt="" coords="293,142,552,226">
+<area shape="rect" id="node12" href="service.html" title="service" alt="" coords="640,873,845,1341">
+<area shape="rect" id="node14" href="../../transaction/tables/transaction.html" title="transaction.transaction" alt="" coords="919,873,1099,957">
 </map>
 
   <a name='diagram'><img id='twoDegreesImg' src='../diagrams/request_type.2degrees.png' usemap='#twoDegreesRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 </td></tr></table>
 <span class='excludedRelationship'>
 <br>Excluded from diagram's relationships: 
-<a href="../tables/application_spatial_unit.html">application_spatial_unit.change_time</a>&nbsp;
-<a href="../tables/application_property.html">application_property.change_user</a>&nbsp;
-<a href="../tables/application_property.html">application_property.change_action</a>&nbsp;
-<a href="../tables/service.html">service.change_user</a>&nbsp;
-<a href="../tables/application.html">application.rowidentifier</a>&nbsp;
-<a href="../tables/application_property.html">application_property.change_time</a>&nbsp;
-<a href="../tables/application_uses_source.html">application_uses_source.change_action</a>&nbsp;
-<a href="../tables/service.html">service.rowversion</a>&nbsp;
-<a href="../tables/application_uses_source.html">application_uses_source.change_user</a>&nbsp;
-<a href="../tables/application_property.html">application_property.rowversion</a>&nbsp;
-<a href="../tables/application_uses_source.html">application_uses_source.rowidentifier</a>&nbsp;
-<a href="../tables/application.html">application.change_user</a>&nbsp;
-<a href="../tables/application_uses_source.html">application_uses_source.rowversion</a>&nbsp;
-<a href="../tables/application.html">application.rowversion</a>&nbsp;
-<a href="../tables/application_spatial_unit.html">application_spatial_unit.rowversion</a>&nbsp;
-<a href="../tables/application_uses_source.html">application_uses_source.change_time</a>&nbsp;
-<a href="../tables/service.html">service.change_action</a>&nbsp;
 <a href="../tables/application_spatial_unit.html">application_spatial_unit.change_user</a>&nbsp;
+<a href="../tables/application.html">application.rowidentifier</a>&nbsp;
 <a href="../tables/application_spatial_unit.html">application_spatial_unit.rowidentifier</a>&nbsp;
-<a href="../tables/application_property.html">application_property.rowidentifier</a>&nbsp;
-<a href="../tables/application.html">application.change_action</a>&nbsp;
-<a href="../tables/application.html">application.change_time</a>&nbsp;
-<a href="../tables/service.html">service.rowidentifier</a>&nbsp;
+<a href="../tables/application_uses_source.html">application_uses_source.change_user</a>&nbsp;
+<a href="../tables/application_property.html">application_property.change_action</a>&nbsp;
+<a href="../tables/service.html">service.rowversion</a>&nbsp;
+<a href="../tables/application_property.html">application_property.rowversion</a>&nbsp;
+<a href="../tables/service.html">service.change_action</a>&nbsp;
+<a href="../tables/application_property.html">application_property.change_time</a>&nbsp;
 <a href="../tables/application_spatial_unit.html">application_spatial_unit.change_action</a>&nbsp;
+<a href="../tables/application_property.html">application_property.change_user</a>&nbsp;
+<a href="../tables/application_uses_source.html">application_uses_source.change_time</a>&nbsp;
 <a href="../tables/service.html">service.change_time</a>&nbsp;
+<a href="../tables/application.html">application.rowversion</a>&nbsp;
+<a href="../tables/service.html">service.rowidentifier</a>&nbsp;
+<a href="../tables/application_uses_source.html">application_uses_source.rowversion</a>&nbsp;
+<a href="../tables/application.html">application.change_user</a>&nbsp;
+<a href="../tables/application_spatial_unit.html">application_spatial_unit.change_time</a>&nbsp;
+<a href="../tables/application_uses_source.html">application_uses_source.change_action</a>&nbsp;
+<a href="../tables/application_property.html">application_property.rowidentifier</a>&nbsp;
+<a href="../tables/application.html">application.change_time</a>&nbsp;
+<a href="../tables/application_spatial_unit.html">application_spatial_unit.rowversion</a>&nbsp;
+<a href="../tables/service.html">service.change_user</a>&nbsp;
+<a href="../tables/application_uses_source.html">application_uses_source.rowidentifier</a>&nbsp;
+<a href="../tables/application.html">application.change_action</a>&nbsp;
 </span>
 </div>
 </body>

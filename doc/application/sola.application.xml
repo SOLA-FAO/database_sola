@@ -248,9 +248,15 @@
             <parent column="code" foreignKey="request_type_type_action_code_fk23" implied="false" onDeleteCascade="false" table="type_action"/>
          </column>
          <column autoUpdated="false" digits="0" id="13" name="display_group_name" nullable="true" remarks="SOLA Extension. Used to group request types that have a similar purpose (e.g. Mortgage types or Systematic Registration types). Used by the Add Service dialog to group the request types for display." size="500" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="14" name="service_panel_code" nullable="true" remarks="SOLA Extension. Used to identify the SOLA panel class to display to the user when they start the service" size="20" type="varchar">
+            <parent column="code" foreignKey="request_type_config_panel_launcher_fkey" implied="false" onDeleteCascade="false" table="config_panel_launcher"/>
+         </column>
          <primaryKey column="code" sequenceNumberInPK="1"/>
          <index name="request_type_pkey" unique="true">
             <column ascending="true" name="code"/>
+         </index>
+         <index name="request_type_config_panel_launcher_fkey_ind" unique="false">
+            <column ascending="true" name="service_panel_code"/>
          </index>
          <index name="request_type_display_value_unique" unique="true">
             <column ascending="true" name="display_value"/>

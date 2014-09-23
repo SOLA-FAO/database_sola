@@ -163,6 +163,17 @@ digraph "compactRelationshipsDiagram" {
     URL="tables/../../cadastre/tables/cadastre_object.html"
     tooltip="cadastre.cadastre_object"
   ];
+  "system.config_panel_launcher" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">system.config_panel_launcher</TD></TR>
+      <TR><TD PORT="code" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">code</TD></TR>
+      <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
+    </TABLE>>
+    URL="tables/../../system/tables/config_panel_launcher.html"
+    tooltip="system.config_panel_launcher"
+  ];
   "cadastre.land_use_type" [
     label=<
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
@@ -206,8 +217,9 @@ digraph "compactRelationshipsDiagram" {
       <TR><TD PORT="display_value" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">display_value</TD></TR>
       <TR><TD PORT="rrr_type_code" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">rrr_type_code</TD></TR>
       <TR><TD PORT="type_action_code" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">type_action_code</TD></TR>
+      <TR><TD PORT="service_panel_code" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">service_panel_code</TD></TR>
       <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 3</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">3 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 4</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">3 &gt;</TD></TR>
     </TABLE>>
     URL="tables/request_type.html"
     tooltip="request_type"
@@ -328,6 +340,7 @@ digraph "compactRelationshipsDiagram" {
   "system.br_validation":"target_service_moment":w -> "service_action_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "request_type":"request_category_code":w -> "request_category_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "request_type":"rrr_type_code":w -> "administrative.rrr_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
+  "request_type":"service_panel_code":w -> "system.config_panel_launcher":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "request_type":"type_action_code":w -> "type_action":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "request_type_requires_source_type":"request_type_code":w -> "request_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "request_type_requires_source_type":"source_type_code":w -> "source.administrative_source_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];

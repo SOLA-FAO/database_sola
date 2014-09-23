@@ -109,6 +109,7 @@ digraph "oneDegreeRelationshipsDiagram" {
       <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">ba_unit_as_party</TD></TR>
       <TR><TD PORT="ba_unit_id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">ba_unit_id</TD></TR>
       <TR><TD PORT="party_id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">party_id</TD></TR>
+      <TR><TD PORT="rowidentifier" COLSPAN="3" BGCOLOR="#c0c0c0" ALIGN="LEFT">rowidentifier</TD></TR>
       <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 2</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
     </TABLE>>
     URL="ba_unit_as_party.html"

@@ -39,7 +39,7 @@
 <form name='options' action=''>
  <label for='showRelatedCols'><input type=checkbox id='showRelatedCols'>Related columns</label>
  <label for='showConstNames'><input type=checkbox id='showConstNames'>Constraints</label>
- <label for='showComments'><input type=checkbox id='showComments'>Comments</label>
+ <label for='showComments'><input type=checkbox checked id='showComments'>Comments</label>
  <label for='showLegend'><input type=checkbox checked id='showLegend'>Legend</label>
 </form>
 </td><td class='container' rowspan='2' align='right' valign='top'>
@@ -180,8 +180,30 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
+<tr class='odd'>
+ <td class='detail'>nr_rows_at_once</td>
+ <td class='detail'>int4</td>
+ <td class='detail' align='right'>10</td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='right'>10000</td>
+ <td class='detail'></td>
+ <td class='detail'> </td>
+ <td class='comment detail'>The number of rows to be extracted at once.</td>
+</tr>
+<tr class='even'>
+ <td class='detail'>log_in_extracted_rows</td>
+ <td class='detail'>bool</td>
+ <td class='detail' align='right'>1</td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='right'>true</td>
+ <td class='detail'></td>
+ <td class='detail'> </td>
+ <td class='comment detail'>True - If the records has to be logged in the extracted rows table.</td>
+</tr>
 </table>
-<p title='7 columns'>Analyzed at Tue Jun 03 20:32 NZST 2014<p/>
+<p title='9 columns'>Analyzed at Wed Sep 24 11:08 NZST 2014<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
