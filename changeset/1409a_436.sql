@@ -62,6 +62,7 @@ CREATE TABLE opentenure.form_template
 (
 name VARCHAR(255) NOT NULL,
 display_name VARCHAR(255) NOT NULL,
+is_default boolean NOT NULL DEFAULT false,
 rowidentifier character varying(40) NOT NULL DEFAULT uuid_generate_v1(),
 rowversion integer NOT NULL DEFAULT 0,
 change_action character(1) NOT NULL DEFAULT 'i'::bpchar,
@@ -72,6 +73,7 @@ CONSTRAINT form_template_pkey PRIMARY KEY (name)
 
 COMMENT ON TABLE opentenure.form_template IS 'Dynamic form template.';
 COMMENT ON COLUMN opentenure.form_template.display_name IS 'Form name, which can be used for displaying on the UI.';
+COMMENT ON COLUMN opentenure.form_template.is_default IS 'Indicates whether form is default for all new claims.';
 COMMENT ON COLUMN opentenure.form_template.rowidentifier IS 'Identifies the all change records for the row in the form historic table.';
 COMMENT ON COLUMN opentenure.form_template.rowversion IS 'Sequential value indicating the number of times this row has been modified.';
 COMMENT ON COLUMN opentenure.form_template.change_action IS 'Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).';
@@ -82,6 +84,7 @@ CREATE TABLE opentenure.form_template_historic
 (
 name VARCHAR(255),
 display_name VARCHAR(255),
+is_default boolean,
 rowidentifier character varying(40),
 rowversion integer,
 change_action character(1),
@@ -101,6 +104,41 @@ CREATE TRIGGER __track_history
   ON opentenure.form_template
   FOR EACH ROW
   EXECUTE PROCEDURE f_for_trg_track_history();
+ 
+CREATE OR REPLACE FUNCTION opentenure.f_for_trg_set_default()
+  RETURNS trigger AS
+$BODY$
+BEGIN  
+  IF (TG_WHEN = 'AFTER') THEN
+    IF (TG_OP = 'UPDATE' OR TG_OP = 'INSERT') THEN
+        IF (NEW.is_default) THEN
+            UPDATE opentenure.form_template SET is_default = 'f' WHERE is_default = 't' AND name != NEW.name;
+        ELSE
+	    IF (TG_OP = 'UPDATE' AND (SELECT COUNT(1) FROM opentenure.form_template WHERE is_default = 't' AND name != OLD.name) < 1) THEN
+	         UPDATE opentenure.form_template SET is_default = 't' WHERE name = OLD.name;
+	    END IF;
+        END IF;
+    ELSIF (TG_OP = 'DELETE') THEN
+        IF ((SELECT COUNT(1) FROM opentenure.form_template WHERE is_default = 't' AND name != OLD.name) < 1) THEN
+	     UPDATE opentenure.form_template SET is_default = 't' WHERE name IN (SELECT name FROM opentenure.form_template WHERE name != OLD.name LIMIT 1);
+        END IF;
+    END IF;
+    RETURN NULL;
+  END IF;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION opentenure.f_for_trg_set_default()
+  OWNER TO postgres;
+COMMENT ON FUNCTION opentenure.f_for_trg_set_default() IS 'This function is to set default flag and have at least 1 form as default.';
+
+
+CREATE TRIGGER set_default
+  AFTER INSERT OR UPDATE OR DELETE
+  ON opentenure.form_template
+  FOR EACH ROW
+  EXECUTE PROCEDURE opentenure.f_for_trg_set_default();
   
 CREATE TABLE opentenure.section_template
 (
