@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -135,6 +136,7 @@ Increments of the progress in the method to convert schema to text
  - 2 for the schema generation only and save as file
  - 5 increments for each table to convert to text and save as file
  - 10 increments for the compression of files', '');
+INSERT INTO br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('consolidation-extraction-file-name', 'Consolidation extraction file name', 'sql', '', 'Generates the name of the extraction file for the consolidation. The extension is not part of this generation.', '');
 
 
 ALTER TABLE br ENABLE TRIGGER ALL;
@@ -1003,6 +1005,7 @@ INSERT INTO br_definition (br_id, active_from, active_until, body) VALUES ('gene
   + 1 + (select count(*)*2 from system.br_validation where target_code=''consolidate'')
   + 4 + (select count(*)*2 from system.consolidation_config) as vl');
 INSERT INTO br_definition (br_id, active_from, active_until, body) VALUES ('generate-process-progress-extract-max', '2014-09-12', 'infinity', 'select 7 + (count(*)*(3+5)) + 2 + 10 as vl from system.consolidation_config');
+INSERT INTO br_definition (br_id, active_from, active_until, body) VALUES ('consolidation-extraction-file-name', '2014-09-12', 'infinity', 'select ''consolidation-'' || system.get_setting(''system-id'') || to_char(clock_timestamp(), ''-yyyy-MM-dd-HH24-MI'') as vl');
 
 
 ALTER TABLE br_definition ENABLE TRIGGER ALL;
