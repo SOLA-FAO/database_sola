@@ -54,7 +54,7 @@ echo ### Dumping reference tables... >> %EXTRACT_LOG% 2>&1
 	-t cadastre.utility_network_status_type -t cadastre.utility_network_type ^
 	-t cadastre.cadastre_object_type -t party.communication_type ^
 	-t opentenure.claim_status -t opentenure.rejection_reason -t opentenure.field_constraint_type ^
-	-t opentenure.land_use -t opentenure.field_type -t opentenure.field_value_type ^
+	-t opentenure.field_type -t opentenure.field_value_type ^
 	-t party.gender_type -t party.group_party_type ^
 	-t party.id_type -t party.party_type ^
 	-t party.party_role_type -t source.administrative_source_type ^

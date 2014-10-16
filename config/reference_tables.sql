@@ -3,7 +3,6 @@
 --
 
 SET statement_timeout = 0;
-SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -461,12 +460,12 @@ SET search_path = opentenure, pg_catalog;
 
 ALTER TABLE claim_status DISABLE TRIGGER ALL;
 
-INSERT INTO claim_status (code, display_value, status, description) VALUES ('created', 'Created', 'i', '');
-INSERT INTO claim_status (code, display_value, status, description) VALUES ('unmoderated', 'Un-moderated', 'i', '');
-INSERT INTO claim_status (code, display_value, status, description) VALUES ('moderated', 'Moderated', 'i', '');
-INSERT INTO claim_status (code, display_value, status, description) VALUES ('withdrawn', 'Withdrawn', 'c', 'Status for withdrawn claims');
-INSERT INTO claim_status (code, display_value, status, description) VALUES ('reviewed', 'Reviewed', 'c', 'Status for reviewed claims');
-INSERT INTO claim_status (code, display_value, status, description) VALUES ('rejected', 'Rejected', 'c', 'Status for rejected claims');
+INSERT INTO claim_status (code, display_value, status, description) VALUES ('created', 'Created::::::::::::Créée', 'i', 'Statut pour les déclarations créées');
+INSERT INTO claim_status (code, display_value, status, description) VALUES ('unmoderated', 'Un-moderated::::::::::::Non modéré', 'i', 'Statut pour les déclarations non modérées');
+INSERT INTO claim_status (code, display_value, status, description) VALUES ('moderated', 'Moderated::::::::::::Modéré', 'i', 'Statut pour les déclarations modérées');
+INSERT INTO claim_status (code, display_value, status, description) VALUES ('withdrawn', 'Withdrawn::::::::::::Renoncé', 'c', 'Status for withdrawn claims::::::::::::Statut pour les déclarations renoncées');
+INSERT INTO claim_status (code, display_value, status, description) VALUES ('reviewed', 'Reviewed::::::::::::Revue', 'c', 'Status for reviewed claims::::::::::::Statut pour les déclarations revues');
+INSERT INTO claim_status (code, display_value, status, description) VALUES ('rejected', 'Rejected::::::::::::Rejetée', 'c', 'Status for rejected claims::::::::::::Statut pour les déclarations rejetées');
 
 
 ALTER TABLE claim_status ENABLE TRIGGER ALL;
@@ -477,14 +476,14 @@ ALTER TABLE claim_status ENABLE TRIGGER ALL;
 
 ALTER TABLE field_constraint_type DISABLE TRIGGER ALL;
 
-INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('DATETIME', 'DATETIME', 'c', NULL);
-INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('INTEGER', 'INTEGER', 'c', NULL);
-INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('NOT_NULL', 'NOT_NULL', 'c', NULL);
-INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('INTEGER_RANGE', 'INTEGER_RANGE', 'c', NULL);
-INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('DOUBLE_RANGE', 'DOUBLE_RANGE', 'c', NULL);
-INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('REGEXP', 'REGEXP', 'c', NULL);
-INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('LENGTH', 'LENGTH', 'c', NULL);
-INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('OPTION', 'OPTION', 'c', NULL);
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('DATETIME', 'DATETIME::::::::::::DATE ET HEURE', 'c', 'DATE ET HEURE');
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('INTEGER', 'INTEGER::::::::::::ENTIER', 'c', 'ENTIER');
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('NOT_NULL', 'NOT_NULL::::::::::::NON NUL', 'c', 'NON NUL');
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('INTEGER_RANGE', 'INTEGER_RANGE::::::::::::PLAGE ENTIER', 'c', 'PLAGE ENTIER');
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('DOUBLE_RANGE', 'DOUBLE_RANGE::::::::::::PLAGE DOUBLE', 'c', 'PLAGE DOUBLE');
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('REGEXP', 'REGEXP::::::::::::REGEXP', 'c', 'REGEXP');
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('LENGTH', 'LENGTH::::::::::::LONGUEUR', 'c', 'LONGUEUR');
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('OPTION', 'OPTION::::::::::::OPTION', 'c', 'OPTION');
 
 
 ALTER TABLE field_constraint_type ENABLE TRIGGER ALL;
@@ -495,11 +494,11 @@ ALTER TABLE field_constraint_type ENABLE TRIGGER ALL;
 
 ALTER TABLE field_type DISABLE TRIGGER ALL;
 
-INSERT INTO field_type (code, display_value, status, description) VALUES ('BOOL', 'BOOL', 'c', NULL);
-INSERT INTO field_type (code, display_value, status, description) VALUES ('TEXT', 'TEXT', 'c', NULL);
-INSERT INTO field_type (code, display_value, status, description) VALUES ('INTEGER', 'INTEGER', 'c', NULL);
-INSERT INTO field_type (code, display_value, status, description) VALUES ('DECIMAL', 'DECIMAL', 'c', NULL);
-INSERT INTO field_type (code, display_value, status, description) VALUES ('DATE', 'DATE', 'c', NULL);
+INSERT INTO field_type (code, display_value, status, description) VALUES ('BOOL', 'BOOL::::::::::::BOOL', 'c', 'BOOL');
+INSERT INTO field_type (code, display_value, status, description) VALUES ('TEXT', 'TEXT::::::::::::TEXTE', 'c', 'TEXTE');
+INSERT INTO field_type (code, display_value, status, description) VALUES ('INTEGER', 'INTEGER::::::::::::ENTIER', 'c', 'ENTIER');
+INSERT INTO field_type (code, display_value, status, description) VALUES ('DECIMAL', 'DECIMAL::::::::::::DECIMAL', 'c', 'DECIMAL');
+INSERT INTO field_type (code, display_value, status, description) VALUES ('DATE', 'DATE::::::::::::DATE', 'c', 'DATE');
 
 
 ALTER TABLE field_type ENABLE TRIGGER ALL;
@@ -510,36 +509,12 @@ ALTER TABLE field_type ENABLE TRIGGER ALL;
 
 ALTER TABLE field_value_type DISABLE TRIGGER ALL;
 
-INSERT INTO field_value_type (code, display_value, status, description) VALUES ('TEXT', 'TEXT', 'c', NULL);
-INSERT INTO field_value_type (code, display_value, status, description) VALUES ('NUMBER', 'NUMBER', 'c', NULL);
-INSERT INTO field_value_type (code, display_value, status, description) VALUES ('BOOL', 'BOOL', 'c', NULL);
+INSERT INTO field_value_type (code, display_value, status, description) VALUES ('TEXT', 'TEXT::::::::::::TEXTE', 'c', 'TEXTE');
+INSERT INTO field_value_type (code, display_value, status, description) VALUES ('NUMBER', 'NUMBER::::::::::::NUMERO', 'c', 'NUMERO');
+INSERT INTO field_value_type (code, display_value, status, description) VALUES ('BOOL', 'BOOL::::::::::::BOOL', 'c', 'BOOL');
 
 
 ALTER TABLE field_value_type ENABLE TRIGGER ALL;
-
---
--- Data for Name: land_use; Type: TABLE DATA; Schema: opentenure; Owner: postgres
---
-
-ALTER TABLE land_use DISABLE TRIGGER ALL;
-
-INSERT INTO land_use (code, display_value, status, description) VALUES ('cropProduction', 'Crop Production', 'c', 'Crop Production');
-INSERT INTO land_use (code, display_value, status, description) VALUES ('forestry', 'Forestry', 'c', 'Forestry');
-INSERT INTO land_use (code, display_value, status, description) VALUES ('hunting', 'Hunting', 'c', 'Hunting');
-INSERT INTO land_use (code, display_value, status, description) VALUES ('cropResidential', 'Crop Production and Residential', 'c', 'Crop Production and Residential');
-INSERT INTO land_use (code, display_value, status, description) VALUES ('residential', 'Residential', 'c', 'Residential');
-INSERT INTO land_use (code, display_value, status, description) VALUES ('construction', 'Construction', 'c', 'Construction');
-INSERT INTO land_use (code, display_value, status, description) VALUES ('commerce', 'Commerce, finance and business', 'c', 'Commerce, finance and business');
-INSERT INTO land_use (code, display_value, status, description) VALUES ('unused', 'Unused', 'c', 'Unused');
-INSERT INTO land_use (code, display_value, status, description) VALUES ('mining', 'Mining and quarrying', 'c', 'Mining and quarrying');
-INSERT INTO land_use (code, display_value, status, description) VALUES ('livestockProduction', 'Livestock Production', 'c', 'Livestock Production');
-INSERT INTO land_use (code, display_value, status, description) VALUES ('commonage', 'Commonage', 'c', 'Commonage');
-INSERT INTO land_use (code, display_value, status, description) VALUES ('tourism', 'Tourism', 'c', 'Tourism');
-INSERT INTO land_use (code, display_value, status, description) VALUES ('leisure', 'Recreational, leisure and sport', 'c', 'Recreational, leisure and sport');
-INSERT INTO land_use (code, display_value, status, description) VALUES ('industry', 'Industry and manufacturing', 'c', 'Industry and manufacturing');
-
-
-ALTER TABLE land_use ENABLE TRIGGER ALL;
 
 --
 -- Data for Name: rejection_reason; Type: TABLE DATA; Schema: opentenure; Owner: postgres
