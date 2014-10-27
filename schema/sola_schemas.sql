@@ -3108,6 +3108,7 @@ declare
   other_object_type varchar;
   level_id_v varchar;
   geometry_type varchar;
+  geometry_type_for_structure varchar;
   query_name_v varchar;
   query_sql_template varchar;
 begin
@@ -3137,8 +3138,19 @@ where level_id = ''level_id_v'' and ST_Intersects(st_transform(geom, #{srid}), S
         -- A query is added here
         insert into system.query(name, sql) values(query_name_v, replace(query_sql_template, 'level_id_v', level_id_v));
       end if;
+      if geometry_type like '%point' then
+        geometry_type_for_structure = replace(geometry_type, 'point', 'Point');
+      elseif geometry_type like '%linestring' then
+        geometry_type_for_structure = replace(geometry_type, 'linestring', 'LineString');
+      elseif geometry_type like '%polygon' then
+        geometry_type_for_structure = replace(geometry_type, 'polygon', 'Polygon');
+      else
+        geometry_type_for_structure = 'Geometry';
+      end if;
+      geometry_type_for_structure  = replace(geometry_type_for_structure, 'multi', 'Multi');
+      
       insert into system.config_map_layer(name, title, type_code, active, visible_in_start, item_order, style, pojo_structure, pojo_query_name, added_from_bulk_operation) 
-      values(level_id_v, other_object_type, 'pojo', true, true, 1, 'generic-' || geometry_type || '.xml', 'theGeom:Polygon,label:""', query_name_v, true);
+      values(level_id_v, other_object_type, 'pojo', true, true, 1, 'generic-' || geometry_type || '.xml', 'theGeom:' || geometry_type_for_structure || ',label:""', query_name_v, true);
     end if;
   end if;
   insert into cadastre.spatial_unit(id, label, level_id, geom, transaction_id, change_user)
