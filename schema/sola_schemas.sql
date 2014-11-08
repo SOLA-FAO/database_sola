@@ -3931,6 +3931,37 @@ COMMENT ON FUNCTION consolidation_extract(admin_user character varying, everythi
 
 
 --
+-- Name: consolidation_extract_make_consolidation_schema(character varying, boolean); Type: FUNCTION; Schema: system; Owner: postgres
+--
+
+CREATE FUNCTION consolidation_extract_make_consolidation_schema(admin_user character varying, everything boolean) RETURNS boolean
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+  process_id varchar default 'extract_make_consolidation_schema';
+  steps_max integer;
+BEGIN
+  steps_max = (select (count(*) * 3) + 7 from system.consolidation_config);
+  -- Create a process
+  execute system.process_log_start(process_id);
+  -- Create progress
+  execute system.process_progress_start(process_id, steps_max);
+  -- Make consolidation schema
+  return system.consolidation_extract(admin_user, everything, process_id);
+END;
+$$;
+
+
+ALTER FUNCTION system.consolidation_extract_make_consolidation_schema(admin_user character varying, everything boolean) OWNER TO postgres;
+
+--
+-- Name: FUNCTION consolidation_extract_make_consolidation_schema(admin_user character varying, everything boolean); Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON FUNCTION consolidation_extract_make_consolidation_schema(admin_user character varying, everything boolean) IS 'Makes the consolidation schema with all the information that can be extracted.';
+
+
+--
 -- Name: get_already_consolidated_records(); Type: FUNCTION; Schema: system; Owner: postgres
 --
 
@@ -4028,7 +4059,7 @@ BEGIN
     from (select column_name || ' ' 
       || udt_name 
       || coalesce('(' || character_maximum_length || ')', '') 
-        || case when udt_name = 'numeric' then '(' || numeric_precision || ',' || numeric_scale  || ')' else '' end as col_definition
+        || case when udt_name = 'numeric' then coalesce('(' || numeric_precision || ',' || numeric_scale  || ')', '') else '' end as col_definition
       from information_schema.columns
       where table_schema = schema_name and table_name = table_rec.table_name
       order by ordinal_position) as cols);
