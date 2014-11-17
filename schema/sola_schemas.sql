@@ -3701,6 +3701,66 @@ COMMENT ON FUNCTION f_for_tbl_source_trg_change_of_status() IS 'Function trigger
 SET search_path = system, pg_catalog;
 
 --
+-- Name: check_brs(character varying, character varying[]); Type: FUNCTION; Schema: system; Owner: postgres
+--
+
+CREATE FUNCTION check_brs(br_target character varying, conditions character varying[]) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $$
+declare
+  log_entry_moment varchar;  
+  rec record;
+  br_rec record;
+  condition varchar[];
+  modified_body varchar;
+  passed_criticals boolean default true;
+  end_result varchar default '';
+  new_line varchar default '
+';
+BEGIN
+  
+  for rec in select br_v.id as id, br_v.severity_code, br.display_name as name, br.feedback, br_d.body as body
+      from system.br_validation br_v
+        inner join system.br on br_v.br_id = br.id
+        inner join system.br_definition br_d on br.id = br_d.br_id and now() between br_d.active_from and br_d.active_until
+      where br_v.target_code = br_target
+      order by br_v.order_of_execution
+  loop
+    modified_body = rec.body;
+    -- Replace parameters in the body
+    if conditions is not null then
+      foreach condition slice 1 in array conditions loop
+        modified_body = replace(modified_body, '#{' || condition[1] || '}', quote_nullable(condition[2]));
+      end loop;
+    end if;
+    -- Call the br
+    for br_rec in execute modified_body loop
+      if not br_rec.vl and rec.severity_code='critical' then
+        passed_criticals = false;
+      end if;
+      end_result = end_result 
+       || '    BR:' || rec.feedback
+       || '    Severity:' || rec.severity_code 
+       || '    Passed:' || case when br_rec.vl then 'Yes' else 'No' end 
+       || new_line;
+    end loop;
+  end loop;
+  
+  return passed_criticals || '####' || end_result;
+END;
+$$;
+
+
+ALTER FUNCTION system.check_brs(br_target character varying, conditions character varying[]) OWNER TO postgres;
+
+--
+-- Name: FUNCTION check_brs(br_target character varying, conditions character varying[]); Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON FUNCTION check_brs(br_target character varying, conditions character varying[]) IS 'It checks the business rules. If one critical br is violated, it returns the result starting with false#### otherwise it starts with true####';
+
+
+--
 -- Name: consolidation_consolidate(character varying, character varying); Type: FUNCTION; Schema: system; Owner: postgres
 --
 
@@ -3712,60 +3772,77 @@ DECLARE
   consolidation_schema varchar default 'consolidation';
   cols varchar;
   exception_text_msg varchar;
-  
+  br_validation_result varchar;
+  steps_max integer;
 BEGIN
+
+  steps_max = (select count(*) + 4 + 1 from system.consolidation_config);
+
+  -- Create progress
+  execute system.process_progress_start(process_name, steps_max);
+
   BEGIN -- TRANSACTION TO CATCH EXCEPTION
-    execute system.process_log_update(process_name, 'Making the system not accessible for the users...');
+    -- Checking business rules
+    execute system.process_log_update('Validating consolidation schema against the other tables...');
+    br_validation_result = system.check_brs('consolidation', null);  
+    if br_validation_result like 'false####%' then
+      execute system.process_log_update(substring(br_validation_result, 10));
+      raise exception 'Validation failed!';
+    else
+      execute system.process_log_update(substring(br_validation_result, 9));
+      execute system.process_log_update('Validation finished with success.');
+    end if;
+    execute system.process_log_update('Making the system not accessible for the users...');
     -- Make sola not accessible from all other users except the user running the consolidation.
     update system.appuser set active = false where id != admin_user;
-    execute system.process_log_update(process_name, 'done');
+    execute system.process_log_update('done');
     execute system.process_progress_set(process_name, system.process_progress_get(process_name)+1);
 
     -- Disable triggers.
-    execute system.process_log_update(process_name, 'disabling all triggers...');
+    execute system.process_log_update('disabling all triggers...');
     perform fn_triggerall(false);
-    execute system.process_log_update(process_name, 'done');
+    execute system.process_log_update('done');
     execute system.process_progress_set(process_name, system.process_progress_get(process_name)+1);
 
-    execute system.process_log_update(process_name, 'Move records from temporary consolidation schema to main tables.');
+    execute system.process_log_update('Move records from temporary consolidation schema to main tables.');
     -- For each table that is extracted and that has rows, insert the records into the main tables.
     for table_rec in select * from consolidation.config order by order_of_execution loop
 
-      execute system.process_log_update(process_name, '  - source table: "' || table_rec.source_table_name || '" destination table: "' || table_rec.target_table_name || '"... ');
+      execute system.process_log_update('  - source table: "' || table_rec.source_table_name || '" destination table: "' || table_rec.target_table_name || '"... ');
 
       if table_rec.remove_before_insert then
-        execute system.process_log_update(process_name, '      deleting matching records in target table ...');
+        execute system.process_log_update('      deleting matching records in target table ...');
         execute 'delete from ' || table_rec.target_table_name ||
         ' where rowidentifier in (select rowidentifier from ' || table_rec.source_table_name || ')';
-        execute system.process_log_update(process_name, '      done');
+        execute system.process_log_update('      done');
       end if;
       cols = (select string_agg(column_name, ',')
         from information_schema.columns
         where table_schema || '.' || table_name = table_rec.target_table_name);
 
-      execute system.process_log_update(process_name, '      inserting records to target table ...');
+      execute system.process_log_update('      inserting records to target table ...');
       execute 'insert into ' || table_rec.target_table_name || '(' || cols || ') select ' || cols || ' from ' || table_rec.source_table_name;
-      execute system.process_log_update(process_name, '      done');
-      execute system.process_log_update(process_name, '  done');
+      execute system.process_log_update('      done');
+      execute system.process_log_update('  done');
       execute system.process_progress_set(process_name, system.process_progress_get(process_name)+2);
     
     end loop;
   
     -- Enable triggers.
-    execute system.process_log_update(process_name, 'enabling all triggers...');
+    execute system.process_log_update('enabling all triggers...');
     perform fn_triggerall(true);
-    execute system.process_log_update(process_name, 'done');
+    execute system.process_log_update('done');
     execute system.process_progress_set(process_name, system.process_progress_get(process_name)+1);
 
     -- Make sola accessible for all users.
-    execute system.process_log_update(process_name, 'Making the system accessible for the users...');
+    execute system.process_log_update('Making the system accessible for the users...');
     update system.appuser set active = true where id != admin_user;
-    execute system.process_log_update(process_name, 'done');
-    execute system.process_log_update(process_name, 'Finished with success!');
+    execute system.process_log_update('done');
+    execute system.process_log_update('Finished with success!');
     execute system.process_progress_set(process_name, system.process_progress_get(process_name)+1);
   EXCEPTION WHEN OTHERS THEN
     GET STACKED DIAGNOSTICS exception_text_msg = MESSAGE_TEXT;  
-    execute system.process_log_update(process_name, 'Consolidation failed. Reason: ' || exception_text_msg);
+    execute system.process_log_update('Consolidation failed. Reason: ' || exception_text_msg);
     RAISE;
   END;
 END;
@@ -3793,46 +3870,51 @@ DECLARE
   consolidation_schema varchar default 'consolidation';
   sql_to_run varchar;
   order_of_exec int;
-  --process_progress int;
+  steps_max integer;
 BEGIN
+
+  steps_max = (select (count(*) * 3) + 7 + 1 from system.consolidation_config);
+
+  -- Create progress
+  execute system.process_progress_start(process_name, steps_max);
   
   -- Prepare the process log
-  execute system.process_log_update(process_name, 'Extraction process started.');
+  execute system.process_log_update('Extraction process started.');
   if everything then
-    execute system.process_log_update(process_name, 'Everything has to be extracted.');
+    execute system.process_log_update('Everything has to be extracted.');
   end if;
-  execute system.process_log_update(process_name, '');
+  execute system.process_log_update('');
 
   -- Make sola not accessible from all other users except the user running the consolidation.
-  execute system.process_log_update(process_name, 'Making the system not accessible for the users...');
+  execute system.process_log_update('Making the system not accessible for the users...');
   update system.appuser set active = false where id != admin_user;
-  execute system.process_log_update(process_name, 'done');
+  execute system.process_log_update('done');
   execute system.process_progress_set(process_name, system.process_progress_get(process_name)+1);
 
   -- If everything is true it means all applications that have not a service 'recordTransfer' will get one.
   if everything then
-    execute system.process_log_update(process_name, 'Marking the applications that are not yet marked for transfer...');
+    execute system.process_log_update('Marking the applications that are not yet marked for transfer...');
     update application.application set action_code = 'transfer', status_code='to-be-transferred' 
     where status_code not in ('to-be-transferred', 'transferred');
-    execute system.process_log_update(process_name, 'done');    
+    execute system.process_log_update('done');    
   end if;
   execute system.process_progress_set(process_name, system.process_progress_get(process_name)+1);
 
   
   -- Drop schema consolidation if exists.
-  execute system.process_log_update(process_name, 'Dropping schema consolidation...');
+  execute system.process_log_update('Dropping schema consolidation...');
   execute 'DROP SCHEMA IF EXISTS ' || consolidation_schema || ' CASCADE;';    
-  execute system.process_log_update(process_name, 'done');    
+  execute system.process_log_update('done');    
   execute system.process_progress_set(process_name, system.process_progress_get(process_name)+1);
       
   -- Make the schema.
-  execute system.process_log_update(process_name, 'Creating schema consolidation...');
+  execute system.process_log_update('Creating schema consolidation...');
   execute 'CREATE SCHEMA ' || consolidation_schema || ';';
-  execute system.process_log_update(process_name, 'done');    
+  execute system.process_log_update('done');    
   execute system.process_progress_set(process_name, system.process_progress_get(process_name)+1);
   
   --Make table to define configuration for the the consolidation to the target database.
-  execute system.process_log_update(process_name, 'Creating consolidation.config table...');
+  execute system.process_log_update('Creating consolidation.config table...');
   execute 'create table ' || consolidation_schema || '.config (
     source_table_name varchar(100),
     target_table_name varchar(100),
@@ -3840,14 +3922,14 @@ BEGIN
     order_of_execution int,
     status varchar(500)
   )';
-  execute system.process_log_update(process_name, 'done');    
+  execute system.process_log_update('done');    
   execute system.process_progress_set(process_name, system.process_progress_get(process_name)+1);
 
-  execute system.process_log_update(process_name, 'Move records from main tables to consolidation schema.');
+  execute system.process_log_update('Move records from main tables to consolidation schema.');
   order_of_exec = 1;
   for table_rec in select * from system.consolidation_config order by order_of_execution loop
 
-    execute system.process_log_update(process_name, '  - Table: ' || table_rec.schema_name || '.' || table_rec.table_name);
+    execute system.process_log_update('  - Table: ' || table_rec.schema_name || '.' || table_rec.table_name);
     -- Make the script to move the data to the consolidation schema.
     sql_to_run = 'create table ' || consolidation_schema || '.' || table_rec.table_name 
       || ' as select * from ' ||  table_rec.schema_name || '.' || table_rec.table_name
@@ -3859,18 +3941,18 @@ BEGIN
     end if;
 
     -- Run the script
-    execute system.process_log_update(process_name, '      - move records...');
+    execute system.process_log_update('      - move records...');
     execute sql_to_run using table_rec.schema_name || '.' || table_rec.table_name;
-    execute system.process_log_update(process_name, '      done');
+    execute system.process_log_update('      done');
     execute system.process_progress_set(process_name, system.process_progress_get(process_name)+1);
     
     -- Log extracted records
     if table_rec.log_in_extracted_rows then
-      execute system.process_log_update(process_name, '      - log extracted records...');
+      execute system.process_log_update('      - log extracted records...');
       execute 'insert into system.extracted_rows(table_name, rowidentifier)
         select $1, rowidentifier from ' || consolidation_schema || '.' || table_rec.table_name
         using table_rec.schema_name || '.' || table_rec.table_name;
-      execute system.process_log_update(process_name, '      done');
+      execute system.process_log_update('      done');
     end if;  
     execute system.process_progress_set(process_name, system.process_progress_get(process_name)+1);
     
@@ -3878,41 +3960,42 @@ BEGIN
     -- Make a record in the config table
     sql_to_run = 'insert into ' || consolidation_schema 
       || '.config(source_table_name, target_table_name, remove_before_insert, order_of_execution) values($1,$2,$3, $4)'; 
-    execute system.process_log_update(process_name, '      - update config table...');
+    execute system.process_log_update('      - update config table...');
     execute sql_to_run 
       using  consolidation_schema || '.' || table_rec.table_name, 
              table_rec.schema_name || '.' || table_rec.table_name, 
              table_rec.remove_before_insert,
              order_of_exec;
-    execute system.process_log_update(process_name, '      done');
+    execute system.process_log_update('      done');
     execute system.process_progress_set(process_name, system.process_progress_get(process_name)+1);
     order_of_exec = order_of_exec + 1;
   end loop;
-  execute system.process_log_update(process_name, 'Done');
+  execute system.process_log_update('Done');
 
-  -- Set the status of the applications moved to consolidation schema to 'transferred' and unassign them.
-  execute system.process_log_update(process_name, 'Unassign moved applications and set their status to ''transferred''...');
-  update application.application set status_code='transferred', action_code = 'unAssign', assignee_id = null, assigned_datetime = null 
-  where rowidentifier in (select rowidentifier from consolidation.application);
-  execute system.process_log_update(process_name, 'done');
 
   -- Set the status of the applications that are in the consolidation schema to the previous status before they got the status
   -- to-be-transferred and unassign them.
-  execute system.process_log_update(process_name, 'Set the status of the extracted applications to their previous status (before getting to be transferred status) and unassign them...');
+  execute system.process_log_update('Set the status of the extracted applications to their previous status (before getting to be transferred status) and unassign them...');
 
   update consolidation.application set action_code = 'unAssign', assignee_id = null, assigned_datetime = null ,
     status_code = (select ah.status_code
-      from consolidation.application_historic ah
-      where ah.id = application.id and ah.status_code !='to-be-transferred'
+      from application.application_historic ah
+      where ah.id = application.id and ah.status_code not in ('to-be-transferred', 'transferred')
       order by ah.change_time desc limit 1);
-  execute system.process_log_update(process_name, 'done');
+  execute system.process_log_update('done');
+
+  -- Set the status of the applications moved to consolidation schema to 'transferred' and unassign them.
+  execute system.process_log_update('Unassign moved applications and set their status to ''transferred''...');
+  update application.application set status_code='transferred', action_code = 'unAssign', assignee_id = null, assigned_datetime = null 
+  where rowidentifier in (select rowidentifier from consolidation.application);
+  execute system.process_log_update('done');
 
   execute system.process_progress_set(process_name, system.process_progress_get(process_name)+1);
   
   -- Make sola accessible from all users.
-  execute system.process_log_update(process_name, 'Making the system accessible for the users...');
+  execute system.process_log_update('Making the system accessible for the users...');
   update system.appuser set active = false where id != admin_user;
-  execute system.process_log_update(process_name, 'done');
+  execute system.process_log_update('done');
   execute system.process_progress_set(process_name, system.process_progress_get(process_name)+1);
   
   -- return system.get_text_from_schema(consolidation_schema);
@@ -3928,37 +4011,6 @@ ALTER FUNCTION system.consolidation_extract(admin_user character varying, everyt
 --
 
 COMMENT ON FUNCTION consolidation_extract(admin_user character varying, everything boolean, process_name character varying) IS 'Extracts the records from the database that are marked to be extracted.';
-
-
---
--- Name: consolidation_extract_make_consolidation_schema(character varying, boolean); Type: FUNCTION; Schema: system; Owner: postgres
---
-
-CREATE FUNCTION consolidation_extract_make_consolidation_schema(admin_user character varying, everything boolean) RETURNS boolean
-    LANGUAGE plpgsql
-    AS $$
-DECLARE
-  process_id varchar default 'extract_make_consolidation_schema';
-  steps_max integer;
-BEGIN
-  steps_max = (select (count(*) * 3) + 7 from system.consolidation_config);
-  -- Create a process
-  execute system.process_log_start(process_id);
-  -- Create progress
-  execute system.process_progress_start(process_id, steps_max);
-  -- Make consolidation schema
-  return system.consolidation_extract(admin_user, everything, process_id);
-END;
-$$;
-
-
-ALTER FUNCTION system.consolidation_extract_make_consolidation_schema(admin_user character varying, everything boolean) OWNER TO postgres;
-
---
--- Name: FUNCTION consolidation_extract_make_consolidation_schema(admin_user character varying, everything boolean); Type: COMMENT; Schema: system; Owner: postgres
---
-
-COMMENT ON FUNCTION consolidation_extract_make_consolidation_schema(admin_user character varying, everything boolean) IS 'Makes the consolidation schema with all the information that can be extracted.';
 
 
 --
@@ -4028,216 +4080,28 @@ COMMENT ON FUNCTION get_setting(setting_name character varying) IS 'Returns the 
 
 
 --
--- Name: get_text_from_schema_only(character varying); Type: FUNCTION; Schema: system; Owner: postgres
+-- Name: process_log_update(character varying); Type: FUNCTION; Schema: system; Owner: postgres
 --
 
-CREATE FUNCTION get_text_from_schema_only(schema_name character varying) RETURNS text
-    LANGUAGE plpgsql
-    AS $$
-DECLARE
-  table_rec record;
-  total_script varchar default '';
-  sql_part varchar;
-  new_line_values varchar default '
-';
-BEGIN
-  
-  -- Drop schema if exists.
-  sql_part = 'DROP SCHEMA IF EXISTS ' || schema_name || ' CASCADE;';        
-  total_script = sql_part || new_line_values;  
-  
-  -- Make the schema empty.
-  sql_part = 'CREATE SCHEMA ' || schema_name || ';';
-  total_script = total_script || sql_part || new_line_values;  
-  
-  -- Loop through all tables in the schema
-  for table_rec in select table_name from information_schema.tables where table_schema = schema_name loop
-
-    -- Make the create statement for the table
-    sql_part = (select 'create table ' || schema_name || '.' || table_rec.table_name || '(' || new_line_values
-      || string_agg('  ' || col_definition, ',' || new_line_values) || ');'
-    from (select column_name || ' ' 
-      || udt_name 
-      || coalesce('(' || character_maximum_length || ')', '') 
-        || case when udt_name = 'numeric' then coalesce('(' || numeric_precision || ',' || numeric_scale  || ')', '') else '' end as col_definition
-      from information_schema.columns
-      where table_schema = schema_name and table_name = table_rec.table_name
-      order by ordinal_position) as cols);
-    total_script = total_script || sql_part || new_line_values;
-  end loop;
-
-  return total_script;
-END;
-$$;
-
-
-ALTER FUNCTION system.get_text_from_schema_only(schema_name character varying) OWNER TO postgres;
-
---
--- Name: FUNCTION get_text_from_schema_only(schema_name character varying); Type: COMMENT; Schema: system; Owner: postgres
---
-
-COMMENT ON FUNCTION get_text_from_schema_only(schema_name character varying) IS 'Gets the script that can regenerate the schema structure.';
-
-
---
--- Name: get_text_from_schema_table(character varying, character varying, bigint, bigint); Type: FUNCTION; Schema: system; Owner: postgres
---
-
-CREATE FUNCTION get_text_from_schema_table(schema_name character varying, table_name_v character varying, rows_at_once bigint, start_row_nr bigint) RETURNS text
-    LANGUAGE plpgsql
-    AS $$
-DECLARE
-  sql_to_run varchar;
-  sql_part varchar;
-  new_line_values varchar default '
-';
-BEGIN
-
-    -- Get the select columns from the source.
-    sql_to_run = (
-      select string_agg(col_definition, ' || '','' || ')
-      from (select 
-        case 
-          when udt_name in ('bpchar', 'varchar') then 'quote_nullable(' || column_name || ')'
-          when udt_name in ('date', 'bool', 'timestamp', 'geometry', 'bytea') then 'quote_nullable(' || column_name || '::text)'
-          else column_name 
-        end as col_definition
-     from information_schema.columns
-     where table_schema = schema_name and table_name = table_name_v
-     order by ordinal_position) as cols);
-
-  -- Add the function to concatenate all rows with the delimiter
-  sql_to_run = 'string_agg(''insert into ' || schema_name || '.' || table_name_v 
-      ||  ' values('' || ' || sql_to_run || ' || '');'', ''' || new_line_values || ''')';
-
-  sql_to_run = 'select ' || sql_to_run || ' from (select * from ' ||  schema_name || '.' || table_name_v || ' limit ' || rows_at_once::varchar || ' offset ' || (start_row_nr - 1)::varchar || ') tmp';
-
-  -- Get the rows 
-  execute sql_to_run into sql_part;
-  if sql_part is null then
-    sql_part = '';
-  end if;
-
-  return sql_part;
-END;
-$$;
-
-
-ALTER FUNCTION system.get_text_from_schema_table(schema_name character varying, table_name_v character varying, rows_at_once bigint, start_row_nr bigint) OWNER TO postgres;
-
---
--- Name: FUNCTION get_text_from_schema_table(schema_name character varying, table_name_v character varying, rows_at_once bigint, start_row_nr bigint); Type: COMMENT; Schema: system; Owner: postgres
---
-
-COMMENT ON FUNCTION get_text_from_schema_table(schema_name character varying, table_name_v character varying, rows_at_once bigint, start_row_nr bigint) IS 'Gets the script with insert statements from the rows of the given table and start and amount of rows.';
-
-
---
--- Name: process_log_get(character varying); Type: FUNCTION; Schema: system; Owner: postgres
---
-
-CREATE FUNCTION process_log_get(process_id_v character varying) RETURNS text
-    LANGUAGE plpgsql
-    AS $$
-DECLARE
-  path_to_logs varchar;
-  dynamic_sql varchar;
-  log_body varchar;
-BEGIN
-  path_to_logs = (SELECT setting FROM pg_settings where name = 'data_directory') || '/' || (SELECT setting FROM pg_settings where name = 'log_directory') || '/';
-
-  create temporary table temp_process_log(
-    log text
-  );
-  
-  dynamic_sql = 'COPY temp_process_log FROM ' || quote_literal(path_to_logs || process_id_v || '_log.log');
-  execute dynamic_sql;
-  log_body = (select log from temp_process_log);
-  drop table if exists temp_process_log;
-  return coalesce(log_body, '');  
-END;
-$$;
-
-
-ALTER FUNCTION system.process_log_get(process_id_v character varying) OWNER TO postgres;
-
---
--- Name: FUNCTION process_log_get(process_id_v character varying); Type: COMMENT; Schema: system; Owner: postgres
---
-
-COMMENT ON FUNCTION process_log_get(process_id_v character varying) IS 'Gets process log.';
-
-
---
--- Name: process_log_start(character varying); Type: FUNCTION; Schema: system; Owner: postgres
---
-
-CREATE FUNCTION process_log_start(process_id character varying) RETURNS void
+CREATE FUNCTION process_log_update(log_input character varying) RETURNS void
     LANGUAGE plpgsql
     AS $$
 declare
-  path_to_logs varchar;
-  dynamic_sql varchar;
+  log_entry_moment varchar;  
 BEGIN
-  path_to_logs = (SELECT setting FROM pg_settings where name = 'data_directory') || '/' || (SELECT setting FROM pg_settings where name = 'log_directory') || '/';
-  create temporary table temp_process_log(
-    log text
-  );
-  insert into temp_process_log(log) values('');
-  dynamic_sql = 'COPY temp_process_log TO ' || quote_literal(path_to_logs || process_id || '_log.log');
-  execute dynamic_sql;
-  drop table if exists temp_process_log;
-END;
-$$;
-
-
-ALTER FUNCTION system.process_log_start(process_id character varying) OWNER TO postgres;
-
---
--- Name: FUNCTION process_log_start(process_id character varying); Type: COMMENT; Schema: system; Owner: postgres
---
-
-COMMENT ON FUNCTION process_log_start(process_id character varying) IS 'Starts a process log.';
-
-
---
--- Name: process_log_update(character varying, character varying); Type: FUNCTION; Schema: system; Owner: postgres
---
-
-CREATE FUNCTION process_log_update(process_id character varying, log_input character varying) RETURNS void
-    LANGUAGE plpgsql
-    AS $$
-declare
-  path_to_logs varchar;
-  dynamic_sql varchar;
-  new_line varchar default '
-';
-  log_entry_moment varchar;
-  
-BEGIN
-  path_to_logs = (SELECT setting FROM pg_settings where name = 'data_directory') || '/' || (SELECT setting FROM pg_settings where name = 'log_directory') || '/';
-  create temporary table temp_process_log(
-    log text
-  );
   log_entry_moment = to_char(clock_timestamp(), 'yyyy-MM-dd HH24:MI:ss.ms | ');
-  dynamic_sql = 'COPY temp_process_log FROM ' || quote_literal(path_to_logs || process_id || '_log.log');
-  execute dynamic_sql;
-  update temp_process_log set log = log ||  new_line || log_entry_moment || log_input;
-  dynamic_sql = 'COPY temp_process_log TO ' || quote_literal(path_to_logs || process_id || '_log.log');
-  execute dynamic_sql;
-  drop table if exists temp_process_log;
+  raise notice '%', log_entry_moment || log_input;
 END;
 $$;
 
 
-ALTER FUNCTION system.process_log_update(process_id character varying, log_input character varying) OWNER TO postgres;
+ALTER FUNCTION system.process_log_update(log_input character varying) OWNER TO postgres;
 
 --
--- Name: FUNCTION process_log_update(process_id character varying, log_input character varying); Type: COMMENT; Schema: system; Owner: postgres
+-- Name: FUNCTION process_log_update(log_input character varying); Type: COMMENT; Schema: system; Owner: postgres
 --
 
-COMMENT ON FUNCTION process_log_update(process_id character varying, log_input character varying) IS 'Updates the process log.';
+COMMENT ON FUNCTION process_log_update(log_input character varying) IS 'Updates the process log.';
 
 
 --
@@ -4369,28 +4233,6 @@ ALTER FUNCTION system.process_progress_stop(process_id character varying) OWNER 
 --
 
 COMMENT ON FUNCTION process_progress_stop(process_id character varying) IS 'It stops a process progress counter.';
-
-
---
--- Name: run_script(text); Type: FUNCTION; Schema: system; Owner: postgres
---
-
-CREATE FUNCTION run_script(script_body text) RETURNS void
-    LANGUAGE plpgsql
-    AS $$
-BEGIN
-  execute script_body;
-END;
-$$;
-
-
-ALTER FUNCTION system.run_script(script_body text) OWNER TO postgres;
-
---
--- Name: FUNCTION run_script(script_body text); Type: COMMENT; Schema: system; Owner: postgres
---
-
-COMMENT ON FUNCTION run_script(script_body text) IS 'It runs any script passed as parameter.';
 
 
 --
@@ -16229,7 +16071,6 @@ CREATE TABLE consolidation_config (
     condition_sql character varying(1000),
     remove_before_insert boolean DEFAULT false NOT NULL,
     order_of_execution integer NOT NULL,
-    nr_rows_at_once integer DEFAULT 10000 NOT NULL,
     log_in_extracted_rows boolean DEFAULT true NOT NULL
 );
 
@@ -16244,10 +16085,45 @@ COMMENT ON TABLE consolidation_config IS 'This table contains the list of instru
 
 
 --
--- Name: COLUMN consolidation_config.nr_rows_at_once; Type: COMMENT; Schema: system; Owner: postgres
+-- Name: COLUMN consolidation_config.schema_name; Type: COMMENT; Schema: system; Owner: postgres
 --
 
-COMMENT ON COLUMN consolidation_config.nr_rows_at_once IS 'The number of rows to be extracted at once.';
+COMMENT ON COLUMN consolidation_config.schema_name IS 'Name of the source schema.';
+
+
+--
+-- Name: COLUMN consolidation_config.table_name; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN consolidation_config.table_name IS 'Name of the source table.';
+
+
+--
+-- Name: COLUMN consolidation_config.condition_description; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN consolidation_config.condition_description IS 'Description of the condition has to be applied to rows of the source table for extraction.';
+
+
+--
+-- Name: COLUMN consolidation_config.condition_sql; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN consolidation_config.condition_sql IS 'The SQL implementation of the condition.';
+
+
+--
+-- Name: COLUMN consolidation_config.remove_before_insert; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN consolidation_config.remove_before_insert IS 'True - The records in the destination will be removed if they are found in the new extract. The check is done in rowidentifier.';
+
+
+--
+-- Name: COLUMN consolidation_config.order_of_execution; Type: COMMENT; Schema: system; Owner: postgres
+--
+
+COMMENT ON COLUMN consolidation_config.order_of_execution IS 'Order of execution of the extract.';
 
 
 --

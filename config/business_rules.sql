@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -977,22 +978,6 @@ from cadastre.cadastre_object co
   ) * 100
 > 90 as vl
 ');
-INSERT INTO br_definition (br_id, active_from, active_until, body) VALUES ('consolidation-db-structure-the-same', '2014-02-20', 'infinity', '
-with def_of_tables as (select source_table_name, target_table_name, (select string_agg(col_definition, ''##'') from (select column_name || '' '' 
-      || udt_name 
-      || coalesce(''('' || character_maximum_length || '')'', '''') 
-        || case when udt_name = ''numeric'' then ''('' || numeric_precision || '','' || numeric_scale  || '')'' else '''' end as col_definition
-      from information_schema.columns cols
-      where cols.table_schema || ''.'' || cols.table_name = config.source_table_name) as ttt) as source_def,
-      (select string_agg(col_definition, ''##'') from (select column_name || '' '' 
-      || udt_name 
-      || coalesce(''('' || character_maximum_length || '')'', '''') 
-        || case when udt_name = ''numeric'' then ''('' || numeric_precision || '','' || numeric_scale  || '')'' else '''' end as col_definition
-      from information_schema.columns cols
-      where cols.table_schema || ''.'' || cols.table_name = config.target_table_name) as ttt) as target_def      
-from consolidation.config config)
-select count(*)=0 as vl from def_of_tables where source_def != target_def
-');
 INSERT INTO br_definition (br_id, active_from, active_until, body) VALUES ('generate-claim-nr', '2014-02-20', 'infinity', 'SELECT coalesce(system.get_setting(''system-id''), '''') || to_char(now(), ''yymm'') || trim(to_char(nextval(''opentenure.claim_nr_seq''), ''0000'')) AS vl');
 INSERT INTO br_definition (br_id, active_from, active_until, body) VALUES ('application-not-transferred', '2014-09-12', 'infinity', 'select status_code != ''transferred'' as vl from application.application where id = #{id}');
 INSERT INTO br_definition (br_id, active_from, active_until, body) VALUES ('application-spatial-unit-not-transferred', '2014-09-12', 'infinity', 'select count(1) = 0 as vl
@@ -1005,6 +990,20 @@ INSERT INTO br_definition (br_id, active_from, active_until, body) VALUES ('gene
   + 4 + (select count(*)*2 from system.consolidation_config) as vl');
 INSERT INTO br_definition (br_id, active_from, active_until, body) VALUES ('generate-process-progress-extract-max', '2014-09-12', 'infinity', 'select 7 + (count(*)*(3+5)) + 2 + 10 as vl from system.consolidation_config');
 INSERT INTO br_definition (br_id, active_from, active_until, body) VALUES ('consolidation-extraction-file-name', '2014-09-12', 'infinity', 'select ''consolidation-'' || system.get_setting(''system-id'') || to_char(clock_timestamp(), ''-yyyy-MM-dd-HH24-MI'') as vl');
+INSERT INTO br_definition (br_id, active_from, active_until, body) VALUES ('consolidation-db-structure-the-same', '2014-02-20', 'infinity', 'with def_of_tables as (
+  select source_table_name, target_table_name, 
+    (select string_agg(col_definition, ''##'') from (select column_name || '' '' 
+      || udt_name 
+      || coalesce(''('' || character_maximum_length || '')'', '''') as col_definition
+      from information_schema.columns cols
+      where cols.table_schema || ''.'' || cols.table_name = config.source_table_name) as ttt) as source_def,
+    (select string_agg(col_definition, ''##'') from (select column_name || '' '' 
+      || udt_name 
+      || coalesce(''('' || character_maximum_length || '')'', '''') as col_definition
+      from information_schema.columns cols
+      where cols.table_schema || ''.'' || cols.table_name = config.target_table_name) as ttt) as target_def      
+from consolidation.config config)
+select count(*)=0 as vl from def_of_tables where source_def != target_def');
 
 
 ALTER TABLE br_definition ENABLE TRIGGER ALL;
