@@ -1,6 +1,11 @@
 ﻿INSERT INTO system.version SELECT '1411b' WHERE NOT EXISTS (SELECT version_num FROM system.version WHERE version_num = '1411b');
 
+drop function if exists system.consolidation_consolidate(character varying);
+drop function if exists system.consolidation_extract(character varying, boolean);
+drop function if exists system.get_text_from_schema(character varying);
+drop function if exists system.script_to_schema(text);
 DROP FUNCTION if exists system.consolidation_extract_make_consolidation_schema(character varying, boolean);
+DROP FUNCTION if exists system.script_to_schema(extraction_script text);
 DROP FUNCTION if exists system.process_log_get(process_id_v character varying);
 DROP FUNCTION if exists system.process_log_start(process_id character varying);
 DROP FUNCTION if exists system.process_log_update(process_id character varying, log_input character varying);
@@ -8,6 +13,151 @@ DROP FUNCTION if exists system.get_text_from_schema_only(schema_name character v
 DROP FUNCTION if exists system.get_text_from_schema_table(schema_name character varying, table_name_v character varying, rows_at_once bigint, start_row_nr bigint);
 DROP FUNCTION if exists system.run_script(script_body text);
 delete from system.setting where name='zip-pass';
+
+delete from system.br_validation where br_id in ('generate-process-progress-consolidate-max', 'generate-process-progress-extract-max', 
+  'consolidation-db-structure-the-same', 'consolidation-not-again', 'consolidation-extraction-file-name', 
+  'application-not-transferred', 'application-spatial-unit-not-transferred');
+delete from system.br 
+where id in ('generate-process-progress-consolidate-max', 'generate-process-progress-extract-max', 
+  'consolidation-db-structure-the-same', 'consolidation-not-again', 'consolidation-extraction-file-name', 
+  'application-not-transferred', 'application-spatial-unit-not-transferred');
+
+
+INSERT INTO system.br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('consolidation-db-structure-the-same', 'consolidation-db-structure-the-same', 'sql', 'The structure of the tables in the source and target database are the same.', NULL, 'It controls if every source table in consolidation schema is the same as the corresponding target table.');
+INSERT INTO system.br_definition (br_id, active_from, active_until, body) VALUES ('consolidation-db-structure-the-same', '2014-02-20', 'infinity', 'with def_of_tables as (
+  select source_table_name, target_table_name, 
+    (select string_agg(col_definition, ''##'') from (select column_name || '' '' 
+      || udt_name 
+      || coalesce(''('' || character_maximum_length || '')'', '''') as col_definition
+      from information_schema.columns cols
+      where cols.table_schema || ''.'' || cols.table_name = config.source_table_name) as ttt) as source_def,
+    (select string_agg(col_definition, ''##'') from (select column_name || '' '' 
+      || udt_name 
+      || coalesce(''('' || character_maximum_length || '')'', '''') as col_definition
+      from information_schema.columns cols
+      where cols.table_schema || ''.'' || cols.table_name = config.target_table_name) as ttt) as target_def      
+from consolidation.config config)
+select count(*)=0 as vl from def_of_tables where source_def != target_def');
+
+INSERT INTO system.br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('consolidation-not-again', 'Records are unique', 'sql', 'Records being consolidated must not be present in the destination. 
+result', '', '');
+INSERT INTO system.br_definition (br_id, active_from, active_until, body) VALUES ('consolidation-not-again', '2014-09-12', 'infinity', 'select not records_found as vl, result from system.get_already_consolidated_records() as vl');
+
+INSERT INTO system.br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('application-not-transferred', 'application-not-transferred', 'sql', 'An application should not be already transferred to another system.', NULL, 'The application should not have the status transferred.');
+INSERT INTO system.br_definition (br_id, active_from, active_until, body) VALUES ('application-not-transferred', '2014-09-12', 'infinity', 'select status_code != ''transferred'' as vl from application.application where id = #{id}');
+INSERT INTO system.br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('application-spatial-unit-not-transferred', 'application-spatial-unit-not-transferred', 'sql', 'An application must not use a parcel already transferred.', NULL, 'It checks if the application has no spatial_unit that is already targeted by an application that has the status  transferred.');
+INSERT INTO system.br_definition (br_id, active_from, active_until, body) VALUES ('application-spatial-unit-not-transferred', '2014-09-12', 'infinity', 'select count(1) = 0 as vl
+from application.application_spatial_unit  
+where application_id = #{id} and spatial_unit_id in (select spatial_unit_id from application.application_spatial_unit where application_id in (select id from application.application where status_code=''transferred''))');
+
+INSERT INTO system.br_validation (id, br_id, target_code, target_application_moment, target_service_moment, target_reg_moment, target_request_type_code, target_rrr_type_code, severity_code, order_of_execution) VALUES ('consolidation-db-structure-the-same', 'consolidation-db-structure-the-same', 'consolidation', NULL, NULL, NULL, NULL, NULL, 'critical', 570);
+INSERT INTO system.br_validation (id, br_id, target_code, target_application_moment, target_service_moment, target_reg_moment, target_request_type_code, target_rrr_type_code, severity_code, order_of_execution) VALUES ('consolidation-not-again', 'consolidation-not-again', 'consolidation', NULL, NULL, NULL, NULL, NULL, 'critical', 1);
+INSERT INTO system.br_validation (id, br_id, target_code, target_application_moment, target_service_moment, target_reg_moment, target_request_type_code, target_rrr_type_code, severity_code, order_of_execution) VALUES ('bef9efc8-99dd-11e3-964f-6b27f41ee3f8', 'application-not-transferred', 'application', 'assign', NULL, NULL, NULL, NULL, 'critical', 1);
+INSERT INTO system.br_validation (id, br_id, target_code, target_application_moment, target_service_moment, target_reg_moment, target_request_type_code, target_rrr_type_code, severity_code, order_of_execution) VALUES ('befa8c08-99dd-11e3-aee6-bf668a86c63d', 'application-spatial-unit-not-transferred', 'application', 'addSpatialUnit', NULL, NULL, NULL, NULL, 'critical', 300);
+
+-- Insert a new setting called system-id. This must be a unique number that identifies the installed system.
+insert into system.setting(name, vl, active, description) 
+select 'system-id', '', true, 'A unique number that identifies the installed SOLA system. This unique number is used in the br that generate unique identifiers.'
+where not exists (select name from system.setting where name='system-id');
+
+-- Insert roles
+insert into system.approle(code, display_value, status, description)
+select 'ApplnTransfer', 'Appln Action - Transfer', 'c', 'The action that bring the application in the To be transferred state.'
+where not exists (select * from system.approle where code='ApplnTransfer');
+insert into system.approle_appgroup(approle_code, appgroup_id) 
+select 'ApplnTransfer', 'super-group-id'
+where not exists (select * from system.approle_appgroup where approle_code = 'ApplnTransfer' and appgroup_id='super-group-id');
+
+insert into application.application_status_type(code, display_value, status, description)
+select 'to-be-transferred', 'To be transferred', 'c', 'Application is marked for transfer.'
+where not exists (select * from application.application_status_type where code='to-be-transferred');
+
+insert into application.application_status_type(code, display_value, status, description)
+select 'transferred', 'Transferred', 'c', 'Application is transferred.'
+where not exists (select * from application.application_status_type where code='transferred');
+
+insert into application.application_action_type(code, display_value, status_to_set, status, description)
+select 'transfer', 'Transfer', 'to-be-transferred', 'c', 'Marks the application for transfer'
+where not exists (select * from application.application_action_type where code='transfer');
+
+
+
+CREATE OR REPLACE FUNCTION system.process_progress_start(process_id varchar, max_value integer)
+  RETURNS void AS
+$BODY$
+DECLARE
+  sequence_prefix varchar default 'system.process_';
+BEGIN
+  execute system.process_progress_stop(process_id);
+  execute 'CREATE SEQUENCE ' || sequence_prefix || process_id
+   || ' INCREMENT 1 START 1 MINVALUE 1 MAXVALUE ' || max_value::varchar;   
+END;
+$BODY$
+  LANGUAGE plpgsql;
+
+comment on FUNCTION system.process_progress_start(varchar, integer) is 'It starts a process progress counter.';
+
+CREATE OR REPLACE FUNCTION system.process_progress_stop(process_id varchar)
+  RETURNS void AS
+$BODY$
+DECLARE
+  sequence_prefix varchar default 'system.process_';
+BEGIN
+  execute 'DROP SEQUENCE IF EXISTS ' || sequence_prefix || process_id;   
+END;
+$BODY$
+  LANGUAGE plpgsql;
+
+comment on FUNCTION system.process_progress_stop(varchar) is 'It stops a process progress counter.';
+
+CREATE OR REPLACE FUNCTION system.process_progress_set(process_id varchar, progress_value integer)
+  RETURNS void AS
+$BODY$
+DECLARE
+  sequence_prefix varchar default 'system.process_';
+  max_progress_value integer;
+BEGIN
+  execute 'select max_value from ' || sequence_prefix || process_id into max_progress_value;
+  if progress_value> max_progress_value then
+    progress_value = max_progress_value;
+  end if;
+  perform setval(sequence_prefix || process_id, progress_value);
+END;
+$BODY$
+  LANGUAGE plpgsql;
+
+comment on FUNCTION system.process_progress_set(varchar, integer) is 'It sets a new value for the process progress.';
+
+CREATE OR REPLACE FUNCTION system.process_progress_get(process_id varchar)
+  RETURNS integer AS
+$BODY$
+DECLARE
+  sequence_prefix varchar default 'system.process_';
+  vl double precision;
+BEGIN
+  execute 'select last_value from ' || sequence_prefix || process_id into vl;
+  return vl;
+END;
+$BODY$
+  LANGUAGE plpgsql;
+
+comment on FUNCTION system.process_progress_get(varchar) is 'Gets the absolute value of the process progress.';
+
+CREATE OR REPLACE FUNCTION system.process_progress_get_in_percentage(process_id varchar)
+  RETURNS integer AS
+$BODY$
+DECLARE
+  sequence_prefix varchar default 'system.process_';
+  vl double precision;
+BEGIN
+  execute 'select cast(100 * last_value::double precision/max_value::double precision as integer) from ' || sequence_prefix || process_id into vl;
+  return vl;
+END;
+$BODY$
+  LANGUAGE plpgsql;
+
+comment on FUNCTION system.process_progress_get_in_percentage(varchar) is 'Gets the value of the process progress in percentage.';
+
 
 DROP TABLE if exists system.extracted_rows;
 
@@ -126,70 +276,63 @@ BEGIN
   -- Create progress
   execute system.process_progress_start(process_name, steps_max);
 
-  BEGIN -- TRANSACTION TO CATCH EXCEPTION
     -- Checking business rules
-    execute system.process_log_update('Validating consolidation schema against the other tables...');
-    br_validation_result = system.check_brs('consolidation', null);  
-    if br_validation_result like 'false####%' then
-      execute system.process_log_update(substring(br_validation_result, 10));
-      raise exception 'Validation failed!';
-    else
-      execute system.process_log_update(substring(br_validation_result, 9));
-      execute system.process_log_update('Validation finished with success.');
-    end if;
-    execute system.process_log_update('Making the system not accessible for the users...');
-    -- Make sola not accessible from all other users except the user running the consolidation.
-    update system.appuser set active = false where id != admin_user;
-    execute system.process_log_update('done');
-    execute system.process_progress_set(process_name, system.process_progress_get(process_name)+1);
+  execute system.process_log_update('Validating consolidation schema against the other tables...');
+  br_validation_result = system.check_brs('consolidation', null);  
+  if br_validation_result like 'false####%' then
+    execute system.process_log_update(substring(br_validation_result, 10));
+    raise exception 'Validation failed!';
+  else
+    execute system.process_log_update(substring(br_validation_result, 9));
+    execute system.process_log_update('Validation finished with success.');
+  end if;
+  execute system.process_log_update('Making the system not accessible for the users...');
+  -- Make sola not accessible from all other users except the user running the consolidation.
+  update system.appuser set active = false where id != admin_user;
+  execute system.process_log_update('done');
+  execute system.process_progress_set(process_name, system.process_progress_get(process_name)+1);
 
-    -- Disable triggers.
-    execute system.process_log_update('disabling all triggers...');
-    perform fn_triggerall(false);
-    execute system.process_log_update('done');
-    execute system.process_progress_set(process_name, system.process_progress_get(process_name)+1);
+  -- Disable triggers.
+  execute system.process_log_update('disabling all triggers...');
+  perform fn_triggerall(false);
+  execute system.process_log_update('done');
+  execute system.process_progress_set(process_name, system.process_progress_get(process_name)+1);
+  execute system.process_log_update('Move records from temporary consolidation schema to main tables.');
+ 
+  -- For each table that is extracted and that has rows, insert the records into the main tables.
+  for table_rec in select * from consolidation.config order by order_of_execution loop
 
-    execute system.process_log_update('Move records from temporary consolidation schema to main tables.');
-    -- For each table that is extracted and that has rows, insert the records into the main tables.
-    for table_rec in select * from consolidation.config order by order_of_execution loop
+    execute system.process_log_update('  - source table: "' || table_rec.source_table_name || '" destination table: "' || table_rec.target_table_name || '"... ');
 
-      execute system.process_log_update('  - source table: "' || table_rec.source_table_name || '" destination table: "' || table_rec.target_table_name || '"... ');
-
-      if table_rec.remove_before_insert then
-        execute system.process_log_update('      deleting matching records in target table ...');
-        execute 'delete from ' || table_rec.target_table_name ||
-        ' where rowidentifier in (select rowidentifier from ' || table_rec.source_table_name || ')';
-        execute system.process_log_update('      done');
-      end if;
-      cols = (select string_agg(column_name, ',')
-        from information_schema.columns
-        where table_schema || '.' || table_name = table_rec.target_table_name);
-
-      execute system.process_log_update('      inserting records to target table ...');
-      execute 'insert into ' || table_rec.target_table_name || '(' || cols || ') select ' || cols || ' from ' || table_rec.source_table_name;
+    if table_rec.remove_before_insert then
+      execute system.process_log_update('      deleting matching records in target table ...');
+      execute 'delete from ' || table_rec.target_table_name ||
+      ' where rowidentifier in (select rowidentifier from ' || table_rec.source_table_name || ')';
       execute system.process_log_update('      done');
-      execute system.process_log_update('  done');
-      execute system.process_progress_set(process_name, system.process_progress_get(process_name)+2);
-    
-    end loop;
+    end if;
+    cols = (select string_agg(column_name, ',')
+      from information_schema.columns
+      where table_schema || '.' || table_name = table_rec.target_table_name);
+    execute system.process_log_update('      inserting records to target table ...');
+    execute 'insert into ' || table_rec.target_table_name || '(' || cols || ') select ' || cols || ' from ' || table_rec.source_table_name;
+    execute system.process_log_update('      done');
+    execute system.process_log_update('  done');
+    execute system.process_progress_set(process_name, system.process_progress_get(process_name)+2);
   
-    -- Enable triggers.
-    execute system.process_log_update('enabling all triggers...');
-    perform fn_triggerall(true);
-    execute system.process_log_update('done');
-    execute system.process_progress_set(process_name, system.process_progress_get(process_name)+1);
+  end loop;
+  
+  -- Enable triggers.
+  execute system.process_log_update('enabling all triggers...');
+  perform fn_triggerall(true);
+  execute system.process_log_update('done');
+  execute system.process_progress_set(process_name, system.process_progress_get(process_name)+1);
 
-    -- Make sola accessible for all users.
-    execute system.process_log_update('Making the system accessible for the users...');
-    update system.appuser set active = true where id != admin_user;
-    execute system.process_log_update('done');
-    execute system.process_log_update('Finished with success!');
-    execute system.process_progress_set(process_name, system.process_progress_get(process_name)+1);
-  EXCEPTION WHEN OTHERS THEN
-    GET STACKED DIAGNOSTICS exception_text_msg = MESSAGE_TEXT;  
-    execute system.process_log_update('Consolidation failed. Reason: ' || exception_text_msg);
-    RAISE;
-  END;
+  -- Make sola accessible for all users.
+  execute system.process_log_update('Making the system accessible for the users...');
+  update system.appuser set active = true where id != admin_user;
+  execute system.process_log_update('done');
+  execute system.process_log_update('Finished with success!');
+  execute system.process_progress_set(process_name, system.process_progress_get(process_name)+1);
 END;
 $BODY$
   LANGUAGE plpgsql;
@@ -224,7 +367,7 @@ BEGIN
   execute system.process_log_update('done');
   execute system.process_progress_set(process_name, system.process_progress_get(process_name)+1);
 
-  -- If everything is true it means all applications that have not a service 'recordTransfer' will get one.
+  -- If everything is true it means all applications that do not have the status 'to-be-transferred' will get it.
   if everything then
     execute system.process_log_update('Marking the applications that are not yet marked for transfer...');
     update application.application set action_code = 'transfer', status_code='to-be-transferred' 
@@ -407,23 +550,6 @@ END;
 $BODY$
   LANGUAGE plpgsql;
 COMMENT ON FUNCTION system.process_progress_stop(character varying) IS 'It stops a process progress counter.';
-
-update system.br_definition set body = 
-'with def_of_tables as (
-  select source_table_name, target_table_name, 
-    (select string_agg(col_definition, ''##'') from (select column_name || '' '' 
-      || udt_name 
-      || coalesce(''('' || character_maximum_length || '')'', '''') as col_definition
-      from information_schema.columns cols
-      where cols.table_schema || ''.'' || cols.table_name = config.source_table_name) as ttt) as source_def,
-    (select string_agg(col_definition, ''##'') from (select column_name || '' '' 
-      || udt_name 
-      || coalesce(''('' || character_maximum_length || '')'', '''') as col_definition
-      from information_schema.columns cols
-      where cols.table_schema || ''.'' || cols.table_name = config.target_table_name) as ttt) as target_def      
-from consolidation.config config)
-select count(*)=0 as vl from def_of_tables where source_def != target_def'
-where br_id='consolidation-db-structure-the-same';
 
 INSERT INTO system.consolidation_config (id, schema_name, table_name, condition_description, condition_sql, remove_before_insert, order_of_execution, log_in_extracted_rows) VALUES ('application.application', 'application', 'application', 'Applications that have the status = “to-be-transferred”.', 'status_code = ''to-be-transferred'' and rowidentifier not in (select rowidentifier from system.extracted_rows where table_name=''application.application'')', false, 1, true);
 INSERT INTO system.consolidation_config (id, schema_name, table_name, condition_description, condition_sql, remove_before_insert, order_of_execution, log_in_extracted_rows) VALUES ('application.service', 'application', 'service', 'Every service that belongs to the application being selected for transfer.', 'application_id in (select id from consolidation.application) and rowidentifier not in (select rowidentifier from system.extracted_rows where table_name=''application.service'')', false, 2, true);
