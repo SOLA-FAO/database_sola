@@ -82,6 +82,44 @@ where not exists (select * from application.application_action_type where code='
 
 
 
+--
+-- Name: system.get_already_consolidated_records(); Type: FUNCTION; Schema: system; Owner: postgres
+--
+
+CREATE OR REPLACE  FUNCTION system.get_already_consolidated_records(OUT result character varying, OUT records_found boolean) RETURNS record
+    LANGUAGE plpgsql
+    AS $$
+declare
+  table_rec record;
+  sql_st varchar;
+  total_result varchar default '';
+  table_result varchar;
+  new_line varchar default '
+';
+BEGIN
+  for table_rec 
+    in select * from consolidation.config 
+       where not remove_before_insert and target_table_name not like '%_historic' loop
+    sql_st = 'select string_agg(rowidentifier, '','') from ' || table_rec.source_table_name 
+      || ' where rowidentifier in (select rowidentifier from ' || table_rec.target_table_name || ')';
+    execute sql_st into table_result;
+    if table_result != '' then
+      total_result = total_result || new_line || '  - table: ' || table_rec.target_table_name 
+        || ' row ids:' || table_result;
+    end if;
+  end loop;
+  if total_result != '' then
+    total_result = 'Records already present in destination:' || total_result;
+  end if;
+  result = total_result;
+  records_found = (total_result != '');
+END;
+$$;
+
+COMMENT ON FUNCTION system.get_already_consolidated_records(OUT result character varying, OUT records_found boolean) IS 'It retrieves the records that are already consolidated and being asked again for consolidation.';
+
+
+
 CREATE OR REPLACE FUNCTION system.process_progress_start(process_id varchar, max_value integer)
   RETURNS void AS
 $BODY$
