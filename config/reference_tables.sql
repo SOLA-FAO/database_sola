@@ -3,7 +3,6 @@
 --
 
 SET statement_timeout = 0;
-SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -74,9 +73,9 @@ ALTER TABLE mortgage_type ENABLE TRIGGER ALL;
 
 ALTER TABLE rrr_group_type DISABLE TRIGGER ALL;
 
-INSERT INTO rrr_group_type (code, display_value, description, status) VALUES ('responsibilities', 'Responsibilities::::Ответственность::::المسؤوليات::::Responsabilités', '...::::::::...::::...', 'x');
-INSERT INTO rrr_group_type (code, display_value, description, status) VALUES ('restrictions', 'Restrictions::::Ограничения::::القيود::::Restrictions', '...::::::::...::::...', 'c');
-INSERT INTO rrr_group_type (code, display_value, description, status) VALUES ('rights', 'Rights::::Права::::الحقوق::::Droits', '...::::::::...::::...', 'c');
+INSERT INTO rrr_group_type (code, display_value, description, status) VALUES ('responsibilities', 'Responsibilities::::Ответственность::::المسؤوليات::::Responsabilités::::Responsabilidades::::Përgjegjësitë', '...::::::::...::::...::::...::::...', 'x');
+INSERT INTO rrr_group_type (code, display_value, description, status) VALUES ('restrictions', 'Restrictions::::Ограничения::::القيود::::Restrictions::::Restricciones::::Kufizimet', '...::::::::...::::...::::...::::...', 'c');
+INSERT INTO rrr_group_type (code, display_value, description, status) VALUES ('rights', 'Rights::::Права::::الحقوق::::Droits::::Derechos::::Të drejtat', '...::::::::...::::...::::...::::...', 'c');
 
 
 ALTER TABLE rrr_group_type ENABLE TRIGGER ALL;
@@ -87,34 +86,34 @@ ALTER TABLE rrr_group_type ENABLE TRIGGER ALL;
 
 ALTER TABLE rrr_type DISABLE TRIGGER ALL;
 
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('mortgage', 'restrictions', 'Mortgage::::Ипотека::::الرهن::::Hypothèque', false, true, true, '...::::::::...::::...', 'c', 'mortgage');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('lease', 'rights', 'Lease::::Аренда::::الايجار::::Bail', false, true, true, '...::::::::...::::...', 'c', 'lease');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('apartment', 'rights', 'Apartment Ownership::::Право собственности на квартиру::::مالك الشقة::::Propriété d''Appartement', true, true, true, 'Extension to LADM::::Расширение LADM::::...::::...', 'c', 'ownership');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('stateOwnership', 'rights', 'State Ownership::::Государственное право собственности::::ملكية عقار.::::Propriété de l''Etat', true, false, false, 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM', 'c', 'ownership');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('ownership', 'rights', 'Ownership::::Право собственности::::الملكية::::Propriété', true, true, true, '...::::::::...::::...', 'c', 'ownership');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('fishing', 'rights', 'Fishing Right::::Рыболовное право::::حق الصيد::::Droit de pêche', false, true, true, '...::::::::...::::...', 'x', 'simpleRightholder');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('tenancy', 'rights', 'Tenancy::::Арендаторство::::استئجار عقار::::Tenure', true, true, true, '...::::::::...::::...', 'x', 'simpleRightholder');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('lifeEstate', 'rights', 'Life Estate::::Пожизненное право собственности::::عقار مدى الحياة::::Donation au dernier vivant', true, true, true, 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM', 'x', 'simpleRightholder');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('customaryType', 'rights', 'Customary Right::::Традиционное право::::الحق العرفي::::Droit Coutumier', false, true, true, '...::::::::...::::...', 'x', 'simpleRightholder');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('monument', 'restrictions', 'Monument::::Памятник::::النصب::::Monument', false, true, true, '...::::::::...::::...', 'x', 'simpleRightholder');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('grazing', 'rights', 'Grazing Right::::Право выпаса::::حق الرعي::::Droit de Pacage', false, true, true, '...::::::::...::::...', 'x', 'simpleRightholder');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('ownershipAssumed', 'rights', 'Ownership Assumed::::Принятое право собственности::::افتراض الملكية::::Propriété supposée', true, true, true, '...::::::::...::::...', 'x', 'simpleRightholder');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('usufruct', 'rights', 'Usufruct::::Право использования для сбора урожая::::حق الانتفاع::::Usufruit', false, true, true, '...::::::::...::::...', 'c', 'simpleRightholder');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('waterrights', 'rights', 'Water Right::::Право на водные ресурсы::::حق في المياه::::Droit d''Eau', false, true, true, '...::::::::...::::...', 'c', 'simpleRightholder');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('occupation', 'rights', 'Occupation::::Оккупация::::الاستعمال::::Occupation', false, true, true, '...::::::::...::::...', 'c', 'simpleRightholder');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('caveat', 'restrictions', 'Caveat::::Арест::::القيود::::Caveat', false, true, true, 'Extension to LADM::::Расширение LADM::::...::::Extension du LADM', 'c', 'simpleRightholder');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('adminPublicServitude', 'restrictions', 'Administrative Public Servitude::::Административный публичный сервитут::::حق الاستخدام العام::::Servitude Publique Administrative', false, true, true, '...::::::::...::::...', 'x', 'simpleRightholder');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('commonOwnership', 'rights', 'Common Ownership::::Общая собственность::::الملكية العامة::::Propriété Commune', false, true, true, '...::::::::...::::...', 'x', 'simpleRightholder');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('superficies', 'rights', 'Superficies::::Superficies::::بناء متعدي::::Superficies', false, true, true, '...::::::::...::::...', 'x', 'simpleRightholder');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('agriActivity', 'rights', 'Agriculture Activity::::Сельскохозяйственная деятельность::::نشاط زراعي::::Activité Agricole', false, true, true, '...::::::::...::::...', 'x', 'simpleRightholder');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('firewood', 'rights', 'Firewood Collection::::Сбор древисины::::...::::Collecte Bois à brûler', false, true, true, '...::::::::...::::...', 'x', 'simpleRightholder');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('noBuilding', 'restrictions', 'Building Restriction::::Ограничение на здание::::قيود على بناية::::Restriction Bâtiment', false, false, false, '...::::::::...::::...', 'c', 'simpleRight');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('monumentMaintenance', 'responsibilities', 'Monument Maintenance::::Обслуживание памятника::::صيانة النصب::::Entretien Monument', false, false, false, '...::::::::...::::...', 'x', 'simpleRight');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('limitedAccess', 'restrictions', 'Limited Access (to Road)::::Ограниченный доступ к дороге::::استعمال محدود للطريق::::Accès Limité (à la Route)', false, false, false, 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM', 'c', 'simpleRight');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('servitude', 'restrictions', 'Servitude::::Сервитут::::حق الاستعمال::::Servitude', false, false, false, '...::::::::...::::...', 'c', 'simpleRight');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('informalOccupation', 'rights', 'Informal Occupation::::Неформальная оккупация::::الاستعمال الغير رسمي::::Occupation informelle', false, false, false, '...::::::::...::::...', 'x', 'simpleRight');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('historicPreservation', 'restrictions', 'Historic Preservation::::Историческая резервация::::الحفظ التاريخي::::Préservation Historique', false, false, false, 'Extension to LADM::::Расширение LADM::::...::::...', 'c', 'simpleRight');
-INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('waterwayMaintenance', 'responsibilities', 'Waterway Maintenance::::Обслуживания каналов ирригации::::صيانة الممر المائي::::Entretien Voie Navigable', false, false, false, '...::::::::...::::...', 'x', 'simpleRight');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('mortgage', 'restrictions', 'Mortgage::::Ипотека::::الرهن::::Hypothèque::::Hipoteca::::Hipotekë', false, true, true, '...::::::::...::::...::::...::::...', 'c', 'mortgage');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('lease', 'rights', 'Lease::::Аренда::::الايجار::::Bail::::Arrendamiento::::Qira', false, true, true, '...::::::::...::::...::::...::::...', 'c', 'lease');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('apartment', 'rights', 'Apartment Ownership::::Право собственности на квартиру::::مالك الشقة::::Propriété d''Appartement::::Propiedad del Apartemento::::Pronësi Apartamenti', true, true, true, 'Extension to LADM::::Расширение LADM::::...::::...::::Extension a LADM::::Extension to LADM', 'c', 'ownership');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('stateOwnership', 'rights', 'State Ownership::::Государственное право собственности::::ملكية عقار.::::Propriété de l''Etat::::Propiedad del Estado::::Pronësi Shtetërore', true, false, false, 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM::::Extension a LADM::::Extension to LADM', 'c', 'ownership');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('ownership', 'rights', 'Ownership::::Право собственности::::الملكية::::Propriété::::Propiedad::::Pronësi', true, true, true, '...::::::::...::::...::::...::::...', 'c', 'ownership');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('fishing', 'rights', 'Fishing Right::::Рыболовное право::::حق الصيد::::Droit de pêche::::Derecho de Pesca::::E Drejtë Peshkimi', false, true, true, '...::::::::...::::...::::...::::...', 'x', 'simpleRightholder');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('tenancy', 'rights', 'Tenancy::::Арендаторство::::استئجار عقار::::Tenure::::Tenencia::::Qiramarrje', true, true, true, '...::::::::...::::...::::...::::...', 'x', 'simpleRightholder');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('lifeEstate', 'rights', 'Life Estate::::Пожизненное право собственности::::عقار مدى الحياة::::Donation au dernier vivant::::Bienes de Vida::::Renta Jetësore', true, true, true, 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM::::Extension a LADM::::Extension to LADM', 'x', 'simpleRightholder');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('customaryType', 'rights', 'Customary Right::::Традиционное право::::الحق العرفي::::Droit Coutumier::::Derecho Consuetudinario::::E Drejta Zakonore', false, true, true, '...::::::::...::::...::::...::::...', 'x', 'simpleRightholder');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('monument', 'restrictions', 'Monument::::Памятник::::النصب::::Monument::::Monumento::::Monument', false, true, true, '...::::::::...::::...::::...::::...', 'x', 'simpleRightholder');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('grazing', 'rights', 'Grazing Right::::Право выпаса::::حق الرعي::::Droit de Pacage::::Derecho al pastoreo::::E Drejta e Kullotës', false, true, true, '...::::::::...::::...::::...::::...', 'x', 'simpleRightholder');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('ownershipAssumed', 'rights', 'Ownership Assumed::::Принятое право собственности::::افتراض الملكية::::Propriété supposée::::Propiedad presunta::::Pronësi e Supozuar', true, true, true, '...::::::::...::::...::::...::::...', 'x', 'simpleRightholder');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('usufruct', 'rights', 'Usufruct::::Право использования для сбора урожая::::حق الانتفاع::::Usufruit::::Usufructo::::Uzufrukt', false, true, true, '...::::::::...::::...::::...::::...', 'c', 'simpleRightholder');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('waterrights', 'rights', 'Water Right::::Право на водные ресурсы::::حق في المياه::::Droit d''Eau::::Derechos de Agua::::E Drejta e Ujit', false, true, true, '...::::::::...::::...::::...::::...', 'c', 'simpleRightholder');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('occupation', 'rights', 'Occupation::::Оккупация::::الاستعمال::::Occupation::::Ocupaci�n::::Pushtim', false, true, true, '...::::::::...::::...::::...::::...', 'c', 'simpleRightholder');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('caveat', 'restrictions', 'Caveat::::Арест::::القيود::::Caveat::::Advertencia::::Kufizim', false, true, true, 'Extension to LADM::::Расширение LADM::::...::::Extension du LADM::::Extension a LADM::::Extension to LADM', 'c', 'simpleRightholder');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('adminPublicServitude', 'restrictions', 'Administrative Public Servitude::::Административный публичный сервитут::::حق الاستخدام العام::::Servitude Publique Administrative::::Servidumbre p�blica administrativa::::Servitute publike', false, true, true, '...::::::::...::::...::::...::::...', 'x', 'simpleRightholder');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('commonOwnership', 'rights', 'Common Ownership::::Общая собственность::::الملكية العامة::::Propriété Commune::::Propiedad com�n::::Bashkëpronësi', false, true, true, '...::::::::...::::...::::...::::...', 'x', 'simpleRightholder');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('superficies', 'rights', 'Superficies::::Superficies::::بناء متعدي::::Superficies::::Superficies::::Sipërfaqe', false, true, true, '...::::::::...::::...::::...::::...', 'x', 'simpleRightholder');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('agriActivity', 'rights', 'Agriculture Activity::::Сельскохозяйственная деятельность::::نشاط زراعي::::Activité Agricole::::Actividad de la agricultura::::Aktivitet Bujqësor', false, true, true, '...::::::::...::::...::::...::::...', 'x', 'simpleRightholder');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('firewood', 'rights', 'Firewood Collection::::Сбор древисины::::...::::Collecte Bois à brûler::::Colecci�n de la le�a::::Mbledhje Dru Zjarri', false, true, true, '...::::::::...::::...::::...::::...', 'x', 'simpleRightholder');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('noBuilding', 'restrictions', 'Building Restriction::::Ограничение на здание::::قيود على بناية::::Restriction Bâtiment::::Restricci�n de construcci�n::::Kufizim Ndërtimi', false, false, false, '...::::::::...::::...::::...::::...', 'c', 'simpleRight');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('monumentMaintenance', 'responsibilities', 'Monument Maintenance::::Обслуживание памятника::::صيانة النصب::::Entretien Monument::::Mantenimiento Monumento::::Mirëmbajtje Monumenti', false, false, false, '...::::::::...::::...::::...::::...', 'x', 'simpleRight');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('servitude', 'restrictions', 'Servitude::::Сервитут::::حق الاستعمال::::Servitude::::Servidumbre::::Servitute', false, false, false, '...::::::::...::::...::::...::::...', 'c', 'simpleRight');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('informalOccupation', 'rights', 'Informal Occupation::::Неформальная оккупация::::الاستعمال الغير رسمي::::Occupation informelle::::Ocupaci�n informal::::Pushtim Informal', false, false, false, '...::::::::...::::...::::...::::...', 'x', 'simpleRight');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('historicPreservation', 'restrictions', 'Historic Preservation::::Историческая резервация::::الحفظ التاريخي::::Préservation Historique::::Preservaci�n hist�rica::::Monument Historik', false, false, false, 'Extension to LADM::::Расширение LADM::::...::::...::::Extension a LADM::::Extension to LADM', 'c', 'simpleRight');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('waterwayMaintenance', 'responsibilities', 'Waterway Maintenance::::Обслуживания каналов ирригации::::صيانة الممر المائي::::Entretien Voie Navigable::::Mantenimiento de la hidrov�a::::Mirëmbajtje e Vijës së Ujit', false, false, false, '...::::::::...::::...::::...::::...', 'x', 'simpleRight');
+INSERT INTO rrr_type (code, rrr_group_type_code, display_value, is_primary, share_check, party_required, description, status, rrr_panel_code) VALUES ('limitedAccess', 'restrictions', 'Limited Access (to Road)::::Ограниченный доступ к дороге::::استعمال محدود للطريق::::Accès Limité (à la Route)::::Acceso limitado (a la v�a)::::Hyrje e kufizuar (në rrugë)', false, false, false, 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM::::Extension a LADM::::Extension to LADM', 'c', 'simpleRight');
 
 
 ALTER TABLE rrr_type ENABLE TRIGGER ALL;
@@ -350,10 +349,10 @@ ALTER TABLE hierarchy_level ENABLE TRIGGER ALL;
 
 ALTER TABLE land_use_type DISABLE TRIGGER ALL;
 
-INSERT INTO land_use_type (code, display_value, description, status) VALUES ('commercial', 'Commercial::::Коммерческая::::تجاري::::Commercial', '', 'c');
-INSERT INTO land_use_type (code, display_value, description, status) VALUES ('residential', 'Residential::::Жилая::::سكني::::Résidentiel', '', 'c');
-INSERT INTO land_use_type (code, display_value, description, status) VALUES ('industrial', 'Industrial::::Производственная::::صناعي::::Industriel', '', 'c');
-INSERT INTO land_use_type (code, display_value, description, status) VALUES ('agricultural', 'Agricultural::::Сельскохозяйственная::::زراعي::::Agricole', '', 'c');
+INSERT INTO land_use_type (code, display_value, description, status) VALUES ('commercial', 'Commercial::::Коммерческая::::تجاري::::Commercial::::Comercial::::Tregtare', '', 'c');
+INSERT INTO land_use_type (code, display_value, description, status) VALUES ('residential', 'Residential::::Жилая::::سكني::::Résidentiel::::Residencial::::Banimi', '', 'c');
+INSERT INTO land_use_type (code, display_value, description, status) VALUES ('industrial', 'Industrial::::Производственная::::صناعي::::Industriel::::Industrial::::Industriale', '', 'c');
+INSERT INTO land_use_type (code, display_value, description, status) VALUES ('agricultural', 'Agricultural::::Сельскохозяйственная::::زراعي::::Agricole::::Agricultura::::Bujqësore', '', 'c');
 
 
 ALTER TABLE land_use_type ENABLE TRIGGER ALL;
@@ -461,12 +460,12 @@ SET search_path = opentenure, pg_catalog;
 
 ALTER TABLE claim_status DISABLE TRIGGER ALL;
 
-INSERT INTO claim_status (code, display_value, status, description) VALUES ('created', 'Created::::::::::::Créée', 'i', 'Statut pour les déclarations créées');
-INSERT INTO claim_status (code, display_value, status, description) VALUES ('unmoderated', 'Un-moderated::::::::::::Non modéré', 'i', 'Statut pour les déclarations non modérées');
-INSERT INTO claim_status (code, display_value, status, description) VALUES ('moderated', 'Moderated::::::::::::Modéré', 'i', 'Statut pour les déclarations modérées');
-INSERT INTO claim_status (code, display_value, status, description) VALUES ('withdrawn', 'Withdrawn::::::::::::Renoncé', 'c', 'Status for withdrawn claims::::::::::::Statut pour les déclarations renoncées');
-INSERT INTO claim_status (code, display_value, status, description) VALUES ('reviewed', 'Reviewed::::::::::::Revue', 'c', 'Status for reviewed claims::::::::::::Statut pour les déclarations revues');
-INSERT INTO claim_status (code, display_value, status, description) VALUES ('rejected', 'Rejected::::::::::::Rejetée', 'c', 'Status for rejected claims::::::::::::Statut pour les déclarations rejetées');
+INSERT INTO claim_status (code, display_value, status, description) VALUES ('created', 'Created::::::::::::Créée::::Creado::::I krijuar', 'i', 'Statut pour les déclarations créées::::::::::::::::Estado de las declaraciones creadas::::Statusi për pretendimet e krijuara');
+INSERT INTO claim_status (code, display_value, status, description) VALUES ('unmoderated', 'Un-moderated::::::::::::Non modéré::::No moderado::::I pa moderuar', 'i', 'Statut pour les déclarations non modérées::::::::::::::::Estado de las declaraciones no moderados::::Statusi për pretendimet e pa moderuara');
+INSERT INTO claim_status (code, display_value, status, description) VALUES ('moderated', 'Moderated::::::::::::Modéré::::Moderado::::I moderuar', 'i', 'Statut pour les déclarations modérées::::::::::::::::Estado de las declaraciones moderadas::::Statusi për pretendimet e moderuara');
+INSERT INTO claim_status (code, display_value, status, description) VALUES ('withdrawn', 'Withdrawn::::::::::::Renoncé::::Retirado::::I tërhequr', 'c', 'Status for withdrawn claims::::::::::::Statut pour les déclarations renoncées::::Estado de las reclamaciones retiradas::::Statusi për pretendimet e tërhequra');
+INSERT INTO claim_status (code, display_value, status, description) VALUES ('reviewed', 'Reviewed::::::::::::Revue::::Revisado::::I rishikuar', 'c', 'Status for reviewed claims::::::::::::Statut pour les déclarations revues::::Estatus de las reclamaciones examinadas::::Statusi për pretendimet e rishikuara');
+INSERT INTO claim_status (code, display_value, status, description) VALUES ('rejected', 'Rejected::::::::::::Rejetée::::Rechazos::::I refuzuar', 'c', 'Status for rejected claims::::::::::::Statut pour les déclarations rejetées::::Estatus de las reclamaciones rechazadas::::Statusi për pretendimet e refuzuara');
 
 
 ALTER TABLE claim_status ENABLE TRIGGER ALL;
@@ -477,14 +476,14 @@ ALTER TABLE claim_status ENABLE TRIGGER ALL;
 
 ALTER TABLE field_constraint_type DISABLE TRIGGER ALL;
 
-INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('DATETIME', 'DATETIME::::::::::::DATE ET HEURE', 'c', 'DATE ET HEURE');
-INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('INTEGER', 'INTEGER::::::::::::ENTIER', 'c', 'ENTIER');
-INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('NOT_NULL', 'NOT_NULL::::::::::::NON NUL', 'c', 'NON NUL');
-INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('INTEGER_RANGE', 'INTEGER_RANGE::::::::::::PLAGE ENTIER', 'c', 'PLAGE ENTIER');
-INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('DOUBLE_RANGE', 'DOUBLE_RANGE::::::::::::PLAGE DOUBLE', 'c', 'PLAGE DOUBLE');
-INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('REGEXP', 'REGEXP::::::::::::REGEXP', 'c', 'REGEXP');
-INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('LENGTH', 'LENGTH::::::::::::LONGUEUR', 'c', 'LONGUEUR');
-INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('OPTION', 'OPTION::::::::::::OPTION', 'c', 'OPTION');
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('DATETIME', 'DATETIME::::::::::::DATE ET HEURE::::DATETIME::::DATAORA', 'c', 'DATE ET HEURE::::::::::::::::Fecha y Hora::::DATA dhe ORA');
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('INTEGER', 'INTEGER::::::::::::ENTIER::::Entero::::INTEGER', 'c', 'ENTIER::::::::::::::::Entero::::Numër i plotë');
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('NOT_NULL', 'NOT_NULL::::::::::::NON NUL::::NO nulo::::NOT_NULL', 'c', 'NON NUL::::::::::::::::No nulo::::Jo bosh');
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('INTEGER_RANGE', 'INTEGER_RANGE::::::::::::PLAGE ENTIER::::Rango Entero::::INTEGER_RANGE', 'c', 'PLAGE ENTIER::::::::::::::::Gama completa::::Varg i plotë');
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('DOUBLE_RANGE', 'DOUBLE_RANGE::::::::::::PLAGE DOUBLE::::Doble Rango::::DOUBLE_RANGE', 'c', 'PLAGE DOUBLE::::::::::::::::Pista Doble::::Varg i dyfishtë');
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('REGEXP', 'REGEXP::::::::::::REGEXP::::REGEXP::::REGEXP', 'c', 'REGEXP::::::::::::::::REGEXP::::REGEXP');
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('LENGTH', 'LENGTH::::::::::::LONGUEUR::::Longitud::::LENGTH', 'c', 'LONGUEUR::::::::::::::::Longitud::::Gjatësi');
+INSERT INTO field_constraint_type (code, display_value, status, description) VALUES ('OPTION', 'OPTION::::::::::::OPTION::::OPCION::::OPTION', 'c', 'OPTION::::::::::::::::Opci�::::Mundësi');
 
 
 ALTER TABLE field_constraint_type ENABLE TRIGGER ALL;
@@ -495,11 +494,11 @@ ALTER TABLE field_constraint_type ENABLE TRIGGER ALL;
 
 ALTER TABLE field_type DISABLE TRIGGER ALL;
 
-INSERT INTO field_type (code, display_value, status, description) VALUES ('BOOL', 'BOOL::::::::::::BOOL', 'c', 'BOOL');
-INSERT INTO field_type (code, display_value, status, description) VALUES ('TEXT', 'TEXT::::::::::::TEXTE', 'c', 'TEXTE');
-INSERT INTO field_type (code, display_value, status, description) VALUES ('INTEGER', 'INTEGER::::::::::::ENTIER', 'c', 'ENTIER');
-INSERT INTO field_type (code, display_value, status, description) VALUES ('DECIMAL', 'DECIMAL::::::::::::DECIMAL', 'c', 'DECIMAL');
-INSERT INTO field_type (code, display_value, status, description) VALUES ('DATE', 'DATE::::::::::::DATE', 'c', 'DATE');
+INSERT INTO field_type (code, display_value, status, description) VALUES ('BOOL', 'BOOL::::::::::::BOOL::::BOOL::::BOOL', 'c', 'BOOL::::::::::::::::Booleano::::True/False');
+INSERT INTO field_type (code, display_value, status, description) VALUES ('TEXT', 'TEXT::::::::::::TEXTE::::TEXTO::::TEXT', 'c', 'TEXTE::::::::::::::::Texto::::Tekst');
+INSERT INTO field_type (code, display_value, status, description) VALUES ('INTEGER', 'INTEGER::::::::::::ENTIER::::ENTERO::::INTEGER', 'c', 'ENTIER::::::::::::::::Entero::::Numër i plotë');
+INSERT INTO field_type (code, display_value, status, description) VALUES ('DECIMAL', 'DECIMAL::::::::::::DECIMAL::::DECIMAL::::DECIMAL', 'c', 'DECIMAL::::::::::::::::Decimal::::Numër dhjetor');
+INSERT INTO field_type (code, display_value, status, description) VALUES ('DATE', 'DATE::::::::::::DATE::::FECHA::::DATE', 'c', 'DATE::::::::::::::::Fecha::::DATA');
 
 
 ALTER TABLE field_type ENABLE TRIGGER ALL;
@@ -510,9 +509,9 @@ ALTER TABLE field_type ENABLE TRIGGER ALL;
 
 ALTER TABLE field_value_type DISABLE TRIGGER ALL;
 
-INSERT INTO field_value_type (code, display_value, status, description) VALUES ('TEXT', 'TEXT::::::::::::TEXTE', 'c', 'TEXTE');
-INSERT INTO field_value_type (code, display_value, status, description) VALUES ('NUMBER', 'NUMBER::::::::::::NUMERO', 'c', 'NUMERO');
-INSERT INTO field_value_type (code, display_value, status, description) VALUES ('BOOL', 'BOOL::::::::::::BOOL', 'c', 'BOOL');
+INSERT INTO field_value_type (code, display_value, status, description) VALUES ('TEXT', 'TEXT::::::::::::TEXTE::::TEXTO::::TEXT', 'c', 'TEXTE::::::::::::::::Texto::::Tekst');
+INSERT INTO field_value_type (code, display_value, status, description) VALUES ('NUMBER', 'NUMBER::::::::::::NUMERO::::NUMERO::::NUMBER', 'c', 'NUMERO::::::::::::::::N�mero::::Numër');
+INSERT INTO field_value_type (code, display_value, status, description) VALUES ('BOOL', 'BOOL::::::::::::BOOL::::BOOL::::BOOL', 'c', 'BOOL::::::::::::::::Booleano::::True/False');
 
 
 ALTER TABLE field_value_type ENABLE TRIGGER ALL;
@@ -556,9 +555,9 @@ ALTER TABLE communication_type ENABLE TRIGGER ALL;
 
 ALTER TABLE gender_type DISABLE TRIGGER ALL;
 
-INSERT INTO gender_type (code, display_value, status, description) VALUES ('female', 'Female::::Женский::::أنثى::::Femme', 'c', '...::::::::...::::...');
-INSERT INTO gender_type (code, display_value, status, description) VALUES ('male', 'Male::::Мужской::::ذكر::::Homme', 'c', '...::::::::...::::...');
-INSERT INTO gender_type (code, display_value, status, description) VALUES ('na', 'Not applicable', 'c', NULL);
+INSERT INTO gender_type (code, display_value, status, description) VALUES ('female', 'Female::::Женский::::أنثى::::Femme::::Femenino::::Femër', 'c', '...::::::::...::::...::::...::::...');
+INSERT INTO gender_type (code, display_value, status, description) VALUES ('male', 'Male::::Мужской::::ذكر::::Homme::::Masculino::::Mashkull', 'c', '...::::::::...::::...::::...::::...');
+INSERT INTO gender_type (code, display_value, status, description) VALUES ('na', 'Not applicable::::::::::::::::No se aplica::::I pa aplikueshëm', 'c', '...');
 
 
 ALTER TABLE gender_type ENABLE TRIGGER ALL;
@@ -583,9 +582,9 @@ ALTER TABLE group_party_type ENABLE TRIGGER ALL;
 
 ALTER TABLE id_type DISABLE TRIGGER ALL;
 
-INSERT INTO id_type (code, display_value, status, description) VALUES ('nationalID', 'National ID::::Внутренний ID::::بطاقة شخصية::::Carte Nationale d''Identité', 'c', 'The main person ID that exists in the country::::Внутренняя ID карта гражданина внутри страны::::...::::Le document principal d''identité existant dans le pays');
-INSERT INTO id_type (code, display_value, status, description) VALUES ('nationalPassport', 'National Passport::::Паспорт::::جواز سفر::::Passeport National', 'c', 'A passport issued by the country::::Паспорт, выданный в стране::::...::::Un passeport délivré par le pays');
-INSERT INTO id_type (code, display_value, status, description) VALUES ('otherPassport', 'Other Passport::::Другой паспорт::::جواز سفراخر::::Autre passeport', 'c', 'A passport issued by another country::::Паспорт выданный другой страной::::...::::Un passeport délivré par un autre pays');
+INSERT INTO id_type (code, display_value, status, description) VALUES ('nationalID', 'National ID::::Внутренний ID::::بطاقة شخصية::::Carte Nationale d''Identité::::Identificaci�n Nacional::::ID Kombëtare', 'c', 'The main person ID that exists in the country::::Внутренняя ID карта гражданина внутри страны::::...::::Le document principal d''identité existant dans le pays::::La identificaci�n principal de la persona que existe en el pa�s::::ID unike e personit brenda vendit');
+INSERT INTO id_type (code, display_value, status, description) VALUES ('nationalPassport', 'National Passport::::Паспорт::::جواز سفر::::Passeport National::::Pasaporte Nacional::::Pasaporta Kombëtare', 'c', 'A passport issued by the country::::Паспорт, выданный в стране::::...::::Un passeport délivré par le pays::::Un pasaporte publicado por el pa�s::::Pasaportë e lëshuar nga Autoriteti Kombëtar');
+INSERT INTO id_type (code, display_value, status, description) VALUES ('otherPassport', 'Other Passport::::Другой паспорт::::جواز سفراخر::::Autre passeport::::Otro pasaporte::::Pasaportë Tjetër', 'c', 'A passport issued by another country::::Паспорт выданный другой страной::::...::::Un passeport délivré par un autre pays::::Un pasaporte publicado por otro pa�::::Pasaportë e lëshuar nga një vend tjetër');
 
 
 ALTER TABLE id_type ENABLE TRIGGER ALL;
@@ -639,34 +638,34 @@ SET search_path = source, pg_catalog;
 
 ALTER TABLE administrative_source_type DISABLE TRIGGER ALL;
 
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('lease', 'Lease::::Договор Аренды::::تأجير::::Bail', 'c', '...::::::::...::::...', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('cadastralSurvey', 'Cadastral Survey::::Кадастровая Съемка::::مسح الاراضي::::Relevé Cadastral', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('contractForSale', 'Contract for Sale::::Договор о Продаже::::عقد بيع::::Contrat de Vente', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('standardDocument', 'Standard Document::::Стандартный Документ::::وثيقة مرجعية::::Document Standard', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM', true);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('title', 'Title::::Право Собственности::::سند ملكية::::Titre', 'c', '...::::::::...::::...', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('tif', 'Tif Scanned Document::::Отсканированный Документ TIF::::وثيقة Tif  ممسوحة.::::Document Scanné en TIF', 'x', '...::::::::...::::...', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('idVerification', 'Form of Identification including Personal ID::::Форма удостоверения включая персональный ID::::نموذج تعريف شخصي::::Formulaire d''identification incluant le document d''identité personnel', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('deed', 'Deed::::Сделка::::عمل::::Acte', 'c', '...::::::::...::::...', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('objection', 'Objection  document::::Документ Обжалования::::وثيقة اعتراض::::Document d''Objection', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('waiver', 'Waiver to Caveat or other requirement::::Ходатайство о приостановке судебного разбирательства::::تنازل  عن قيد  أو شرط آخر::::Dispense d''Opposition / Caveat ou autre condition', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('jpg', 'Jpg Scanned Document::::Отсканированный Документ JPEG::::وثيقة Jpg ممسوحة::::Document Scanné en JPG', 'x', '...::::::::...::::...', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('agreement', 'Agreement::::Соглашение::::اتفاقية::::Accord', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('caveat', 'Caveat::::Протест::::الموانع::::Caveat', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('pdf', 'Pdf Scanned Document::::Отсканированный Документ PDF::::وثيقة Pdf ممسوحة::::Document Scanné en PDF', 'x', '...::::::::...::::...', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('agriConsent', 'Agricultural Consent::::Сельскохозяйственное Разрешение::::الموافقة الزراعية::::Consentement Agricole', 'x', '...::::::::...::::...', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('mortgage', 'Mortgage::::Ипотека::::رهن::::Hypothèque', 'c', '...::::::::...::::...', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('powerOfAttorney', 'Power of Attorney::::Доверенность::::وكالة::::Procuration', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM', true);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('proclamation', 'Proclamation::::Прокламация::::إعلان::::Proclamation', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('agriNotaryStatement', 'Agricultural Notary Statement::::Нотариальное Сельскохозяйственное Заявление::::بيان كاتب العدل الزراعية::::Déclaration Agricole Notariée', 'x', '...::::::::...::::...', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('courtOrder', 'Court Order::::Судебное Решение::::امر محكمة::::Décision de Justice', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('cadastralMap', 'Cadastral Map::::Кадастровая Карта::::خارطة المساحة::::Plan Cadastral', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('systematicRegn', 'Systematic Registration Application::::Заявление на Системную Регистрацию::::طلب تسجيل منتظم::::Demande Enregistrement Systématique', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('publicNotification', 'Public Notification for Systematic Registration::::Публичное Уведомление о Системной Регистрации::::اعلان عام للتسجيل المنتظم::::Notification Publique pour Enregistrement Systématique', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('will', 'Will::::Завещание::::وصية::::Testament', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('tiff', 'Tiff Scanned Document::::Отсканированный Документ TIFF::::وثيقة ممسوحة (Tiff)::::Document Scanné en TIFF', 'x', '...::::::::::::...', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('agriLease', 'Agricultural Lease::::Сельскохозяйственная Аренда::::اجارة زراعية::::Bail Agricole', 'x', '...::::::::::::...', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('utilityBill', 'Utility bill', 'c', 'Utility bill', false);
-INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('taxPayment', 'Tax payment', 'c', 'Tax payment', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('lease', 'Lease::::Договор Аренды::::تأجير::::Bail::::Arrendar::::', 'c', '...::::::::...::::...::::...::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('cadastralSurvey', 'Cadastral Survey::::Кадастровая Съемка::::مسح الاراضي::::Relevé Cadastral::::Levantamiento Catastral::::', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM::::Extension a LADM::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('contractForSale', 'Contract for Sale::::Договор о Продаже::::عقد بيع::::Contrat de Vente::::Contrato para la venta::::', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM::::Extension a LADM::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('standardDocument', 'Standard Document::::Стандартный Документ::::وثيقة مرجعية::::Document Standard::::Standard Document::::', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM::::Extension a LADM::::', true);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('title', 'Title::::Право Собственности::::سند ملكية::::Titre::::Titulo::::', 'c', '...::::::::...::::...::::...::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('tif', 'Tif Scanned Document::::Отсканированный Документ TIF::::وثيقة Tif  ممسوحة.::::Document Scanné en TIF::::Documento escaneado en formato Tif::::', 'x', '...::::::::...::::...::::...::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('idVerification', 'Form of Identification including Personal ID::::Форма удостоверения включая персональный ID::::نموذج تعريف شخصي::::Formulaire d''identification incluant le document d''identité personnel::::Forma de Identificaci�n incluyendo Identificaci�n personal::::', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM::::Extension a LADM::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('deed', 'Deed::::Сделка::::عمل::::Acte::::Hecho::::', 'c', '...::::::::...::::...::::...::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('objection', 'Objection  document::::Документ Обжалования::::وثيقة اعتراض::::Document d''Objection::::Documento de la objeci�n::::', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM::::Extension a LADM::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('waiver', 'Waiver to Caveat or other requirement::::Ходатайство о приостановке судебного разбирательства::::تنازل  عن قيد  أو شرط آخر::::Dispense d''Opposition / Caveat ou autre condition::::Renuncia a la advertencia o a otro requisito::::', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM::::Extension a LADM::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('jpg', 'Jpg Scanned Document::::Отсканированный Документ JPEG::::وثيقة Jpg ممسوحة::::Document Scanné en JPG::::Documento escaneado en formato Jpg::::', 'x', '...::::::::...::::...::::...::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('agreement', 'Agreement::::Соглашение::::اتفاقية::::Accord::::Acuerdo::::', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM::::Extension a LADM::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('caveat', 'Caveat::::Протест::::الموانع::::Caveat::::Advertencia::::', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM::::Extension a LADM::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('pdf', 'Pdf Scanned Document::::Отсканированный Документ PDF::::وثيقة Pdf ممسوحة::::Document Scanné en PDF::::Documento escaneado en formato Pdf::::', 'x', '...::::::::...::::...::::...::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('agriConsent', 'Agricultural Consent::::Сельскохозяйственное Разрешение::::الموافقة الزراعية::::Consentement Agricole::::Consentimiento Agr�cola::::', 'x', '...::::::::...::::...::::...::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('mortgage', 'Mortgage::::Ипотека::::رهن::::Hypothèque::::Hipoteca::::', 'c', '...::::::::...::::...::::...::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('powerOfAttorney', 'Power of Attorney::::Доверенность::::وكالة::::Procuration::::Poder Legal::::', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM::::Extension a LADM::::', true);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('proclamation', 'Proclamation::::Прокламация::::إعلان::::Proclamation::::Proclamaci�n::::', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM::::Extension a LADM::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('agriNotaryStatement', 'Agricultural Notary Statement::::Нотариальное Сельскохозяйственное Заявление::::بيان كاتب العدل الزراعية::::Déclaration Agricole Notariée::::Declaraci�n Notario Agr�cola::::', 'x', '...::::::::...::::...::::...::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('courtOrder', 'Court Order::::Судебное Решение::::امر محكمة::::Décision de Justice::::Orden Judicial::::', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM::::Extension a LADM::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('cadastralMap', 'Cadastral Map::::Кадастровая Карта::::خارطة المساحة::::Plan Cadastral::::Mapa Catastral::::', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM::::Extension a LADM::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('systematicRegn', 'Systematic Registration Application::::Заявление на Системную Регистрацию::::طلب تسجيل منتظم::::Demande Enregistrement Systématique::::Solicitud de Inscripci�n Sistem�tica::::', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM::::Extension a LADM::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('publicNotification', 'Public Notification for Systematic Registration::::Публичное Уведомление о Системной Регистрации::::اعلان عام للتسجيل المنتظم::::Notification Publique pour Enregistrement Systématique::::Notificaci�n P�blica de Registro Sistem�tico::::', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM::::Extension to LADM::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('will', 'Will::::Завещание::::وصية::::Testament::::Testamento::::', 'c', 'Extension to LADM::::Расширение LADM::::...::::Extension au LADM::::Extension a LADM::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('tiff', 'Tiff Scanned Document::::Отсканированный Документ TIFF::::وثيقة ممسوحة (Tiff)::::Document Scanné en TIFF::::Documento escaneado en formato Tif::::', 'x', '...::::::::::::...::::...::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('agriLease', 'Agricultural Lease::::Сельскохозяйственная Аренда::::اجارة زراعية::::Bail Agricole::::Arrendamiento Agricultura::::', 'x', '...::::::::::::...::::...::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('utilityBill', 'Utility bill::::::::::::::::Factura de servicio p�blico::::', 'c', 'Utility bill::::::::::::::::Factura de servicio p�blico::::', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('taxPayment', 'Tax payment::::::::::::::::Pago de Impuesto::::', 'c', 'Tax payment::::::::::::::::Pago de Impuesto::::', false);
 
 
 ALTER TABLE administrative_source_type ENABLE TRIGGER ALL;
@@ -880,10 +879,12 @@ ALTER TABLE br_validation_target_type ENABLE TRIGGER ALL;
 
 ALTER TABLE language DISABLE TRIGGER ALL;
 
-INSERT INTO language (code, display_value, active, is_default, item_order) VALUES ('en-US', 'English::::Английский::::أنجليزي::::Anglais', true, true, 1);
-INSERT INTO language (code, display_value, active, is_default, item_order) VALUES ('fr-FR', 'French::::Французкий::::فرنسي::::Français', true, false, 4);
-INSERT INTO language (code, display_value, active, is_default, item_order) VALUES ('ar-JO', 'Arabic::::Арабский::::عربي::::Arabe', true, false, 3);
-INSERT INTO language (code, display_value, active, is_default, item_order) VALUES ('ru-RU', 'Russian::::Русский::::الروسية::::Russe', true, false, 2);
+INSERT INTO language (code, display_value, active, is_default, item_order) VALUES ('ru-RU', 'Русский', true, false, 2);
+INSERT INTO language (code, display_value, active, is_default, item_order) VALUES ('ar-JO', 'عربي', true, false, 3);
+INSERT INTO language (code, display_value, active, is_default, item_order) VALUES ('en-US', 'English', true, true, 1);
+INSERT INTO language (code, display_value, active, is_default, item_order) VALUES ('fr-FR', 'Français', true, false, 4);
+INSERT INTO language (code, display_value, active, is_default, item_order) VALUES ('es-ES', 'Español', true, false, 5);
+INSERT INTO language (code, display_value, active, is_default, item_order) VALUES ('sq-AL', 'Shqip', true, false, 6);
 
 
 ALTER TABLE language ENABLE TRIGGER ALL;
