@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -446,6 +447,7 @@ INSERT INTO version (version_num) VALUES ('1409c');
 INSERT INTO version (version_num) VALUES ('1409d');
 INSERT INTO version (version_num) VALUES ('1409e');
 INSERT INTO version (version_num) VALUES ('1411b');
+INSERT INTO version (version_num) VALUES ('1412a');
 
 
 ALTER TABLE version ENABLE TRIGGER ALL;
