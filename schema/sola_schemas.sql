@@ -3,7 +3,6 @@
 --
 
 SET statement_timeout = 0;
-SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -7302,86 +7301,7 @@ SET search_path = administrative, pg_catalog;
 --
 
 CREATE VIEW sys_reg_owner_name AS
-         SELECT (((pp.name)::text || ' '::text) || (COALESCE(pp.last_name, ''::character varying))::text) AS value,
-            (pp.name)::text AS name,
-            (COALESCE(pp.last_name, ''::character varying))::text AS last_name,
-            co.id,
-            co.name_firstpart,
-            co.name_lastpart,
-            public.get_translation(lu.display_value, NULL::character varying) AS land_use_code,
-            su.ba_unit_id,
-            sa.size,
-                CASE
-                    WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'residential'::text) THEN sa.size
-                    ELSE (0)::numeric
-                END AS residential,
-                CASE
-                    WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'agricultural'::text) THEN sa.size
-                    ELSE (0)::numeric
-                END AS agricultural,
-                CASE
-                    WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'commercial'::text) THEN sa.size
-                    ELSE (0)::numeric
-                END AS commercial,
-                CASE
-                    WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'industrial'::text) THEN sa.size
-                    ELSE (0)::numeric
-                END AS industrial
-           FROM cadastre.land_use_type lu,
-            cadastre.cadastre_object co,
-            cadastre.spatial_value_area sa,
-            ba_unit_contains_spatial_unit su,
-            application.application aa,
-            application.service s,
-            party.party pp,
-            party_for_rrr pr,
-            rrr rrr,
-            ba_unit bu,
-            transaction.transaction t
-          WHERE (((((((((((((((sa.spatial_unit_id)::text = (co.id)::text) AND ((sa.type_code)::text = 'officialArea'::text)) AND ((su.spatial_unit_id)::text = (sa.spatial_unit_id)::text)) AND ((bu.transaction_id)::text = (t.id)::text)) AND ((t.from_service_id)::text = (s.id)::text)) AND ((s.application_id)::text = (aa.id)::text)) AND ((s.request_type_code)::text = 'systematicRegn'::text)) AND ((s.status_code)::text = 'completed'::text)) AND ((pp.id)::text = (pr.party_id)::text)) AND ((pr.rrr_id)::text = (rrr.id)::text)) AND ((rrr.ba_unit_id)::text = (su.ba_unit_id)::text)) AND ((((rrr.type_code)::text = 'ownership'::text) OR ((rrr.type_code)::text = 'apartment'::text)) OR ((rrr.type_code)::text = 'commonOwnership'::text))) AND ((bu.id)::text = (su.ba_unit_id)::text)) AND ((COALESCE(co.land_use_code, 'residential'::character varying))::text = (lu.code)::text))
-UNION
-         SELECT DISTINCT 'No Claimant '::text AS value,
-            'No Claimant '::text AS name,
-            'No Claimant '::text AS last_name,
-            co.id,
-            co.name_firstpart,
-            co.name_lastpart,
-            public.get_translation(lu.display_value, NULL::character varying) AS land_use_code,
-            su.ba_unit_id,
-            sa.size,
-                CASE
-                    WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'residential'::text) THEN sa.size
-                    ELSE (0)::numeric
-                END AS residential,
-                CASE
-                    WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'agricultural'::text) THEN sa.size
-                    ELSE (0)::numeric
-                END AS agricultural,
-                CASE
-                    WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'commercial'::text) THEN sa.size
-                    ELSE (0)::numeric
-                END AS commercial,
-                CASE
-                    WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'industrial'::text) THEN sa.size
-                    ELSE (0)::numeric
-                END AS industrial
-           FROM cadastre.land_use_type lu,
-            cadastre.cadastre_object co,
-            cadastre.spatial_value_area sa,
-            ba_unit_contains_spatial_unit su,
-            application.application aa,
-            party.party pp,
-            party_for_rrr pr,
-            rrr rrr,
-            application.service s,
-            ba_unit bu,
-            transaction.transaction t
-          WHERE ((((((((((((sa.spatial_unit_id)::text = (co.id)::text) AND ((COALESCE(co.land_use_code, 'residential'::character varying))::text = (lu.code)::text)) AND ((sa.type_code)::text = 'officialArea'::text)) AND ((bu.id)::text = (su.ba_unit_id)::text)) AND ((su.spatial_unit_id)::text = (sa.spatial_unit_id)::text)) AND ((bu.transaction_id)::text = (t.id)::text)) AND ((t.from_service_id)::text = (s.id)::text)) AND (NOT ((su.ba_unit_id)::text IN ( SELECT rrr_1.ba_unit_id
-                   FROM rrr rrr_1,
-                    party.party pp_1,
-                    party_for_rrr pr_1
-                  WHERE (((((((rrr_1.type_code)::text = 'ownership'::text) OR ((rrr_1.type_code)::text = 'apartment'::text)) OR ((rrr_1.type_code)::text = 'commonOwnership'::text)) OR ((rrr_1.type_code)::text = 'stateOwnership'::text)) AND ((pp_1.id)::text = (pr_1.party_id)::text)) AND ((pr_1.rrr_id)::text = (rrr_1.id)::text)))))) AND ((s.application_id)::text = (aa.id)::text)) AND ((s.request_type_code)::text = 'systematicRegn'::text)) AND ((s.status_code)::text = 'completed'::text))
-  ORDER BY 3, 2;
+    SELECT (((pp.name)::text || ' '::text) || (COALESCE(pp.last_name, ''::character varying))::text) AS value, (pp.name)::text AS name, (COALESCE(pp.last_name, ''::character varying))::text AS last_name, co.id, co.name_firstpart, co.name_lastpart, public.get_translation(lu.display_value, NULL::character varying) AS land_use_code, su.ba_unit_id, sa.size, CASE WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'residential'::text) THEN sa.size ELSE (0)::numeric END AS residential, CASE WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'agricultural'::text) THEN sa.size ELSE (0)::numeric END AS agricultural, CASE WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'commercial'::text) THEN sa.size ELSE (0)::numeric END AS commercial, CASE WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'industrial'::text) THEN sa.size ELSE (0)::numeric END AS industrial FROM cadastre.land_use_type lu, cadastre.cadastre_object co, cadastre.spatial_value_area sa, ba_unit_contains_spatial_unit su, application.application aa, application.service s, party.party pp, party_for_rrr pr, rrr rrr, ba_unit bu, transaction.transaction t WHERE (((((((((((((((sa.spatial_unit_id)::text = (co.id)::text) AND ((sa.type_code)::text = 'officialArea'::text)) AND ((su.spatial_unit_id)::text = (sa.spatial_unit_id)::text)) AND ((bu.transaction_id)::text = (t.id)::text)) AND ((t.from_service_id)::text = (s.id)::text)) AND ((s.application_id)::text = (aa.id)::text)) AND ((s.request_type_code)::text = 'systematicRegn'::text)) AND ((s.status_code)::text = 'completed'::text)) AND ((pp.id)::text = (pr.party_id)::text)) AND ((pr.rrr_id)::text = (rrr.id)::text)) AND ((rrr.ba_unit_id)::text = (su.ba_unit_id)::text)) AND ((((rrr.type_code)::text = 'ownership'::text) OR ((rrr.type_code)::text = 'apartment'::text)) OR ((rrr.type_code)::text = 'commonOwnership'::text))) AND ((bu.id)::text = (su.ba_unit_id)::text)) AND ((COALESCE(co.land_use_code, 'residential'::character varying))::text = (lu.code)::text)) UNION SELECT DISTINCT 'No Claimant '::text AS value, 'No Claimant '::text AS name, 'No Claimant '::text AS last_name, co.id, co.name_firstpart, co.name_lastpart, public.get_translation(lu.display_value, NULL::character varying) AS land_use_code, su.ba_unit_id, sa.size, CASE WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'residential'::text) THEN sa.size ELSE (0)::numeric END AS residential, CASE WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'agricultural'::text) THEN sa.size ELSE (0)::numeric END AS agricultural, CASE WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'commercial'::text) THEN sa.size ELSE (0)::numeric END AS commercial, CASE WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'industrial'::text) THEN sa.size ELSE (0)::numeric END AS industrial FROM cadastre.land_use_type lu, cadastre.cadastre_object co, cadastre.spatial_value_area sa, ba_unit_contains_spatial_unit su, application.application aa, party.party pp, party_for_rrr pr, rrr rrr, application.service s, ba_unit bu, transaction.transaction t WHERE ((((((((((((sa.spatial_unit_id)::text = (co.id)::text) AND ((COALESCE(co.land_use_code, 'residential'::character varying))::text = (lu.code)::text)) AND ((sa.type_code)::text = 'officialArea'::text)) AND ((bu.id)::text = (su.ba_unit_id)::text)) AND ((su.spatial_unit_id)::text = (sa.spatial_unit_id)::text)) AND ((bu.transaction_id)::text = (t.id)::text)) AND ((t.from_service_id)::text = (s.id)::text)) AND (NOT ((su.ba_unit_id)::text IN (SELECT rrr_1.ba_unit_id FROM rrr rrr_1, party.party pp_1, party_for_rrr pr_1 WHERE (((((((rrr_1.type_code)::text = 'ownership'::text) OR ((rrr_1.type_code)::text = 'apartment'::text)) OR ((rrr_1.type_code)::text = 'commonOwnership'::text)) OR ((rrr_1.type_code)::text = 'stateOwnership'::text)) AND ((pp_1.id)::text = (pr_1.party_id)::text)) AND ((pr_1.rrr_id)::text = (rrr_1.id)::text)))))) AND ((s.application_id)::text = (aa.id)::text)) AND ((s.request_type_code)::text = 'systematicRegn'::text)) AND ((s.status_code)::text = 'completed'::text)) ORDER BY 3, 2;
 
 
 ALTER TABLE administrative.sys_reg_owner_name OWNER TO postgres;
@@ -7398,42 +7318,7 @@ COMMENT ON VIEW sys_reg_owner_name IS 'Used by systematic registration to identi
 --
 
 CREATE VIEW sys_reg_state_land AS
- SELECT (((pp.name)::text || ' '::text) || (COALESCE(pp.last_name, ' '::character varying))::text) AS value,
-    co.id,
-    co.name_firstpart,
-    co.name_lastpart,
-    public.get_translation(lu.display_value, NULL::character varying) AS land_use_code,
-    su.ba_unit_id,
-    sa.size,
-        CASE
-            WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'residential'::text) THEN sa.size
-            ELSE (0)::numeric
-        END AS residential,
-        CASE
-            WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'agricultural'::text) THEN sa.size
-            ELSE (0)::numeric
-        END AS agricultural,
-        CASE
-            WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'commercial'::text) THEN sa.size
-            ELSE (0)::numeric
-        END AS commercial,
-        CASE
-            WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'industrial'::text) THEN sa.size
-            ELSE (0)::numeric
-        END AS industrial
-   FROM cadastre.land_use_type lu,
-    cadastre.cadastre_object co,
-    cadastre.spatial_value_area sa,
-    ba_unit_contains_spatial_unit su,
-    application.application aa,
-    application.service s,
-    party.party pp,
-    party_for_rrr pr,
-    rrr rrr,
-    ba_unit bu,
-    transaction.transaction t
-  WHERE (((((((((((((((sa.spatial_unit_id)::text = (co.id)::text) AND ((COALESCE(co.land_use_code, 'residential'::character varying))::text = (lu.code)::text)) AND ((sa.type_code)::text = 'officialArea'::text)) AND ((su.spatial_unit_id)::text = (sa.spatial_unit_id)::text)) AND ((bu.transaction_id)::text = (t.id)::text)) AND ((t.from_service_id)::text = (s.id)::text)) AND ((s.application_id)::text = (aa.id)::text)) AND ((s.request_type_code)::text = 'systematicRegn'::text)) AND ((s.status_code)::text = 'completed'::text)) AND ((pp.id)::text = (pr.party_id)::text)) AND ((pr.rrr_id)::text = (rrr.id)::text)) AND ((rrr.ba_unit_id)::text = (su.ba_unit_id)::text)) AND ((rrr.type_code)::text = 'stateOwnership'::text)) AND ((bu.id)::text = (su.ba_unit_id)::text))
-  ORDER BY (((pp.name)::text || ' '::text) || (COALESCE(pp.last_name, ' '::character varying))::text);
+    SELECT (((pp.name)::text || ' '::text) || (COALESCE(pp.last_name, ' '::character varying))::text) AS value, co.id, co.name_firstpart, co.name_lastpart, public.get_translation(lu.display_value, NULL::character varying) AS land_use_code, su.ba_unit_id, sa.size, CASE WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'residential'::text) THEN sa.size ELSE (0)::numeric END AS residential, CASE WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'agricultural'::text) THEN sa.size ELSE (0)::numeric END AS agricultural, CASE WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'commercial'::text) THEN sa.size ELSE (0)::numeric END AS commercial, CASE WHEN ((COALESCE(co.land_use_code, 'residential'::character varying))::text = 'industrial'::text) THEN sa.size ELSE (0)::numeric END AS industrial FROM cadastre.land_use_type lu, cadastre.cadastre_object co, cadastre.spatial_value_area sa, ba_unit_contains_spatial_unit su, application.application aa, application.service s, party.party pp, party_for_rrr pr, rrr rrr, ba_unit bu, transaction.transaction t WHERE (((((((((((((((sa.spatial_unit_id)::text = (co.id)::text) AND ((COALESCE(co.land_use_code, 'residential'::character varying))::text = (lu.code)::text)) AND ((sa.type_code)::text = 'officialArea'::text)) AND ((su.spatial_unit_id)::text = (sa.spatial_unit_id)::text)) AND ((bu.transaction_id)::text = (t.id)::text)) AND ((t.from_service_id)::text = (s.id)::text)) AND ((s.application_id)::text = (aa.id)::text)) AND ((s.request_type_code)::text = 'systematicRegn'::text)) AND ((s.status_code)::text = 'completed'::text)) AND ((pp.id)::text = (pr.party_id)::text)) AND ((pr.rrr_id)::text = (rrr.id)::text)) AND ((rrr.ba_unit_id)::text = (su.ba_unit_id)::text)) AND ((rrr.type_code)::text = 'stateOwnership'::text)) AND ((bu.id)::text = (su.ba_unit_id)::text)) ORDER BY (((pp.name)::text || ' '::text) || (COALESCE(pp.last_name, ' '::character varying))::text);
 
 
 ALTER TABLE administrative.sys_reg_state_land OWNER TO postgres;
@@ -7450,22 +7335,7 @@ COMMENT ON VIEW sys_reg_state_land IS 'Used by systematic registration to identi
 --
 
 CREATE VIEW systematic_registration_listing AS
- SELECT DISTINCT co.id,
-    co.name_firstpart,
-    co.name_lastpart,
-    sa.size,
-    public.get_translation(lu.display_value, NULL::character varying) AS land_use_code,
-    su.ba_unit_id,
-    (((bu.name_firstpart)::text || '/'::text) || (bu.name_lastpart)::text) AS name
-   FROM cadastre.land_use_type lu,
-    cadastre.cadastre_object co,
-    cadastre.spatial_value_area sa,
-    ba_unit_contains_spatial_unit su,
-    application.application aa,
-    application.service s,
-    ba_unit bu,
-    transaction.transaction t
-  WHERE (((((((((((sa.spatial_unit_id)::text = (co.id)::text) AND ((bu.transaction_id)::text = (t.id)::text)) AND ((t.from_service_id)::text = (s.id)::text)) AND ((sa.type_code)::text = 'officialArea'::text)) AND ((su.spatial_unit_id)::text = (sa.spatial_unit_id)::text)) AND ((s.application_id)::text = (aa.id)::text)) AND ((s.request_type_code)::text = 'systematicRegn'::text)) AND ((s.status_code)::text = 'completed'::text)) AND ((COALESCE(co.land_use_code, 'residential'::character varying))::text = (lu.code)::text)) AND ((bu.id)::text = (su.ba_unit_id)::text));
+    SELECT DISTINCT co.id, co.name_firstpart, co.name_lastpart, sa.size, public.get_translation(lu.display_value, NULL::character varying) AS land_use_code, su.ba_unit_id, (((bu.name_firstpart)::text || '/'::text) || (bu.name_lastpart)::text) AS name FROM cadastre.land_use_type lu, cadastre.cadastre_object co, cadastre.spatial_value_area sa, ba_unit_contains_spatial_unit su, application.application aa, application.service s, ba_unit bu, transaction.transaction t WHERE (((((((((((sa.spatial_unit_id)::text = (co.id)::text) AND ((bu.transaction_id)::text = (t.id)::text)) AND ((t.from_service_id)::text = (s.id)::text)) AND ((sa.type_code)::text = 'officialArea'::text)) AND ((su.spatial_unit_id)::text = (sa.spatial_unit_id)::text)) AND ((s.application_id)::text = (aa.id)::text)) AND ((s.request_type_code)::text = 'systematicRegn'::text)) AND ((s.status_code)::text = 'completed'::text)) AND ((COALESCE(co.land_use_code, 'residential'::character varying))::text = (lu.code)::text)) AND ((bu.id)::text = (su.ba_unit_id)::text));
 
 
 ALTER TABLE administrative.systematic_registration_listing OWNER TO postgres;
@@ -8351,19 +8221,7 @@ COMMENT ON COLUMN service_status_type.description IS 'Description of the service
 --
 
 CREATE VIEW systematic_registration_certificates AS
- SELECT aa.nr,
-    co.name_firstpart,
-    co.name_lastpart,
-    su.ba_unit_id
-   FROM application_status_type ast,
-    cadastre.cadastre_object co,
-    administrative.ba_unit bu,
-    cadastre.spatial_value_area sa,
-    administrative.ba_unit_contains_spatial_unit su,
-    application aa,
-    service s,
-    transaction.transaction t
-  WHERE (((((((((((sa.spatial_unit_id)::text = (co.id)::text) AND ((sa.type_code)::text = 'officialArea'::text)) AND ((su.spatial_unit_id)::text = (sa.spatial_unit_id)::text)) AND ((su.ba_unit_id)::text = (bu.id)::text)) AND ((bu.transaction_id)::text = (t.id)::text)) AND ((t.from_service_id)::text = (s.id)::text)) AND ((s.application_id)::text = (aa.id)::text)) AND ((s.request_type_code)::text = 'systematicRegn'::text)) AND ((aa.status_code)::text = (ast.code)::text)) AND ((aa.status_code)::text = 'approved'::text));
+    SELECT aa.nr, co.name_firstpart, co.name_lastpart, su.ba_unit_id FROM application_status_type ast, cadastre.cadastre_object co, administrative.ba_unit bu, cadastre.spatial_value_area sa, administrative.ba_unit_contains_spatial_unit su, application aa, service s, transaction.transaction t WHERE (((((((((((sa.spatial_unit_id)::text = (co.id)::text) AND ((sa.type_code)::text = 'officialArea'::text)) AND ((su.spatial_unit_id)::text = (sa.spatial_unit_id)::text)) AND ((su.ba_unit_id)::text = (bu.id)::text)) AND ((bu.transaction_id)::text = (t.id)::text)) AND ((t.from_service_id)::text = (s.id)::text)) AND ((s.application_id)::text = (aa.id)::text)) AND ((s.request_type_code)::text = 'systematicRegn'::text)) AND ((aa.status_code)::text = (ast.code)::text)) AND ((aa.status_code)::text = 'approved'::text));
 
 
 ALTER TABLE application.systematic_registration_certificates OWNER TO postgres;
@@ -9121,11 +8979,7 @@ COMMENT ON COLUMN spatial_unit_group.change_time IS 'SOLA Extension: The date an
 --
 
 CREATE VIEW hierarchy AS
- SELECT sug.id,
-    sug.label,
-    sug.geom,
-    (sug.hierarchy_level)::character varying AS filter_category
-   FROM spatial_unit_group sug;
+    SELECT sug.id, sug.label, sug.geom, (sug.hierarchy_level)::character varying AS filter_category FROM spatial_unit_group sug;
 
 
 ALTER TABLE cadastre.hierarchy OWNER TO postgres;
@@ -9664,12 +9518,7 @@ COMMENT ON COLUMN spatial_unit.change_time IS 'SOLA Extension: The date and time
 --
 
 CREATE VIEW place_name AS
- SELECT su.id,
-    su.label,
-    su.geom
-   FROM level l,
-    spatial_unit su
-  WHERE (((l.id)::text = (su.level_id)::text) AND ((l.name)::text = 'Place Names'::text));
+    SELECT su.id, su.label, su.geom FROM level l, spatial_unit su WHERE (((l.id)::text = (su.level_id)::text) AND ((l.name)::text = 'Place Names'::text));
 
 
 ALTER TABLE cadastre.place_name OWNER TO postgres;
@@ -9736,12 +9585,7 @@ COMMENT ON COLUMN register_type.status IS 'SOLA Extension: Status of the registe
 --
 
 CREATE VIEW road AS
- SELECT su.id,
-    su.label,
-    su.geom
-   FROM level l,
-    spatial_unit su
-  WHERE (((l.id)::text = (su.level_id)::text) AND ((l.name)::text = 'Roads'::text));
+    SELECT su.id, su.label, su.geom FROM level l, spatial_unit su WHERE (((l.id)::text = (su.level_id)::text) AND ((l.name)::text = 'Roads'::text));
 
 
 ALTER TABLE cadastre.road OWNER TO postgres;
@@ -10126,12 +9970,7 @@ COMMENT ON COLUMN surface_relation_type.status IS 'SOLA Extension: Status of the
 --
 
 CREATE VIEW survey_control AS
- SELECT su.id,
-    su.label,
-    su.geom
-   FROM level l,
-    spatial_unit su
-  WHERE (((l.id)::text = (su.level_id)::text) AND ((l.name)::text = 'Survey Control'::text));
+    SELECT su.id, su.label, su.geom FROM level l, spatial_unit su WHERE (((l.id)::text = (su.level_id)::text) AND ((l.name)::text = 'Survey Control'::text));
 
 
 ALTER TABLE cadastre.survey_control OWNER TO postgres;
@@ -10932,6 +10771,7 @@ CREATE TABLE claim (
     west_adjacency character varying(500),
     assignee_name character varying(50),
     rejection_reason_code character varying(20),
+    claim_area bigint DEFAULT 0,
     CONSTRAINT enforce_geotype_gps_geometry CHECK ((((public.geometrytype(gps_geometry) = 'POLYGON'::text) OR (public.geometrytype(gps_geometry) = 'POINT'::text)) OR (gps_geometry IS NULL))),
     CONSTRAINT enforce_geotype_mapped_geometry CHECK ((((public.geometrytype(mapped_geometry) = 'POLYGON'::text) OR (public.geometrytype(mapped_geometry) = 'POINT'::text)) OR (mapped_geometry IS NULL))),
     CONSTRAINT enforce_valid_gps_geometry CHECK (public.st_isvalid(gps_geometry)),
@@ -11135,6 +10975,13 @@ COMMENT ON COLUMN claim.assignee_name IS 'User name who is assigned to work with
 --
 
 COMMENT ON COLUMN claim.rejection_reason_code IS 'Rejection reason code.';
+
+
+--
+-- Name: COLUMN claim.claim_area; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim.claim_area IS 'Claim area in square meters.';
 
 
 --
@@ -15020,11 +14867,7 @@ COMMENT ON COLUMN setting.description IS 'Description of the setting. ';
 --
 
 CREATE VIEW user_roles AS
- SELECT u.username,
-    rg.approle_code AS rolename
-   FROM ((appuser u
-   JOIN appuser_appgroup ug ON ((((u.id)::text = (ug.appuser_id)::text) AND u.active)))
-   JOIN approle_appgroup rg ON (((ug.appgroup_id)::text = (rg.appgroup_id)::text)));
+    SELECT u.username, rg.approle_code AS rolename FROM ((appuser u JOIN appuser_appgroup ug ON ((((u.id)::text = (ug.appuser_id)::text) AND u.active))) JOIN approle_appgroup rg ON (((ug.appgroup_id)::text = (rg.appgroup_id)::text)));
 
 
 ALTER TABLE system.user_roles OWNER TO postgres;
@@ -15041,48 +14884,7 @@ COMMENT ON VIEW user_roles IS 'Determines the application security roles assigne
 --
 
 CREATE VIEW user_pword_expiry AS
- WITH pw_change_all AS (
-                 SELECT u.username,
-                    u.change_time,
-                    u.change_user,
-                    u.rowversion
-                   FROM appuser u
-                  WHERE (NOT (EXISTS ( SELECT uh2.id
-                           FROM appuser_historic uh2
-                          WHERE ((((uh2.username)::text = (u.username)::text) AND (uh2.rowversion = (u.rowversion - 1))) AND ((uh2.passwd)::text = (u.passwd)::text)))))
-        UNION
-                 SELECT uh.username,
-                    uh.change_time,
-                    uh.change_user,
-                    uh.rowversion
-                   FROM appuser_historic uh
-                  WHERE (NOT (EXISTS ( SELECT uh2.id
-                           FROM appuser_historic uh2
-                          WHERE ((((uh2.username)::text = (uh.username)::text) AND (uh2.rowversion = (uh.rowversion - 1))) AND ((uh2.passwd)::text = (uh.passwd)::text)))))
-        ), pw_change AS (
-         SELECT pall.username AS uname,
-            pall.change_time AS last_pword_change,
-            pall.change_user AS pword_change_user
-           FROM pw_change_all pall
-          WHERE (pall.rowversion = ( SELECT max(p2.rowversion) AS max
-                   FROM pw_change_all p2
-                  WHERE ((p2.username)::text = (pall.username)::text)))
-        )
- SELECT p.uname,
-    p.last_pword_change,
-    p.pword_change_user,
-        CASE
-            WHEN (EXISTS ( SELECT r.username
-               FROM user_roles r
-              WHERE (((r.username)::text = (p.uname)::text) AND ((r.rolename)::text = ANY (ARRAY[('ManageSecurity'::character varying)::text, ('NoPasswordExpiry'::character varying)::text]))))) THEN true
-            ELSE false
-        END AS no_pword_expiry,
-        CASE
-            WHEN (s.vl IS NULL) THEN NULL::integer
-            ELSE (((p.last_pword_change)::date - (now())::date) + (s.vl)::integer)
-        END AS pword_expiry_days
-   FROM (pw_change p
-   LEFT JOIN setting s ON ((((s.name)::text = 'pword-expiry-days'::text) AND s.active)));
+    WITH pw_change_all AS (SELECT u.username, u.change_time, u.change_user, u.rowversion FROM appuser u WHERE (NOT (EXISTS (SELECT uh2.id FROM appuser_historic uh2 WHERE ((((uh2.username)::text = (u.username)::text) AND (uh2.rowversion = (u.rowversion - 1))) AND ((uh2.passwd)::text = (u.passwd)::text))))) UNION SELECT uh.username, uh.change_time, uh.change_user, uh.rowversion FROM appuser_historic uh WHERE (NOT (EXISTS (SELECT uh2.id FROM appuser_historic uh2 WHERE ((((uh2.username)::text = (uh.username)::text) AND (uh2.rowversion = (uh.rowversion - 1))) AND ((uh2.passwd)::text = (uh.passwd)::text)))))), pw_change AS (SELECT pall.username AS uname, pall.change_time AS last_pword_change, pall.change_user AS pword_change_user FROM pw_change_all pall WHERE (pall.rowversion = (SELECT max(p2.rowversion) AS max FROM pw_change_all p2 WHERE ((p2.username)::text = (pall.username)::text)))) SELECT p.uname, p.last_pword_change, p.pword_change_user, CASE WHEN (EXISTS (SELECT r.username FROM user_roles r WHERE (((r.username)::text = (p.uname)::text) AND ((r.rolename)::text = ANY (ARRAY[('ManageSecurity'::character varying)::text, ('NoPasswordExpiry'::character varying)::text]))))) THEN true ELSE false END AS no_pword_expiry, CASE WHEN (s.vl IS NULL) THEN NULL::integer ELSE (((p.last_pword_change)::date - (now())::date) + (s.vl)::integer) END AS pword_expiry_days FROM (pw_change p LEFT JOIN setting s ON ((((s.name)::text = 'pword-expiry-days'::text) AND s.active)));
 
 
 ALTER TABLE system.user_pword_expiry OWNER TO postgres;
@@ -15099,11 +14901,7 @@ COMMENT ON VIEW user_pword_expiry IS 'Determines the number of days until the us
 --
 
 CREATE VIEW active_users AS
- SELECT u.username,
-    u.passwd
-   FROM appuser u,
-    user_pword_expiry ex
-  WHERE (((u.active = true) AND ((ex.uname)::text = (u.username)::text)) AND ((COALESCE(ex.pword_expiry_days, 1) > 0) OR (ex.no_pword_expiry = true)));
+    SELECT u.username, u.passwd FROM appuser u, user_pword_expiry ex WHERE (((u.active = true) AND ((ex.uname)::text = (u.username)::text)) AND ((COALESCE(ex.pword_expiry_days, 1) > 0) OR (ex.no_pword_expiry = true)));
 
 
 ALTER TABLE system.active_users OWNER TO postgres;
@@ -15414,13 +15212,7 @@ COMMENT ON COLUMN br_definition.body IS 'The definition of the rule. Either SQL 
 --
 
 CREATE VIEW br_current AS
- SELECT b.id,
-    b.technical_type_code,
-    b.feedback,
-    bd.body
-   FROM (br b
-   JOIN br_definition bd ON (((b.id)::text = (bd.br_id)::text)))
-  WHERE ((now() >= bd.active_from) AND (now() <= bd.active_until));
+    SELECT b.id, b.technical_type_code, b.feedback, bd.body FROM (br b JOIN br_definition bd ON (((b.id)::text = (bd.br_id)::text))) WHERE ((now() >= bd.active_from) AND (now() <= bd.active_until));
 
 
 ALTER TABLE system.br_current OWNER TO postgres;
@@ -15540,26 +15332,7 @@ COMMENT ON COLUMN br_validation.order_of_execution IS 'Number used to order the 
 --
 
 CREATE VIEW br_report AS
- SELECT b.id,
-    b.technical_type_code,
-    b.feedback,
-    b.description,
-        CASE
-            WHEN ((bv.target_code)::text = 'application'::text) THEN bv.target_application_moment
-            WHEN ((bv.target_code)::text = 'service'::text) THEN bv.target_service_moment
-            ELSE bv.target_reg_moment
-        END AS moment_code,
-    bd.body,
-    bv.severity_code,
-    bv.target_code,
-    bv.target_request_type_code,
-    bv.target_rrr_type_code,
-    bv.order_of_execution
-   FROM ((br b
-   LEFT JOIN br_validation bv ON (((b.id)::text = (bv.br_id)::text)))
-   JOIN br_definition bd ON (((b.id)::text = (bd.br_id)::text)))
-  WHERE ((now() >= bd.active_from) AND (now() <= bd.active_until))
-  ORDER BY b.id;
+    SELECT b.id, b.technical_type_code, b.feedback, b.description, CASE WHEN ((bv.target_code)::text = 'application'::text) THEN bv.target_application_moment WHEN ((bv.target_code)::text = 'service'::text) THEN bv.target_service_moment ELSE bv.target_reg_moment END AS moment_code, bd.body, bv.severity_code, bv.target_code, bv.target_request_type_code, bv.target_rrr_type_code, bv.order_of_execution FROM ((br b LEFT JOIN br_validation bv ON (((b.id)::text = (bv.br_id)::text))) JOIN br_definition bd ON (((b.id)::text = (bd.br_id)::text))) WHERE ((now() >= bd.active_from) AND (now() <= bd.active_until)) ORDER BY b.id;
 
 
 ALTER TABLE system.br_report OWNER TO postgres;
@@ -15747,13 +15520,7 @@ CREATE TABLE config_map_layer (
     added_from_bulk_operation boolean DEFAULT false NOT NULL,
     use_in_public_display boolean DEFAULT false NOT NULL,
     use_for_ot boolean DEFAULT false NOT NULL,
-    CONSTRAINT config_map_layer_fields_required CHECK (
-CASE
-    WHEN ((type_code)::text = 'wms'::text) THEN ((url IS NOT NULL) AND (wms_layers IS NOT NULL))
-    WHEN ((type_code)::text = 'pojo'::text) THEN (((pojo_query_name IS NOT NULL) AND (pojo_structure IS NOT NULL)) AND (style IS NOT NULL))
-    WHEN ((type_code)::text = 'shape'::text) THEN ((shape_location IS NOT NULL) AND (style IS NOT NULL))
-    ELSE NULL::boolean
-END)
+    CONSTRAINT config_map_layer_fields_required CHECK (CASE WHEN ((type_code)::text = 'wms'::text) THEN ((url IS NOT NULL) AND (wms_layers IS NOT NULL)) WHEN ((type_code)::text = 'pojo'::text) THEN (((pojo_query_name IS NOT NULL) AND (pojo_structure IS NOT NULL)) AND (style IS NOT NULL)) WHEN ((type_code)::text = 'shape'::text) THEN ((shape_location IS NOT NULL) AND (style IS NOT NULL)) ELSE NULL::boolean END)
 );
 
 
