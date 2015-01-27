@@ -11127,7 +11127,8 @@ CREATE TABLE claim_historic (
     west_adjacency character varying(500),
     assignee_name character varying(50),
     land_use_code character varying(20),
-    rejection_reason_code character varying(20)
+    rejection_reason_code character varying(20),
+    claim_area bigint
 );
 
 
