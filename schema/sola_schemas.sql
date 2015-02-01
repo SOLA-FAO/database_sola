@@ -15697,7 +15697,7 @@ COMMENT ON COLUMN config_map_layer.use_for_ot IS 'Flag to indicate if the layer 
 
 CREATE TABLE config_map_layer_metadata (
     name_layer character varying(50) NOT NULL,
-    name character varying(50),
+    name character varying(50) NOT NULL,
     value character varying(100) NOT NULL
 );
 
@@ -18187,7 +18187,7 @@ ALTER TABLE ONLY panel_launcher_group
 --
 
 ALTER TABLE ONLY config_map_layer_metadata
-    ADD CONSTRAINT pk_config_map_layer_metadata PRIMARY KEY (name_layer, value);
+    ADD CONSTRAINT pk_config_map_layer_metadata PRIMARY KEY (name_layer, name);
 
 
 --

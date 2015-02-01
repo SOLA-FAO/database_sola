@@ -10,4 +10,4 @@ COMMENT ON COLUMN opentenure.claim_share.percentage IS 'Percentage of the share.
 
 ALTER TABLE opentenure.claim_share_historic ADD COLUMN percentage double precision;
 
-ALTER TABLE system.config_map_layer_metadata ADD CONSTRAINT pk_config_map_layer_metadata PRIMARY KEY (name_layer, value);
+ALTER TABLE system.config_map_layer_metadata ADD CONSTRAINT pk_config_map_layer_metadata PRIMARY KEY (name_layer, name);
