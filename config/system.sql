@@ -3,7 +3,6 @@
 --
 
 SET statement_timeout = 0;
-SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -100,6 +99,7 @@ ALTER TABLE config_map_layer ENABLE TRIGGER ALL;
 
 ALTER TABLE config_map_layer_metadata DISABLE TRIGGER ALL;
 
+INSERT INTO config_map_layer_metadata (name_layer, name, value) VALUES ('claims-orthophoto', 'transparent', 'true');
 
 
 ALTER TABLE config_map_layer_metadata ENABLE TRIGGER ALL;
@@ -448,6 +448,7 @@ INSERT INTO version (version_num) VALUES ('1409d');
 INSERT INTO version (version_num) VALUES ('1409e');
 INSERT INTO version (version_num) VALUES ('1411b');
 INSERT INTO version (version_num) VALUES ('1412a');
+INSERT INTO version (version_num) VALUES ('1502a');
 
 
 ALTER TABLE version ENABLE TRIGGER ALL;

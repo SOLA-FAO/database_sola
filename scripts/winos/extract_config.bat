@@ -10,8 +10,7 @@ REM reference_data.sql and business_rules.sql files.
 REM 
 REM Configure variables to use for script
 SET current_dir=%~dp0
-SET pg_dump="%current_dir%\bin\psql\pg_dump"
-SET pg_dump="C:\Program Files\PostgreSQL\9.3\bin\pg_dump"
+SET pg_dump="%current_dir%bin\psql\pg_dump"
 SET config_path=%current_dir%..\..\config\
 SET EXTRACT_LOG="%current_dir%config.log"
 SET host=localhost
@@ -38,6 +37,7 @@ echo Starting Extract at %time% > %EXTRACT_LOG% 2>&1
 REM Dump the contents of all tables that support localization
 echo Dumping reference tables...
 echo ### Dumping reference tables... >> %EXTRACT_LOG% 2>&1 
+
 %pg_dump% -h %host% -p %port% -U %username% -a -b -F p ^
     --column-inserts --disable-dollar-quoting --disable-triggers ^
     -t administrative.ba_unit_rel_type -t administrative.ba_unit_type ^

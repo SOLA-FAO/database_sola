@@ -11285,13 +11285,14 @@ COMMENT ON SEQUENCE claim_nr_seq IS 'Sequence number used as the basis for the c
 CREATE TABLE claim_share (
     id character varying(40) NOT NULL,
     claim_id character varying(40) NOT NULL,
-    nominator smallint NOT NULL,
-    denominator smallint NOT NULL,
+    nominator smallint,
+    denominator smallint,
     rowidentifier character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
     rowversion integer DEFAULT 0 NOT NULL,
     change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
     change_user character varying(50),
-    change_time timestamp without time zone DEFAULT now() NOT NULL
+    change_time timestamp without time zone DEFAULT now() NOT NULL,
+    percentage double precision
 );
 
 
@@ -11368,6 +11369,13 @@ COMMENT ON COLUMN claim_share.change_time IS 'The date and time the row was last
 
 
 --
+-- Name: COLUMN claim_share.percentage; Type: COMMENT; Schema: opentenure; Owner: postgres
+--
+
+COMMENT ON COLUMN claim_share.percentage IS 'Percentage of the share. Another form of nominator/denominator presentation.';
+
+
+--
 -- Name: claim_share_historic; Type: TABLE; Schema: opentenure; Owner: postgres; Tablespace: 
 --
 
@@ -11381,7 +11389,8 @@ CREATE TABLE claim_share_historic (
     change_action character(1),
     change_user character varying(50),
     change_time timestamp without time zone,
-    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL
+    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL,
+    percentage double precision
 );
 
 
@@ -15689,7 +15698,7 @@ COMMENT ON COLUMN config_map_layer.use_for_ot IS 'Flag to indicate if the layer 
 CREATE TABLE config_map_layer_metadata (
     name_layer character varying(50) NOT NULL,
     name character varying(50),
-    value character varying(100)
+    value character varying(100) NOT NULL
 );
 
 
@@ -18171,6 +18180,14 @@ ALTER TABLE ONLY panel_launcher_group
 
 ALTER TABLE ONLY panel_launcher_group
     ADD CONSTRAINT panel_launcher_group_pkey PRIMARY KEY (code);
+
+
+--
+-- Name: pk_config_map_layer_metadata; Type: CONSTRAINT; Schema: system; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY config_map_layer_metadata
+    ADD CONSTRAINT pk_config_map_layer_metadata PRIMARY KEY (name_layer, value);
 
 
 --
