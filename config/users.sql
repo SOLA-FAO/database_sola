@@ -22,6 +22,7 @@ INSERT INTO appgroup (id, name, description) VALUES ('super-group-id', 'Super gr
 INSERT INTO appgroup (id, name, description) VALUES ('CommunityRecorders', 'Community recorders', 'Community recorders users, who can submit claims');
 INSERT INTO appgroup (id, name, description) VALUES ('claim-moderators', 'Claim moderators', 'Group for users who can moderate claims, submitted by community recorders');
 INSERT INTO appgroup (id, name, description) VALUES ('claim-reviewers', 'Claim reviewers', 'Claim reviewers');
+INSERT INTO appgroup (id, name, description) VALUES ('CommunityMembers', 'Community members', 'Community memebers, who can view claims');
 
 
 ALTER TABLE appgroup ENABLE TRIGGER ALL;
@@ -123,6 +124,7 @@ INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversi
 INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('ReviewClaim', 'claim-reviewers', '4673adfa-1ba1-11e4-bc93-17aba8d6daed', 1, 'i', 'db:postgres', '2014-08-04 12:33:40.723');
 INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('AccessCS', 'claim-reviewers', '4673d50a-1ba1-11e4-a1f9-ef941a7b9d3f', 1, 'i', 'db:postgres', '2014-08-04 12:33:40.723');
 INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('ApplnTransfer', 'super-group-id', '3b198aa0-418b-11e4-b58e-d3d7bce06a55', 1, 'i', 'db:postgres', '2014-09-21 14:31:37.565');
+INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('AccessCS', 'CommunityMembers', 'ac3503a8-bb9e-11e4-b25d-777354e14c1e', 1, 'i', 'db:postgres', '2015-02-24 02:58:09.586');
 
 
 ALTER TABLE approle_appgroup ENABLE TRIGGER ALL;
