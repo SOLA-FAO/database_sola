@@ -100,6 +100,7 @@ ALTER TABLE config_map_layer ENABLE TRIGGER ALL;
 ALTER TABLE config_map_layer_metadata DISABLE TRIGGER ALL;
 
 INSERT INTO config_map_layer_metadata (name_layer, name, value) VALUES ('claims-orthophoto', 'transparent', 'true');
+INSERT INTO config_map_layer_metadata (name_layer, name, value) VALUES ('claims-orthophoto', 'LEGEND_OPTIONS', 'fontSize:12');
 
 
 ALTER TABLE config_map_layer_metadata ENABLE TRIGGER ALL;

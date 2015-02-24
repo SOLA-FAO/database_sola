@@ -22,6 +22,7 @@ INSERT INTO appgroup (id, name, description) VALUES ('super-group-id', 'Super gr
 INSERT INTO appgroup (id, name, description) VALUES ('CommunityRecorders', 'Community recorders', 'Community recorders users, who can submit claims');
 INSERT INTO appgroup (id, name, description) VALUES ('claim-moderators', 'Claim moderators', 'Group for users who can moderate claims, submitted by community recorders');
 INSERT INTO appgroup (id, name, description) VALUES ('claim-reviewers', 'Claim reviewers', 'Claim reviewers');
+INSERT INTO appgroup (id, name, description) VALUES ('CommunityMembers', 'Community members', 'Community memebers, who can view claims');
 
 
 ALTER TABLE appgroup ENABLE TRIGGER ALL;
@@ -123,6 +124,7 @@ INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversi
 INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('ReviewClaim', 'claim-reviewers', '4673adfa-1ba1-11e4-bc93-17aba8d6daed', 1, 'i', 'db:postgres', '2014-08-04 12:33:40.723');
 INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('AccessCS', 'claim-reviewers', '4673d50a-1ba1-11e4-a1f9-ef941a7b9d3f', 1, 'i', 'db:postgres', '2014-08-04 12:33:40.723');
 INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('ApplnTransfer', 'super-group-id', '3b198aa0-418b-11e4-b58e-d3d7bce06a55', 1, 'i', 'db:postgres', '2014-09-21 14:31:37.565');
+INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('AccessCS', 'CommunityMembers', 'ac3503a8-bb9e-11e4-b25d-777354e14c1e', 1, 'i', 'db:postgres', '2015-02-24 02:58:09.586');
 
 
 ALTER TABLE approle_appgroup ENABLE TRIGGER ALL;
@@ -138,6 +140,7 @@ INSERT INTO appuser (id, username, first_name, last_name, email, mobile_number, 
 INSERT INTO appuser (id, username, first_name, last_name, email, mobile_number, activation_code, passwd, active, description, rowidentifier, rowversion, change_action, change_user, change_time, activation_expiration) VALUES ('claim-recorder', 'ClaimRecorder', 'Claim', 'Recorder', 'claim.recorder@mail.com', '111-222', NULL, '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', true, 'Demo user for claim recorder role', '4661fa74-1ba1-11e4-ae33-57068db554f3', 13, 'u', 'db:postgres', '2014-09-21 17:36:36.559', NULL);
 INSERT INTO appuser (id, username, first_name, last_name, email, mobile_number, activation_code, passwd, active, description, rowidentifier, rowversion, change_action, change_user, change_time, activation_expiration) VALUES ('claim-reviewer', 'ClaimReviewer', 'Claim', 'Reviewer', 'claim.reviewer@mail.com', '111-333', NULL, '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', true, 'Demo user for claim reviwer role', '466c0cbc-1ba1-11e4-b1a2-877bd2f873c2', 13, 'u', 'db:postgres', '2014-09-21 17:36:36.559', NULL);
 INSERT INTO appuser (id, username, first_name, last_name, email, mobile_number, activation_code, passwd, active, description, rowidentifier, rowversion, change_action, change_user, change_time, activation_expiration) VALUES ('claim-moderator', 'ClaimModerator', 'Claim', 'Moderator', 'claim.moderator@mail.com', '111-444', NULL, '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', true, 'Demo user for claim moderator role', '466c33cc-1ba1-11e4-af2b-6f314bab285f', 13, 'u', 'db:postgres', '2014-09-21 17:36:36.559', NULL);
+INSERT INTO appuser (id, username, first_name, last_name, email, mobile_number, activation_code, passwd, active, description, rowidentifier, rowversion, change_action, change_user, change_time, activation_expiration) VALUES ('9e7bb800-cc11-4174-a35d-2aac04f5d6dc', 'new', 'new', 'new', NULL, NULL, NULL, '11507a0e2f5e69d5dfa40a62a1bd7b6ee57e6bcd85c67c9b8431b36fff21c437', true, NULL, '8f883f01-bca4-40e3-b741-2ccf44ec7aec', 2, 'u', 'test', '2015-02-12 11:48:36.52', NULL);
 
 
 ALTER TABLE appuser ENABLE TRIGGER ALL;
@@ -156,6 +159,9 @@ INSERT INTO appuser_appgroup (appuser_id, appgroup_id, rowidentifier, rowversion
 INSERT INTO appuser_appgroup (appuser_id, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('test-id', 'CommunityRecorders', '466fdd56-1ba1-11e4-b8f6-e7421ee931e9', 1, 'i', 'db:postgres', '2014-08-04 12:33:40.723');
 INSERT INTO appuser_appgroup (appuser_id, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('claim-reviewer', 'claim-reviewers', '46700466-1ba1-11e4-811d-bb4889ee1d9a', 1, 'i', 'db:postgres', '2014-08-04 12:33:40.723');
 INSERT INTO appuser_appgroup (appuser_id, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('claim-moderator', 'claim-moderators', '46705290-1ba1-11e4-9cdc-d78e1a6af69e', 1, 'i', 'db:postgres', '2014-08-04 12:33:40.723');
+INSERT INTO appuser_appgroup (appuser_id, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('9e7bb800-cc11-4174-a35d-2aac04f5d6dc', 'claim-moderators', 'a72d51a9-ce50-4e16-bc94-f8c10c1b7de0', 1, 'i', 'test', '2015-02-12 11:48:35.832');
+INSERT INTO appuser_appgroup (appuser_id, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('9e7bb800-cc11-4174-a35d-2aac04f5d6dc', 'claim-reviewers', '736d069e-bbca-4656-a9c3-82681bc9a3fd', 1, 'i', 'test', '2015-02-12 11:48:35.832');
+INSERT INTO appuser_appgroup (appuser_id, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('9e7bb800-cc11-4174-a35d-2aac04f5d6dc', 'CommunityRecorders', '2a6904fb-09e4-4a14-8f5e-9cf8c08b294f', 1, 'i', 'test', '2015-02-12 11:48:35.832');
 
 
 ALTER TABLE appuser_appgroup ENABLE TRIGGER ALL;

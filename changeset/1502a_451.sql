@@ -11,3 +11,8 @@ COMMENT ON COLUMN opentenure.claim_share.percentage IS 'Percentage of the share.
 ALTER TABLE opentenure.claim_share_historic ADD COLUMN percentage double precision;
 
 ALTER TABLE system.config_map_layer_metadata ADD CONSTRAINT pk_config_map_layer_metadata PRIMARY KEY (name_layer, name);
+
+ALTER TABLE system.approle ALTER COLUMN description TYPE character varying(5000);
+
+INSERT INTO system.appgroup(id, name, description) VALUES ('CommunityMembers', 'Community members', 'Community memebers, who can view claims');
+INSERT INTO system.approle_appgroup(approle_code, appgroup_id) VALUES ('AccessCS', 'CommunityMembers');

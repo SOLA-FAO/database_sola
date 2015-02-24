@@ -14973,7 +14973,7 @@ CREATE TABLE approle (
     code character varying(20) NOT NULL,
     display_value character varying(500) NOT NULL,
     status character(1) NOT NULL,
-    description character varying(1000)
+    description character varying(5000)
 );
 
 
