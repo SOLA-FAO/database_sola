@@ -6395,7 +6395,7 @@ comment on table administrative.notifiable_party_for_baunit is 'Parties to be in
 DROP TRIGGER IF EXISTS __track_changes ON administrative.notifiable_party_for_baunit CASCADE;
 CREATE TRIGGER __track_changes BEFORE UPDATE OR INSERT
    ON administrative.notifiable_party_for_baunit FOR EACH ROW
-   EXECUTE PROCEDURE f_for_trg_track_changes();
+   EXECUTE PROCEDURE public.f_for_trg_track_changes();
     
 
 ----Table administrative.notifiable_party_for_rrr_historic used for the history of data of table administrative.notifiable_party_for_rrr ---
@@ -8352,41 +8352,6 @@ COMMENT ON COLUMN type_action.description IS 'Description of the request type ac
 
 COMMENT ON COLUMN type_action.status IS 'Status of the request type action.';
 
---
--- Name: CREATE OR REPLACE VIEW application.cancel_notification Type: VIEW; Schema: application; Owner: postgres
---
-
-CREATE OR REPLACE VIEW application.cancel_notification AS 
-
-
- SELECT       pp.name partyName,    
-              pp.last_name partyLastName,
-              tpp.name targetpartyName,    
-              tpp.last_name targetpartyLastName,    
-              npbu.party_id,    
-              npbu.target_party_id,
-              npbu.baunit_name,
-              npbu.service_id,
-              npbu.cancel_service_id,
-              gpp.id groupPartyId,    
-              gpp.name groupPartyName,    
-              gpp.last_name groupPartyLastName
- FROM 
-	      party.party pp,
-	      party.party tpp,
-	      party.party gpp,       
-	      administrative.notifiable_party_for_baunit npbu,
-	      application.application aa, 
-	      application.service s,
-	      party.group_party gp
-WHERE 	      s.application_id::text = aa.id::text 
-              and s.id = npbu.cancel_service_id
-	      and  (pp.id=npbu.party_id    
-              and tpp.id=npbu.target_party_id)
-              and  (gpp.id=gp.id)
-              and (pp.id in (select pm.party_id from party.party_member pm where pm.group_id = gp.id))
-              and (tpp.id in (select pm.party_id from party.party_member pm where pm.group_id = gp.id))
-              and s.request_type_code::text = 'cancelRelationship'::text ;
 
 
 
@@ -13894,7 +13859,7 @@ CREATE TRIGGER __track_changes
   BEFORE INSERT OR UPDATE
   ON party.source_describes_party
   FOR EACH ROW
-  EXECUTE PROCEDURE f_for_trg_track_changes();
+  EXECUTE PROCEDURE public.f_for_trg_track_changes();
 
 -- Trigger: __track_history on party.source_describes_party
 
@@ -22642,6 +22607,44 @@ ALTER TABLE ONLY transaction_source
 
 ALTER TABLE ONLY transaction
     ADD CONSTRAINT transaction_status_code_fk27 FOREIGN KEY (status_code) REFERENCES transaction_status_type(code) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+
+--
+-- Name: CREATE OR REPLACE VIEW application.cancel_notification Type: VIEW; Schema: application; Owner: postgres
+--
+
+CREATE OR REPLACE VIEW application.cancel_notification AS 
+
+
+ SELECT       pp.name partyName,    
+              pp.last_name partyLastName,
+              tpp.name targetpartyName,    
+              tpp.last_name targetpartyLastName,    
+              npbu.party_id,    
+              npbu.target_party_id,
+              npbu.baunit_name,
+              npbu.service_id,
+              npbu.cancel_service_id,
+              gpp.id groupPartyId,    
+              gpp.name groupPartyName,    
+              gpp.last_name groupPartyLastName
+ FROM 
+	      party.party pp,
+	      party.party tpp,
+	      party.party gpp,       
+	      administrative.notifiable_party_for_baunit npbu,
+	      application.application aa, 
+	      application.service s,
+	      party.group_party gp
+WHERE 	      s.application_id::text = aa.id::text 
+              and s.id = npbu.cancel_service_id
+	      and  (pp.id=npbu.party_id    
+              and tpp.id=npbu.target_party_id)
+              and  (gpp.id=gp.id)
+              and (pp.id in (select pm.party_id from party.party_member pm where pm.group_id = gp.id))
+              and (tpp.id in (select pm.party_id from party.party_member pm where pm.group_id = gp.id))
+              and s.request_type_code::text = 'cancelRelationship'::text ;
 
 
 --
