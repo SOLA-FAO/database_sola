@@ -1,4 +1,6 @@
-﻿--
+
+
+--
 -- PostgreSQL database dump
 --
 
@@ -6425,7 +6427,7 @@ CREATE INDEX notifiable_party_for_baunit_historic_index_on_rowidentifier ON admi
 DROP TRIGGER IF EXISTS __track_history ON administrative.notifiable_party_for_baunit CASCADE;
 CREATE TRIGGER __track_history AFTER UPDATE OR DELETE
    ON administrative.notifiable_party_for_baunit FOR EACH ROW
-   EXECUTE PROCEDURE f_for_trg_track_history();
+   EXECUTE PROCEDURE public.f_for_trg_track_history();
 
 
 
@@ -13804,20 +13806,11 @@ CREATE TABLE  party.source_describes_party
   rowversion integer NOT NULL DEFAULT 0,
   change_action character(1) NOT NULL DEFAULT 'i'::bpchar,
   change_user character varying(50),
-  change_time timestamp without time zone NOT NULL DEFAULT now(),
-  CONSTRAINT source_describes_party_pkey PRIMARY KEY (source_id, party_id),
-  CONSTRAINT source_describes_party_party_id_fk41 FOREIGN KEY (party_id)
-      REFERENCES party.party (id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE,
-  CONSTRAINT source_describes_party_source_id_fk42 FOREIGN KEY (source_id)
-      REFERENCES source.source (id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE
-)
-WITH (
-  OIDS=FALSE
-);
+  change_time timestamp without time zone NOT NULL DEFAULT now()
+  );
 ALTER TABLE party.source_describes_party OWNER TO postgres;
 COMMENT ON TABLE party.source_describes_party IS 'Implements the many-to-many relationship identifying administrative source instances with party instances
+
 LADM Reference Object 
 Relationship LA_AdministrativeSource - LA_PARTY
 LADM Definition
@@ -13869,7 +13862,7 @@ CREATE TRIGGER __track_history
   AFTER UPDATE OR DELETE
   ON party.source_describes_party
   FOR EACH ROW
-  EXECUTE PROCEDURE f_for_trg_track_history();
+  EXECUTE PROCEDURE public.f_for_trg_track_history();
 -- Table: party.source_describes_party_historic
 
 -- DROP TABLE party.source_describes_party_historic;
@@ -17055,7 +17048,7 @@ ALTER TABLE ONLY rrr_type
 ALTER TABLE ONLY source_describes_ba_unit
     ADD CONSTRAINT source_describes_ba_unit_pkey PRIMARY KEY (source_id, ba_unit_id);
 
-
+	
 --
 -- Name: source_describes_rrr_pkey; Type: CONSTRAINT; Schema: administrative; Owner: postgres; Tablespace: 
 --
@@ -17939,7 +17932,10 @@ ALTER TABLE ONLY party_type
 ALTER TABLE ONLY party_type
     ADD CONSTRAINT party_type_pkey PRIMARY KEY (code);
 
+ALTER TABLE ONLY source_describes_party
+    ADD CONSTRAINT source_describes_party_pkey PRIMARY KEY (source_id, party_id);
 
+	
 SET search_path = source, pg_catalog;
 
 --
@@ -22242,6 +22238,15 @@ ALTER TABLE ONLY group_party
 ALTER TABLE ONLY group_party
     ADD CONSTRAINT group_party_type_code_fk33 FOREIGN KEY (type_code) REFERENCES group_party_type(code) ON UPDATE CASCADE ON DELETE RESTRICT;
 
+ALTER TABLE ONLY source_describes_party
+    ADD CONSTRAINT  source_describes_party_party_id_fk41 FOREIGN KEY (party_id)
+      REFERENCES party.party (id) 
+      ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE ONLY source_describes_party
+    ADD CONSTRAINT  source_describes_party_source_id_fk42 FOREIGN KEY (source_id)
+      REFERENCES source.source (id)
+      ON UPDATE CASCADE ON DELETE CASCADE;
 
 --
 -- Name: party_address_id_fk10; Type: FK CONSTRAINT; Schema: party; Owner: postgres
