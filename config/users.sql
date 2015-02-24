@@ -125,8 +125,8 @@ INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversi
 INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('AccessCS', 'claim-reviewers', '4673d50a-1ba1-11e4-a1f9-ef941a7b9d3f', 1, 'i', 'db:postgres', '2014-08-04 12:33:40.723');
 INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('ApplnTransfer', 'super-group-id', '3b198aa0-418b-11e4-b58e-d3d7bce06a55', 1, 'i', 'db:postgres', '2014-09-21 14:31:37.565');
 INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('AccessCS', 'CommunityMembers', 'ac3503a8-bb9e-11e4-b25d-777354e14c1e', 1, 'i', 'db:postgres', '2015-02-24 02:58:09.586');
-INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('recordRelationship', 'super-group-id', 'dae15ccc-bc18-11e4-b6c9-c3288b8e6f5f';1;'i';'db:postgres';'2015-02-24 12:32:46.539');
-INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('cancelRelationship', 'super-group-id', 'cc47f572-bc18-11e4-840d-6705f37b1056';1;'i';'db:postgres';'2015-02-24 12:32:22.045');
+INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('recordRelationship', 'super-group-id', 'dae15ccc-bc18-11e4-b6c9-c3288b8e6f5f',1,'i','db:postgres','2015-02-24 12:32:46.539');
+INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('cancelRelationship', 'super-group-id', 'cc47f572-bc18-11e4-840d-6705f37b1056',1,'i','db:postgres','2015-02-24 12:32:22.045');
 
 
 

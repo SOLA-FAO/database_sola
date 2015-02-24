@@ -6373,7 +6373,7 @@ CREATE TABLE administrative.notifiable_party_for_baunit(
     service_id varchar(40) NOT NULL,
     cancel_service_id varchar(40),
     status  varchar(40) NOT NULL DEFAULT ('c'),
-    rowidentifier varchar(40) NOT NULL DEFAULT (uuid_generate_v1()),
+    rowidentifier varchar(40) NOT NULL DEFAULT (public.uuid_generate_v1()),
     rowversion integer NOT NULL DEFAULT (0),
     change_action char(1) NOT NULL DEFAULT ('i'),
     change_user varchar(50),
@@ -13835,7 +13835,7 @@ CREATE TABLE  party.source_describes_party
 (
   source_id character varying(40) NOT NULL,
   party_id character varying(40) NOT NULL,
-  rowidentifier character varying(40) NOT NULL DEFAULT uuid_generate_v1(),
+  rowidentifier character varying(40) NOT NULL DEFAULT public.uuid_generate_v1(),
   rowversion integer NOT NULL DEFAULT 0,
   change_action character(1) NOT NULL DEFAULT 'i'::bpchar,
   change_user character varying(50),
