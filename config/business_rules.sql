@@ -1,4 +1,4 @@
---
+﻿--
 -- PostgreSQL database dump
 --
 
@@ -137,6 +137,7 @@ INSERT INTO br (id, display_name, technical_type_code, feedback, description, te
  from the transaction that has flagged the ba_unit for cancellation, that this transaction record is not yet approved,
  that this ba_unit has an associated rrr record which is pending and that there are no other applications with intended or pending changes to this ba_unit.');
 INSERT INTO br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('application-on-approve-check-services-without-transaction', 'application-on-approve-check-services-without-transaction', 'sql', 'Within an application,all services making changes to core records must be completed and have utilised an instance of transaction before application can be approved.::::Все услуги в заявлении, которые внесли изменения в основные данные, должны быть завершены перед тем как заявление может быть одобрено.::::تاكد من  ان جميع الخدمات التي تؤدي الى تغييرات على السجلات الاساسية  لها  حالة مكتملة::::Lors d''une demande, tous les services faisant des changements aux données clés doivent être exécutés et avoir utilisés une instance de transaction avant que la demande soit approuvée.::::::::::::Dentro do aplicativo, todos os serviços que fazem alterações nos registros centrais devem ser completados e ter utilizado uma instância de transação antes do pedido ser aprovado.::::::::在申请被接受之前，申请中改变核心记录的所有服务必须完整并利用了交易实例。', NULL, 'Checks that all services have the status of completed and that there is a transaction record referring to each service record through the field from_service_id');
+INSERT INTO br (id, technical_type_code, feedback, technical_description) values('cancel-relation-notification', 'sql', 'Cancel notification for the services of the application', '#{id}(application_id) is requested');
 
 
 ALTER TABLE br ENABLE TRIGGER ALL;
@@ -1005,6 +1006,28 @@ INSERT INTO br_definition (br_id, active_from, active_until, body) VALUES ('cons
 from consolidation.config config)
 select count(*)=0 as vl from def_of_tables where source_def != target_def');
 
+INSERT INTO br_definition (br_id, active_from, active_until, body) 
+values('cancel-relation-notification', now(), 'infinity', 
+ 'UPDATE administrative.notifiable_party_for_baunit 
+ set status = ''x''
+WHERE cancel_service_id in
+(
+SELECT        npbu.cancel_service_id
+ FROM 
+	      administrative.notifiable_party_for_baunit npbu,
+	      application.application aa, 
+	      application.service s,
+	      party.group_party gp
+WHERE 	      s.application_id::text = aa.id::text 
+              and (npbu.party_id in (select pm.party_id from party.party_member pm where pm.group_id = gp.id))
+              and (npbu.target_party_id in (select pm.party_id from party.party_member pm where pm.group_id = gp.id))
+              and s.request_type_code::text = ''cancelRelationship''::text 
+              and npbu.cancel_service_id = s.id
+	      and aa.id = #{id})
+;
+select 0=0 as vl
+');
+
 
 ALTER TABLE br_definition ENABLE TRIGGER ALL;
 
@@ -1105,7 +1128,7 @@ INSERT INTO br_validation (id, br_id, target_code, target_application_moment, ta
 INSERT INTO br_validation (id, br_id, target_code, target_application_moment, target_service_moment, target_reg_moment, target_request_type_code, target_rrr_type_code, severity_code, order_of_execution) VALUES ('bfeae2fc-99dd-11e3-98d3-47256ea2b59e', 'consolidation-db-structure-the-same', 'consolidation', NULL, NULL, NULL, NULL, NULL, 'critical', 570);
 INSERT INTO br_validation (id, br_id, target_code, target_application_moment, target_service_moment, target_reg_moment, target_request_type_code, target_rrr_type_code, severity_code, order_of_execution) VALUES ('consolidation-not-again', 'consolidation-not-again', 'consolidation', NULL, NULL, NULL, NULL, NULL, 'critical', 1);
 INSERT INTO br_validation (id, br_id, target_code, target_application_moment, target_service_moment, target_reg_moment, target_request_type_code, target_rrr_type_code, severity_code, order_of_execution) VALUES ('bfc0ec2c-99dd-11e3-bc3f-13923fd8d236', 'spatial-unit-group-inside-other-spatial-unit-group', 'spatial_unit_group', NULL, NULL, NULL, NULL, NULL, 'medium', 2);
-
+INSERT INTO br_validation( id, br_id, target_code, target_application_moment, severity_code, order_of_execution) VALUES ('cancel-relation-notification','cancel-relation-notification', 'application', 'approve', 'warning', 300);
 
 ALTER TABLE br_validation ENABLE TRIGGER ALL;
 

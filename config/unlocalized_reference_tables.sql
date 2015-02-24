@@ -1,4 +1,4 @@
---
+﻿--
 -- PostgreSQL database dump
 --
 
@@ -56,6 +56,9 @@ INSERT INTO request_type_requires_source_type (source_type_code, request_type_co
 INSERT INTO request_type_requires_source_type (source_type_code, request_type_code) VALUES ('caveat', 'caveat');
 INSERT INTO request_type_requires_source_type (source_type_code, request_type_code) VALUES ('cadastralSurvey', 'mapExistingParcel');
 INSERT INTO request_type_requires_source_type (source_type_code, request_type_code) VALUES ('title', 'newDigitalTitle');
+INSERT INTO request_type_requires_source_type (source_type_code, request_type_code) VALUES ('relationshipTitle', 'recordRelationship');
+INSERT INTO request_type_requires_source_type (source_type_code, request_type_code) VALUES ('relationshipTitle', 'cancelRelationship');
+
 
 
 ALTER TABLE request_type_requires_source_type ENABLE TRIGGER ALL;

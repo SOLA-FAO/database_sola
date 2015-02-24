@@ -1,4 +1,4 @@
---
+﻿--
 -- PostgreSQL database dump
 --
 
@@ -118,7 +118,8 @@ INSERT INTO panel_launcher_group (code, display_value, description, status) VALU
 INSERT INTO panel_launcher_group (code, display_value, description, status) VALUES ('newPropServices', 'New Property Services', 'Panels used for new property services', 'c');
 INSERT INTO panel_launcher_group (code, display_value, description, status) VALUES ('generalRRR', 'General RRR', 'Panels used for general RRRs', 'c');
 INSERT INTO panel_launcher_group (code, display_value, description, status) VALUES ('leaseRRR', 'Lease RRR', 'Panels used for Lease RRR', 'c');
-
+INSERT INTO panel_launcher_group (code, display_value, description, status) VALUES ('recordRelationship','Record Relationship','Panels used for relationship services','c');
+INSERT INTO panel_launcher_group (code, display_value, description, status) VALUES ('cancelRelationship','Cancel Relationship','Panels used for cancel relationship services','c');
 
 ALTER TABLE panel_launcher_group ENABLE TRIGGER ALL;
 
@@ -141,6 +142,9 @@ INSERT INTO config_panel_launcher (code, display_value, description, status, lau
 INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('mortgage', 'Mortgage Panel', NULL, 'c', 'generalRRR', 'org.sola.clients.swing.desktop.administrative.MortgagePanel', NULL, 'mortgagePanel');
 INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('lease', 'Lease Panel', NULL, 'c', 'leaseRRR', 'org.sola.clients.swing.desktop.administrative.LeasePanel', NULL, 'leasePanel');
 INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('ownership', 'Ownership Share Panel', NULL, 'c', 'generalRRR', 'org.sola.clients.swing.desktop.administrative.OwnershipPanel', NULL, 'ownershipPanel');
+INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('recordRelationship','Record Relationship','','c','recordRelationship','org.sola.clients.swing.desktop.administrative.RecordPersonRelationshipPanel','cliprgs009','recordRelationship');
+INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('cancelRelationship','Cancel Relationship','','c','cancelRelationship','org.sola.clients.swing.desktop.administrative.CancelPersonRelationshipPanel','cliprgs009','cancelRelationship');
+
 
 
 ALTER TABLE config_panel_launcher ENABLE TRIGGER ALL;
@@ -413,6 +417,10 @@ Regards,<br />SOLA OpenTenure Team', true, 'Claim challenge withdrawal notice bo
 INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-challenge-withdraw-subject', 'SOLA OpenTenure - claim challenge withdrawal', true, 'Claim withdrawal notice subject');
 INSERT INTO setting (name, vl, active, description) VALUES ('ot-community-area', 'POLYGON((175.068823 -36.785949,175.070902 -36.786461,175.079644 -36.787528,175.087001 -36.788041,175.090519 -36.787699,175.092118 -36.787101,175.093344 -36.785564,175.094677 -36.784967,175.096862 -36.785564,175.097875 -36.786290,175.102033 -36.784967,175.103366 -36.784796,175.106138 -36.782917,175.106991 -36.781636,175.117919 -36.784540,175.117274 -36.830375,175.113668 -36.831440,175.112302 -36.829328,175.109315 -36.828175,175.108238 -36.824562,175.107966 -36.821181,175.107092 -36.820481,175.104627 -36.821072,175.103862 -36.823171,175.101666 -36.827659,175.098931 -36.826071,175.097525 -36.828629,175.094896 -36.831006,175.094560 -36.832145,175.095884 -36.833196,175.093828 -36.836375,175.086922 -36.837365,175.085134 -36.834587,175.081358 -36.833326,175.078821 -36.834071,175.077160 -36.835777,175.075854 -36.836182,175.073712 -36.835163,175.071524 -36.836100,175.070229 -36.833666,175.068580 -36.834116,175.063665 -36.831845,175.064985 -36.830216,175.066285 -36.829052,175.066763 -36.826629,175.070516 -36.828458,175.072053 -36.826502,175.072377 -36.823365,175.071137 -36.820436,175.068876 -36.818138,175.068876 -36.807121,175.068876 -36.807121,175.068876 -36.807121,175.068876 -36.805628,175.068876 -36.805628,175.068823 -36.785949))', true, 'Open Tenure community area where parcels can be claimed');
 INSERT INTO setting (name, vl, active, description) VALUES ('db-utilities-folder', '', true, 'Full path to PostgreSQL utilities (bin) folder (e.g. C:\Program Files\PostgreSQL\9.1\bin). Used for backup/restore implementation of SOLA Web admin application');
+insert into system.setting (name, active, vl, description) values ('email-msg-notifiable-submit-body', 't', 'Dear #{notifiablePartyName},<p></p> this is to inform you that one <b>#{actionToNotify}</b> action has been requested 
+				<br>by <b>#{targetPartyName}</b> 
+				<br>on the following property: <b>#{baUnitName}</b>. <p></p><p></p>Regards,<br />#{sendingOffice}', 'Action on Interest body text');
+insert into system.setting (name, active, vl, description) values ('email-msg-notifiable-subject', 't', 'SOLA REGISTRY - #{actionToNotify} action on property #{baUnitName}', 'Action on Interest subject text');
 
 
 ALTER TABLE setting ENABLE TRIGGER ALL;

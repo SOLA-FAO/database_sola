@@ -287,55 +287,6 @@ CREATE TRIGGER __track_history AFTER UPDATE OR DELETE
    EXECUTE PROCEDURE f_for_trg_track_history();
 
 
----  TO BE REMOVED  
--- Function: party.get_baunit(character varying, character varying)
-
--- DROP FUNCTION party.get_baunit(character varying, character varying);
-
-CREATE OR REPLACE FUNCTION party.get_baunit(firstName character varying, lastName character varying)
-  RETURNS character varying AS
-$BODY$
-declare
-  rec record;
-  name character varying;
-  partyName character varying;
-  
-BEGIN
-  name = '';
-  partyName = firstName||' '||lastName; 
-	for rec in 
-            select bu.name_firstpart||'/'||bu.name_lastpart   as value
-	    from administrative.ba_unit bu,
-		     party.party pp,
-		     administrative.party_for_rrr  pr,
-		     administrative.rrr rrr
-		where pp.id=pr.party_id
-		and   pr.rrr_id=rrr.id
-		and   rrr.ba_unit_id= bu.id
-		and pp.name||' '||pp.last_name = partyName
-
-
-		
-	loop
-           name = name || ', ' || rec.value;
-	end loop;
-
-        if name = '' then
-	  name = 'No property identified ';
-       end if;
-
-	if substr(name, 1, 1) = ',' then
-          name = substr(name,2);
-        end if;
-return name;
-END;
-$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-ALTER FUNCTION party.get_baunit(character varying, character varying)
-  OWNER TO postgres;
-COMMENT ON FUNCTION party.get_baunit(character varying, character varying) IS 'Returns a list of properties for the person.';
-
 CREATE OR REPLACE VIEW application.cancel_notification AS 
 
 
