@@ -118,8 +118,9 @@ INSERT INTO panel_launcher_group (code, display_value, description, status) VALU
 INSERT INTO panel_launcher_group (code, display_value, description, status) VALUES ('newPropServices', 'New Property Services', 'Panels used for new property services', 'c');
 INSERT INTO panel_launcher_group (code, display_value, description, status) VALUES ('generalRRR', 'General RRR', 'Panels used for general RRRs', 'c');
 INSERT INTO panel_launcher_group (code, display_value, description, status) VALUES ('leaseRRR', 'Lease RRR', 'Panels used for Lease RRR', 'c');
-INSERT INTO panel_launcher_group (code, display_value, description, status) VALUES ('recordRelationship','Record Relationship','Panels used for relationship services','c');
-INSERT INTO panel_launcher_group (code, display_value, description, status) VALUES ('cancelRelationship','Cancel Relationship','Panels used for cancel relationship services','c');
+INSERT INTO panel_launcher_group (code, display_value, description, status) VALUES ('recordRelationship', 'Record Relationship', 'Panels used for relationship services', 'c');
+INSERT INTO panel_launcher_group (code, display_value, description, status) VALUES ('cancelRelationship', 'Cancel Relationship', 'Panels used for cancel relationship services', 'c');
+
 
 ALTER TABLE panel_launcher_group ENABLE TRIGGER ALL;
 
@@ -142,9 +143,8 @@ INSERT INTO config_panel_launcher (code, display_value, description, status, lau
 INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('mortgage', 'Mortgage Panel', NULL, 'c', 'generalRRR', 'org.sola.clients.swing.desktop.administrative.MortgagePanel', NULL, 'mortgagePanel');
 INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('lease', 'Lease Panel', NULL, 'c', 'leaseRRR', 'org.sola.clients.swing.desktop.administrative.LeasePanel', NULL, 'leasePanel');
 INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('ownership', 'Ownership Share Panel', NULL, 'c', 'generalRRR', 'org.sola.clients.swing.desktop.administrative.OwnershipPanel', NULL, 'ownershipPanel');
-INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('recordRelationship','Record Relationship','','c','recordRelationship','org.sola.clients.swing.desktop.administrative.RecordPersonRelationshipPanel','cliprgs009','recordRelationship');
-INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('cancelRelationship','Cancel Relationship','','c','cancelRelationship','org.sola.clients.swing.desktop.administrative.CancelPersonRelationshipPanel','cliprgs009','cancelRelationship');
-
+INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('recordRelationship', 'Record Relationship', '', 'c', 'recordRelationship', 'org.sola.clients.swing.desktop.administrative.RecordPersonRelationshipPanel', 'cliprgs009', 'recordRelationship');
+INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('cancelRelationship', 'Cancel Relationship', '', 'c', 'cancelRelationship', 'org.sola.clients.swing.desktop.administrative.CancelPersonRelationshipPanel', 'cliprgs009', 'cancelRelationship');
 
 
 ALTER TABLE config_panel_launcher ENABLE TRIGGER ALL;
@@ -330,7 +330,6 @@ INSERT INTO setting (name, vl, active, description) VALUES ('system-id', '', tru
 INSERT INTO setting (name, vl, active, description) VALUES ('max-file-size', '10000', true, 'Maximum file size in KB for uploading.');
 INSERT INTO setting (name, vl, active, description) VALUES ('max-uploading-daily-limit', '100000', true, 'Maximum size of files uploaded daily.');
 INSERT INTO setting (name, vl, active, description) VALUES ('moderation-days', '30', true, 'Duration of moderation time in days');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-enable-email-service', '0', true, 'Enables or disables email service. 1 - enable, 0 - disable');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-admin-address', '', true, 'Email address of server administrator. If empty, no notifications will be sent');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-admin-name', '', true, 'Name of server administrator');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-body-format', 'html', true, 'Message body format. text - for simple text format, html - for html format');
@@ -345,7 +344,6 @@ INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-user-regi
 INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-failed-send-subject', 'Delivery failure', true, 'Subject text for delivery failure of message');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-failed-send-body', 'Message send to the user #{userName} has been failed to deliver after number of attempts with the following error: <br/>#{error}', true, 'Message text for delivery failure');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-reg-subject', 'SOLA OpenTenure - registration', true, 'Subject text for new user registration on OpenTenure Web-site. Sent to user.');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-reg-body', 'Dear #{userFullName},<p></p>You have registered on SOLA OpenTenure Web-site. In order to start using it, first you need activate your account. Click the following link <a href ="#{activationLink}">for activation.</a><p></p>Your user name is<br />#{userName}<p></p><p></p>Regards,<br />SOLA OpenTenure Team', true, 'Message text for new user registration on OpenTenure Web-site. Sent to user.');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-pswd-restore-subject', 'SOLA OpenTenure - password restore', true, 'Password restore subject');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-submit-subject', 'SOLA OpenTenure - new claim submitted', true, 'New claim subject text');
 INSERT INTO setting (name, vl, active, description) VALUES ('account-activation-timeout', '70', true, 'Account activation timeout in hours. After this time, activation should expire.');
@@ -379,6 +377,7 @@ New claim challenge <a href="#{challengeLink}"><b>##{challengeNumber}</b></a> ha
 to challenge the claim <a href="#{claimLink}"><b>##{claimNumber}</b></a>.<br /><br />
 <i>You are receiving this notification as the #{partyRole}</i><br /><br />
 Regards,<br />SOLA OpenTenure Team', true, 'New claim challenge body text');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-enable-email-service', '0', true, 'Enables or disables email service. 1 - enable, 0 - disable');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-challenge-updated-body', 'Dear #{userFullName},<br /><br />
 Claim challenge <b>##{challengeNumber}</b> has been updated. 
 Follow <a href="#{challengeLink}">this link</a> to check updated information.<br /><br />
@@ -417,10 +416,15 @@ Regards,<br />SOLA OpenTenure Team', true, 'Claim challenge withdrawal notice bo
 INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-challenge-withdraw-subject', 'SOLA OpenTenure - claim challenge withdrawal', true, 'Claim withdrawal notice subject');
 INSERT INTO setting (name, vl, active, description) VALUES ('ot-community-area', 'POLYGON((175.068823 -36.785949,175.070902 -36.786461,175.079644 -36.787528,175.087001 -36.788041,175.090519 -36.787699,175.092118 -36.787101,175.093344 -36.785564,175.094677 -36.784967,175.096862 -36.785564,175.097875 -36.786290,175.102033 -36.784967,175.103366 -36.784796,175.106138 -36.782917,175.106991 -36.781636,175.117919 -36.784540,175.117274 -36.830375,175.113668 -36.831440,175.112302 -36.829328,175.109315 -36.828175,175.108238 -36.824562,175.107966 -36.821181,175.107092 -36.820481,175.104627 -36.821072,175.103862 -36.823171,175.101666 -36.827659,175.098931 -36.826071,175.097525 -36.828629,175.094896 -36.831006,175.094560 -36.832145,175.095884 -36.833196,175.093828 -36.836375,175.086922 -36.837365,175.085134 -36.834587,175.081358 -36.833326,175.078821 -36.834071,175.077160 -36.835777,175.075854 -36.836182,175.073712 -36.835163,175.071524 -36.836100,175.070229 -36.833666,175.068580 -36.834116,175.063665 -36.831845,175.064985 -36.830216,175.066285 -36.829052,175.066763 -36.826629,175.070516 -36.828458,175.072053 -36.826502,175.072377 -36.823365,175.071137 -36.820436,175.068876 -36.818138,175.068876 -36.807121,175.068876 -36.807121,175.068876 -36.807121,175.068876 -36.805628,175.068876 -36.805628,175.068823 -36.785949))', true, 'Open Tenure community area where parcels can be claimed');
 INSERT INTO setting (name, vl, active, description) VALUES ('db-utilities-folder', '', true, 'Full path to PostgreSQL utilities (bin) folder (e.g. C:\Program Files\PostgreSQL\9.1\bin). Used for backup/restore implementation of SOLA Web admin application');
-insert into system.setting (name, active, vl, description) values ('email-msg-notifiable-submit-body', 't', 'Dear #{notifiablePartyName},<p></p> this is to inform you that one <b>#{actionToNotify}</b> action has been requested 
+INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-notifiable-submit-body', 'Dear #{notifiablePartyName},<p></p> this is to inform you that one <b>#{actionToNotify}</b> action has been requested 
 				<br>by <b>#{targetPartyName}</b> 
-				<br>on the following property: <b>#{baUnitName}</b>. <p></p><p></p>Regards,<br />#{sendingOffice}', 'Action on Interest body text');
-insert into system.setting (name, active, vl, description) values ('email-msg-notifiable-subject', 't', 'SOLA REGISTRY - #{actionToNotify} action on property #{baUnitName}', 'Action on Interest subject text');
+				<br>on the following property: <b>#{baUnitName}</b>. <p></p><p></p>Regards,<br />#{sendingOffice}', true, 'Action on Interest body text');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-notifiable-subject', 'SOLA REGISTRY - #{actionToNotify} action on property #{baUnitName}', true, 'Action on Interest subject text');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-user-activation-body', 'Dear #{userFullName},<p></p>Your account has been activated. 
+<p></p>Please use <b>#{userName}</b> to login.<p></p><p></p>Regards,<br />SOLA OpenTenure Team', true, 'Message text to notify Community member account activation on the Community Server Web-site');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-user-activation-subject', 'SOLA OpenTenure account activation', true, 'Subject text to notify Community member account activation on the Community Server Web-site');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-reg-body', 'Dear #{userFullName},<p></p>You have registered on SOLA OpenTenure Web-site. Before you can use your account, it will be reviewed and approved by Community Technologist. 
+Upon account approval, you will receive notification message.<p></p>Your user name is<br />#{userName}<p></p><p></p>Regards,<br />SOLA OpenTenure Team', true, 'Message text for new user registration on OpenTenure Web-site. Sent to user.');
 
 
 ALTER TABLE setting ENABLE TRIGGER ALL;
