@@ -1,5 +1,3 @@
-
-
 --
 -- PostgreSQL database dump
 --
@@ -2965,7 +2963,6 @@ ALTER FUNCTION application.getlodgetiming(fromdate date, todate date) OWNER TO p
 COMMENT ON FUNCTION getlodgetiming(fromdate date, todate date) IS 'Not used. Replaced by get_work_summary.';
 
 
-
 SET search_path = bulk_operation, pg_catalog;
 
 --
@@ -4391,7 +4388,9 @@ CREATE TABLE ba_unit (
     rowversion integer DEFAULT 0 NOT NULL,
     change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
     change_user character varying(50),
-    change_time timestamp without time zone DEFAULT now() NOT NULL
+    change_time timestamp without time zone DEFAULT now() NOT NULL,
+    classification_code character varying(20),
+    redact_code character varying(20)
 );
 
 
@@ -4501,6 +4500,20 @@ COMMENT ON COLUMN ba_unit.change_user IS 'SOLA Extension: The user id of the las
 --
 
 COMMENT ON COLUMN ba_unit.change_time IS 'SOLA Extension: The date and time the row was last modified.';
+
+
+--
+-- Name: COLUMN ba_unit.classification_code; Type: COMMENT; Schema: administrative; Owner: postgres
+--
+
+COMMENT ON COLUMN ba_unit.classification_code IS 'FROM  SOLA State Land Extension: The security classification for this Ba Unit. Only users with the security classification (or a higher classification) will be able to view the record. If null, the record is considered unrestricted.';
+
+
+--
+-- Name: COLUMN ba_unit.redact_code; Type: COMMENT; Schema: administrative; Owner: postgres
+--
+
+COMMENT ON COLUMN ba_unit.redact_code IS 'FROM  SOLA State Land Extension: The redact classification for this Ba Unit. Only users with the redact classification (or a higher classification) will be able to view the record with un-redacted fields. If null, the record is considered unrestricted and no redaction to the record will occur unless bulk redaction classifications have been set for fields of the record.';
 
 
 --
@@ -4788,7 +4801,9 @@ CREATE TABLE ba_unit_historic (
     change_action character(1),
     change_user character varying(50),
     change_time timestamp without time zone,
-    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL
+    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL,
+    classification_code character varying(20),
+    redact_code character varying(20)
 );
 
 
@@ -5345,7 +5360,9 @@ CREATE TABLE notation (
     rowversion integer DEFAULT 0 NOT NULL,
     change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
     change_user character varying(50),
-    change_time timestamp without time zone DEFAULT now() NOT NULL
+    change_time timestamp without time zone DEFAULT now() NOT NULL,
+    classification_code character varying(20),
+    redact_code character varying(20)
 );
 
 
@@ -5451,6 +5468,20 @@ COMMENT ON COLUMN notation.change_time IS 'The date and time the row was last mo
 
 
 --
+-- Name: COLUMN notation.classification_code; Type: COMMENT; Schema: administrative; Owner: postgres
+--
+
+COMMENT ON COLUMN notation.classification_code IS 'FROM  SOLA State Land Extension: The security classification for this Notation. Only users with the security classification (or a higher classification) will be able to view the record. If null, the record is considered unrestricted.';
+
+
+--
+-- Name: COLUMN notation.redact_code; Type: COMMENT; Schema: administrative; Owner: postgres
+--
+
+COMMENT ON COLUMN notation.redact_code IS 'FROM  SOLA State Land Extension: The redact classification for this Notation. Only users with the redact classification (or a higher classification) will be able to view the record with un-redacted fields. If null, the record is considered unrestricted and no redaction to the record will occur unless bulk redaction classifications have been set for fields of the record.';
+
+
+--
 -- Name: notation_historic; Type: TABLE; Schema: administrative; Owner: postgres; Tablespace: 
 --
 
@@ -5468,7 +5499,9 @@ CREATE TABLE notation_historic (
     change_action character(1),
     change_user character varying(50),
     change_time timestamp without time zone,
-    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL
+    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL,
+    classification_code character varying(20),
+    redact_code character varying(20)
 );
 
 
@@ -5495,6 +5528,58 @@ ALTER TABLE administrative.notation_reference_nr_seq OWNER TO postgres;
 
 COMMENT ON SEQUENCE notation_reference_nr_seq IS 'Sequence number used as the basis for the Notation Nr field. This sequence is used by the generate-notation-reference-nr business rule.';
 
+
+--
+-- Name: notifiable_party_for_baunit; Type: TABLE; Schema: administrative; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE notifiable_party_for_baunit (
+    party_id character varying(40) NOT NULL,
+    target_party_id character varying(40) NOT NULL,
+    baunit_name character varying(40) NOT NULL,
+    application_id character varying(40) NOT NULL,
+    service_id character varying(40) NOT NULL,
+    cancel_service_id character varying(40),
+    status character varying(40) DEFAULT 'c'::character varying NOT NULL,
+    rowidentifier character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
+    rowversion integer DEFAULT 0 NOT NULL,
+    change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
+    change_user character varying(50),
+    change_time timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE administrative.notifiable_party_for_baunit OWNER TO postgres;
+
+--
+-- Name: TABLE notifiable_party_for_baunit; Type: COMMENT; Schema: administrative; Owner: postgres
+--
+
+COMMENT ON TABLE notifiable_party_for_baunit IS 'Parties to be informed about transaction on baunit.';
+
+
+--
+-- Name: notifiable_party_for_baunit_historic; Type: TABLE; Schema: administrative; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE notifiable_party_for_baunit_historic (
+    party_id character varying(40),
+    target_party_id character varying(40),
+    baunit_name character varying(40),
+    application_id character varying(40),
+    service_id character varying(40),
+    cancel_service_id character varying(40),
+    status character varying(40),
+    rowidentifier character varying(40),
+    rowversion integer,
+    change_action character(1),
+    change_user character varying(50),
+    change_time timestamp without time zone,
+    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE administrative.notifiable_party_for_baunit_historic OWNER TO postgres;
 
 --
 -- Name: party_for_rrr; Type: TABLE; Schema: administrative; Owner: postgres; Tablespace: 
@@ -5722,7 +5807,9 @@ CREATE TABLE rrr (
     rowversion integer DEFAULT 0 NOT NULL,
     change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
     change_user character varying(50),
-    change_time timestamp without time zone DEFAULT now() NOT NULL
+    change_time timestamp without time zone DEFAULT now() NOT NULL,
+    classification_code character varying(20),
+    redact_code character varying(20)
 );
 
 
@@ -5877,6 +5964,20 @@ COMMENT ON COLUMN rrr.change_time IS 'SOLA Extension: The date and time the row 
 
 
 --
+-- Name: COLUMN rrr.classification_code; Type: COMMENT; Schema: administrative; Owner: postgres
+--
+
+COMMENT ON COLUMN rrr.classification_code IS 'FROM  SOLA State Land Extension: The security classification for this RRR. Only users with the security classification (or a higher classification) will be able to view the record. If null, the record is considered unrestricted.';
+
+
+--
+-- Name: COLUMN rrr.redact_code; Type: COMMENT; Schema: administrative; Owner: postgres
+--
+
+COMMENT ON COLUMN rrr.redact_code IS 'FROM  SOLA State Land Extension: The redact classification for this RRR. Only users with the redact classification (or a higher classification) will be able to view the record with un-redacted fields. If null, the record is considered unrestricted and no redaction to the record will occur unless bulk redaction classifications have been set for fields of the record.';
+
+
+--
 -- Name: rrr_group_type; Type: TABLE; Schema: administrative; Owner: postgres; Tablespace: 
 --
 
@@ -5951,7 +6052,9 @@ CREATE TABLE rrr_historic (
     change_action character(1),
     change_user character varying(50),
     change_time timestamp without time zone,
-    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL
+    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL,
+    classification_code character varying(20),
+    redact_code character varying(20)
 );
 
 
@@ -6363,75 +6466,6 @@ CREATE TABLE source_describes_rrr_historic (
 
 ALTER TABLE administrative.source_describes_rrr_historic OWNER TO postgres;
 
-
-
---Table administrative.notifiable_party_for_baunit ----
-DROP TABLE IF EXISTS administrative.notifiable_party_for_baunit CASCADE;
-CREATE TABLE administrative.notifiable_party_for_baunit(
-    party_id varchar(40) NOT NULL,
-    target_party_id varchar(40) NOT NULL,
-    baunit_name varchar(40) NOT NULL,
-    application_id varchar(40) NOT NULL,
-    service_id varchar(40) NOT NULL,
-    cancel_service_id varchar(40),
-    status  varchar(40) NOT NULL DEFAULT ('c'),
-    rowidentifier varchar(40) NOT NULL DEFAULT (public.uuid_generate_v1()),
-    rowversion integer NOT NULL DEFAULT (0),
-    change_action char(1) NOT NULL DEFAULT ('i'),
-    change_user varchar(50),
-    change_time timestamp NOT NULL DEFAULT (now()),
-
-    -- Internal constraints
-    
-    CONSTRAINT notifiable_party_for_baunit_pkey PRIMARY KEY (party_id, target_party_id, baunit_name)
-);
-
-
-
--- Index notifiable_party_for_baunit_index_on_rowidentifier  --
-CREATE INDEX notifiable_party_for_baunit_index_on_rowidentifier ON administrative.notifiable_party_for_baunit (rowidentifier);
-    
-
-comment on table administrative.notifiable_party_for_baunit is 'Parties to be informed about transaction on baunit.';
-    
-DROP TRIGGER IF EXISTS __track_changes ON administrative.notifiable_party_for_baunit CASCADE;
-CREATE TRIGGER __track_changes BEFORE UPDATE OR INSERT
-   ON administrative.notifiable_party_for_baunit FOR EACH ROW
-   EXECUTE PROCEDURE public.f_for_trg_track_changes();
-    
-
-----Table administrative.notifiable_party_for_rrr_historic used for the history of data of table administrative.notifiable_party_for_rrr ---
-DROP TABLE IF EXISTS administrative.notifiable_party_for_baunit_historic CASCADE;
-CREATE TABLE administrative.notifiable_party_for_baunit_historic
-(
-    party_id varchar(40),
-    target_party_id varchar(40),
-    baunit_name varchar(40),
-    application_id varchar(40),
-    service_id varchar(40),
-    cancel_service_id varchar(40),
-    status varchar(40),
-    rowidentifier varchar(40),
-    rowversion integer,
-    change_action char(1),
-    change_user varchar(50),
-    change_time timestamp,
-    change_time_valid_until TIMESTAMP NOT NULL default NOW()
-);
-
-
--- Index notifiable_party_for_rrr_historic_index_on_rowidentifier  --
-CREATE INDEX notifiable_party_for_baunit_historic_index_on_rowidentifier ON administrative.notifiable_party_for_baunit_historic (rowidentifier);
-    
-
-DROP TRIGGER IF EXISTS __track_history ON administrative.notifiable_party_for_baunit CASCADE;
-CREATE TRIGGER __track_history AFTER UPDATE OR DELETE
-   ON administrative.notifiable_party_for_baunit FOR EACH ROW
-   EXECUTE PROCEDURE public.f_for_trg_track_history();
-
-
-
-
 SET search_path = application, pg_catalog;
 
 --
@@ -6462,6 +6496,8 @@ CREATE TABLE application (
     change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
     change_user character varying(50),
     change_time timestamp without time zone DEFAULT now() NOT NULL,
+    classification_code character varying(20),
+    redact_code character varying(20),
     CONSTRAINT application_check_assigned CHECK ((((assignee_id IS NULL) AND (assigned_datetime IS NULL)) OR ((assignee_id IS NOT NULL) AND (assigned_datetime IS NOT NULL)))),
     CONSTRAINT enforce_dims_location CHECK ((public.st_ndims(location) = 2)),
     CONSTRAINT enforce_geotype_location CHECK (((public.geometrytype(location) = 'MULTIPOINT'::text) OR (location IS NULL))),
@@ -6642,6 +6678,20 @@ COMMENT ON COLUMN application.change_time IS 'The date and time the row was last
 
 
 --
+-- Name: COLUMN application.classification_code; Type: COMMENT; Schema: application; Owner: postgres
+--
+
+COMMENT ON COLUMN application.classification_code IS 'FROM  SOLA State Land Extension: The security classification for this Application/Job. Only users with the security classification (or a higher classification) will be able to view the record. If null, the record is considered unrestricted.';
+
+
+--
+-- Name: COLUMN application.redact_code; Type: COMMENT; Schema: application; Owner: postgres
+--
+
+COMMENT ON COLUMN application.redact_code IS 'FROM  SOLA State Land Extension: The redact classification for this Application/Job. Only users with the redact classification (or a higher classification) will be able to view the record with un-redacted fields. If null, the record is considered unrestricted and no redaction to the record will occur unless bulk redaction classifications have been set for fields of the record.';
+
+
+--
 -- Name: service; Type: TABLE; Schema: application; Owner: postgres; Tablespace: 
 --
 
@@ -6784,6 +6834,8 @@ CREATE TABLE cadastre_object (
     change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
     change_user character varying(50),
     change_time timestamp without time zone DEFAULT now() NOT NULL,
+    classification_code character varying(20),
+    redact_code character varying(20),
     CONSTRAINT enforce_dims_geom_polygon CHECK ((public.st_ndims(geom_polygon) = 2)),
     CONSTRAINT enforce_geotype_geom_polygon CHECK (((public.geometrytype(geom_polygon) = 'POLYGON'::text) OR (geom_polygon IS NULL))),
     CONSTRAINT enforce_srid_geom_polygon CHECK ((public.st_srid(geom_polygon) = 2193)),
@@ -6918,6 +6970,20 @@ COMMENT ON COLUMN cadastre_object.change_user IS 'The user id of the last person
 --
 
 COMMENT ON COLUMN cadastre_object.change_time IS 'The date and time the row was last modified.';
+
+
+--
+-- Name: COLUMN cadastre_object.classification_code; Type: COMMENT; Schema: cadastre; Owner: postgres
+--
+
+COMMENT ON COLUMN cadastre_object.classification_code IS 'FROM  SOLA State Land Extension: The security classification for this Parcel. Only users with the security classification (or a higher classification) will be able to view the record. If null, the record is considered unrestricted.';
+
+
+--
+-- Name: COLUMN cadastre_object.redact_code; Type: COMMENT; Schema: cadastre; Owner: postgres
+--
+
+COMMENT ON COLUMN cadastre_object.redact_code IS 'FROM  SOLA State Land Extension: The redact classification for this Parcel. Only users with the redact classification (or a higher classification) will be able to view the record with un-redacted fields. If null, the record is considered unrestricted and no redaction to the record will occur unless bulk redaction classifications have been set for fields of the record.';
 
 
 --
@@ -7083,6 +7149,8 @@ CREATE TABLE party (
     change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
     change_user character varying(50),
     change_time timestamp without time zone DEFAULT now() NOT NULL,
+    classification_code character varying(20),
+    redact_code character varying(20),
     CONSTRAINT party_id_is_present CHECK ((((id_type_code IS NULL) AND (id_number IS NULL)) OR ((id_type_code IS NOT NULL) AND (id_number IS NOT NULL))))
 );
 
@@ -7256,6 +7324,20 @@ COMMENT ON COLUMN party.change_user IS 'SOLA Extension: The user id of the last 
 --
 
 COMMENT ON COLUMN party.change_time IS 'SOLA Extension: The date and time the row was last modified.';
+
+
+--
+-- Name: COLUMN party.classification_code; Type: COMMENT; Schema: party; Owner: postgres
+--
+
+COMMENT ON COLUMN party.classification_code IS 'FROM  SOLA State Land Extension: The security classification for this Party. Only users with the security classification (or a higher classification) will be able to view the record. If null, the record is considered unrestricted.';
+
+
+--
+-- Name: COLUMN party.redact_code; Type: COMMENT; Schema: party; Owner: postgres
+--
+
+COMMENT ON COLUMN party.redact_code IS 'FROM  SOLA State Land Extension: The redact classification for this Party. Only users with the redact classification (or a higher classification) will be able to view the record with un-redacted fields. If null, the record is considered unrestricted and no redaction to the record will occur unless bulk redaction classifications have been set for fields of the record.';
 
 
 SET search_path = transaction, pg_catalog;
@@ -7501,6 +7583,8 @@ CREATE TABLE application_historic (
     change_user character varying(50),
     change_time timestamp without time zone,
     change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL,
+    classification_code character varying(20),
+    redact_code character varying(20),
     CONSTRAINT enforce_dims_location CHECK ((public.st_ndims(location) = 2)),
     CONSTRAINT enforce_geotype_location CHECK (((public.geometrytype(location) = 'MULTIPOINT'::text) OR (location IS NULL))),
     CONSTRAINT enforce_srid_location CHECK ((public.st_srid(location) = 2193)),
@@ -7930,6 +8014,176 @@ CREATE TABLE application_uses_source_historic (
 
 ALTER TABLE application.application_uses_source_historic OWNER TO postgres;
 
+SET search_path = party, pg_catalog;
+
+--
+-- Name: group_party; Type: TABLE; Schema: party; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE group_party (
+    id character varying(40) NOT NULL,
+    type_code character varying(20) NOT NULL,
+    rowidentifier character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
+    rowversion integer DEFAULT 0 NOT NULL,
+    change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
+    change_user character varying(50),
+    change_time timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE party.group_party OWNER TO postgres;
+
+--
+-- Name: TABLE group_party; Type: COMMENT; Schema: party; Owner: postgres
+--
+
+COMMENT ON TABLE group_party IS 'Groups any number of parties into a distinct entity. Implementation of the LADM LA_GroupParty class. Not used by SOLA
+Tags: LADM Reference Object, Change History, Not Used';
+
+
+--
+-- Name: COLUMN group_party.id; Type: COMMENT; Schema: party; Owner: postgres
+--
+
+COMMENT ON COLUMN group_party.id IS 'LADM Definition: Identifier for the group party.';
+
+
+--
+-- Name: COLUMN group_party.type_code; Type: COMMENT; Schema: party; Owner: postgres
+--
+
+COMMENT ON COLUMN group_party.type_code IS 'LADM Definition: The type of the group party. E.g. family, tribe, association, etc.';
+
+
+--
+-- Name: COLUMN group_party.rowidentifier; Type: COMMENT; Schema: party; Owner: postgres
+--
+
+COMMENT ON COLUMN group_party.rowidentifier IS 'SOLA Extension: Identifies the all change records for the row in the group_party_historic table';
+
+
+--
+-- Name: COLUMN group_party.rowversion; Type: COMMENT; Schema: party; Owner: postgres
+--
+
+COMMENT ON COLUMN group_party.rowversion IS 'SOLA Extension: Sequential value indicating the number of times this row has been modified.';
+
+
+--
+-- Name: COLUMN group_party.change_action; Type: COMMENT; Schema: party; Owner: postgres
+--
+
+COMMENT ON COLUMN group_party.change_action IS 'SOLA Extension: Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).';
+
+
+--
+-- Name: COLUMN group_party.change_user; Type: COMMENT; Schema: party; Owner: postgres
+--
+
+COMMENT ON COLUMN group_party.change_user IS 'SOLA Extension: The user id of the last person to modify the row.';
+
+
+--
+-- Name: COLUMN group_party.change_time; Type: COMMENT; Schema: party; Owner: postgres
+--
+
+COMMENT ON COLUMN group_party.change_time IS 'SOLA Extension: The date and time the row was last modified.';
+
+
+--
+-- Name: party_member; Type: TABLE; Schema: party; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE party_member (
+    party_id character varying(40) NOT NULL,
+    group_id character varying(40) NOT NULL,
+    share double precision,
+    rowidentifier character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
+    rowversion integer DEFAULT 0 NOT NULL,
+    change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
+    change_user character varying(50),
+    change_time timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE party.party_member OWNER TO postgres;
+
+--
+-- Name: TABLE party_member; Type: COMMENT; Schema: party; Owner: postgres
+--
+
+COMMENT ON TABLE party_member IS 'Identifies the parties belonging to a group party. Implementation of the LADM LA_PartyMember class. Not used by SOLA.
+Tags: LADM Reference Object, Change History, Not Used';
+
+
+--
+-- Name: COLUMN party_member.party_id; Type: COMMENT; Schema: party; Owner: postgres
+--
+
+COMMENT ON COLUMN party_member.party_id IS 'LADM Definition: Identifier for the party.';
+
+
+--
+-- Name: COLUMN party_member.group_id; Type: COMMENT; Schema: party; Owner: postgres
+--
+
+COMMENT ON COLUMN party_member.group_id IS 'LADM Definition: Identifier of the group party';
+
+
+--
+-- Name: COLUMN party_member.share; Type: COMMENT; Schema: party; Owner: postgres
+--
+
+COMMENT ON COLUMN party_member.share IS 'LADM Definition: The share of a RRR held by a party member expressed as a fraction with a numerator and a denominator.';
+
+
+--
+-- Name: COLUMN party_member.rowidentifier; Type: COMMENT; Schema: party; Owner: postgres
+--
+
+COMMENT ON COLUMN party_member.rowidentifier IS 'SOLA Extension: Identifies the all change records for the row in the party_member_historic table';
+
+
+--
+-- Name: COLUMN party_member.rowversion; Type: COMMENT; Schema: party; Owner: postgres
+--
+
+COMMENT ON COLUMN party_member.rowversion IS 'SOLA Extension: Sequential value indicating the number of times this row has been modified.';
+
+
+--
+-- Name: COLUMN party_member.change_action; Type: COMMENT; Schema: party; Owner: postgres
+--
+
+COMMENT ON COLUMN party_member.change_action IS 'SOLA Extension: Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).';
+
+
+--
+-- Name: COLUMN party_member.change_user; Type: COMMENT; Schema: party; Owner: postgres
+--
+
+COMMENT ON COLUMN party_member.change_user IS 'SOLA Extension: The user id of the last person to modify the row.';
+
+
+--
+-- Name: COLUMN party_member.change_time; Type: COMMENT; Schema: party; Owner: postgres
+--
+
+COMMENT ON COLUMN party_member.change_time IS 'SOLA Extension: The date and time the row was last modified.';
+
+
+SET search_path = application, pg_catalog;
+
+--
+-- Name: cancel_notification; Type: VIEW; Schema: application; Owner: postgres
+--
+
+CREATE VIEW cancel_notification AS
+    SELECT pp.name AS partyname, pp.last_name AS partylastname, tpp.name AS targetpartyname, tpp.last_name AS targetpartylastname, npbu.party_id, npbu.target_party_id, npbu.baunit_name, npbu.service_id, npbu.cancel_service_id, gpp.id AS grouppartyid, gpp.name AS grouppartyname, gpp.last_name AS grouppartylastname FROM party.party pp, party.party tpp, party.party gpp, administrative.notifiable_party_for_baunit npbu, application aa, service s, party.group_party gp WHERE ((((((((s.application_id)::text = (aa.id)::text) AND ((s.id)::text = (npbu.cancel_service_id)::text)) AND (((pp.id)::text = (npbu.party_id)::text) AND ((tpp.id)::text = (npbu.target_party_id)::text))) AND ((gpp.id)::text = (gp.id)::text)) AND ((pp.id)::text IN (SELECT pm.party_id FROM party.party_member pm WHERE ((pm.group_id)::text = (gp.id)::text)))) AND ((tpp.id)::text IN (SELECT pm.party_id FROM party.party_member pm WHERE ((pm.group_id)::text = (gp.id)::text)))) AND ((s.request_type_code)::text = 'cancelRelationship'::text));
+
+
+ALTER TABLE application.cancel_notification OWNER TO postgres;
+
 --
 -- Name: request_category_type; Type: TABLE; Schema: application; Owner: postgres; Tablespace: 
 --
@@ -8355,8 +8609,6 @@ COMMENT ON COLUMN type_action.description IS 'Description of the request type ac
 COMMENT ON COLUMN type_action.status IS 'Status of the request type action.';
 
 
-
-
 SET search_path = bulk_operation, pg_catalog;
 
 --
@@ -8582,6 +8834,8 @@ CREATE TABLE cadastre_object_historic (
     change_user character varying(50),
     change_time timestamp without time zone,
     change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL,
+    classification_code character varying(20),
+    redact_code character varying(20),
     CONSTRAINT enforce_dims_geom_polygon CHECK ((public.st_ndims(geom_polygon) = 2)),
     CONSTRAINT enforce_geotype_geom_polygon CHECK (((public.geometrytype(geom_polygon) = 'POLYGON'::text) OR (geom_polygon IS NULL))),
     CONSTRAINT enforce_srid_geom_polygon CHECK ((public.st_srid(geom_polygon) = 2193)),
@@ -13275,80 +13529,6 @@ COMMENT ON COLUMN gender_type.description IS 'Description of the gender type.';
 
 
 --
--- Name: group_party; Type: TABLE; Schema: party; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE group_party (
-    id character varying(40) NOT NULL,
-    type_code character varying(20) NOT NULL,
-    rowidentifier character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
-    rowversion integer DEFAULT 0 NOT NULL,
-    change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
-    change_user character varying(50),
-    change_time timestamp without time zone DEFAULT now() NOT NULL
-);
-
-
-ALTER TABLE party.group_party OWNER TO postgres;
-
---
--- Name: TABLE group_party; Type: COMMENT; Schema: party; Owner: postgres
---
-
-COMMENT ON TABLE group_party IS 'Groups any number of parties into a distinct entity. Implementation of the LADM LA_GroupParty class. Not used by SOLA
-Tags: LADM Reference Object, Change History, Not Used';
-
-
---
--- Name: COLUMN group_party.id; Type: COMMENT; Schema: party; Owner: postgres
---
-
-COMMENT ON COLUMN group_party.id IS 'LADM Definition: Identifier for the group party.';
-
-
---
--- Name: COLUMN group_party.type_code; Type: COMMENT; Schema: party; Owner: postgres
---
-
-COMMENT ON COLUMN group_party.type_code IS 'LADM Definition: The type of the group party. E.g. family, tribe, association, etc.';
-
-
---
--- Name: COLUMN group_party.rowidentifier; Type: COMMENT; Schema: party; Owner: postgres
---
-
-COMMENT ON COLUMN group_party.rowidentifier IS 'SOLA Extension: Identifies the all change records for the row in the group_party_historic table';
-
-
---
--- Name: COLUMN group_party.rowversion; Type: COMMENT; Schema: party; Owner: postgres
---
-
-COMMENT ON COLUMN group_party.rowversion IS 'SOLA Extension: Sequential value indicating the number of times this row has been modified.';
-
-
---
--- Name: COLUMN group_party.change_action; Type: COMMENT; Schema: party; Owner: postgres
---
-
-COMMENT ON COLUMN group_party.change_action IS 'SOLA Extension: Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).';
-
-
---
--- Name: COLUMN group_party.change_user; Type: COMMENT; Schema: party; Owner: postgres
---
-
-COMMENT ON COLUMN group_party.change_user IS 'SOLA Extension: The user id of the last person to modify the row.';
-
-
---
--- Name: COLUMN group_party.change_time; Type: COMMENT; Schema: party; Owner: postgres
---
-
-COMMENT ON COLUMN group_party.change_time IS 'SOLA Extension: The date and time the row was last modified.';
-
-
---
 -- Name: group_party_historic; Type: TABLE; Schema: party; Owner: postgres; Tablespace: 
 --
 
@@ -13494,93 +13674,13 @@ CREATE TABLE party_historic (
     change_action character(1),
     change_user character varying(50),
     change_time timestamp without time zone,
-    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL
+    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL,
+    classification_code character varying(20),
+    redact_code character varying(20)
 );
 
 
 ALTER TABLE party.party_historic OWNER TO postgres;
-
---
--- Name: party_member; Type: TABLE; Schema: party; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE party_member (
-    party_id character varying(40) NOT NULL,
-    group_id character varying(40) NOT NULL,
-    share double precision,
-    rowidentifier character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
-    rowversion integer DEFAULT 0 NOT NULL,
-    change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
-    change_user character varying(50),
-    change_time timestamp without time zone DEFAULT now() NOT NULL
-);
-
-
-ALTER TABLE party.party_member OWNER TO postgres;
-
---
--- Name: TABLE party_member; Type: COMMENT; Schema: party; Owner: postgres
---
-
-COMMENT ON TABLE party_member IS 'Identifies the parties belonging to a group party. Implementation of the LADM LA_PartyMember class. Not used by SOLA.
-Tags: LADM Reference Object, Change History, Not Used';
-
-
---
--- Name: COLUMN party_member.party_id; Type: COMMENT; Schema: party; Owner: postgres
---
-
-COMMENT ON COLUMN party_member.party_id IS 'LADM Definition: Identifier for the party.';
-
-
---
--- Name: COLUMN party_member.group_id; Type: COMMENT; Schema: party; Owner: postgres
---
-
-COMMENT ON COLUMN party_member.group_id IS 'LADM Definition: Identifier of the group party';
-
-
---
--- Name: COLUMN party_member.share; Type: COMMENT; Schema: party; Owner: postgres
---
-
-COMMENT ON COLUMN party_member.share IS 'LADM Definition: The share of a RRR held by a party member expressed as a fraction with a numerator and a denominator.';
-
-
---
--- Name: COLUMN party_member.rowidentifier; Type: COMMENT; Schema: party; Owner: postgres
---
-
-COMMENT ON COLUMN party_member.rowidentifier IS 'SOLA Extension: Identifies the all change records for the row in the party_member_historic table';
-
-
---
--- Name: COLUMN party_member.rowversion; Type: COMMENT; Schema: party; Owner: postgres
---
-
-COMMENT ON COLUMN party_member.rowversion IS 'SOLA Extension: Sequential value indicating the number of times this row has been modified.';
-
-
---
--- Name: COLUMN party_member.change_action; Type: COMMENT; Schema: party; Owner: postgres
---
-
-COMMENT ON COLUMN party_member.change_action IS 'SOLA Extension: Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d).';
-
-
---
--- Name: COLUMN party_member.change_user; Type: COMMENT; Schema: party; Owner: postgres
---
-
-COMMENT ON COLUMN party_member.change_user IS 'SOLA Extension: The user id of the last person to modify the row.';
-
-
---
--- Name: COLUMN party_member.change_time; Type: COMMENT; Schema: party; Owner: postgres
---
-
-COMMENT ON COLUMN party_member.change_time IS 'SOLA Extension: The date and time the row was last modified.';
-
 
 --
 -- Name: party_member_historic; Type: TABLE; Schema: party; Owner: postgres; Tablespace: 
@@ -13793,110 +13893,52 @@ COMMENT ON COLUMN party_type.status IS 'SOLA Extension: Status of the party type
 COMMENT ON COLUMN party_type.description IS 'LADM Definition: Description of the party type.';
 
 
+--
+-- Name: source_describes_party; Type: TABLE; Schema: party; Owner: postgres; Tablespace: 
+--
 
---- party.source_describes_party; tables
+CREATE TABLE source_describes_party (
+    source_id character varying(40) NOT NULL,
+    party_id character varying(40) NOT NULL,
+    rowidentifier character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
+    rowversion integer DEFAULT 0 NOT NULL,
+    change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
+    change_user character varying(50),
+    change_time timestamp without time zone DEFAULT now() NOT NULL
+);
 
--- DROP TABLE party.source_describes_party;
 
-CREATE TABLE  party.source_describes_party
-(
-  source_id character varying(40) NOT NULL,
-  party_id character varying(40) NOT NULL,
-  rowidentifier character varying(40) NOT NULL DEFAULT public.uuid_generate_v1(),
-  rowversion integer NOT NULL DEFAULT 0,
-  change_action character(1) NOT NULL DEFAULT 'i'::bpchar,
-  change_user character varying(50),
-  change_time timestamp without time zone NOT NULL DEFAULT now()
-  );
 ALTER TABLE party.source_describes_party OWNER TO postgres;
-COMMENT ON TABLE party.source_describes_party IS 'Implements the many-to-many relationship identifying administrative source instances with party instances
+
+--
+-- Name: TABLE source_describes_party; Type: COMMENT; Schema: party; Owner: postgres
+--
+
+COMMENT ON TABLE source_describes_party IS 'Implements the many-to-many relationship identifying administrative source instances with party instances
 
 LADM Reference Object 
 Relationship LA_AdministrativeSource - LA_PARTY
 LADM Definition
 Not Defined';
 
--- Index: party.source_describes_party_party_id_fk41_ind
 
---DROP INDEX party.source_describes_party_party_id_fk41_ind;
+--
+-- Name: source_describes_party_historic; Type: TABLE; Schema: party; Owner: postgres; Tablespace: 
+--
 
-CREATE INDEX source_describes_party_party_id_fk41_ind
-  ON party.source_describes_party
-  USING btree
-  (party_id);
-
--- Index: source_describes_party_index_on_rowidentifier
-
---DROP INDEX source_describes_party_index_on_rowidentifier;
-
-CREATE INDEX source_describes_party_index_on_rowidentifier
-  ON party.source_describes_party
-  USING btree
-  (rowidentifier);
-
--- Index: party.source_describes_party_source_id_fk42_ind
-
---DROP INDEX party.source_describes_party_source_id_fk42_ind;
-
-CREATE INDEX source_describes_party_source_id_fk42_ind
-  ON party.source_describes_party
-  USING btree
-  (source_id);
-
-
--- Trigger: __track_changes on aparty.source_describes_party
-
---DROP TRIGGER __track_changes ON party.source_describes_party;
-
-CREATE TRIGGER __track_changes
-  BEFORE INSERT OR UPDATE
-  ON party.source_describes_party
-  FOR EACH ROW
-  EXECUTE PROCEDURE public.f_for_trg_track_changes();
-
--- Trigger: __track_history on party.source_describes_party
-
---DROP TRIGGER __track_history ON party.source_describes_party;
-
-CREATE TRIGGER __track_history
-  AFTER UPDATE OR DELETE
-  ON party.source_describes_party
-  FOR EACH ROW
-  EXECUTE PROCEDURE public.f_for_trg_track_history();
--- Table: party.source_describes_party_historic
-
--- DROP TABLE party.source_describes_party_historic;
-
-CREATE TABLE party.source_describes_party_historic
-(
-  source_id character varying(40),
-  party_id character varying(40),
-  rowidentifier character varying(40),
-  rowversion integer,
-  change_action character(1),
-  change_user character varying(50),
-  change_time timestamp without time zone,
-  change_time_valid_until timestamp without time zone NOT NULL DEFAULT now()
-)
-WITH (
-  OIDS=FALSE
+CREATE TABLE source_describes_party_historic (
+    source_id character varying(40),
+    party_id character varying(40),
+    rowidentifier character varying(40),
+    rowversion integer,
+    change_action character(1),
+    change_user character varying(50),
+    change_time timestamp without time zone,
+    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL
 );
+
+
 ALTER TABLE party.source_describes_party_historic OWNER TO postgres;
-
--- Index: party.source_describes_party_historic_index_on_rowidentifier
-
---DROP INDEX party.source_describes_party_historic_index_on_rowidentifier;
-
-CREATE INDEX source_describes_party_historic_index_on_rowidentifier
-  ON party.source_describes_party_historic
-  USING btree
-  (rowidentifier);
-
-
-
-
-
-
 
 SET search_path = source, pg_catalog;
 
@@ -14280,7 +14322,9 @@ CREATE TABLE source (
     rowversion integer DEFAULT 0 NOT NULL,
     change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
     change_user character varying(50),
-    change_time timestamp without time zone DEFAULT now() NOT NULL
+    change_time timestamp without time zone DEFAULT now() NOT NULL,
+    classification_code character varying(20),
+    redact_code character varying(20)
 );
 
 
@@ -14456,6 +14500,20 @@ COMMENT ON COLUMN source.change_time IS 'The date and time the row was last modi
 
 
 --
+-- Name: COLUMN source.classification_code; Type: COMMENT; Schema: source; Owner: postgres
+--
+
+COMMENT ON COLUMN source.classification_code IS 'FROM  SOLA State Land Extension: The security classification for this Source. Only users with the security classification (or a higher classification) will be able to view the record. If null, the record is considered unrestricted.';
+
+
+--
+-- Name: COLUMN source.redact_code; Type: COMMENT; Schema: source; Owner: postgres
+--
+
+COMMENT ON COLUMN source.redact_code IS 'FROM  SOLA State Land Extension: The redact classification for this Source. Only users with the redact classification (or a higher classification) will be able to view the record with un-redacted fields. If null, the record is considered unrestricted and no redaction to the record will occur unless bulk redaction classifications have been set for fields of the record.';
+
+
+--
 -- Name: source_historic; Type: TABLE; Schema: source; Owner: postgres; Tablespace: 
 --
 
@@ -14484,7 +14542,9 @@ CREATE TABLE source_historic (
     change_action character(1),
     change_user character varying(50),
     change_time timestamp without time zone,
-    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL
+    change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL,
+    classification_code character varying(20),
+    redact_code character varying(20)
 );
 
 
@@ -16978,6 +17038,14 @@ ALTER TABLE ONLY notation
 
 
 --
+-- Name: notifiable_party_for_baunit_pkey; Type: CONSTRAINT; Schema: administrative; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY notifiable_party_for_baunit
+    ADD CONSTRAINT notifiable_party_for_baunit_pkey PRIMARY KEY (party_id, target_party_id, baunit_name);
+
+
+--
 -- Name: party_for_rrr_pkey; Type: CONSTRAINT; Schema: administrative; Owner: postgres; Tablespace: 
 --
 
@@ -17048,7 +17116,7 @@ ALTER TABLE ONLY rrr_type
 ALTER TABLE ONLY source_describes_ba_unit
     ADD CONSTRAINT source_describes_ba_unit_pkey PRIMARY KEY (source_id, ba_unit_id);
 
-	
+
 --
 -- Name: source_describes_rrr_pkey; Type: CONSTRAINT; Schema: administrative; Owner: postgres; Tablespace: 
 --
@@ -17932,10 +18000,15 @@ ALTER TABLE ONLY party_type
 ALTER TABLE ONLY party_type
     ADD CONSTRAINT party_type_pkey PRIMARY KEY (code);
 
+
+--
+-- Name: source_describes_party_pkey; Type: CONSTRAINT; Schema: party; Owner: postgres; Tablespace: 
+--
+
 ALTER TABLE ONLY source_describes_party
     ADD CONSTRAINT source_describes_party_pkey PRIMARY KEY (source_id, party_id);
 
-	
+
 SET search_path = source, pg_catalog;
 
 --
@@ -18732,6 +18805,20 @@ CREATE INDEX notation_status_code_fk74_ind ON notation USING btree (status_code)
 --
 
 CREATE INDEX notation_transaction_id_fk73_ind ON notation USING btree (transaction_id);
+
+
+--
+-- Name: notifiable_party_for_baunit_historic_index_on_rowidentifier; Type: INDEX; Schema: administrative; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX notifiable_party_for_baunit_historic_index_on_rowidentifier ON notifiable_party_for_baunit_historic USING btree (rowidentifier);
+
+
+--
+-- Name: notifiable_party_for_baunit_index_on_rowidentifier; Type: INDEX; Schema: administrative; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX notifiable_party_for_baunit_index_on_rowidentifier ON notifiable_party_for_baunit USING btree (rowidentifier);
 
 
 --
@@ -19936,6 +20023,34 @@ CREATE INDEX party_role_type_code_fk37_ind ON party_role USING btree (type_code)
 CREATE INDEX party_type_code_fk9_ind ON party USING btree (type_code);
 
 
+--
+-- Name: source_describes_party_historic_index_on_rowidentifier; Type: INDEX; Schema: party; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX source_describes_party_historic_index_on_rowidentifier ON source_describes_party_historic USING btree (rowidentifier);
+
+
+--
+-- Name: source_describes_party_index_on_rowidentifier; Type: INDEX; Schema: party; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX source_describes_party_index_on_rowidentifier ON source_describes_party USING btree (rowidentifier);
+
+
+--
+-- Name: source_describes_party_party_id_fk41_ind; Type: INDEX; Schema: party; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX source_describes_party_party_id_fk41_ind ON source_describes_party USING btree (party_id);
+
+
+--
+-- Name: source_describes_party_source_id_fk42_ind; Type: INDEX; Schema: party; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX source_describes_party_source_id_fk42_ind ON source_describes_party USING btree (source_id);
+
+
 SET search_path = source, pg_catalog;
 
 --
@@ -20342,6 +20457,13 @@ SET search_path = administrative, pg_catalog;
 -- Name: __track_changes; Type: TRIGGER; Schema: administrative; Owner: postgres
 --
 
+CREATE TRIGGER __track_changes BEFORE INSERT OR UPDATE ON notifiable_party_for_baunit FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_changes();
+
+
+--
+-- Name: __track_changes; Type: TRIGGER; Schema: administrative; Owner: postgres
+--
+
 CREATE TRIGGER __track_changes BEFORE INSERT OR UPDATE ON ba_unit FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_changes();
 
 
@@ -20427,6 +20549,13 @@ CREATE TRIGGER __track_changes BEFORE INSERT OR UPDATE ON source_describes_ba_un
 --
 
 CREATE TRIGGER __track_changes BEFORE INSERT OR UPDATE ON source_describes_rrr FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_changes();
+
+
+--
+-- Name: __track_history; Type: TRIGGER; Schema: administrative; Owner: postgres
+--
+
+CREATE TRIGGER __track_history AFTER DELETE OR UPDATE ON notifiable_party_for_baunit FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_history();
 
 
 --
@@ -21054,6 +21183,13 @@ SET search_path = party, pg_catalog;
 -- Name: __track_changes; Type: TRIGGER; Schema: party; Owner: postgres
 --
 
+CREATE TRIGGER __track_changes BEFORE INSERT OR UPDATE ON source_describes_party FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_changes();
+
+
+--
+-- Name: __track_changes; Type: TRIGGER; Schema: party; Owner: postgres
+--
+
 CREATE TRIGGER __track_changes BEFORE INSERT OR UPDATE ON group_party FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_changes();
 
 
@@ -21076,6 +21212,13 @@ CREATE TRIGGER __track_changes BEFORE INSERT OR UPDATE ON party_member FOR EACH 
 --
 
 CREATE TRIGGER __track_changes BEFORE INSERT OR UPDATE ON party_role FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_changes();
+
+
+--
+-- Name: __track_history; Type: TRIGGER; Schema: party; Owner: postgres
+--
+
+CREATE TRIGGER __track_history AFTER DELETE OR UPDATE ON source_describes_party FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_history();
 
 
 --
@@ -22238,15 +22381,6 @@ ALTER TABLE ONLY group_party
 ALTER TABLE ONLY group_party
     ADD CONSTRAINT group_party_type_code_fk33 FOREIGN KEY (type_code) REFERENCES group_party_type(code) ON UPDATE CASCADE ON DELETE RESTRICT;
 
-ALTER TABLE ONLY source_describes_party
-    ADD CONSTRAINT  source_describes_party_party_id_fk41 FOREIGN KEY (party_id)
-      REFERENCES party.party (id) 
-      ON UPDATE CASCADE ON DELETE CASCADE;
-
-ALTER TABLE ONLY source_describes_party
-    ADD CONSTRAINT  source_describes_party_source_id_fk42 FOREIGN KEY (source_id)
-      REFERENCES source.source (id)
-      ON UPDATE CASCADE ON DELETE CASCADE;
 
 --
 -- Name: party_address_id_fk10; Type: FK CONSTRAINT; Schema: party; Owner: postgres
@@ -22318,6 +22452,22 @@ ALTER TABLE ONLY party_role
 
 ALTER TABLE ONLY party
     ADD CONSTRAINT party_type_code_fk9 FOREIGN KEY (type_code) REFERENCES party_type(code) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- Name: source_describes_party_party_id_fk41; Type: FK CONSTRAINT; Schema: party; Owner: postgres
+--
+
+ALTER TABLE ONLY source_describes_party
+    ADD CONSTRAINT source_describes_party_party_id_fk41 FOREIGN KEY (party_id) REFERENCES party(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: source_describes_party_source_id_fk42; Type: FK CONSTRAINT; Schema: party; Owner: postgres
+--
+
+ALTER TABLE ONLY source_describes_party
+    ADD CONSTRAINT source_describes_party_source_id_fk42 FOREIGN KEY (source_id) REFERENCES source.source(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 SET search_path = source, pg_catalog;
@@ -22612,44 +22762,6 @@ ALTER TABLE ONLY transaction_source
 
 ALTER TABLE ONLY transaction
     ADD CONSTRAINT transaction_status_code_fk27 FOREIGN KEY (status_code) REFERENCES transaction_status_type(code) ON UPDATE CASCADE ON DELETE RESTRICT;
-
-
-
---
--- Name: CREATE OR REPLACE VIEW application.cancel_notification Type: VIEW; Schema: application; Owner: postgres
---
-
-CREATE OR REPLACE VIEW application.cancel_notification AS 
-
-
- SELECT       pp.name partyName,    
-              pp.last_name partyLastName,
-              tpp.name targetpartyName,    
-              tpp.last_name targetpartyLastName,    
-              npbu.party_id,    
-              npbu.target_party_id,
-              npbu.baunit_name,
-              npbu.service_id,
-              npbu.cancel_service_id,
-              gpp.id groupPartyId,    
-              gpp.name groupPartyName,    
-              gpp.last_name groupPartyLastName
- FROM 
-	      party.party pp,
-	      party.party tpp,
-	      party.party gpp,       
-	      administrative.notifiable_party_for_baunit npbu,
-	      application.application aa, 
-	      application.service s,
-	      party.group_party gp
-WHERE 	      s.application_id::text = aa.id::text 
-              and s.id = npbu.cancel_service_id
-	      and  (pp.id=npbu.party_id    
-              and tpp.id=npbu.target_party_id)
-              and  (gpp.id=gp.id)
-              and (pp.id in (select pm.party_id from party.party_member pm where pm.group_id = gp.id))
-              and (tpp.id in (select pm.party_id from party.party_member pm where pm.group_id = gp.id))
-              and s.request_type_code::text = 'cancelRelationship'::text ;
 
 
 --
