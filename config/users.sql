@@ -1,4 +1,4 @@
---
+﻿--
 -- PostgreSQL database dump
 --
 
@@ -226,6 +226,7 @@ INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversi
 INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('CompleteService', 'ff94bfad-7079-41ea-bf4b-6962e36cad1f', 'da1ad59f-f120-4924-a8f1-1124e9125deb', 1, 'i', 'test', '2015-02-27 15:32:02.662');
 INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('RevertService', 'ff94bfad-7079-41ea-bf4b-6962e36cad1f', 'c479e590-007b-40b5-8c53-ff2296897bab', 1, 'i', 'test', '2015-02-27 15:32:02.662');
 INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('StartService', 'ff94bfad-7079-41ea-bf4b-6962e36cad1f', '96a82327-117b-4987-9e1e-c097ac9c78eb', 1, 'i', 'test', '2015-02-27 15:32:02.662');
+INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('obscurationRequest', 'super-group-id', '4e4851d6-be74-11e4-a0e2-cf34ee2f0a0c', 1, 'i', 'db:postgres', '2015-02-27 12:32:26.68');
 
 
 ALTER TABLE approle_appgroup ENABLE TRIGGER ALL;

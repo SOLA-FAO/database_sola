@@ -1,4 +1,4 @@
---
+﻿--
 -- PostgreSQL database dump
 --
 
@@ -7151,6 +7151,7 @@ CREATE TABLE party (
     change_time timestamp without time zone DEFAULT now() NOT NULL,
     classification_code character varying(20),
     redact_code character varying(20),
+    obscure_service_id character varying(40),
     CONSTRAINT party_id_is_present CHECK ((((id_type_code IS NULL) AND (id_number IS NULL)) OR ((id_type_code IS NOT NULL) AND (id_number IS NOT NULL))))
 );
 
@@ -13676,7 +13677,9 @@ CREATE TABLE party_historic (
     change_time timestamp without time zone,
     change_time_valid_until timestamp without time zone DEFAULT now() NOT NULL,
     classification_code character varying(20),
-    redact_code character varying(20)
+    redact_code character varying(20),
+    obscure_service_id character varying(40)
+  
 );
 
 

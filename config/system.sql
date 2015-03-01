@@ -1,4 +1,4 @@
---
+﻿--
 -- PostgreSQL database dump
 --
 
@@ -120,6 +120,8 @@ INSERT INTO panel_launcher_group (code, display_value, description, status) VALU
 INSERT INTO panel_launcher_group (code, display_value, description, status) VALUES ('leaseRRR', 'Lease RRR', 'Panels used for Lease RRR', 'c');
 INSERT INTO panel_launcher_group (code, display_value, description, status) VALUES ('recordRelationship', 'Record Relationship', 'Panels used for relationship services', 'c');
 INSERT INTO panel_launcher_group (code, display_value, description, status) VALUES ('cancelRelationship', 'Cancel Relationship', 'Panels used for cancel relationship services', 'c');
+INSERT INTO panel_launcher_group( code, display_value, description, status) VALUES ('obscurationRequest','Obscuration Request','Panels used for obscuration services','c');
+
 
 
 ALTER TABLE panel_launcher_group ENABLE TRIGGER ALL;
@@ -145,6 +147,7 @@ INSERT INTO config_panel_launcher (code, display_value, description, status, lau
 INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('ownership', 'Ownership Share Panel', NULL, 'c', 'generalRRR', 'org.sola.clients.swing.desktop.administrative.OwnershipPanel', NULL, 'ownershipPanel');
 INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('recordRelationship', 'Record Relationship', '', 'c', 'recordRelationship', 'org.sola.clients.swing.desktop.administrative.RecordPersonRelationshipPanel', 'cliprgs009', 'recordRelationship');
 INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('cancelRelationship', 'Cancel Relationship', '', 'c', 'cancelRelationship', 'org.sola.clients.swing.desktop.administrative.CancelPersonRelationshipPanel', 'cliprgs009', 'cancelRelationship');
+INSERT INTO config_panel_launcher (code, display_value, description, status, launch_group, panel_class, message_code, card_name) VALUES ('obscurationRequest','Obscuration Request','','c','obscurationRequest','org.sola.clients.swing.desktop.party.ObscurationPanel','cliprgs009','obscurationRequest');
 
 
 ALTER TABLE config_panel_launcher ENABLE TRIGGER ALL;

@@ -1,4 +1,4 @@
---
+﻿--
 -- PostgreSQL database dump
 --
 
@@ -241,6 +241,7 @@ INSERT INTO request_type (code, request_category_code, display_value, descriptio
 INSERT INTO request_type (code, request_category_code, display_value, description, status, nr_days_to_complete, base_fee, area_base_fee, value_base_fee, nr_properties_required, notation_template, rrr_type_code, type_action_code, display_group_name, service_panel_code) VALUES ('limitedRoadAccess', 'registrationServices', 'Register Limited Road Access::::Регистрация ограниченного доступа к дороги::::تسجيل  دخول طريق محدودة::::Enregistrer Route Accès Limité::::::::::::Cadastrar Acesso de Estrada Limitado::::::::登记受限的道路通行权', '...::::...::::...::::...::::::::::::...::::::::...', 'c', 5, 5.00, 0.00, 0.00, 1, 'Limited Road Access', 'limitedAccess', NULL, 'Other Registration', 'property');
 INSERT INTO request_type (code, request_category_code, display_value, description, status, nr_days_to_complete, base_fee, area_base_fee, value_base_fee, nr_properties_required, notation_template, rrr_type_code, type_action_code, display_group_name, service_panel_code) VALUES ('waterRights', 'registrationServices', 'Register Water Rights::::Регистрация права пользования водными ресурсами::::تسجيل حق الانتفاع (مياه).::::Enregistrer Droits d''Eau::::::::::::Cadastrar Direitos da Água::::::::登记水权', '...::::...::::...::::...::::::::::::...::::::::...', 'x', 5, 5.00, 0.01, 0.00, 1, 'Water Rights granted to <name>', 'waterrights', 'new', 'Other Registration', 'property');
 INSERT INTO request_type (code, request_category_code, display_value, description, status, nr_days_to_complete, base_fee, area_base_fee, value_base_fee, nr_properties_required, notation_template, rrr_type_code, type_action_code, display_group_name, service_panel_code) VALUES ('buildingRestriction', 'registrationServices', 'Register Building Restriction::::Регистрация ограничения на строение::::تسجيل قيود بناية::::Enregistrer Restriction de Bâtiment::::::::::::Cadastrar Restrições da Construção::::::::登记建筑限制', '...::::...::::...::::...::::::::::::...::::::::...', 'c', 5, 5.00, 0.00, 0.00, 1, 'Building Restriction', 'noBuilding', 'new', 'Other Registration', 'property');
+INSERT INTO request_type (code, request_category_code, display_value, description, status, nr_days_to_complete, base_fee, area_base_fee, value_base_fee, nr_properties_required, notation_template, rrr_type_code, type_action_code, display_group_name, service_panel_code) VALUES ('obscurationRequest', 'registrationServices', 'Obscuration Request', '', 'c', 30, 0.00, 0.00, 0.00, 0, null, null, null,'Other Registration' ,'obscurationRequest');
 
 
 ALTER TABLE request_type ENABLE TRIGGER ALL;
@@ -673,6 +674,7 @@ INSERT INTO administrative_source_type (code, display_value, status, description
 INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('waiver', 'Waiver to Caveat or other requirement::::Ходатайство о приостановке судебного разбирательства::::التنازل عن تحذير أو أي مطلب آخر::::Dispense d''Opposition / Caveat ou autre condition::::Renuncia a la advertencia o a otro requisito::::::::Isenção para Embargo ou outra exigência::::សំបត្របដិសេធដល់ការប្រមាន ឫតម្រូវការផ្សេងៗទៀត::::对附加条件和其他要求的豁免', 'c', 'Extension to LADM::::Расширение LADM::::ميزة إضافية للنظام::::Extension au LADM::::Extension a LADM::::::::Extensão para LADM::::ពង្រីកទៅដល់ LADM::::扩展为 LADM', false);
 INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('systematicRegn', 'Systematic Registration Application::::Заявление на Системную Регистрацию::::طلب تسجيل منتظم::::Demande Enregistrement Systématique::::Solicitud de Inscripci�n Sistem�tica::::::::Aplicação do Registro Sistemático::::កម្មវិធីចុះបញ្ជីជាប្រព័ន្ធ::::系统登记申请', 'c', 'Extension to LADM::::Расширение LADM::::ميزة إضافية للنظام::::Extension au LADM::::Extension a LADM::::::::Extensão para LADM::::ពង្រីកទៅដល់ LADM::::扩展为 LADM', false);
 INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('idVerification', 'Form of Identification including Personal ID::::Форма удостоверения включая персональный ID::::نموذج تعريف ويتضمن البطاقة الشخصية::::Formulaire d''identification incluant le document d''identité personnel::::Forma de Identificaci�n incluyendo Identificaci�n personal::::::::Formulário de Identificação incluindo Identificação Pessoal::::ទម្រង់នៃអត្តសញ្ញាណរួមទាំងអត្តសញ្ញាបុគ្គល::::包含个人身份证明的表格', 'c', 'Extension to LADM::::Расширение LADM::::ميزة إضافية للنظام::::Extension au LADM::::Extension a LADM::::::::Extensão para LADM::::ពង្រីកទៅដល់ LADM::::扩展为 LADM', false);
+INSERT INTO administrative_source_type (code, display_value, status, description, is_for_registration) VALUES ('restrictionOrder', 'Restriction Order', 'c', '', 'f');
 
 
 ALTER TABLE administrative_source_type ENABLE TRIGGER ALL;
@@ -842,6 +844,7 @@ INSERT INTO approle (code, display_value, status, description) VALUES ('03SEC_Co
 INSERT INTO approle (code, display_value, status, description) VALUES ('04SEC_Secret', 'Security - Secret', 'c', 'Grants user clearance to view and/or access all unrestricted, restricted, confidential and secret records.');
 INSERT INTO approle (code, display_value, status, description) VALUES ('05SEC_TopSecret', 'Security - Top Secret', 'c', 'Grants user clearance to view and/or access all records.');
 INSERT INTO approle (code, display_value, status, description) VALUES ('10SEC_SuppressOrd', 'Security - Suppression Order', 'c', 'Grants user clearance to view and/or access all records marked with the Supression Order security classification.');
+INSERT INTO approle (code, display_value, status, description) VALUES ('obscurationRequest', 'Service - Obscuration request', 'c', 'Obscuration Service. Allows to record a restriction order and obscure data.');
 
 
 ALTER TABLE approle ENABLE TRIGGER ALL;
