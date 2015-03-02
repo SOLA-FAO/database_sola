@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -427,6 +428,10 @@ INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-user-acti
 INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-user-activation-subject', 'SOLA OpenTenure account activation', true, 'Subject text to notify Community member account activation on the Community Server Web-site');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-reg-body', 'Dear #{userFullName},<p></p>You have registered on SOLA OpenTenure Web-site. Before you can use your account, it will be reviewed and approved by Community Technologist. 
 Upon account approval, you will receive notification message.<p></p>Your user name is<br />#{userName}<p></p><p></p>Regards,<br />SOLA OpenTenure Team', true, 'Message text for new user registration on OpenTenure Web-site. Sent to user.');
+INSERT INTO setting (name, vl, active, description) VALUES ('command-extract', 'D:\dev\sola\scr\extract-from-admin.bat', true, 'The command for running the extraction.');
+INSERT INTO setting (name, vl, active, description) VALUES ('command-consolidate', 'D:\dev\sola\scr\consolidate-from-admin.bat', true, 'The command for running the consolidation.');
+INSERT INTO setting (name, vl, active, description) VALUES ('path-to-backup', 'D:\dev\sola\scr\data', true, 'The path of the extracted files.');
+INSERT INTO setting (name, vl, active, description) VALUES ('path-to-process-log', 'D:\dev\sola\scr\log', true, 'The path of the process log files.');
 
 
 ALTER TABLE setting ENABLE TRIGGER ALL;
@@ -464,6 +469,7 @@ INSERT INTO version (version_num) VALUES ('1409e');
 INSERT INTO version (version_num) VALUES ('1411b');
 INSERT INTO version (version_num) VALUES ('1412a');
 INSERT INTO version (version_num) VALUES ('1502a');
+INSERT INTO version (version_num) VALUES ('1503c');
 
 
 ALTER TABLE version ENABLE TRIGGER ALL;

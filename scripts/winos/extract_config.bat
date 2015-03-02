@@ -11,6 +11,7 @@ REM
 REM Configure variables to use for script
 SET current_dir=%~dp0
 SET pg_dump="%current_dir%bin\psql\pg_dump"
+REM SET pg_dump="C:\Program Files\PostgreSQL\9.3\bin\pg_dump"
 SET config_path=%current_dir%..\..\config\
 SET EXTRACT_LOG="%current_dir%config.log"
 SET host=localhost
