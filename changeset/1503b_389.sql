@@ -1,4 +1,4 @@
-﻿INSERT INTO system.version SELECT '1503a' WHERE NOT EXISTS (SELECT version_num FROM system.version WHERE version_num = '1503a');
+﻿INSERT INTO system.version SELECT '1503b' WHERE NOT EXISTS (SELECT version_num FROM system.version WHERE version_num = '1503b');
 
 
 CREATE OR REPLACE FUNCTION system.consolidation_extract(admin_user character varying, everything boolean, process_name character varying)
