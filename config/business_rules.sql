@@ -1,4 +1,4 @@
---
+﻿--
 -- PostgreSQL database dump
 --
 
@@ -138,6 +138,9 @@ INSERT INTO br (id, display_name, technical_type_code, feedback, description, te
 INSERT INTO br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('rrr-has-pending', 'rrr-has-pending', 'sql', 'There are no other pending actions on the rights and restrictions being changed or removed on this application::::Нет никаких изменений в правах и ограничениях, сделанных из текущего заявления::::لا يوجد حركات بحاجة لتنفيذ على الحقوق او القيود لهذا الطلب::::Il n''y a pas d''autre actions en attente sur les droits et restrictions en cours de changement ou supprimé de cette application.::::::::::::Não há outras ações pendentes sobre os direitos e restrições sendo alterados ou removidos neste pedido::::::::在申请中没有其他有关产权和限制的未决操作被改变或消除。', NULL, '#{id}(administrative.rrr.id) is requested. It checks if for the target rrr there is already a pending edit or record.');
 INSERT INTO br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('application-br5-check-there-are-front-desk-services', 'application-br5-check-there-are-front-desk-services', 'sql', 'There are services in this application that should  be dealt in the front office. These services are of type: serviceEnquiry, documentCopy, cadastrePrint, surveyPlanCopy, titleSearch.::::В заявлении имеются услуги, которые должны предоставляться в отделе приема документов. У ним относятся: serviceEnquiry, documentCopy, cadastrePrint, surveyPlanCopy, titleSearch.::::بعض الخدمات المطلوبة في الطلب يجب التعامل معها من المكتب الامامي . هذه الخدمات : الاستفسار , تصوير وثيقة , طباعة مساحة ,  خطة المساحة , البحث عن سند ملكية::::Certains services de cette demande doivent être traitées par la réception. Ces services de type: service enquête, copie de document, impression cadastre, copie de plan de levé, recherche de titre.::::::::::::Existem serviços neste pedido que devem ser tratados no escritório. Estes serviços são do tipo: serviçoAveriguação, documentoCópia, cadastroImprimir, títuloBusca.::::::::申请中有些服务是应该由行政办公室来处理的。这些服务分成几类：问讯服务、文件复印、地籍打印、调查方案复制以及产权调查等。', NULL, 'Checks the services in the applications to see if they are amongst services considered as front office services');
 INSERT INTO br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('app-other-app-with-caveat', 'app-other-app-with-caveat', 'sql', 'The identified property is affected by another live application that includes a service to register a caveat. An application with a cancel or waiver/vary caveat service must be registered before this application can proceed.::::Выбранная недвижимость используется в другом заявлении, находящемся в обработке и включающее регистрацию ареста. Заявление с услугой отмены ареста должно быть зарегистрировано для того чтобы продолжить с текущим заявлением.::::هناك طلب أخر على الملكية المحددة والذي يحتوي  خدمة فيها قيود على نفس الملكية. يجب التنازل او الغاء القيود قبل امكانية الاستمرار::::La propriété identifiée est affectée par une autre demande en cours qui inclue un service d''enregistrement de caveat. Une demande de service d''annulation ou de variation/résiliation du caveat doit être enregistrée avant de pouvoir procéder à cette demande.::::::::::::A propriedade identificada é afetada por outro pedido que inclui um serviço de registo de embargo. Um pedido com o cancelamento ou desistência/variação do embargo, deve ser registrado antes que este pedido possa prosseguir.::::::::确定的财产受另一项包括有附加说明登记的有效申请的影响。一项具有取消或豁免/变更附加说明的服务必须在这项申请继续之前被登记。 ', NULL, '#{id}(application.application.id) is requested.');
+INSERT INTO br (id, display_name, technical_type_code, feedback, technical_description) VALUES ('cancel-obscuration-request', 'cancel-obscuration-request', 'sql', 'cancel-obscuration-request', '#{id}(service_id) is requested');
+INSERT INTO br (id, display_name, technical_type_code, feedback, technical_description) VALUES ('application-cancel-obscuration-request','application-cancel-obscuration-request', 'sql', 'application-cancel-obscuration-request', '#{id}(service_id) is requested');
+
 
 
 ALTER TABLE br ENABLE TRIGGER ALL;
@@ -1025,6 +1028,35 @@ WHERE 	      s.application_id::text = aa.id::text
 select 0=0 as vl
 ');
 
+INSERT INTO br_definition(br_id, active_from, active_until, body) 
+values('cancel-obscuration-request', now(), 'infinity', 
+ 'UPDATE party.party
+ set classification_code = null,
+     redact_code = null
+WHERE obscure_service_id  = #{id}
+;
+select 0=0 as vl
+');
+
+INSERT INTO br_definition(br_id, active_from, active_until, body) 
+values('application-cancel-obscuration-request', now(), 'infinity', 
+'UPDATE party.party
+ set classification_code = null,
+     redact_code = null
+WHERE obscure_service_id in
+(
+SELECT        s.id
+ FROM 
+	      application.application aa, 
+	      application.service s
+WHERE 	      s.application_id::text = aa.id::text 
+              and s.request_type_code::text = ''obscurationRequest''::text 
+              and aa.id = #{id})
+;
+
+select 0=0 as vl
+');
+
 
 ALTER TABLE br_definition ENABLE TRIGGER ALL;
 
@@ -1126,6 +1158,10 @@ INSERT INTO br_validation (id, br_id, target_code, target_application_moment, ta
 INSERT INTO br_validation (id, br_id, target_code, target_application_moment, target_service_moment, target_reg_moment, target_request_type_code, target_rrr_type_code, severity_code, order_of_execution) VALUES ('consolidation-not-again', 'consolidation-not-again', 'consolidation', NULL, NULL, NULL, NULL, NULL, 'critical', 1);
 INSERT INTO br_validation (id, br_id, target_code, target_application_moment, target_service_moment, target_reg_moment, target_request_type_code, target_rrr_type_code, severity_code, order_of_execution) VALUES ('bfc0ec2c-99dd-11e3-bc3f-13923fd8d236', 'spatial-unit-group-inside-other-spatial-unit-group', 'spatial_unit_group', NULL, NULL, NULL, NULL, NULL, 'medium', 2);
 INSERT INTO br_validation (id, br_id, target_code, target_application_moment, target_service_moment, target_reg_moment, target_request_type_code, target_rrr_type_code, severity_code, order_of_execution) VALUES ('cancel-relation-notification', 'cancel-relation-notification', 'application', 'approve', NULL, NULL, NULL, NULL, 'warning', 300);
+INSERT INTO br_validation(id, br_id, target_code, target_service_moment, severity_code, order_of_execution)     VALUES ('c7aff44e-c0cb-11e4-a5ef-03304363f8ad', 'cancel-obscuration-request', 'service', 'cancel', 'warning', 310);
+INSERT INTO br_validation(id, br_id, target_code, target_application_moment, severity_code, order_of_execution) VALUES ('782ccc8a-c0d5-11e4-8af7-e7e64e31045c','application-cancel-obscuration-request', 'application', 'cancel', 'warning', 320);
+INSERT INTO br_validation(id, br_id, target_code, target_application_moment, severity_code, order_of_execution) VALUES ('782c575a-c0d5-11e4-a962-6fdf878ae759','application-cancel-obscuration-request', 'application', 'withdraw', 'warning', 330);
+INSERT INTO br_validation(id, br_id, target_code, target_application_moment, severity_code, order_of_execution) VALUES ('782d68ca-c0d5-11e4-ac6a-fb96119e62f7','application-cancel-obscuration-request', 'application', 'requisition', 'warning', 340);
 
 
 ALTER TABLE br_validation ENABLE TRIGGER ALL;
