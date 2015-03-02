@@ -1,4 +1,4 @@
-﻿--
+--
 -- PostgreSQL database dump
 --
 
@@ -59,7 +59,6 @@ INSERT INTO request_type_requires_source_type (source_type_code, request_type_co
 INSERT INTO request_type_requires_source_type (source_type_code, request_type_code) VALUES ('relationshipTitle', 'recordRelationship');
 INSERT INTO request_type_requires_source_type (source_type_code, request_type_code) VALUES ('relationshipTitle', 'cancelRelationship');
 INSERT INTO request_type_requires_source_type (source_type_code, request_type_code) VALUES ('restrictionOrder', 'obscurationRequest');
-
 
 
 ALTER TABLE request_type_requires_source_type ENABLE TRIGGER ALL;
