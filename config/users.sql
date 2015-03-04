@@ -3,7 +3,6 @@
 --
 
 SET statement_timeout = 0;
-SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -228,6 +227,9 @@ INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversi
 INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('RevertService', 'ff94bfad-7079-41ea-bf4b-6962e36cad1f', 'c479e590-007b-40b5-8c53-ff2296897bab', 1, 'i', 'test', '2015-02-27 15:32:02.662');
 INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('StartService', 'ff94bfad-7079-41ea-bf4b-6962e36cad1f', '96a82327-117b-4987-9e1e-c097ac9c78eb', 1, 'i', 'test', '2015-02-27 15:32:02.662');
 INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('obscurationRequest', 'super-group-id', '4e4851d6-be74-11e4-a0e2-cf34ee2f0a0c', 1, 'i', 'db:postgres', '2015-02-27 12:32:26.68');
+INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('MapFeatureEditor', 'super-group-id', '65e1ce80-c216-11e4-9b2e-5b36c326716c', 1, 'i', 'db:postgres', '2015-03-04 15:30:18.217');
+INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('MapZoneEditor', 'super-group-id', '65e48daa-c216-11e4-b81b-8bb0457ebb45', 1, 'i', 'db:postgres', '2015-03-04 15:30:18.217');
+INSERT INTO approle_appgroup (approle_code, appgroup_id, rowidentifier, rowversion, change_action, change_user, change_time) VALUES ('ReportGender', 'super-group-id', '65e529ea-c216-11e4-a806-2b89f1f9e9c1', 1, 'i', 'db:postgres', '2015-03-04 15:30:18.217');
 
 
 ALTER TABLE approle_appgroup ENABLE TRIGGER ALL;

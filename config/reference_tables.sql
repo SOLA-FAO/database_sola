@@ -3,7 +3,6 @@
 --
 
 SET statement_timeout = 0;
-SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -846,6 +845,9 @@ All services on the application must be completed before this action is availabl
 Todos os serviços sobre o pedido devem ser concluídos antes desta ação está disponível.::::::::需要执行“同意”申请操作。“同意”操作将申请转换为“同意”状态。所有关于申请的服务都必须在实现操作之前完成。 
 ');
 INSERT INTO approle (code, display_value, status, description) VALUES ('DashbrdViewAssign', 'Dashboard - View Assigned::::Dashboard - View Assigned::::لوحة المراقبة-مشاهدة الطلبات المعينة::::Accueil - Visulaiser Assignée::::::::::::Painel de Controle - Ver Atribuição::::::::控制面板 - 查看已指定申请', 'c', 'Allows the user to view applications assigned to them in the Dashboard. To hide the Dashboard from the user, remove both this role and the Dashboard - View Unassigned role. ::::Allows the user to view applications assigned to them in the Dashboard. To hide the Dashboard from the user, remove both this role and the Dashboard - View Unassigned role.::::Allows the user to view applications assigned to them in the Dashboard. To hide the Dashboard from the user, remove both this role and the Dashboard - View Unassigned role.::::Permet à l''utilisateur de visualiser routes les demandes assignées dans l''accueil. Pour cacher l''Accueil de l''utilisateur, supprimer ce rôle et le rôle Accueil - Visualiser non Assigné.::::::::::::Permite ao usuário ver o pedido atribuido a ele no Painel de Controle. Para ocultar o Painel de Controle do usuário, remover esta função e o Painel de Controle - Ver a Função Não Atribuida.::::::::允许用户查看控制面板上已指定的申请。为了不让用户看到控制面板，可以取消这种功能和控制面板 - 查看未指定角色');
+INSERT INTO approle (code, display_value, status, description) VALUES ('MapFeatureEditor', 'Map - Feature Editor', 'c', 'Allows the user to edit map features (e.g. roads and place names).');
+INSERT INTO approle (code, display_value, status, description) VALUES ('MapZoneEditor', 'Map - Zone Editor', 'c', 'Allows the user to edit map zones and configure zone hierarchies.');
+INSERT INTO approle (code, display_value, status, description) VALUES ('ReportGender', 'Reports - Gender', 'c', 'Allows the user to generate the Gender Report.');
 
 
 ALTER TABLE approle ENABLE TRIGGER ALL;

@@ -1,4 +1,4 @@
-﻿INSERT INTO system.version SELECT '1503c' WHERE NOT EXISTS (SELECT version_num FROM system.version WHERE version_num = '1503c');
+﻿INSERT INTO system.version SELECT '1503d' WHERE NOT EXISTS (SELECT version_num FROM system.version WHERE version_num = '1503d');
 
 delete from system.setting where name in ('command-extract', 'command-consolidate','path-to-backup','path-to-process-log');
 
