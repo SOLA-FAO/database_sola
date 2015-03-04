@@ -903,15 +903,15 @@ ALTER TABLE br_validation_target_type ENABLE TRIGGER ALL;
 
 ALTER TABLE language DISABLE TRIGGER ALL;
 
-INSERT INTO language (code, display_value, active, is_default, item_order) VALUES ('km-KH', 'ខ្មែរ', true, false, 8);
-INSERT INTO language (code, display_value, active, is_default, item_order) VALUES ('zh-CN', '中国', true, false, 9);
-INSERT INTO language (code, display_value, active, is_default, item_order) VALUES ('ar-JO', 'عربي', true, false, 3);
-INSERT INTO language (code, display_value, active, is_default, item_order) VALUES ('en-US', 'English', true, true, 1);
-INSERT INTO language (code, display_value, active, is_default, item_order) VALUES ('es-ES', 'Español', true, false, 5);
-INSERT INTO language (code, display_value, active, is_default, item_order) VALUES ('fr-FR', 'Français', true, false, 4);
-INSERT INTO language (code, display_value, active, is_default, item_order) VALUES ('pt-BR', 'Português', true, false, 7);
-INSERT INTO language (code, display_value, active, is_default, item_order) VALUES ('ru-RU', 'Русский', true, false, 2);
-INSERT INTO language (code, display_value, active, is_default, item_order) VALUES ('sq-AL', 'Shqip', true, false, 6);
+INSERT INTO language (code, display_value, active, is_default, item_order, ltr) VALUES ('km-KH', 'ខ្មែរ', true, false, 8, true);
+INSERT INTO language (code, display_value, active, is_default, item_order, ltr) VALUES ('zh-CN', '中国', true, false, 9, true);
+INSERT INTO language (code, display_value, active, is_default, item_order, ltr) VALUES ('en-US', 'English', true, true, 1, true);
+INSERT INTO language (code, display_value, active, is_default, item_order, ltr) VALUES ('es-ES', 'Español', true, false, 5, true);
+INSERT INTO language (code, display_value, active, is_default, item_order, ltr) VALUES ('fr-FR', 'Français', true, false, 4, true);
+INSERT INTO language (code, display_value, active, is_default, item_order, ltr) VALUES ('pt-BR', 'Português', true, false, 7, true);
+INSERT INTO language (code, display_value, active, is_default, item_order, ltr) VALUES ('ru-RU', 'Русский', true, false, 2, true);
+INSERT INTO language (code, display_value, active, is_default, item_order, ltr) VALUES ('sq-AL', 'Shqip', true, false, 6, true);
+INSERT INTO language (code, display_value, active, is_default, item_order, ltr) VALUES ('ar-JO', 'عربي', true, false, 3, false);
 
 
 ALTER TABLE language ENABLE TRIGGER ALL;
