@@ -34,7 +34,8 @@ INSERT INTO system.approle_appgroup (approle_code, appgroup_id)
 -- Disable the systematic registration services
 UPDATE application.request_type 
 SET status = 'x'
-WHERE code IN ('lodgeObjection', 'mapExistingParcel', 'systematicRegn');
+WHERE code IN ('lodgeObjection', 'mapExistingParcel', 
+                'systematicRegn', 'recordTransfer');
 
 
 -- Rename and update Gender Safeguard services  and document types
