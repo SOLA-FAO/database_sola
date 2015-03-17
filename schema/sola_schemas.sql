@@ -10787,10 +10787,10 @@ ALTER TABLE document.document_historic OWNER TO postgres;
 --
 
 CREATE SEQUENCE document_nr_seq
-    START WITH 1
+    START WITH 100
     INCREMENT BY 1
-    NO MINVALUE
-    MAXVALUE 9999
+    MINVALUE 1
+    MAXVALUE 99999999
     CACHE 1
     CYCLE;
 
