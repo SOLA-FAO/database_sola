@@ -106,3 +106,7 @@ WHERE code = 'obscurationRequest';
 
 ALTER TABLE party.party DROP COLUMN IF EXISTS obscure_service_id ; 
 ALTER TABLE party.party_historic DROP COLUMN IF EXISTS obscure_service_id ; 
+
+-- app-allowable-primary-right-for-new-title has flawed logic and is no longer required
+-- as the IS Primary checkbox has been removed from the RRR forms.  
+DELETE FROM system.br_validation WHERE br_id = 'app-allowable-primary-right-for-new-title'; 
