@@ -120,6 +120,12 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
    <tr class='relative even' valign='top'>
+    <td class='relatedTable detail' title="claim.land_use_code refs land_use_type.code via fk_claim_land_use_type"><a href='../../opentenure/tables/claim.html'>claim</a><span class='relatedKey'>.land_use_code</span>
+    </td>
+    <td class='constraint detail'>fk_claim_land_use_type<span title='Restrict delete:
+ Parent cannot be deleted if children exist'>&nbsp;R</span></td>
+   </tr>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="spatial_unit.land_use_code refs land_use_type.code via spatial_unit_land_use_code_fk66"><a href='spatial_unit.html'>spatial_unit</a><span class='relatedKey'>.land_use_code</span>
     </td>
     <td class='constraint detail'>spatial_unit_land_use_code_fk66<span title='Restrict delete:
@@ -164,7 +170,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='comment detail'>SOLA Extension: Status of the land use type</td>
 </tr>
 </table>
-<p title='4 columns'>Analyzed at Wed Sep 24 11:08 NZST 2014<p/>
+<p title='4 columns'>Analyzed at Wed Mar 18 11:02 NZDT 2015<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
@@ -197,84 +203,86 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 &nbsp;within <label for='oneDegree'><input type='radio' name='degrees' id='oneDegree' checked>one</label>  <label for='twoDegrees'><input type='radio' name='degrees' id='twoDegrees'>two degrees</label> of separation</span><b>:</b></form>
 <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
 <area shape="rect" id="node1" href="../../application/tables/application_property.html" title="application.application_property" alt="" coords="271,5,505,425">
-<area shape="rect" id="node2" href="land_use_type.html" title="land_use_type" alt="" coords="5,389,227,550">
-<area shape="rect" id="node3" href="spatial_unit.html" title="spatial_unit" alt="" coords="300,442,476,838">
+<area shape="rect" id="node2" href="land_use_type.html" title="land_use_type" alt="" coords="5,895,227,1057">
+<area shape="rect" id="node3" href="../../opentenure/tables/claim.html" title="opentenure.claim" alt="" coords="298,442,478,1174">
+<area shape="rect" id="node4" href="spatial_unit.html" title="spatial_unit" alt="" coords="300,1191,476,1587">
 </map>
   <a name='diagram'><img id='oneDegreeImg' src='../diagrams/land_use_type.1degree.png' usemap='#oneDegreeRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
 <area shape="rect" id="node1" href="../../application/tables/application_property.html" title="application.application_property" alt="" coords="271,5,505,425">
-<area shape="rect" id="node2" href="land_use_type.html" title="land_use_type" alt="" coords="5,542,227,703">
-<area shape="rect" id="node3" href="../../administrative/tables/ba_unit_contains_spatial_unit.html" title="administrative.ba_unit_contains_spatial_unit" alt="" coords="762,545,1078,629">
-<area shape="rect" id="node4" href="cadastre_object.html" title="cadastre_object" alt="" coords="565,681,701,765">
-<area shape="rect" id="node5" href="spatial_unit.html" title="spatial_unit" alt="" coords="300,442,476,838">
-<area shape="rect" id="node6" href="../../transaction/tables/transaction.html" title="transaction.transaction" alt="" coords="26,822,206,906">
-<area shape="rect" id="node7" href="dimension_type.html" title="dimension_type" alt="" coords="49,339,183,423">
-<area shape="rect" id="node8" href="level.html" title="level" alt="" coords="67,721,165,805">
-<area shape="rect" id="node9" href="surface_relation_type.html" title="surface_relation_type" alt="" coords="31,441,201,525">
-<area shape="rect" id="node10" href="spatial_unit_address.html" title="spatial_unit_address" alt="" coords="551,579,716,663">
-<area shape="rect" id="node11" href="spatial_unit_in_group.html" title="spatial_unit_in_group" alt="" coords="549,339,717,423">
-<area shape="rect" id="node12" href="spatial_value_area.html" title="spatial_value_area" alt="" coords="557,478,709,562">
+<area shape="rect" id="node2" href="land_use_type.html" title="land_use_type" alt="" coords="5,895,227,1057">
+<area shape="rect" id="node3" href="../../administrative/tables/ba_unit_contains_spatial_unit.html" title="administrative.ba_unit_contains_spatial_unit" alt="" coords="762,1258,1078,1342">
+<area shape="rect" id="node4" href="cadastre_object.html" title="cadastre_object" alt="" coords="565,1445,701,1529">
+<area shape="rect" id="node5" href="spatial_unit.html" title="spatial_unit" alt="" coords="300,1191,476,1587">
+<area shape="rect" id="node6" href="../../transaction/tables/transaction.html" title="transaction.transaction" alt="" coords="26,1519,206,1603">
+<area shape="rect" id="node8" href="dimension_type.html" title="dimension_type" alt="" coords="49,1162,183,1246">
+<area shape="rect" id="node9" href="level.html" title="level" alt="" coords="67,1365,165,1449">
+<area shape="rect" id="node10" href="surface_relation_type.html" title="surface_relation_type" alt="" coords="31,1263,201,1347">
+<area shape="rect" id="node7" href="../../opentenure/tables/claim.html" title="opentenure.claim" alt="" coords="298,442,478,1174">
+<area shape="rect" id="node11" href="spatial_unit_address.html" title="spatial_unit_address" alt="" coords="551,1141,716,1225">
+<area shape="rect" id="node12" href="spatial_unit_in_group.html" title="spatial_unit_in_group" alt="" coords="549,1242,717,1326">
+<area shape="rect" id="node13" href="spatial_value_area.html" title="spatial_value_area" alt="" coords="557,1343,709,1427">
 </map>
 
   <a name='diagram'><img id='twoDegreesImg' src='../diagrams/land_use_type.2degrees.png' usemap='#twoDegreesRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 </td></tr></table>
 <span class='excludedRelationship'>
 <br>Excluded from diagram's relationships: 
-<a href="../tables/survey_point.html">survey_point.change_time</a>&nbsp;
-<a href="../tables/survey_point.html">survey_point.rowidentifier</a>&nbsp;
-<a href="../tables/spatial_unit_address.html">spatial_unit_address.change_user</a>&nbsp;
-<a href="../tables/spatial_unit_in_group.html">spatial_unit_in_group.rowidentifier</a>&nbsp;
-<a href="../tables/legal_space_utility_network.html">legal_space_utility_network.change_action</a>&nbsp;
-<a href="../tables/survey_point.html">survey_point.change_user</a>&nbsp;
-<a href="../tables/legal_space_utility_network.html">legal_space_utility_network.rowidentifier</a>&nbsp;
-<a href="../tables/level.html">level.change_time</a>&nbsp;
-<a href="../tables/spatial_unit_group.html">spatial_unit_group.change_time</a>&nbsp;
-<a href="../tables/cadastre_object_target.html">cadastre_object_target.change_time</a>&nbsp;
-<a href="../tables/spatial_unit_address.html">spatial_unit_address.change_time</a>&nbsp;
-<a href="../tables/spatial_unit_group.html">spatial_unit_group.change_action</a>&nbsp;
-<a href="../tables/cadastre_object.html">cadastre_object.rowidentifier</a>&nbsp;
-<a href="../tables/cadastre_object_node_target.html">cadastre_object_node_target.rowversion</a>&nbsp;
-<a href="../tables/spatial_unit_group.html">spatial_unit_group.change_user</a>&nbsp;
-<a href="../tables/legal_space_utility_network.html">legal_space_utility_network.change_user</a>&nbsp;
-<a href="../tables/spatial_value_area.html">spatial_value_area.change_user</a>&nbsp;
-<a href="../tables/level.html">level.rowversion</a>&nbsp;
-<a href="../tables/spatial_unit.html">spatial_unit.change_time</a>&nbsp;
-<a href="../tables/legal_space_utility_network.html">legal_space_utility_network.change_time</a>&nbsp;
-<a href="../tables/cadastre_object_node_target.html">cadastre_object_node_target.rowidentifier</a>&nbsp;
-<a href="../tables/cadastre_object_node_target.html">cadastre_object_node_target.change_action</a>&nbsp;
-<a href="../tables/spatial_unit_group.html">spatial_unit_group.rowversion</a>&nbsp;
-<a href="../tables/cadastre_object_node_target.html">cadastre_object_node_target.change_user</a>&nbsp;
-<a href="../tables/level.html">level.change_action</a>&nbsp;
-<a href="../tables/spatial_value_area.html">spatial_value_area.change_action</a>&nbsp;
-<a href="../tables/cadastre_object.html">cadastre_object.change_time</a>&nbsp;
-<a href="../tables/spatial_unit.html">spatial_unit.change_action</a>&nbsp;
-<a href="../tables/spatial_unit_in_group.html">spatial_unit_in_group.change_user</a>&nbsp;
-<a href="../tables/spatial_unit_address.html">spatial_unit_address.change_action</a>&nbsp;
-<a href="../tables/cadastre_object.html">cadastre_object.change_user</a>&nbsp;
-<a href="../tables/spatial_unit.html">spatial_unit.rowidentifier</a>&nbsp;
-<a href="../tables/cadastre_object_target.html">cadastre_object_target.rowidentifier</a>&nbsp;
-<a href="../tables/spatial_value_area.html">spatial_value_area.change_time</a>&nbsp;
-<a href="../tables/cadastre_object_target.html">cadastre_object_target.change_user</a>&nbsp;
-<a href="../tables/spatial_unit_address.html">spatial_unit_address.rowversion</a>&nbsp;
-<a href="../tables/legal_space_utility_network.html">legal_space_utility_network.rowversion</a>&nbsp;
-<a href="../tables/level.html">level.rowidentifier</a>&nbsp;
-<a href="../tables/spatial_value_area.html">spatial_value_area.rowversion</a>&nbsp;
-<a href="../tables/level.html">level.change_user</a>&nbsp;
-<a href="../tables/spatial_unit.html">spatial_unit.rowversion</a>&nbsp;
-<a href="../tables/spatial_unit.html">spatial_unit.change_user</a>&nbsp;
-<a href="../tables/spatial_unit_address.html">spatial_unit_address.rowidentifier</a>&nbsp;
-<a href="../tables/spatial_value_area.html">spatial_value_area.rowidentifier</a>&nbsp;
-<a href="../tables/cadastre_object_target.html">cadastre_object_target.rowversion</a>&nbsp;
-<a href="../tables/cadastre_object_node_target.html">cadastre_object_node_target.change_time</a>&nbsp;
-<a href="../tables/spatial_unit_in_group.html">spatial_unit_in_group.rowversion</a>&nbsp;
-<a href="../tables/cadastre_object.html">cadastre_object.rowversion</a>&nbsp;
-<a href="../tables/survey_point.html">survey_point.change_action</a>&nbsp;
 <a href="../tables/survey_point.html">survey_point.rowversion</a>&nbsp;
 <a href="../tables/spatial_unit_in_group.html">spatial_unit_in_group.change_action</a>&nbsp;
-<a href="../tables/spatial_unit_group.html">spatial_unit_group.rowidentifier</a>&nbsp;
+<a href="../tables/spatial_unit_address.html">spatial_unit_address.rowidentifier</a>&nbsp;
+<a href="../tables/legal_space_utility_network.html">legal_space_utility_network.change_action</a>&nbsp;
+<a href="../tables/cadastre_object_node_target.html">cadastre_object_node_target.change_time</a>&nbsp;
+<a href="../tables/survey_point.html">survey_point.rowidentifier</a>&nbsp;
+<a href="../tables/cadastre_object_node_target.html">cadastre_object_node_target.change_action</a>&nbsp;
+<a href="../tables/level.html">level.rowversion</a>&nbsp;
+<a href="../tables/spatial_unit_group.html">spatial_unit_group.rowversion</a>&nbsp;
+<a href="../tables/cadastre_object_target.html">cadastre_object_target.rowversion</a>&nbsp;
+<a href="../tables/spatial_unit_address.html">spatial_unit_address.rowversion</a>&nbsp;
 <a href="../tables/cadastre_object_target.html">cadastre_object_target.change_action</a>&nbsp;
+<a href="../tables/cadastre_object.html">cadastre_object.change_user</a>&nbsp;
+<a href="../tables/spatial_unit_group.html">spatial_unit_group.rowidentifier</a>&nbsp;
+<a href="../tables/spatial_value_area.html">spatial_value_area.rowidentifier</a>&nbsp;
+<a href="../tables/legal_space_utility_network.html">legal_space_utility_network.rowidentifier</a>&nbsp;
+<a href="../tables/survey_point.html">survey_point.change_user</a>&nbsp;
+<a href="../tables/spatial_unit.html">spatial_unit.rowversion</a>&nbsp;
+<a href="../tables/legal_space_utility_network.html">legal_space_utility_network.rowversion</a>&nbsp;
 <a href="../tables/cadastre_object.html">cadastre_object.change_action</a>&nbsp;
+<a href="../tables/cadastre_object.html">cadastre_object.change_time</a>&nbsp;
+<a href="../tables/cadastre_object_node_target.html">cadastre_object_node_target.rowidentifier</a>&nbsp;
+<a href="../tables/survey_point.html">survey_point.change_time</a>&nbsp;
+<a href="../tables/level.html">level.change_time</a>&nbsp;
+<a href="../tables/cadastre_object.html">cadastre_object.rowversion</a>&nbsp;
+<a href="../tables/spatial_value_area.html">spatial_value_area.change_time</a>&nbsp;
+<a href="../tables/spatial_unit_in_group.html">spatial_unit_in_group.rowidentifier</a>&nbsp;
+<a href="../tables/spatial_unit_group.html">spatial_unit_group.change_time</a>&nbsp;
+<a href="../tables/cadastre_object.html">cadastre_object.rowidentifier</a>&nbsp;
+<a href="../tables/spatial_value_area.html">spatial_value_area.change_action</a>&nbsp;
+<a href="../tables/spatial_unit.html">spatial_unit.change_time</a>&nbsp;
+<a href="../tables/spatial_unit_address.html">spatial_unit_address.change_action</a>&nbsp;
+<a href="../tables/spatial_value_area.html">spatial_value_area.rowversion</a>&nbsp;
+<a href="../tables/cadastre_object_target.html">cadastre_object_target.rowidentifier</a>&nbsp;
+<a href="../tables/spatial_unit_group.html">spatial_unit_group.change_user</a>&nbsp;
+<a href="../tables/cadastre_object_node_target.html">cadastre_object_node_target.change_user</a>&nbsp;
+<a href="../tables/survey_point.html">survey_point.change_action</a>&nbsp;
+<a href="../tables/spatial_unit.html">spatial_unit.change_action</a>&nbsp;
+<a href="../tables/level.html">level.change_user</a>&nbsp;
+<a href="../tables/spatial_unit.html">spatial_unit.change_user</a>&nbsp;
+<a href="../tables/level.html">level.rowidentifier</a>&nbsp;
+<a href="../tables/spatial_value_area.html">spatial_value_area.change_user</a>&nbsp;
+<a href="../tables/spatial_unit.html">spatial_unit.rowidentifier</a>&nbsp;
+<a href="../tables/spatial_unit_group.html">spatial_unit_group.change_action</a>&nbsp;
+<a href="../tables/level.html">level.change_action</a>&nbsp;
+<a href="../tables/spatial_unit_address.html">spatial_unit_address.change_user</a>&nbsp;
+<a href="../tables/cadastre_object_node_target.html">cadastre_object_node_target.rowversion</a>&nbsp;
+<a href="../tables/legal_space_utility_network.html">legal_space_utility_network.change_user</a>&nbsp;
+<a href="../tables/cadastre_object_target.html">cadastre_object_target.change_user</a>&nbsp;
 <a href="../tables/spatial_unit_in_group.html">spatial_unit_in_group.change_time</a>&nbsp;
+<a href="../tables/spatial_unit_in_group.html">spatial_unit_in_group.change_user</a>&nbsp;
+<a href="../tables/legal_space_utility_network.html">legal_space_utility_network.change_time</a>&nbsp;
+<a href="../tables/spatial_unit_address.html">spatial_unit_address.change_time</a>&nbsp;
+<a href="../tables/cadastre_object_target.html">cadastre_object_target.change_time</a>&nbsp;
+<a href="../tables/spatial_unit_in_group.html">spatial_unit_in_group.rowversion</a>&nbsp;
 </span>
 </div>
 </body>

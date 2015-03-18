@@ -29,6 +29,6 @@ register_type
 level_content_type
 dimension_type
 building_unit_type
-land_use_type
 cadastre_object_type
 area_type
+land_use_type

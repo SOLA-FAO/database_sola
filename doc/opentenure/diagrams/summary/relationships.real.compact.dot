@@ -235,17 +235,16 @@ digraph "compactRelationshipsDiagram" {
     URL="tables/form_template.html"
     tooltip="form_template"
   ];
-  "land_use" [
+  "cadastre.land_use_type" [
     label=<
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
-      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">land_use</TD></TR>
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">cadastre.land_use_type</TD></TR>
       <TR><TD PORT="code" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">code</TD></TR>
-      <TR><TD PORT="display_value" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">display_value</TD></TR>
       <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
       <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
     </TABLE>>
-    URL="tables/land_use.html"
-    tooltip="land_use"
+    URL="tables/../../cadastre/tables/land_use_type.html"
+    tooltip="cadastre.land_use_type"
   ];
   "party" [
     label=<
@@ -334,7 +333,7 @@ digraph "compactRelationshipsDiagram" {
   "attachment":"type_code":w -> "source.administrative_source_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "claim":"challenged_claim_id":w -> "claim":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "claim":"claimant_id":w -> "party":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "claim":"land_use_code":w -> "land_use":"code":e [arrowhead=none dir=back arrowtail=crowodot];
+  "claim":"land_use_code":w -> "cadastre.land_use_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "claim":"rejection_reason_code":w -> "rejection_reason":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "claim":"status_code":w -> "claim_status":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "claim":"type_code":w -> "administrative.rrr_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];

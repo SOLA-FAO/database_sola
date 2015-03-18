@@ -1,6 +1,6 @@
+land_use_type
 area_type
 cadastre_object_type
-land_use_type
 building_unit_type
 dimension_type
 level_content_type

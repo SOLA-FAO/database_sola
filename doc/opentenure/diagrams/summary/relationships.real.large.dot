@@ -89,6 +89,7 @@ digraph "largeRelationshipsDiagram" {
       <TR><TD PORT="west_adjacency" COLSPAN="3" ALIGN="LEFT">west_adjacency</TD></TR>
       <TR><TD PORT="assignee_name" COLSPAN="3" ALIGN="LEFT">assignee_name</TD></TR>
       <TR><TD PORT="rejection_reason_code" COLSPAN="3" ALIGN="LEFT">rejection_reason_code</TD></TR>
+      <TR><TD PORT="claim_area" COLSPAN="3" ALIGN="LEFT">claim_area</TD></TR>
       <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 6</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">6 &gt;</TD></TR>
     </TABLE>>
     URL="tables/claim.html"
@@ -145,6 +146,7 @@ digraph "largeRelationshipsDiagram" {
       <TR><TD PORT="change_action" COLSPAN="3" BGCOLOR="#c0c0c0" ALIGN="LEFT">change_action</TD></TR>
       <TR><TD PORT="change_user" COLSPAN="3" BGCOLOR="#c0c0c0" ALIGN="LEFT">change_user</TD></TR>
       <TR><TD PORT="change_time" COLSPAN="3" BGCOLOR="#c0c0c0" ALIGN="LEFT">change_time</TD></TR>
+      <TR><TD PORT="percentage" COLSPAN="3" ALIGN="LEFT">percentage</TD></TR>
       <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
     </TABLE>>
     URL="tables/claim_share.html"
@@ -325,6 +327,7 @@ digraph "largeRelationshipsDiagram" {
       <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">form_template</TD></TR>
       <TR><TD PORT="name" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">name</TD></TR>
       <TR><TD PORT="display_name" COLSPAN="3" ALIGN="LEFT">display_name</TD></TR>
+      <TR><TD PORT="is_default" COLSPAN="3" ALIGN="LEFT">is_default</TD></TR>
       <TR><TD PORT="rowidentifier" COLSPAN="3" BGCOLOR="#c0c0c0" ALIGN="LEFT">rowidentifier</TD></TR>
       <TR><TD PORT="rowversion" COLSPAN="3" BGCOLOR="#c0c0c0" ALIGN="LEFT">rowversion</TD></TR>
       <TR><TD PORT="change_action" COLSPAN="3" BGCOLOR="#c0c0c0" ALIGN="LEFT">change_action</TD></TR>
@@ -335,18 +338,18 @@ digraph "largeRelationshipsDiagram" {
     URL="tables/form_template.html"
     tooltip="form_template"
   ];
-  "land_use" [
+  "cadastre.land_use_type" [
     label=<
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
-      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">land_use</TD></TR>
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">cadastre.land_use_type</TD></TR>
       <TR><TD PORT="code" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">code</TD></TR>
-      <TR><TD PORT="display_value" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">display_value</TD></TR>
-      <TR><TD PORT="status" COLSPAN="3" ALIGN="LEFT">status</TD></TR>
+      <TR><TD PORT="display_value" COLSPAN="3" ALIGN="LEFT">display_value</TD></TR>
       <TR><TD PORT="description" COLSPAN="3" ALIGN="LEFT">description</TD></TR>
+      <TR><TD PORT="status" COLSPAN="3" ALIGN="LEFT">status</TD></TR>
       <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
     </TABLE>>
-    URL="tables/land_use.html"
-    tooltip="land_use"
+    URL="tables/../../cadastre/tables/land_use_type.html"
+    tooltip="cadastre.land_use_type"
   ];
   "party" [
     label=<
@@ -486,7 +489,7 @@ digraph "largeRelationshipsDiagram" {
   "attachment":"type_code":w -> "source.administrative_source_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "claim":"challenged_claim_id":w -> "claim":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "claim":"claimant_id":w -> "party":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "claim":"land_use_code":w -> "land_use":"code":e [arrowhead=none dir=back arrowtail=crowodot];
+  "claim":"land_use_code":w -> "cadastre.land_use_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "claim":"rejection_reason_code":w -> "rejection_reason":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "claim":"status_code":w -> "claim_status":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "claim":"type_code":w -> "administrative.rrr_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];

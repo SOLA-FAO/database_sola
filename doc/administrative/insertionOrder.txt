@@ -27,6 +27,7 @@ Function: get_parcel_ownernames
 Function: getsysregmanagement
 Function: getsysregprogress
 Function: getsysregstatus
+notifiable_party_for_baunit
 Sequence: ba_unit_first_name_part_seq
 Sequence: ba_unit_last_name_part_seq
 Sequence: notation_reference_nr_seq

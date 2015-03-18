@@ -161,6 +161,18 @@ digraph "compactRelationshipsDiagram" {
     URL="tables/cadastre_object_type.html"
     tooltip="cadastre_object_type"
   ];
+  "opentenure.claim" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">opentenure.claim</TD></TR>
+      <TR><TD PORT="id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">id</TD></TR>
+      <TR><TD PORT="land_use_code" COLSPAN="3" ALIGN="LEFT">land_use_code</TD></TR>
+      <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
+    </TABLE>>
+    URL="tables/../../opentenure/tables/claim.html"
+    tooltip="opentenure.claim"
+  ];
   "system.config_map_layer" [
     label=<
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
@@ -191,7 +203,7 @@ digraph "compactRelationshipsDiagram" {
       <TR><TD PORT="code" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">code</TD></TR>
       <TR><TD PORT="display_value" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">display_value</TD></TR>
       <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">3 &gt;</TD></TR>
     </TABLE>>
     URL="tables/land_use_type.html"
     tooltip="land_use_type"
@@ -444,6 +456,7 @@ digraph "compactRelationshipsDiagram" {
   "cadastre_object_node_target":"transaction_id":w -> "transaction.transaction":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "cadastre_object_target":"cadastre_object_id":w -> "cadastre_object":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "cadastre_object_target":"transaction_id":w -> "transaction.transaction":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "opentenure.claim":"land_use_code":w -> "land_use_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "legal_space_utility_network":"id":w -> "cadastre_object":"id":e [arrowhead=none dir=back arrowtail=teeodot];
   "legal_space_utility_network":"status_code":w -> "utility_network_status_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
   "legal_space_utility_network":"type_code":w -> "utility_network_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];

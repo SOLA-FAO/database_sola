@@ -1,4 +1,5 @@
 Function: is_rightholder
+source_describes_party
 party_role
 party_member
 group_party

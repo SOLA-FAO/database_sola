@@ -15,7 +15,6 @@ form_payload
 claim
 section_template
 rejection_reason
-land_use
 field_value_type
 field_constraint_type
 claim_status

@@ -64,6 +64,8 @@
          <column autoUpdated="false" defaultValue="'i'::bpchar" digits="0" id="14" name="change_action" nullable="false" remarks="Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d)." size="1" type="bpchar"/>
          <column autoUpdated="false" digits="0" id="15" name="change_user" nullable="true" remarks="The user id of the last person to modify the row." size="50" type="varchar"/>
          <column autoUpdated="false" defaultValue="now()" digits="6" id="16" name="change_time" nullable="false" remarks="The date and time the row was last modified." size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="17" name="classification_code" nullable="true" remarks="FROM  SOLA State Land Extension: The security classification for this Parcel. Only users with the security classification (or a higher classification) will be able to view the record. If null, the record is considered unrestricted." size="20" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="18" name="redact_code" nullable="true" remarks="FROM  SOLA State Land Extension: The redact classification for this Parcel. Only users with the redact classification (or a higher classification) will be able to view the record with un-redacted fields. If null, the record is considered unrestricted and no redaction to the record will occur unless bulk redaction classifications have been set for fields of the record." size="20" type="varchar"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="cadastre_object_pkey" unique="true">
             <column ascending="true" name="id"/>
@@ -214,6 +216,7 @@
       <table name="land_use_type" remarks="Code list of land use types. Identifies the general purpose of a cadastre object or property. E.g. Commerical, Residential, Industrial, etc. Implementation of the LADM ExtLandUse class. &#13;&#10;Tags: Reference Table, LADM Reference Object" schema="cadastre" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="LADM Definition: The code for the land use type." size="20" type="varchar">
             <child column="land_use_code" foreignKey="application_property_land_use_code_fk125" implied="false" onDeleteCascade="false" table="application_property"/>
+            <child column="land_use_code" foreignKey="fk_claim_land_use_type" implied="false" onDeleteCascade="false" table="claim"/>
             <child column="land_use_code" foreignKey="spatial_unit_land_use_code_fk66" implied="false" onDeleteCascade="false" table="spatial_unit"/>
          </column>
          <column autoUpdated="false" digits="0" id="1" name="display_value" nullable="false" remarks="LADM Definition: Displayed value of the land use type." size="500" type="varchar"/>

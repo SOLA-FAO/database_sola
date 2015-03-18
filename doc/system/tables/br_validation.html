@@ -104,7 +104,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </tr>
 </thead>
 <tbody valign='top'>
-<tr class='odd'>
+<tr class='even'>
  <td class='primaryKey' title='Primary Key'>id</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>40</td>
@@ -115,7 +115,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'> </td>
  <td class='comment detail'>Identifier for the br validation</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='indexedColumn' title='Indexed'>br_id</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>100</td>
@@ -125,7 +125,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative even' valign='top'>
+   <tr class='relative odd' valign='top'>
     <td class='relatedTable detail' title="br_validation.br_id refs br.id via br_validation_br_id_fk108"><a href='br.html'>br</a><span class='relatedKey'>.id</span>
     </td>
     <td class='constraint detail'>br_validation_br_id_fk108<span title='Restrict delete:
@@ -135,7 +135,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  </td>
  <td class='comment detail'>The business rule referenced by this br validation record.</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='indexedColumn' title='Indexed'>target_code</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>20</td>
@@ -145,7 +145,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="br_validation.target_code refs br_validation_target_type.code via br_validation_target_code_fk110"><a href='br_validation_target_type.html'>br_validation_target_type</a><span class='relatedKey'>.code</span>
     </td>
     <td class='constraint detail'>br_validation_target_code_fk110<span title='Restrict delete:
@@ -155,7 +155,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  </td>
  <td class='comment detail'>The entity that is the target of the validation E.g. application, service, rrr, etc.</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='indexedColumn' title='Indexed'>target_application_moment</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>20</td>
@@ -165,7 +165,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative even' valign='top'>
+   <tr class='relative odd' valign='top'>
     <td class='relatedTable detail' title="br_validation.target_application_moment refs application_action_type.code in application via br_validation_target_application_moment_fk113"><a href='../../application/tables/application_action_type.html'>application_action_type</a><span class='relatedKey'>.code</span>
     </td>
     <td class='constraint detail'>br_validation_target_application_moment_fk113<span title='Restrict delete:
@@ -175,7 +175,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  </td>
  <td class='comment detail'>Identifies the application action the rule applies to. E.g. approve, validate, etc. Only valid if target_code is application.</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='indexedColumn' title='Indexed'>target_service_moment</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>20</td>
@@ -185,7 +185,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="br_validation.target_service_moment refs service_action_type.code in application via br_validation_target_service_moment_fk114"><a href='../../application/tables/service_action_type.html'>service_action_type</a><span class='relatedKey'>.code</span>
     </td>
     <td class='constraint detail'>br_validation_target_service_moment_fk114<span title='Restrict delete:
@@ -195,7 +195,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  </td>
  <td class='comment detail'>Identifies the service action the rule applies to. E.g. complete, start, cancel, etc. Only valid if the target_code is service.</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='indexedColumn' title='Indexed'>target_reg_moment</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>20</td>
@@ -205,7 +205,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative even' valign='top'>
+   <tr class='relative odd' valign='top'>
     <td class='relatedTable detail' title="br_validation.target_reg_moment refs reg_status_type.code in transaction via br_validation_target_reg_moment_fk115"><a href='../../transaction/tables/reg_status_type.html'>reg_status_type</a><span class='relatedKey'>.code</span>
     </td>
     <td class='constraint detail'>br_validation_target_reg_moment_fk115<span title='Restrict delete:
@@ -215,7 +215,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  </td>
  <td class='comment detail'>Identifies the entity status the rule applies to. E.g. current, pending, etc. Only valid if target_code is one of ba_unit, cadastre_object, source, rrr or bulkOperationSpatial.</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='indexedColumn' title='Indexed'>target_request_type_code</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>20</td>
@@ -225,7 +225,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="br_validation.target_request_type_code refs request_type.code in application via br_validation_target_request_type_code_fk111"><a href='../../application/tables/request_type.html'>request_type</a><span class='relatedKey'>.code</span>
     </td>
     <td class='constraint detail'>br_validation_target_request_type_code_fk111<span title='Restrict delete:
@@ -235,7 +235,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  </td>
  <td class='comment detail'>Used as an additional filter for the set of business rules to run by ensuring the rule is only executed if the service type (a.k.a. request_type) matches the specified value.</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='indexedColumn' title='Indexed'>target_rrr_type_code</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>20</td>
@@ -245,7 +245,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative even' valign='top'>
+   <tr class='relative odd' valign='top'>
     <td class='relatedTable detail' title="br_validation.target_rrr_type_code refs rrr_type.code in administrative via br_validation_target_rrr_type_code_fk112"><a href='../../administrative/tables/rrr_type.html'>rrr_type</a><span class='relatedKey'>.code</span>
     </td>
     <td class='constraint detail'>br_validation_target_rrr_type_code_fk112<span title='Restrict delete:
@@ -255,7 +255,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  </td>
  <td class='comment detail'>Used as an additional filter for the set of business rules to run by ensuring the rule is only executed if the rrr type matches the specified value.</td>
 </tr>
-<tr class='odd'>
+<tr class='even'>
  <td class='indexedColumn' title='Indexed'>severity_code</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>20</td>
@@ -265,7 +265,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative odd' valign='top'>
+   <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="br_validation.severity_code refs br_severity_type.code via br_validation_severity_code_fk109"><a href='br_severity_type.html'>br_severity_type</a><span class='relatedKey'>.code</span>
     </td>
     <td class='constraint detail'>br_validation_severity_code_fk109<span title='Restrict delete:
@@ -275,7 +275,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  </td>
  <td class='comment detail'>The severity of the business rule failure.</td>
 </tr>
-<tr class='even'>
+<tr class='odd'>
  <td class='detail'>order_of_execution</td>
  <td class='detail'>int4</td>
  <td class='detail' align='right'>10</td>
@@ -287,7 +287,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='comment detail'>Number used to order the execution of business rules in the rule set.</td>
 </tr>
 </table>
-<p title='10 columns'>Analyzed at Wed Sep 24 11:08 NZST 2014<p/>
+<p title='10 columns'>Analyzed at Wed Mar 18 11:03 NZDT 2015<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
@@ -409,23 +409,23 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </td></tr></table>
 <span class='excludedRelationship'>
 <br>Excluded from diagram's relationships: 
-<a href="../tables/approle_appgroup.html">approle_appgroup.change_user</a>&nbsp;
-<a href="../tables/appuser.html">appuser.change_time</a>&nbsp;
-<a href="../tables/appuser_appgroup.html">appuser_appgroup.rowversion</a>&nbsp;
-<a href="../tables/approle_appgroup.html">approle_appgroup.change_time</a>&nbsp;
-<a href="../tables/approle_appgroup.html">approle_appgroup.rowversion</a>&nbsp;
-<a href="../tables/user_pword_expiry.html">user_pword_expiry.pword_change_user</a>&nbsp;
-<a href="../tables/appuser_appgroup.html">appuser_appgroup.change_time</a>&nbsp;
 <a href="../tables/approle_appgroup.html">approle_appgroup.change_action</a>&nbsp;
-<a href="../tables/appuser_appgroup.html">appuser_appgroup.change_action</a>&nbsp;
-<a href="../tables/appuser.html">appuser.change_action</a>&nbsp;
-<a href="../tables/approle_appgroup.html">approle_appgroup.rowidentifier</a>&nbsp;
-<a href="../tables/appuser.html">appuser.rowidentifier</a>&nbsp;
-<a href="../tables/appuser_appgroup.html">appuser_appgroup.change_user</a>&nbsp;
 <a href="../tables/appuser.html">appuser.change_user</a>&nbsp;
 <a href="../tables/appuser_appgroup.html">appuser_appgroup.rowidentifier</a>&nbsp;
+<a href="../tables/approle_appgroup.html">approle_appgroup.change_user</a>&nbsp;
+<a href="../tables/approle_appgroup.html">approle_appgroup.rowidentifier</a>&nbsp;
 <a href="../tables/extracted_rows.html">extracted_rows.rowidentifier</a>&nbsp;
+<a href="../tables/appuser_appgroup.html">appuser_appgroup.change_user</a>&nbsp;
+<a href="../tables/approle_appgroup.html">approle_appgroup.rowversion</a>&nbsp;
+<a href="../tables/appuser_appgroup.html">appuser_appgroup.rowversion</a>&nbsp;
 <a href="../tables/appuser.html">appuser.rowversion</a>&nbsp;
+<a href="../tables/appuser_appgroup.html">appuser_appgroup.change_action</a>&nbsp;
+<a href="../tables/appuser_appgroup.html">appuser_appgroup.change_time</a>&nbsp;
+<a href="../tables/appuser.html">appuser.change_action</a>&nbsp;
+<a href="../tables/approle_appgroup.html">approle_appgroup.change_time</a>&nbsp;
+<a href="../tables/appuser.html">appuser.change_time</a>&nbsp;
+<a href="../tables/appuser.html">appuser.rowidentifier</a>&nbsp;
+<a href="../tables/user_pword_expiry.html">user_pword_expiry.pword_change_user</a>&nbsp;
 </span>
 </div>
 </body>

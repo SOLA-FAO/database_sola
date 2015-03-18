@@ -128,7 +128,7 @@ digraph "compactRelationshipsDiagram" {
       <TR><TD PORT="preferred_communication_code" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">preferred_communication_code</TD></TR>
       <TR><TD PORT="rowidentifier" COLSPAN="3" BGCOLOR="#c0c0c0" ALIGN="LEFT">rowidentifier</TD></TR>
       <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 5</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">7 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 5</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">8 &gt;</TD></TR>
     </TABLE>>
     URL="tables/party.html"
     tooltip="party"
@@ -195,6 +195,30 @@ digraph "compactRelationshipsDiagram" {
     URL="tables/party_type.html"
     tooltip="party_type"
   ];
+  "source.source" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">source.source</TD></TR>
+      <TR><TD PORT="id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">id</TD></TR>
+      <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
+    </TABLE>>
+    URL="tables/../../source/tables/source.html"
+    tooltip="source.source"
+  ];
+  "source_describes_party" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">source_describes_party</TD></TR>
+      <TR><TD PORT="source_id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">source_id</TD></TR>
+      <TR><TD PORT="party_id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">party_id</TD></TR>
+      <TR><TD PORT="rowidentifier" COLSPAN="3" BGCOLOR="#c0c0c0" ALIGN="LEFT">rowidentifier</TD></TR>
+      <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 2</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
+    </TABLE>>
+    URL="tables/source_describes_party.html"
+    tooltip="source_describes_party"
+  ];
   "application.application":"agent_id":w -> "party":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "application.application":"contact_person_id":w -> "party":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "administrative.ba_unit_as_party":"party_id":w -> "party":"id":e [arrowhead=none dir=back arrowtail=crowodot];
@@ -210,4 +234,6 @@ digraph "compactRelationshipsDiagram" {
   "party_member":"party_id":w -> "party":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "party_role":"party_id":w -> "party":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "party_role":"type_code":w -> "party_role_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
+  "source_describes_party":"party_id":w -> "party":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "source_describes_party":"source_id":w -> "source.source":"id":e [arrowhead=none dir=back arrowtail=crowodot];
 }

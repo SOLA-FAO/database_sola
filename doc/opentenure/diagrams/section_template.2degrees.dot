@@ -80,6 +80,7 @@ digraph "twoDegreesRelationshipsDiagram" {
       <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">form_template</TD></TR>
       <TR><TD PORT="name" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">name</TD></TR>
       <TR><TD PORT="display_name" COLSPAN="3" ALIGN="LEFT">display_name</TD></TR>
+      <TR><TD PORT="is_default" COLSPAN="3" ALIGN="LEFT">is_default</TD></TR>
       <TR><TD PORT="rowidentifier" COLSPAN="3" BGCOLOR="#c0c0c0" ALIGN="LEFT">rowidentifier</TD></TR>
       <TR><TD PORT="rowversion" COLSPAN="3" BGCOLOR="#c0c0c0" ALIGN="LEFT">rowversion</TD></TR>
       <TR><TD PORT="change_action" COLSPAN="3" BGCOLOR="#c0c0c0" ALIGN="LEFT">change_action</TD></TR>

@@ -33,6 +33,8 @@
          <column autoUpdated="false" defaultValue="'i'::bpchar" digits="0" id="11" name="change_action" nullable="false" remarks="SOLA Extension: Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d)." size="1" type="bpchar"/>
          <column autoUpdated="false" digits="0" id="12" name="change_user" nullable="true" remarks="SOLA Extension: The user id of the last person to modify the row." size="50" type="varchar"/>
          <column autoUpdated="false" defaultValue="now()" digits="6" id="13" name="change_time" nullable="false" remarks="SOLA Extension: The date and time the row was last modified." size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="14" name="classification_code" nullable="true" remarks="FROM  SOLA State Land Extension: The security classification for this Ba Unit. Only users with the security classification (or a higher classification) will be able to view the record. If null, the record is considered unrestricted." size="20" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="15" name="redact_code" nullable="true" remarks="FROM  SOLA State Land Extension: The redact classification for this Ba Unit. Only users with the redact classification (or a higher classification) will be able to view the record with un-redacted fields. If null, the record is considered unrestricted and no redaction to the record will occur unless bulk redaction classifications have been set for fields of the record." size="20" type="varchar"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="ba_unit_pkey" unique="true">
             <column ascending="true" name="id"/>
@@ -104,8 +106,8 @@
             <parent column="id" foreignKey="ba_unit_contains_spatial_unit_ba_unit_id_fk68" implied="false" onDeleteCascade="true" table="ba_unit"/>
          </column>
          <column autoUpdated="false" digits="0" id="1" name="spatial_unit_id" nullable="false" remarks="Identifier for the Spatial Unit associated to the BA Unit." size="40" type="varchar">
-            <parent column="id" foreignKey="ba_unit_contains_spatial_unit_spatial_unit_id_fk70" implied="false" onDeleteCascade="true" table="cadastre_object"/>
             <parent column="id" foreignKey="ba_unit_contains_spatial_unit_spatial_unit_id_fk69" implied="false" onDeleteCascade="true" table="spatial_unit"/>
+            <parent column="id" foreignKey="ba_unit_contains_spatial_unit_spatial_unit_id_fk70" implied="false" onDeleteCascade="true" table="cadastre_object"/>
          </column>
          <column autoUpdated="false" defaultValue="uuid_generate_v1()" digits="0" id="2" name="rowidentifier" nullable="false" remarks="Identifies the all change records for the row in the ba_unit_contains_spatial_unit_historic table" size="40" type="varchar"/>
          <column autoUpdated="false" defaultValue="0" digits="0" id="3" name="rowversion" nullable="false" remarks="Sequential value indicating the number of times this row has been modified." size="10" type="int4"/>
@@ -308,6 +310,8 @@
          <column autoUpdated="false" defaultValue="'i'::bpchar" digits="0" id="10" name="change_action" nullable="false" remarks="Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d)." size="1" type="bpchar"/>
          <column autoUpdated="false" digits="0" id="11" name="change_user" nullable="true" remarks="The user id of the last person to modify the row." size="50" type="varchar"/>
          <column autoUpdated="false" defaultValue="now()" digits="6" id="12" name="change_time" nullable="false" remarks="The date and time the row was last modified." size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="13" name="classification_code" nullable="true" remarks="FROM  SOLA State Land Extension: The security classification for this Notation. Only users with the security classification (or a higher classification) will be able to view the record. If null, the record is considered unrestricted." size="20" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="14" name="redact_code" nullable="true" remarks="FROM  SOLA State Land Extension: The redact classification for this Notation. Only users with the redact classification (or a higher classification) will be able to view the record with un-redacted fields. If null, the record is considered unrestricted and no redaction to the record will occur unless bulk redaction classifications have been set for fields of the record." size="20" type="varchar"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="notation_pkey" unique="true">
             <column ascending="true" name="id"/>
@@ -328,10 +332,35 @@
             <column ascending="true" name="transaction_id"/>
          </index>
       </table>
+      <table name="notifiable_party_for_baunit" remarks="Parties to be informed about transaction on baunit." schema="administrative" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="party_id" nullable="false" remarks="" size="40" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="1" name="target_party_id" nullable="false" remarks="" size="40" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="2" name="baunit_name" nullable="false" remarks="" size="40" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="3" name="application_id" nullable="false" remarks="" size="40" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="4" name="service_id" nullable="false" remarks="" size="40" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="5" name="cancel_service_id" nullable="true" remarks="" size="40" type="varchar"/>
+         <column autoUpdated="false" defaultValue="'c'::character varying" digits="0" id="6" name="status" nullable="false" remarks="" size="40" type="varchar"/>
+         <column autoUpdated="false" defaultValue="uuid_generate_v1()" digits="0" id="7" name="rowidentifier" nullable="false" remarks="" size="40" type="varchar"/>
+         <column autoUpdated="false" defaultValue="0" digits="0" id="8" name="rowversion" nullable="false" remarks="" size="10" type="int4"/>
+         <column autoUpdated="false" defaultValue="'i'::bpchar" digits="0" id="9" name="change_action" nullable="false" remarks="" size="1" type="bpchar"/>
+         <column autoUpdated="false" digits="0" id="10" name="change_user" nullable="true" remarks="" size="50" type="varchar"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="11" name="change_time" nullable="false" remarks="" size="29" type="timestamp"/>
+         <primaryKey column="party_id" sequenceNumberInPK="1"/>
+         <primaryKey column="target_party_id" sequenceNumberInPK="2"/>
+         <primaryKey column="baunit_name" sequenceNumberInPK="3"/>
+         <index name="notifiable_party_for_baunit_pkey" unique="true">
+            <column ascending="true" name="party_id"/>
+            <column ascending="true" name="target_party_id"/>
+            <column ascending="true" name="baunit_name"/>
+         </index>
+         <index name="notifiable_party_for_baunit_index_on_rowidentifier" unique="false">
+            <column ascending="true" name="rowidentifier"/>
+         </index>
+      </table>
       <table name="party_for_rrr" remarks="Identifies the parties involved in each RRR. Also identifies the share each party has in the RRR if the RRR is subject to shared allocation.&#13;&#10;Tags: FLOSS SOLA Extension, Change History" schema="administrative" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="rrr_id" nullable="false" remarks="Identifier for the RRR." size="40" type="varchar">
-            <parent column="id" foreignKey="party_for_rrr_rrr_id_fk81" implied="false" onDeleteCascade="true" table="rrr"/>
             <parent column="rrr_id" foreignKey="party_for_rrr_rrr_id_fk80" implied="false" onDeleteCascade="true" table="rrr_share"/>
+            <parent column="id" foreignKey="party_for_rrr_rrr_id_fk81" implied="false" onDeleteCascade="true" table="rrr"/>
          </column>
          <column autoUpdated="false" digits="0" id="1" name="party_id" nullable="false" remarks="Identifier for the party associated to the RRR." size="40" type="varchar">
             <parent column="id" foreignKey="party_for_rrr_party_id_fk82" implied="false" onDeleteCascade="true" table="party"/>
@@ -437,6 +466,8 @@
          <column autoUpdated="false" defaultValue="'i'::bpchar" digits="0" id="17" name="change_action" nullable="false" remarks="SOLA Extension: Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d)." size="1" type="bpchar"/>
          <column autoUpdated="false" digits="0" id="18" name="change_user" nullable="true" remarks="SOLA Extension: The user id of the last person to modify the row." size="50" type="varchar"/>
          <column autoUpdated="false" defaultValue="now()" digits="6" id="19" name="change_time" nullable="false" remarks="SOLA Extension: The date and time the row was last modified." size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="20" name="classification_code" nullable="true" remarks="FROM  SOLA State Land Extension: The security classification for this RRR. Only users with the security classification (or a higher classification) will be able to view the record. If null, the record is considered unrestricted." size="20" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="21" name="redact_code" nullable="true" remarks="FROM  SOLA State Land Extension: The redact classification for this RRR. Only users with the redact classification (or a higher classification) will be able to view the record with un-redacted fields. If null, the record is considered unrestricted and no redaction to the record will occur unless bulk redaction classifications have been set for fields of the record." size="20" type="varchar"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="rrr_pkey" unique="true">
             <column ascending="true" name="id"/>

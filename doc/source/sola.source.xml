@@ -95,6 +95,7 @@
             <child column="source_id" foreignKey="application_uses_source_source_id_fk127" implied="false" onDeleteCascade="true" table="application_uses_source"/>
             <child column="id" foreignKey="power_of_attorney_id_fk31" implied="false" onDeleteCascade="true" table="power_of_attorney"/>
             <child column="source_id" foreignKey="source_describes_ba_unit_source_id_fk51" implied="false" onDeleteCascade="true" table="source_describes_ba_unit"/>
+            <child column="source_id" foreignKey="source_describes_party_source_id_fk42" implied="false" onDeleteCascade="true" table="source_describes_party"/>
             <child column="source_id" foreignKey="source_describes_rrr_source_id_fk49" implied="false" onDeleteCascade="true" table="source_describes_rrr"/>
             <child column="id" foreignKey="spatial_source_id_fk28" implied="false" onDeleteCascade="true" table="spatial_source"/>
             <child column="source_id" foreignKey="transaction_source_source_id_fk101" implied="false" onDeleteCascade="true" table="transaction_source"/>
@@ -134,6 +135,8 @@
          <column autoUpdated="false" defaultValue="'i'::bpchar" digits="0" id="21" name="change_action" nullable="false" remarks="Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d)." size="1" type="bpchar"/>
          <column autoUpdated="false" digits="0" id="22" name="change_user" nullable="true" remarks="The user id of the last person to modify the row." size="50" type="varchar"/>
          <column autoUpdated="false" defaultValue="now()" digits="6" id="23" name="change_time" nullable="false" remarks="The date and time the row was last modified." size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="24" name="classification_code" nullable="true" remarks="FROM  SOLA State Land Extension: The security classification for this Source. Only users with the security classification (or a higher classification) will be able to view the record. If null, the record is considered unrestricted." size="20" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="25" name="redact_code" nullable="true" remarks="FROM  SOLA State Land Extension: The redact classification for this Source. Only users with the redact classification (or a higher classification) will be able to view the record with un-redacted fields. If null, the record is considered unrestricted and no redaction to the record will occur unless bulk redaction classifications have been set for fields of the record." size="20" type="varchar"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="source_pkey" unique="true">
             <column ascending="true" name="id"/>

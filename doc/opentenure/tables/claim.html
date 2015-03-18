@@ -398,9 +398,9 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
    <tr class='relative odd' valign='top'>
-    <td class='relatedTable detail' title="claim.land_use_code refs land_use.code via fk_claim_land_use"><a href='land_use.html'>land_use</a><span class='relatedKey'>.code</span>
+    <td class='relatedTable detail' title="claim.land_use_code refs land_use_type.code in cadastre via fk_claim_land_use_type"><a href='../../cadastre/tables/land_use_type.html'>land_use_type</a><span class='relatedKey'>.code</span>
     </td>
-    <td class='constraint detail'>fk_claim_land_use<span title='Restrict delete:
+    <td class='constraint detail'>fk_claim_land_use_type<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
   </table>
@@ -493,8 +493,19 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  </td>
  <td class='comment detail'>Rejection reason code.</td>
 </tr>
+<tr class='odd'>
+ <td class='detail'>claim_area</td>
+ <td class='detail'>int8</td>
+ <td class='detail' align='right'>19</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='right'>0</td>
+ <td class='detail'></td>
+ <td class='detail'> </td>
+ <td class='comment detail'>Claim area in square meters.</td>
+</tr>
 </table>
-<p title='27 columns'>Analyzed at Wed Sep 24 11:08 NZST 2014<p/>
+<p title='28 columns'>Analyzed at Wed Mar 18 11:03 NZDT 2015<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
@@ -520,120 +531,120 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 <br><form action='get'><b>Close relationships</b><span class='degrees' id='degrees' title='Detail diminishes with increased separation from claim'>
 &nbsp;within <label for='oneDegree'><input type='radio' name='degrees' id='oneDegree' checked>one</label>  <label for='twoDegrees'><input type='radio' name='degrees' id='twoDegrees'>two degrees</label> of separation</span><b>:</b></form>
 <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="claim.html" title="claim" alt="" coords="226,661,569,1374">
-<area shape="rect" id="node2" href="party.html" title="party" alt="" coords="30,389,157,881">
-<area shape="rect" id="node3" href="land_use.html" title="land_use" alt="" coords="34,1365,153,1521">
-<area shape="rect" id="node4" href="rejection_reason.html" title="rejection_reason" alt="" coords="23,1538,163,1694">
-<area shape="rect" id="node5" href="claim_status.html" title="claim_status" alt="" coords="34,898,153,1054">
-<area shape="rect" id="node6" href="../../administrative/tables/rrr_type.html" title="administrative.rrr_type" alt="" coords="5,1071,181,1347">
-<area shape="rect" id="node7" href="claim_comment.html" title="claim_comment" alt="" coords="640,5,776,305">
-<area shape="rect" id="node8" href="claim_location.html" title="claim_location" alt="" coords="637,322,779,622">
-<area shape="rect" id="node9" href="claim_share.html" title="claim_share" alt="" coords="645,639,771,915">
-<area shape="rect" id="node10" href="claim_uses_attachment.html" title="claim_uses_attachment" alt="" coords="614,933,802,1161">
-<area shape="rect" id="node11" href="form_payload.html" title="form_payload" alt="" coords="623,1178,793,1430">
+<area shape="rect" id="node1" href="claim.html" title="claim" alt="" coords="237,661,579,1398">
+<area shape="rect" id="node2" href="party.html" title="party" alt="" coords="35,389,162,881">
+<area shape="rect" id="node3" href="../../cadastre/tables/land_use_type.html" title="cadastre.land_use_type" alt="" coords="5,1365,192,1521">
+<area shape="rect" id="node4" href="rejection_reason.html" title="rejection_reason" alt="" coords="29,1538,169,1694">
+<area shape="rect" id="node5" href="claim_status.html" title="claim_status" alt="" coords="39,898,158,1054">
+<area shape="rect" id="node6" href="../../administrative/tables/rrr_type.html" title="administrative.rrr_type" alt="" coords="11,1071,187,1347">
+<area shape="rect" id="node7" href="claim_comment.html" title="claim_comment" alt="" coords="651,5,787,305">
+<area shape="rect" id="node8" href="claim_location.html" title="claim_location" alt="" coords="647,322,790,622">
+<area shape="rect" id="node9" href="claim_share.html" title="claim_share" alt="" coords="655,639,782,939">
+<area shape="rect" id="node10" href="claim_uses_attachment.html" title="claim_uses_attachment" alt="" coords="625,957,813,1185">
+<area shape="rect" id="node11" href="form_payload.html" title="form_payload" alt="" coords="633,1202,804,1454">
 </map>
   <a name='diagram'><img id='oneDegreeImg' src='../diagrams/claim.1degree.png' usemap='#oneDegreeRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="claim.html" title="claim" alt="" coords="226,495,569,1209">
-<area shape="rect" id="node2" href="party.html" title="party" alt="" coords="30,5,157,497">
-<area shape="rect" id="node3" href="land_use.html" title="land_use" alt="" coords="34,1030,153,1186">
-<area shape="rect" id="node4" href="rejection_reason.html" title="rejection_reason" alt="" coords="23,1203,163,1359">
-<area shape="rect" id="node5" href="claim_status.html" title="claim_status" alt="" coords="34,563,153,719">
-<area shape="rect" id="node6" href="../../administrative/tables/rrr_type.html" title="administrative.rrr_type" alt="" coords="5,737,181,1013">
-<area shape="rect" id="node7" href="claim_comment.html" title="claim_comment" alt="" coords="640,347,776,647">
-<area shape="rect" id="node8" href="claim_location.html" title="claim_location" alt="" coords="637,665,779,965">
-<area shape="rect" id="node9" href="claim_share.html" title="claim_share" alt="" coords="645,54,771,330">
-<area shape="rect" id="node10" href="claim_uses_attachment.html" title="claim_uses_attachment" alt="" coords="614,982,802,1210">
-<area shape="rect" id="node11" href="form_payload.html" title="form_payload" alt="" coords="623,1227,793,1479">
-<area shape="rect" id="node12" href="form_template.html" title="form_template" alt="" coords="335,1275,460,1359">
-<area shape="rect" id="node13" href="party_for_claim_share.html" title="party_for_claim_share" alt="" coords="847,19,1023,103">
-<area shape="rect" id="node14" href="section_payload.html" title="section_payload" alt="" coords="867,1227,1003,1311">
+<area shape="rect" id="node1" href="claim.html" title="claim" alt="" coords="237,501,579,1238">
+<area shape="rect" id="node2" href="party.html" title="party" alt="" coords="35,5,162,497">
+<area shape="rect" id="node3" href="../../cadastre/tables/land_use_type.html" title="cadastre.land_use_type" alt="" coords="5,1023,192,1179">
+<area shape="rect" id="node4" href="rejection_reason.html" title="rejection_reason" alt="" coords="29,1197,169,1353">
+<area shape="rect" id="node5" href="claim_status.html" title="claim_status" alt="" coords="39,557,158,713">
+<area shape="rect" id="node6" href="../../administrative/tables/rrr_type.html" title="administrative.rrr_type" alt="" coords="11,730,187,1006">
+<area shape="rect" id="node7" href="claim_comment.html" title="claim_comment" alt="" coords="651,371,787,671">
+<area shape="rect" id="node8" href="claim_location.html" title="claim_location" alt="" coords="647,689,790,989">
+<area shape="rect" id="node9" href="claim_share.html" title="claim_share" alt="" coords="655,54,782,354">
+<area shape="rect" id="node10" href="claim_uses_attachment.html" title="claim_uses_attachment" alt="" coords="625,1006,813,1234">
+<area shape="rect" id="node11" href="form_payload.html" title="form_payload" alt="" coords="633,1251,804,1503">
+<area shape="rect" id="node12" href="form_template.html" title="form_template" alt="" coords="345,1299,471,1383">
+<area shape="rect" id="node13" href="party_for_claim_share.html" title="party_for_claim_share" alt="" coords="857,19,1033,103">
+<area shape="rect" id="node14" href="section_payload.html" title="section_payload" alt="" coords="877,1251,1013,1335">
 </map>
 
   <a name='diagram'><img id='twoDegreesImg' src='../diagrams/claim.2degrees.png' usemap='#twoDegreesRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 </td></tr></table>
 <span class='excludedRelationship'>
 <br>Excluded from diagram's relationships: 
-<a href="../tables/claim_comment.html">claim_comment.change_action</a>&nbsp;
-<a href="../tables/field_template.html">field_template.change_action</a>&nbsp;
-<a href="../tables/claim_location.html">claim_location.change_time</a>&nbsp;
-<a href="../tables/party.html">party.rowidentifier</a>&nbsp;
-<a href="../tables/claim_comment.html">claim_comment.rowversion</a>&nbsp;
-<a href="../tables/section_element_payload.html">section_element_payload.change_user</a>&nbsp;
-<a href="../tables/field_constraint.html">field_constraint.change_action</a>&nbsp;
-<a href="../tables/section_template.html">section_template.rowversion</a>&nbsp;
-<a href="../tables/claim_share.html">claim_share.rowidentifier</a>&nbsp;
-<a href="../tables/form_payload.html">form_payload.rowversion</a>&nbsp;
-<a href="../tables/claim_share.html">claim_share.rowversion</a>&nbsp;
-<a href="../tables/field_payload.html">field_payload.rowversion</a>&nbsp;
-<a href="../tables/claim_comment.html">claim_comment.rowidentifier</a>&nbsp;
-<a href="../tables/claim_uses_attachment.html">claim_uses_attachment.change_user</a>&nbsp;
-<a href="../tables/section_payload.html">section_payload.rowidentifier</a>&nbsp;
-<a href="../tables/attachment.html">attachment.change_action</a>&nbsp;
-<a href="../tables/field_payload.html">field_payload.change_time</a>&nbsp;
-<a href="../tables/field_constraint.html">field_constraint.change_time</a>&nbsp;
-<a href="../tables/claim_location.html">claim_location.change_user</a>&nbsp;
-<a href="../tables/field_constraint.html">field_constraint.rowversion</a>&nbsp;
-<a href="../tables/section_element_payload.html">section_element_payload.rowidentifier</a>&nbsp;
-<a href="../tables/attachment.html">attachment.change_time</a>&nbsp;
-<a href="../tables/section_payload.html">section_payload.rowversion</a>&nbsp;
-<a href="../tables/section_payload.html">section_payload.change_action</a>&nbsp;
-<a href="../tables/field_template.html">field_template.change_time</a>&nbsp;
-<a href="../tables/field_constraint.html">field_constraint.rowidentifier</a>&nbsp;
-<a href="../tables/party_for_claim_share.html">party_for_claim_share.change_action</a>&nbsp;
-<a href="../tables/field_constraint_option.html">field_constraint_option.rowversion</a>&nbsp;
-<a href="../tables/party.html">party.change_action</a>&nbsp;
-<a href="../tables/claim_uses_attachment.html">claim_uses_attachment.change_action</a>&nbsp;
-<a href="../tables/party_for_claim_share.html">party_for_claim_share.change_time</a>&nbsp;
-<a href="../tables/form_template.html">form_template.change_action</a>&nbsp;
-<a href="../tables/party_for_claim_share.html">party_for_claim_share.rowidentifier</a>&nbsp;
-<a href="../tables/field_payload.html">field_payload.change_user</a>&nbsp;
-<a href="../tables/party.html">party.change_time</a>&nbsp;
-<a href="../tables/claim_comment.html">claim_comment.change_user</a>&nbsp;
-<a href="../tables/section_element_payload.html">section_element_payload.change_time</a>&nbsp;
-<a href="../tables/field_constraint_option.html">field_constraint_option.change_time</a>&nbsp;
-<a href="../tables/section_template.html">section_template.change_user</a>&nbsp;
-<a href="../tables/field_payload.html">field_payload.rowidentifier</a>&nbsp;
-<a href="../tables/attachment.html">attachment.rowidentifier</a>&nbsp;
-<a href="../tables/field_constraint_option.html">field_constraint_option.change_user</a>&nbsp;
-<a href="../tables/section_template.html">section_template.change_action</a>&nbsp;
-<a href="../tables/form_template.html">form_template.change_time</a>&nbsp;
-<a href="../tables/field_constraint.html">field_constraint.change_user</a>&nbsp;
-<a href="../tables/form_payload.html">form_payload.change_time</a>&nbsp;
-<a href="../tables/party.html">party.rowversion</a>&nbsp;
-<a href="../tables/claim_uses_attachment.html">claim_uses_attachment.rowversion</a>&nbsp;
-<a href="../tables/form_payload.html">form_payload.change_user</a>&nbsp;
-<a href="../tables/field_template.html">field_template.rowidentifier</a>&nbsp;
-<a href="../tables/section_element_payload.html">section_element_payload.change_action</a>&nbsp;
-<a href="../tables/field_template.html">field_template.rowversion</a>&nbsp;
-<a href="../tables/field_constraint_option.html">field_constraint_option.rowidentifier</a>&nbsp;
-<a href="../tables/field_payload.html">field_payload.change_action</a>&nbsp;
-<a href="../tables/claim_share.html">claim_share.change_action</a>&nbsp;
-<a href="../tables/form_payload.html">form_payload.rowidentifier</a>&nbsp;
-<a href="../tables/section_template.html">section_template.change_time</a>&nbsp;
-<a href="../tables/claim_uses_attachment.html">claim_uses_attachment.change_time</a>&nbsp;
-<a href="../tables/party_for_claim_share.html">party_for_claim_share.change_user</a>&nbsp;
 <a href="../tables/claim_comment.html">claim_comment.change_time</a>&nbsp;
-<a href="../tables/section_element_payload.html">section_element_payload.rowversion</a>&nbsp;
-<a href="../tables/claim_location.html">claim_location.change_action</a>&nbsp;
+<a href="../tables/field_template.html">field_template.change_time</a>&nbsp;
+<a href="../tables/section_template.html">section_template.rowversion</a>&nbsp;
+<a href="../tables/party.html">party.change_action</a>&nbsp;
+<a href="../tables/claim_comment.html">claim_comment.change_user</a>&nbsp;
+<a href="../tables/party.html">party.rowidentifier</a>&nbsp;
+<a href="../tables/field_constraint.html">field_constraint.change_time</a>&nbsp;
+<a href="../tables/section_template.html">section_template.change_user</a>&nbsp;
+<a href="../tables/claim_share.html">claim_share.change_action</a>&nbsp;
+<a href="../tables/form_payload.html">form_payload.change_user</a>&nbsp;
+<a href="../tables/claim_uses_attachment.html">claim_uses_attachment.rowversion</a>&nbsp;
 <a href="../tables/claim_share.html">claim_share.change_user</a>&nbsp;
-<a href="../tables/form_template.html">form_template.change_user</a>&nbsp;
-<a href="../tables/field_template.html">field_template.change_user</a>&nbsp;
-<a href="../tables/attachment.html">attachment.change_user</a>&nbsp;
-<a href="../tables/attachment.html">attachment.rowversion</a>&nbsp;
-<a href="../tables/claim_location.html">claim_location.rowidentifier</a>&nbsp;
+<a href="../tables/field_payload.html">field_payload.change_user</a>&nbsp;
+<a href="../tables/claim_comment.html">claim_comment.change_action</a>&nbsp;
+<a href="../tables/form_payload.html">form_payload.rowidentifier</a>&nbsp;
+<a href="../tables/party_for_claim_share.html">party_for_claim_share.rowidentifier</a>&nbsp;
+<a href="../tables/section_payload.html">section_payload.change_action</a>&nbsp;
+<a href="../tables/attachment.html">attachment.change_time</a>&nbsp;
+<a href="../tables/claim_share.html">claim_share.rowversion</a>&nbsp;
+<a href="../tables/field_constraint_option.html">field_constraint_option.rowversion</a>&nbsp;
 <a href="../tables/section_template.html">section_template.rowidentifier</a>&nbsp;
-<a href="../tables/party_for_claim_share.html">party_for_claim_share.rowversion</a>&nbsp;
+<a href="../tables/field_constraint.html">field_constraint.change_user</a>&nbsp;
+<a href="../tables/form_payload.html">form_payload.rowversion</a>&nbsp;
+<a href="../tables/section_element_payload.html">section_element_payload.change_action</a>&nbsp;
 <a href="../tables/section_payload.html">section_payload.change_user</a>&nbsp;
 <a href="../tables/section_payload.html">section_payload.change_time</a>&nbsp;
-<a href="../tables/form_payload.html">form_payload.change_action</a>&nbsp;
-<a href="../tables/claim_share.html">claim_share.change_time</a>&nbsp;
-<a href="../tables/field_constraint_option.html">field_constraint_option.change_action</a>&nbsp;
-<a href="../tables/form_template.html">form_template.rowidentifier</a>&nbsp;
-<a href="../tables/claim_uses_attachment.html">claim_uses_attachment.rowidentifier</a>&nbsp;
-<a href="../tables/form_template.html">form_template.rowversion</a>&nbsp;
-<a href="../tables/party.html">party.change_user</a>&nbsp;
+<a href="../tables/section_element_payload.html">section_element_payload.rowversion</a>&nbsp;
+<a href="../tables/field_constraint.html">field_constraint.change_action</a>&nbsp;
+<a href="../tables/party_for_claim_share.html">party_for_claim_share.change_time</a>&nbsp;
+<a href="../tables/field_constraint_option.html">field_constraint_option.change_user</a>&nbsp;
+<a href="../tables/party.html">party.change_time</a>&nbsp;
+<a href="../tables/claim_uses_attachment.html">claim_uses_attachment.change_time</a>&nbsp;
+<a href="../tables/field_payload.html">field_payload.rowversion</a>&nbsp;
+<a href="../tables/form_template.html">form_template.change_time</a>&nbsp;
+<a href="../tables/party_for_claim_share.html">party_for_claim_share.change_action</a>&nbsp;
+<a href="../tables/claim_share.html">claim_share.rowidentifier</a>&nbsp;
 <a href="../tables/claim_location.html">claim_location.rowversion</a>&nbsp;
+<a href="../tables/field_template.html">field_template.rowidentifier</a>&nbsp;
+<a href="../tables/party.html">party.rowversion</a>&nbsp;
+<a href="../tables/section_payload.html">section_payload.rowidentifier</a>&nbsp;
+<a href="../tables/field_payload.html">field_payload.change_action</a>&nbsp;
+<a href="../tables/attachment.html">attachment.change_action</a>&nbsp;
+<a href="../tables/claim_uses_attachment.html">claim_uses_attachment.rowidentifier</a>&nbsp;
+<a href="../tables/section_template.html">section_template.change_time</a>&nbsp;
+<a href="../tables/claim_comment.html">claim_comment.rowversion</a>&nbsp;
+<a href="../tables/field_constraint_option.html">field_constraint_option.rowidentifier</a>&nbsp;
+<a href="../tables/form_template.html">form_template.rowversion</a>&nbsp;
+<a href="../tables/claim_uses_attachment.html">claim_uses_attachment.change_user</a>&nbsp;
+<a href="../tables/party.html">party.change_user</a>&nbsp;
+<a href="../tables/form_template.html">form_template.rowidentifier</a>&nbsp;
+<a href="../tables/field_template.html">field_template.change_action</a>&nbsp;
+<a href="../tables/section_element_payload.html">section_element_payload.change_time</a>&nbsp;
+<a href="../tables/field_template.html">field_template.change_user</a>&nbsp;
+<a href="../tables/field_constraint_option.html">field_constraint_option.change_action</a>&nbsp;
+<a href="../tables/field_payload.html">field_payload.change_time</a>&nbsp;
+<a href="../tables/claim_share.html">claim_share.change_time</a>&nbsp;
+<a href="../tables/form_payload.html">form_payload.change_action</a>&nbsp;
+<a href="../tables/section_payload.html">section_payload.rowversion</a>&nbsp;
+<a href="../tables/party_for_claim_share.html">party_for_claim_share.rowversion</a>&nbsp;
+<a href="../tables/field_payload.html">field_payload.rowidentifier</a>&nbsp;
+<a href="../tables/field_template.html">field_template.rowversion</a>&nbsp;
+<a href="../tables/section_element_payload.html">section_element_payload.change_user</a>&nbsp;
+<a href="../tables/claim_location.html">claim_location.change_time</a>&nbsp;
+<a href="../tables/field_constraint.html">field_constraint.rowidentifier</a>&nbsp;
+<a href="../tables/claim_comment.html">claim_comment.rowidentifier</a>&nbsp;
+<a href="../tables/section_element_payload.html">section_element_payload.rowidentifier</a>&nbsp;
+<a href="../tables/attachment.html">attachment.change_user</a>&nbsp;
+<a href="../tables/claim_location.html">claim_location.change_action</a>&nbsp;
+<a href="../tables/section_template.html">section_template.change_action</a>&nbsp;
+<a href="../tables/party_for_claim_share.html">party_for_claim_share.change_user</a>&nbsp;
+<a href="../tables/attachment.html">attachment.rowidentifier</a>&nbsp;
+<a href="../tables/attachment.html">attachment.rowversion</a>&nbsp;
+<a href="../tables/form_payload.html">form_payload.change_time</a>&nbsp;
+<a href="../tables/field_constraint.html">field_constraint.rowversion</a>&nbsp;
+<a href="../tables/field_constraint_option.html">field_constraint_option.change_time</a>&nbsp;
+<a href="../tables/form_template.html">form_template.change_action</a>&nbsp;
+<a href="../tables/claim_uses_attachment.html">claim_uses_attachment.change_action</a>&nbsp;
+<a href="../tables/form_template.html">form_template.change_user</a>&nbsp;
+<a href="../tables/claim_location.html">claim_location.rowidentifier</a>&nbsp;
+<a href="../tables/claim_location.html">claim_location.change_user</a>&nbsp;
 </span>
 </div>
 </body>

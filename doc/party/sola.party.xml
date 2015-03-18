@@ -98,6 +98,7 @@
             <child column="party_id" foreignKey="party_for_rrr_party_id_fk82" implied="false" onDeleteCascade="true" table="party_for_rrr"/>
             <child column="party_id" foreignKey="party_member_party_id_fk34" implied="false" onDeleteCascade="true" table="party_member"/>
             <child column="party_id" foreignKey="party_role_party_id_fk36" implied="false" onDeleteCascade="true" table="party_role"/>
+            <child column="party_id" foreignKey="source_describes_party_party_id_fk41" implied="false" onDeleteCascade="true" table="source_describes_party"/>
          </column>
          <column autoUpdated="false" digits="0" id="1" name="ext_id" nullable="true" remarks="SOLA Extension: An identifier for the party from some external system such as a customer relationship management (CRM) system." size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="2" name="type_code" nullable="false" remarks="LADM Definition: The type of the party. E.g. naturalPerson, nonNaturalPerson, etc." size="20" type="varchar">
@@ -131,6 +132,8 @@
          <column autoUpdated="false" defaultValue="'i'::bpchar" digits="0" id="20" name="change_action" nullable="false" remarks="SOLA Extension: Indicates if the last data modification action that occurred to the row was insert (i), update (u) or delete (d)." size="1" type="bpchar"/>
          <column autoUpdated="false" digits="0" id="21" name="change_user" nullable="true" remarks="SOLA Extension: The user id of the last person to modify the row." size="50" type="varchar"/>
          <column autoUpdated="false" defaultValue="now()" digits="6" id="22" name="change_time" nullable="false" remarks="SOLA Extension: The date and time the row was last modified." size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="23" name="classification_code" nullable="true" remarks="FROM  SOLA State Land Extension: The security classification for this Party. Only users with the security classification (or a higher classification) will be able to view the record. If null, the record is considered unrestricted." size="20" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="24" name="redact_code" nullable="true" remarks="FROM  SOLA State Land Extension: The redact classification for this Party. Only users with the redact classification (or a higher classification) will be able to view the record with un-redacted fields. If null, the record is considered unrestricted and no redaction to the record will occur unless bulk redaction classifications have been set for fields of the record." size="20" type="varchar"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="party_pkey" unique="true">
             <column ascending="true" name="id"/>
@@ -239,6 +242,34 @@
          </index>
          <index name="party_type_display_value_unique" unique="true">
             <column ascending="true" name="display_value"/>
+         </index>
+      </table>
+      <table name="source_describes_party" remarks="Implements the many-to-many relationship identifying administrative source instances with party instances&#13;&#10;&#13;&#10;LADM Reference Object &#13;&#10;Relationship LA_AdministrativeSource - LA_PARTY&#13;&#10;LADM Definition&#13;&#10;Not Defined" schema="party" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="source_id" nullable="false" remarks="" size="40" type="varchar">
+            <parent column="id" foreignKey="source_describes_party_source_id_fk42" implied="false" onDeleteCascade="true" table="source"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="party_id" nullable="false" remarks="" size="40" type="varchar">
+            <parent column="id" foreignKey="source_describes_party_party_id_fk41" implied="false" onDeleteCascade="true" table="party"/>
+         </column>
+         <column autoUpdated="false" defaultValue="uuid_generate_v1()" digits="0" id="2" name="rowidentifier" nullable="false" remarks="" size="40" type="varchar"/>
+         <column autoUpdated="false" defaultValue="0" digits="0" id="3" name="rowversion" nullable="false" remarks="" size="10" type="int4"/>
+         <column autoUpdated="false" defaultValue="'i'::bpchar" digits="0" id="4" name="change_action" nullable="false" remarks="" size="1" type="bpchar"/>
+         <column autoUpdated="false" digits="0" id="5" name="change_user" nullable="true" remarks="" size="50" type="varchar"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="6" name="change_time" nullable="false" remarks="" size="29" type="timestamp"/>
+         <primaryKey column="source_id" sequenceNumberInPK="1"/>
+         <primaryKey column="party_id" sequenceNumberInPK="2"/>
+         <index name="source_describes_party_pkey" unique="true">
+            <column ascending="true" name="source_id"/>
+            <column ascending="true" name="party_id"/>
+         </index>
+         <index name="source_describes_party_index_on_rowidentifier" unique="false">
+            <column ascending="true" name="rowidentifier"/>
+         </index>
+         <index name="source_describes_party_party_id_fk41_ind" unique="false">
+            <column ascending="true" name="party_id"/>
+         </index>
+         <index name="source_describes_party_source_id_fk42_ind" unique="false">
+            <column ascending="true" name="source_id"/>
          </index>
       </table>
    </tables>

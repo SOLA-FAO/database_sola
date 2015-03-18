@@ -3,6 +3,7 @@ Sequence: rrr_nr_seq
 Sequence: notation_reference_nr_seq
 Sequence: ba_unit_last_name_part_seq
 Sequence: ba_unit_first_name_part_seq
+notifiable_party_for_baunit
 Function: getsysregstatus
 Function: getsysregprogress
 Function: getsysregmanagement

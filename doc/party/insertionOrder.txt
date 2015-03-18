@@ -8,4 +8,5 @@ party
 group_party
 party_member
 party_role
+source_describes_party
 Function: is_rightholder

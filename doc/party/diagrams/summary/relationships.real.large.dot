@@ -63,6 +63,8 @@ digraph "largeRelationshipsDiagram" {
       <TR><TD PORT="change_action" COLSPAN="3" ALIGN="LEFT">change_action</TD></TR>
       <TR><TD PORT="change_user" COLSPAN="3" ALIGN="LEFT">change_user</TD></TR>
       <TR><TD PORT="change_time" COLSPAN="3" ALIGN="LEFT">change_time</TD></TR>
+      <TR><TD PORT="classification_code" COLSPAN="3" ALIGN="LEFT">classification_code</TD></TR>
+      <TR><TD PORT="redact_code" COLSPAN="3" ALIGN="LEFT">redact_code</TD></TR>
       <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 2</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
     </TABLE>>
     URL="tables/../../application/tables/application.html"
@@ -175,7 +177,9 @@ digraph "largeRelationshipsDiagram" {
       <TR><TD PORT="change_action" COLSPAN="3" BGCOLOR="#c0c0c0" ALIGN="LEFT">change_action</TD></TR>
       <TR><TD PORT="change_user" COLSPAN="3" BGCOLOR="#c0c0c0" ALIGN="LEFT">change_user</TD></TR>
       <TR><TD PORT="change_time" COLSPAN="3" BGCOLOR="#c0c0c0" ALIGN="LEFT">change_time</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 5</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">7 &gt;</TD></TR>
+      <TR><TD PORT="classification_code" COLSPAN="3" ALIGN="LEFT">classification_code</TD></TR>
+      <TR><TD PORT="redact_code" COLSPAN="3" ALIGN="LEFT">redact_code</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 5</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">8 &gt;</TD></TR>
     </TABLE>>
     URL="tables/party.html"
     tooltip="party"
@@ -256,6 +260,57 @@ digraph "largeRelationshipsDiagram" {
     URL="tables/party_type.html"
     tooltip="party_type"
   ];
+  "source.source" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">source.source</TD></TR>
+      <TR><TD PORT="id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">id</TD></TR>
+      <TR><TD PORT="maintype" COLSPAN="3" ALIGN="LEFT">maintype</TD></TR>
+      <TR><TD PORT="la_nr" COLSPAN="3" ALIGN="LEFT">la_nr</TD></TR>
+      <TR><TD PORT="reference_nr" COLSPAN="3" ALIGN="LEFT">reference_nr</TD></TR>
+      <TR><TD PORT="archive_id" COLSPAN="3" ALIGN="LEFT">archive_id</TD></TR>
+      <TR><TD PORT="acceptance" COLSPAN="3" ALIGN="LEFT">acceptance</TD></TR>
+      <TR><TD PORT="recordation" COLSPAN="3" ALIGN="LEFT">recordation</TD></TR>
+      <TR><TD PORT="submission" COLSPAN="3" ALIGN="LEFT">submission</TD></TR>
+      <TR><TD PORT="expiration_date" COLSPAN="3" ALIGN="LEFT">expiration_date</TD></TR>
+      <TR><TD PORT="ext_archive_id" COLSPAN="3" ALIGN="LEFT">ext_archive_id</TD></TR>
+      <TR><TD PORT="availability_status_code" COLSPAN="3" ALIGN="LEFT">availability_status_code</TD></TR>
+      <TR><TD PORT="type_code" COLSPAN="3" ALIGN="LEFT">type_code</TD></TR>
+      <TR><TD PORT="content" COLSPAN="3" ALIGN="LEFT">content</TD></TR>
+      <TR><TD PORT="status_code" COLSPAN="3" ALIGN="LEFT">status_code</TD></TR>
+      <TR><TD PORT="transaction_id" COLSPAN="3" ALIGN="LEFT">transaction_id</TD></TR>
+      <TR><TD PORT="owner_name" COLSPAN="3" ALIGN="LEFT">owner_name</TD></TR>
+      <TR><TD PORT="version" COLSPAN="3" ALIGN="LEFT">version</TD></TR>
+      <TR><TD PORT="description" COLSPAN="3" ALIGN="LEFT">description</TD></TR>
+      <TR><TD PORT="signing_date" COLSPAN="3" ALIGN="LEFT">signing_date</TD></TR>
+      <TR><TD PORT="rowidentifier" COLSPAN="3" ALIGN="LEFT">rowidentifier</TD></TR>
+      <TR><TD PORT="rowversion" COLSPAN="3" ALIGN="LEFT">rowversion</TD></TR>
+      <TR><TD PORT="change_action" COLSPAN="3" ALIGN="LEFT">change_action</TD></TR>
+      <TR><TD PORT="change_user" COLSPAN="3" ALIGN="LEFT">change_user</TD></TR>
+      <TR><TD PORT="change_time" COLSPAN="3" ALIGN="LEFT">change_time</TD></TR>
+      <TR><TD PORT="classification_code" COLSPAN="3" ALIGN="LEFT">classification_code</TD></TR>
+      <TR><TD PORT="redact_code" COLSPAN="3" ALIGN="LEFT">redact_code</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
+    </TABLE>>
+    URL="tables/../../source/tables/source.html"
+    tooltip="source.source"
+  ];
+  "source_describes_party" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">source_describes_party</TD></TR>
+      <TR><TD PORT="source_id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">source_id</TD></TR>
+      <TR><TD PORT="party_id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">party_id</TD></TR>
+      <TR><TD PORT="rowidentifier" COLSPAN="3" BGCOLOR="#c0c0c0" ALIGN="LEFT">rowidentifier</TD></TR>
+      <TR><TD PORT="rowversion" COLSPAN="3" BGCOLOR="#c0c0c0" ALIGN="LEFT">rowversion</TD></TR>
+      <TR><TD PORT="change_action" COLSPAN="3" BGCOLOR="#c0c0c0" ALIGN="LEFT">change_action</TD></TR>
+      <TR><TD PORT="change_user" COLSPAN="3" BGCOLOR="#c0c0c0" ALIGN="LEFT">change_user</TD></TR>
+      <TR><TD PORT="change_time" COLSPAN="3" BGCOLOR="#c0c0c0" ALIGN="LEFT">change_time</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 2</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
+    </TABLE>>
+    URL="tables/source_describes_party.html"
+    tooltip="source_describes_party"
+  ];
   "application.application":"agent_id":w -> "party":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "application.application":"contact_person_id":w -> "party":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "administrative.ba_unit_as_party":"party_id":w -> "party":"id":e [arrowhead=none dir=back arrowtail=crowodot];
@@ -271,4 +326,6 @@ digraph "largeRelationshipsDiagram" {
   "party_member":"party_id":w -> "party":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "party_role":"party_id":w -> "party":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "party_role":"type_code":w -> "party_role_type":"code":e [arrowhead=none dir=back arrowtail=crowodot];
+  "source_describes_party":"party_id":w -> "party":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "source_describes_party":"source_id":w -> "source.source":"id":e [arrowhead=none dir=back arrowtail=crowodot];
 }

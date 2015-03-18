@@ -67,6 +67,7 @@ digraph "twoDegreesRelationshipsDiagram" {
       <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">form_template</TD></TR>
       <TR><TD PORT="name" COLSPAN="2" BGCOLOR="#bed1b8" ALIGN="LEFT">name</TD><TD PORT="name.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="display_name" COLSPAN="2" ALIGN="LEFT">display_name</TD><TD PORT="display_name.type" ALIGN="LEFT">varchar[255]</TD></TR>
+      <TR><TD PORT="is_default" COLSPAN="2" ALIGN="LEFT">is_default</TD><TD PORT="is_default.type" ALIGN="LEFT">bool[1]</TD></TR>
       <TR><TD PORT="rowidentifier" COLSPAN="2" ALIGN="LEFT">rowidentifier</TD><TD PORT="rowidentifier.type" ALIGN="LEFT">varchar[40]</TD></TR>
       <TR><TD PORT="rowversion" COLSPAN="2" ALIGN="LEFT">rowversion</TD><TD PORT="rowversion.type" ALIGN="LEFT">int4[10]</TD></TR>
       <TR><TD PORT="change_action" COLSPAN="2" ALIGN="LEFT">change_action</TD><TD PORT="change_action.type" ALIGN="LEFT">bpchar[1]</TD></TR>

@@ -123,7 +123,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'></td>
  <td class='detail'> </td>
- <td class='comment detail'></td>
+ <td class='comment detail'>Name of the source schema.</td>
 </tr>
 <tr class='even'>
  <td class='indexedColumn' title='Indexed'>table_name</td>
@@ -134,7 +134,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'></td>
  <td class='detail'> </td>
- <td class='comment detail'></td>
+ <td class='comment detail'>Name of the source table.</td>
 </tr>
 <tr class='odd'>
  <td class='detail'>condition_description</td>
@@ -145,7 +145,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'></td>
  <td class='detail'> </td>
- <td class='comment detail'></td>
+ <td class='comment detail'>Description of the condition has to be applied to rows of the source table for extraction.</td>
 </tr>
 <tr class='even'>
  <td class='detail'>condition_sql</td>
@@ -156,7 +156,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail' align='right'>null</td>
  <td class='detail'></td>
  <td class='detail'> </td>
- <td class='comment detail'></td>
+ <td class='comment detail'>The SQL implementation of the condition.</td>
 </tr>
 <tr class='odd'>
  <td class='detail'>remove_before_insert</td>
@@ -167,7 +167,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail' align='right'>false</td>
  <td class='detail'></td>
  <td class='detail'> </td>
- <td class='comment detail'></td>
+ <td class='comment detail'>True - The records in the destination will be removed if they are found in the new extract. The check is done in rowidentifier.</td>
 </tr>
 <tr class='even'>
  <td class='detail'>order_of_execution</td>
@@ -178,20 +178,9 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='detail'></td>
  <td class='detail'></td>
  <td class='detail'> </td>
- <td class='comment detail'></td>
+ <td class='comment detail'>Order of execution of the extract.</td>
 </tr>
 <tr class='odd'>
- <td class='detail'>nr_rows_at_once</td>
- <td class='detail'>int4</td>
- <td class='detail' align='right'>10</td>
- <td class='detail' align='center'></td>
- <td class='detail' align='center'></td>
- <td class='detail' align='right'>10000</td>
- <td class='detail'></td>
- <td class='detail'> </td>
- <td class='comment detail'>The number of rows to be extracted at once.</td>
-</tr>
-<tr class='even'>
  <td class='detail'>log_in_extracted_rows</td>
  <td class='detail'>bool</td>
  <td class='detail' align='right'>1</td>
@@ -203,7 +192,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
  <td class='comment detail'>True - If the records has to be logged in the extracted rows table.</td>
 </tr>
 </table>
-<p title='9 columns'>Analyzed at Wed Sep 24 11:08 NZST 2014<p/>
+<p title='8 columns'>Analyzed at Wed Mar 18 11:03 NZDT 2015<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
