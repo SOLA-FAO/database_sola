@@ -1,0 +1,4 @@
+﻿INSERT INTO system.version SELECT '1504a' WHERE NOT EXISTS (SELECT version_num FROM system.version WHERE version_num = '1504a');
+
+INSERT INTO system.setting (name, vl, active, description) VALUES ('email-mailer-jndi-name', 'mail/sola', 't', 'Configured mailer service JNDI name');
+INSERT INTO system.setting (name, vl, active, description) VALUES ('network-scan-folder', '', 'f', 'Scan folder path, used by digital archive service. This setting is disabled by default. It has to be specified only if specific folder path is required (e.g. network drive). By default, system will use user''s home folder + /sola/scan');
