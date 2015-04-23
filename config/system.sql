@@ -378,7 +378,6 @@ New claim challenge <a href="#{challengeLink}"><b>##{challengeNumber}</b></a> ha
 to challenge the claim <a href="#{claimLink}"><b>##{claimNumber}</b></a>.<br /><br />
 <i>You are receiving this notification as the #{partyRole}</i><br /><br />
 Regards,<br />SOLA OpenTenure Team', true, 'New claim challenge body text');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-enable-email-service', '0', true, 'Enables or disables email service. 1 - enable, 0 - disable');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-challenge-updated-body', 'Dear #{userFullName},<br /><br />
 Claim challenge <b>##{challengeNumber}</b> has been updated. 
 Follow <a href="#{challengeLink}">this link</a> to check updated information.<br /><br />
@@ -430,6 +429,9 @@ INSERT INTO setting (name, vl, active, description) VALUES ('command-extract', '
 INSERT INTO setting (name, vl, active, description) VALUES ('command-consolidate', 'D:\dev\sola\scr\consolidate-from-admin.bat', true, 'The command for running the consolidation.');
 INSERT INTO setting (name, vl, active, description) VALUES ('path-to-backup', 'D:\dev\sola\scr\data', true, 'The path of the extracted files.');
 INSERT INTO setting (name, vl, active, description) VALUES ('path-to-process-log', 'D:\dev\sola\scr\log', true, 'The path of the process log files.');
+INSERT INTO setting (name, vl, active, description) VALUES ('network-scan-folder', '', false, 'Scan folder path, used by digital archive service. This setting is disabled by default. It has to be specified only if specific folder path is required (e.g. network drive). By default, system will use user''s home folder + /sola/scan');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-enable-email-service', '1', true, 'Enables or disables email service. 1 - enable, 0 - disable');
+INSERT INTO setting (name, vl, active, description) VALUES ('email-mailer-jndi-name', 'mail/sola', true, 'Configured mailer service JNDI name');
 
 
 ALTER TABLE setting ENABLE TRIGGER ALL;
@@ -470,6 +472,7 @@ INSERT INTO version (version_num) VALUES ('1502a');
 INSERT INTO version (version_num) VALUES ('1503c');
 INSERT INTO version (version_num) VALUES ('1503e');
 INSERT INTO version (version_num) VALUES ('1503f');
+INSERT INTO version (version_num) VALUES ('1504a');
 
 
 ALTER TABLE version ENABLE TRIGGER ALL;
