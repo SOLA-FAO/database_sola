@@ -88,7 +88,6 @@ INSERT INTO config_map_layer (name, title, type_code, active, visible_in_start, 
 INSERT INTO config_map_layer (name, title, type_code, active, visible_in_start, item_order, style, url, wms_layers, wms_version, wms_format, wms_data_source, pojo_structure, pojo_query_name, pojo_query_name_for_select, shape_location, security_user, security_password, added_from_bulk_operation, use_in_public_display, use_for_ot) VALUES ('applications', 'Applications::::Pratiche', 'pojo', true, false, 70, 'application.xml', NULL, NULL, NULL, NULL, NULL, 'theGeom:MultiPoint,label:""', 'SpatialResult.getApplications', 'dynamic.informationtool.get_application', NULL, NULL, NULL, false, false, false);
 INSERT INTO config_map_layer (name, title, type_code, active, visible_in_start, item_order, style, url, wms_layers, wms_version, wms_format, wms_data_source, pojo_structure, pojo_query_name, pojo_query_name_for_select, shape_location, security_user, security_password, added_from_bulk_operation, use_in_public_display, use_for_ot) VALUES ('parcels-historic-current-ba', 'Historic parcels with current titles', 'pojo', true, false, 20, 'parcel_historic_current_ba.xml', NULL, NULL, NULL, NULL, NULL, 'theGeom:Polygon,label:""', 'SpatialResult.getParcelsHistoricWithCurrentBA', 'dynamic.informationtool.get_parcel_historic_current_ba', NULL, NULL, NULL, false, false, false);
 INSERT INTO config_map_layer (name, title, type_code, active, visible_in_start, item_order, style, url, wms_layers, wms_version, wms_format, wms_data_source, pojo_structure, pojo_query_name, pojo_query_name_for_select, shape_location, security_user, security_password, added_from_bulk_operation, use_in_public_display, use_for_ot) VALUES ('parcel-nodes', 'Parcel nodes', 'pojo', true, false, 15, 'parcel_node.xml', NULL, NULL, NULL, NULL, NULL, 'theGeom:Polygon,label:""', 'SpatialResult.getParcelNodes', NULL, NULL, NULL, NULL, false, false, false);
-INSERT INTO config_map_layer (name, title, type_code, active, visible_in_start, item_order, style, url, wms_layers, wms_version, wms_format, wms_data_source, pojo_structure, pojo_query_name, pojo_query_name_for_select, shape_location, security_user, security_password, added_from_bulk_operation, use_in_public_display, use_for_ot) VALUES ('claims-orthophoto', 'Claims', 'wms', false, false, 12, NULL, 'https://ot.flossola.org/geoserver/opentenure/wms', 'opentenure:claims', '1.1.1', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false, true);
 
 
 ALTER TABLE config_map_layer ENABLE TRIGGER ALL;
@@ -99,8 +98,6 @@ ALTER TABLE config_map_layer ENABLE TRIGGER ALL;
 
 ALTER TABLE config_map_layer_metadata DISABLE TRIGGER ALL;
 
-INSERT INTO config_map_layer_metadata (name_layer, name, value) VALUES ('claims-orthophoto', 'transparent', 'true');
-INSERT INTO config_map_layer_metadata (name_layer, name, value) VALUES ('claims-orthophoto', 'LEGEND_OPTIONS', 'fontSize:12');
 
 
 ALTER TABLE config_map_layer_metadata ENABLE TRIGGER ALL;
@@ -340,91 +337,19 @@ INSERT INTO setting (name, vl, active, description) VALUES ('email-send-interval
 INSERT INTO setting (name, vl, active, description) VALUES ('email-send-attempts2', '2', true, 'Number of attempts to send email with second interval');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-send-interval3', '1440', true, 'Time interval in minutes for the third attempt to send email message.');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-send-attempts3', '1', true, 'Number of attempts to send email with third interval');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-user-registration-subject', 'New user registration', true, 'Subject text for new user registration on OpenTenure Web-site. Sent to administrator.');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-user-registration-body', 'New user "#{userName}" has been registered registered on SOLA OpenTenure Web-site.', true, 'Message text for new user registration on OpenTenure Web-site');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-failed-send-subject', 'Delivery failure', true, 'Subject text for delivery failure of message');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-failed-send-body', 'Message send to the user #{userName} has been failed to deliver after number of attempts with the following error: <br/>#{error}', true, 'Message text for delivery failure');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-reg-subject', 'SOLA OpenTenure - registration', true, 'Subject text for new user registration on OpenTenure Web-site. Sent to user.');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-pswd-restore-subject', 'SOLA OpenTenure - password restore', true, 'Password restore subject');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-submit-subject', 'SOLA OpenTenure - new claim submitted', true, 'New claim subject text');
 INSERT INTO setting (name, vl, active, description) VALUES ('account-activation-timeout', '70', true, 'Account activation timeout in hours. After this time, activation should expire.');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-service-interval', '10', true, 'Time interval in seconds for email service to check and process scheduled messages.');
 INSERT INTO setting (name, vl, active, description) VALUES ('pword-expiry-days', '90', false, 'The number of days a users password remains valid');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-pswd-restore-body', 'Dear #{userFullName},<br /><br />You have requested to restore the password. If you didn''t ask for this action, just ignore this message. Otherwise, follow <a href="#{passwordRestoreLink}">this link</a> to reset your password.<br /><br />Regards,<br />SOLA OpenTenure Team', true, 'Message text for password restore');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-withdraw-body', 'Dear #{userFirstName},<br /><br />
-Claim <a href="#{claimLink}"><b>##{claimNumber}</b></a> has been withdrawn by community recorder.<br /><br />
-<i>You are receiving this notification as the #{partyRole}</i><br /><br />
-Regards,<br />SOLA OpenTenure Team', true, 'Claim withdrawal notice body');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-withdraw-subject', 'SOLA OpenTenure - claim withdrawal', true, 'Claim withdrawal notice subject');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-submit-body', 'Dear #{userFullName},<br /><br />
-New claim <b>##{claimNumber}</b> has been submitted. 
-You can follow its status by <a href="#{claimLink}">this address</a>.<br /><br />
-<i>You are receiving this notification as the #{partyRole}</i><br /><br />
-Regards,<br />SOLA OpenTenure Team', true, 'New claim body text');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-reject-subject', 'SOLA OpenTenure - claim rejection', true, 'Claim rejection notice subject');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-approve-review-body', 'Dear #{userFirstName},<br /><br />
-Claim <a href="#{claimLink}"><b>##{claimNumber}</b></a> has passed review stage with success.<br /><br />
-<i>You are receiving this notification as the #{partyRole}</i><br /><br />
-Regards,<br />SOLA OpenTenure Team', true, 'Claim review approval notice body');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-approve-review-subject', 'SOLA OpenTenure - claim review approval', true, 'Claim review approval notice subject');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-approve-moderation-body', 'Dear #{userFirstName},<br /><br />
-Claim <a href="#{claimLink}"><b>##{claimNumber}</b></a> has been approved.<br /><br />
-<i>You are receiving this notification as the #{partyRole}</i><br /><br />
-Regards,<br />SOLA OpenTenure Team', true, 'Claim moderation approval notice body');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-approve-moderation-subject', 'SOLA OpenTenure - claim moderation approval', true, 'Claim moderation approval notice subject');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-updated-body', 'Dear #{userFullName},<br /><br />Claim <b>##{claimNumber}</b> has been updated. Follow <a href="#{claimLink}">this link</a> to check claim status and updated information.<br /><br />Regards,<br />SOLA OpenTenure Team', true, 'Claim update body text');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-challenge-submitted-body', 'Dear #{userFullName},<br /><br />
-New claim challenge <a href="#{challengeLink}"><b>##{challengeNumber}</b></a> has been submitted 
-to challenge the claim <a href="#{claimLink}"><b>##{claimNumber}</b></a>.<br /><br />
-<i>You are receiving this notification as the #{partyRole}</i><br /><br />
-Regards,<br />SOLA OpenTenure Team', true, 'New claim challenge body text');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-challenge-updated-body', 'Dear #{userFullName},<br /><br />
-Claim challenge <b>##{challengeNumber}</b> has been updated. 
-Follow <a href="#{challengeLink}">this link</a> to check updated information.<br /><br />
-<i>You are receiving this notification as the #{partyRole}</i><br /><br />
-Regards,<br />SOLA OpenTenure Team', true, 'Claim challenge update body text');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-challenge-submitted-subject', 'SOLA OpenTenure - new claim challenge to the claim ##{claimNumber}', true, 'New claim challenge subject text');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-challenge-updated-subject', 'SOLA OpenTenure - claim challenge ##{challengeNumber} update', true, 'Claim challenge update subject text');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-updated-subject', 'SOLA OpenTenure - claim ##{claimNumber} update', true, 'Claim update subject text');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-challenge-approve-review-body', 'Dear #{userFirstName},<br /><br />
-Claim challenge <a href="#{challengeLink}"><b>##{challengeNumber}</b></a> has passed review stage.<br /><br />
-<i>You are receiving this notification as the #{partyRole}</i><br /><br />
-Regards,<br />SOLA OpenTenure Team', true, 'Claim challenge review approval notice body');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-challenge-approve-review-subject', 'SOLA OpenTenure - claim challenge review', true, 'Claim challenge review approval notice subject');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-challenge-approve-moderation-body', 'Dear #{userFirstName},<br /><br />
-Claim challenge <a href="#{challengeLink}"><b>##{challengeNumber}</b></a> has been moderated.<br /><br />
-<i>You are receiving this notification as the #{partyRole}</i><br /><br />
-Regards,<br />SOLA OpenTenure Team', true, 'Claim challenge moderation approval notice body');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-challenge-approve-moderation-subj', 'SOLA OpenTenure - claim challenge moderation', true, 'Claim challenge moderation approval notice subject');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-reject-body', 'Dear #{userFirstName},<br /><br />
-Claim <a href="#{claimLink}"><b>##{claimNumber}</b></a> has been rejected with the following reason:<br /><br />
-<i>"#{claimRejectionReason}"</i><br /> <br /> 
-The following comments were recorded on the claim:<br />#{claimComments}<br />
-<i>You are receiving this notification as the #{partyRole}</i><br /><br />
-Regards,<br />SOLA OpenTenure Team', true, 'Claim rejection notice body');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-challenge-reject-body', 'Dear #{userFirstName},<br /><br />
-Claim challenge <a href="#{challengeLink}"><b>##{challengeNumber}</b></a> has been rejected with the following reason:<br /><br />
-<i>"#{challengeRejectionReason}"</i><br /> <br />
-Claim challenge comments:<br />#{challengeComments}<br />
-<i>You are receiving this notification as the #{partyRole}</i><br /><br />
-Regards,<br />SOLA OpenTenure Team', true, 'Claim challenge rejection notice body');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-challenge-reject-subject', 'SOLA OpenTenure - claim challenge rejection', true, 'Claim challenge rejection notice subject');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-challenge-withdraw-body', 'Dear #{userFirstName},<br /><br />
-Claim challenge <a href="#{challengeLink}"><b>##{challengeNumber}</b></a> has been withdrawn by community recorder.<br /><br />
-<i>You are receiving this notification as the #{partyRole}</i><br /><br />
-Regards,<br />SOLA OpenTenure Team', true, 'Claim challenge withdrawal notice body');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-claim-challenge-withdraw-subject', 'SOLA OpenTenure - claim challenge withdrawal', true, 'Claim withdrawal notice subject');
 INSERT INTO setting (name, vl, active, description) VALUES ('ot-community-area', 'POLYGON((175.068823 -36.785949,175.070902 -36.786461,175.079644 -36.787528,175.087001 -36.788041,175.090519 -36.787699,175.092118 -36.787101,175.093344 -36.785564,175.094677 -36.784967,175.096862 -36.785564,175.097875 -36.786290,175.102033 -36.784967,175.103366 -36.784796,175.106138 -36.782917,175.106991 -36.781636,175.117919 -36.784540,175.117274 -36.830375,175.113668 -36.831440,175.112302 -36.829328,175.109315 -36.828175,175.108238 -36.824562,175.107966 -36.821181,175.107092 -36.820481,175.104627 -36.821072,175.103862 -36.823171,175.101666 -36.827659,175.098931 -36.826071,175.097525 -36.828629,175.094896 -36.831006,175.094560 -36.832145,175.095884 -36.833196,175.093828 -36.836375,175.086922 -36.837365,175.085134 -36.834587,175.081358 -36.833326,175.078821 -36.834071,175.077160 -36.835777,175.075854 -36.836182,175.073712 -36.835163,175.071524 -36.836100,175.070229 -36.833666,175.068580 -36.834116,175.063665 -36.831845,175.064985 -36.830216,175.066285 -36.829052,175.066763 -36.826629,175.070516 -36.828458,175.072053 -36.826502,175.072377 -36.823365,175.071137 -36.820436,175.068876 -36.818138,175.068876 -36.807121,175.068876 -36.807121,175.068876 -36.807121,175.068876 -36.805628,175.068876 -36.805628,175.068823 -36.785949))', true, 'Open Tenure community area where parcels can be claimed');
 INSERT INTO setting (name, vl, active, description) VALUES ('db-utilities-folder', '', true, 'Full path to PostgreSQL utilities (bin) folder (e.g. C:\Program Files\PostgreSQL\9.1\bin). Used for backup/restore implementation of SOLA Web admin application');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-notifiable-submit-body', 'Dear #{notifiablePartyName},<p></p> this is to inform you that one <b>#{actionToNotify}</b> action has been requested 
 				<br>by <b>#{targetPartyName}</b> 
 				<br>on the following property: <b>#{baUnitName}</b>. <p></p><p></p>Regards,<br />#{sendingOffice}', true, 'Action on Interest body text');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-notifiable-subject', 'SOLA REGISTRY - #{actionToNotify} action on property #{baUnitName}', true, 'Action on Interest subject text');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-user-activation-body', 'Dear #{userFullName},<p></p>Your account has been activated. 
-<p></p>Please use <b>#{userName}</b> to login.<p></p><p></p>Regards,<br />SOLA OpenTenure Team', true, 'Message text to notify Community member account activation on the Community Server Web-site');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-user-activation-subject', 'SOLA OpenTenure account activation', true, 'Subject text to notify Community member account activation on the Community Server Web-site');
-INSERT INTO setting (name, vl, active, description) VALUES ('email-msg-reg-body', 'Dear #{userFullName},<p></p>You have registered on SOLA OpenTenure Web-site. Before you can use your account, it will be reviewed and approved by Community Technologist. 
-Upon account approval, you will receive notification message.<p></p>Your user name is<br />#{userName}<p></p><p></p>Regards,<br />SOLA OpenTenure Team', true, 'Message text for new user registration on OpenTenure Web-site. Sent to user.');
 INSERT INTO setting (name, vl, active, description) VALUES ('command-extract', 'D:\dev\sola\scr\extract-from-admin.bat', true, 'The command for running the extraction.');
 INSERT INTO setting (name, vl, active, description) VALUES ('command-consolidate', 'D:\dev\sola\scr\consolidate-from-admin.bat', true, 'The command for running the consolidation.');
 INSERT INTO setting (name, vl, active, description) VALUES ('path-to-backup', 'D:\dev\sola\scr\data', true, 'The path of the extracted files.');
@@ -473,6 +398,7 @@ INSERT INTO version (version_num) VALUES ('1503c');
 INSERT INTO version (version_num) VALUES ('1503e');
 INSERT INTO version (version_num) VALUES ('1503f');
 INSERT INTO version (version_num) VALUES ('1504a');
+INSERT INTO version (version_num) VALUES ('1504b');
 
 
 ALTER TABLE version ENABLE TRIGGER ALL;
