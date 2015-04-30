@@ -355,6 +355,8 @@ INSERT INTO setting (name, vl, active, description) VALUES ('path-to-process-log
 INSERT INTO setting (name, vl, active, description) VALUES ('network-scan-folder', '', false, 'Scan folder path, used by digital archive service. This setting is disabled by default. It has to be specified only if specific folder path is required (e.g. network drive). By default, system will use user''s home folder + /sola/scan');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-enable-email-service', '1', true, 'Enables or disables email service. 1 - enable, 0 - disable');
 INSERT INTO setting (name, vl, active, description) VALUES ('email-mailer-jndi-name', 'mail/sola', true, 'Configured mailer service JNDI name');
+INSERT INTO setting (name, vl, active, description) VALUES ('product-name', 'SOLA Registry', true, 'SOLA product name');
+INSERT INTO setting (name, vl, active, description) VALUES ('product-code', 'sr', true, 'SOLA product code. sr - SOLA Registry, ssr - SOLA Systematic Registration, ssl - SOLA State Land, scs - SOLA Community Server');
 
 
 ALTER TABLE setting ENABLE TRIGGER ALL;
