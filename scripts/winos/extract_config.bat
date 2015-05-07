@@ -48,6 +48,7 @@ echo ### Dumping reference tables... >> %EXTRACT_LOG% 2>&1
 	-t application.service_action_type -t application.type_action ^
 	-t application.application_action_type -t application.request_category_type ^
 	-t application.request_type -t cadastre.area_type ^
+	-t application.request_display_group ^
 	-t cadastre.building_unit_type -t cadastre.dimension_type ^
 	-t cadastre.hierarchy_level -t cadastre.land_use_type ^
 	-t cadastre.level_content_type -t cadastre.register_type ^
