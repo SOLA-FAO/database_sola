@@ -173,11 +173,9 @@ COMMENT ON FUNCTION public.get_geometry_with_srid(
 ) IS 'This function assigns a srid found in the settings to the geometry passed as parameter. The srid is chosen based in the longitude where the centroid of the geometry is.';
     
 -- Function public.get_translation --
-CREATE OR REPLACE FUNCTION public.get_translation(
- mixed_value varchar
-  , language_code varchar
-) RETURNS varchar 
-AS $$
+CREATE OR REPLACE FUNCTION public.get_translation(mixed_value character varying, language_code character varying)
+  RETURNS character varying AS
+$BODY$
 DECLARE
   delimiter_word varchar;
   language_index integer;
@@ -187,10 +185,10 @@ BEGIN
     return mixed_value;
   end if;
   delimiter_word = '::::';
-  language_index = (select item_order from system.language where lower(code)=lower(language_code));
+  language_index = (select lng.row_number from (select row_number() over(order by item_order asc) as row_number, code from system.language) lng where lower(lng.code)=lower(language_code));
   result = split_part(mixed_value, delimiter_word, language_index);
   if result is null or result = '' then
-    language_index = (select item_order from system.language where is_default limit 1);
+    language_index = (select lng.row_number from (select row_number() over(order by item_order asc) as row_number, code, is_default from system.language) lng where lng.is_default limit 1);
     result = split_part(mixed_value, delimiter_word, language_index);
     if result is null or result = '' then
       result = mixed_value;
@@ -198,11 +196,12 @@ BEGIN
   end if;
   return result;
 END;
-$$ LANGUAGE plpgsql;
-COMMENT ON FUNCTION public.get_translation(
- mixed_value varchar
-  , language_code varchar
-) IS 'This function is used to translate the values that are supposed to be multilingual like the reference data values (display_value)';
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION public.get_translation(character varying, character varying)
+  OWNER TO postgres;
+COMMENT ON FUNCTION public.get_translation(character varying, character varying) IS 'This function is used to translate the values that are supposed to be multilingual like the reference data values (display_value)';
     
 -- Function public.clean_db_foreign_constraints --
 CREATE OR REPLACE FUNCTION public.clean_db_foreign_constraints(
