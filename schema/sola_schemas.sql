@@ -12667,7 +12667,7 @@ CREATE TABLE br_validation_target_type (
     code character varying(20) NOT NULL,
     display_value character varying(500) NOT NULL,
     status character(1) NOT NULL,
-    description character varying(5000)
+    description character varying(1000)
 );
 
 
