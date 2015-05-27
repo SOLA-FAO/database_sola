@@ -1,4 +1,4 @@
---
+﻿--
 -- PostgreSQL database dump
 --
 
@@ -78,7 +78,6 @@ INSERT INTO br (id, display_name, technical_type_code, feedback, description, te
 INSERT INTO br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('application-br3-check-properties-are-not-historic', 'application-br3-check-properties-are-not-historic', 'sql', 'All the titles identified for the application must be current.::::Все права собственности, относящиеся к заявлению должны иметь текущий (активный) статус.::::جميع سندات الملكية داخل الطلب يجب ان  تكون حالية::::Tous les titres identifiés pour la demande doivent être courants.::::::::::::Todos os títulos identificados para o pedido devem ser atuais.::::::::申请中说明的所有产权都必须是目前的。', NULL, 'Checks the title reference recorded at lodgement against titles in the database and if there is a ba_unit record it checks if it is current (PASS)');
 INSERT INTO br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('public-display-check-complete-status', 'public-display-check-complete-status', 'sql', 'At least 90% of the parcels must have an associated Systematic Application with complete status.::::По крайней мере 90% участков должны иметь соответствующие заявления на системную регистрацию с завершенным статусом.::::على الأقل 90% من القطع يجب ان يكون لها  ارتباط بالطلب المنتظم وبحالة مكتملة ::::::::::::::::Pelo menos 90% das parcelas devem uma Aplicação Sistemática com o status completo associado.::::::::至少90% 的地块必须有与完成情况相关的系统申请。', NULL, '#{lastPart}(name_lastpart) is requested');
 INSERT INTO br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('bulk-spatial-geom-overlaps-with-existing', 'bulk-spatial-geom-overlaps-with-existing', 'sql', 'Cadastre objects must not overlap with existing cadastre objects. ::::Кадастровые объекты не должны пересекаться с существующими кадастровыми объектами.::::كينونات المساحة يجب ان لا تتداخل::::::::::::::::Cadastro de objetos não deve se sobrepor com cadastro de objetos existentes.::::::::地籍目标必须不能与现有的地籍目标相交叠。', NULL, '#{id}(transaction_id) is requested');
-INSERT INTO br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('cancel-relation-notification', '5c93e7ba-bce3-11e4-9033-6300da0026fa', 'sql', 'Cancel notification for the services of the application::::::::ملاحظة الغاء للخدمات على الطلب ::::::::::::::::::::::::取消申请服务的通知', NULL, '#{id}(application_id) is requested');
 INSERT INTO br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('ba_unit-has-caveat', 'ba_unit-has-caveat', 'sql', 'Caveat should not prevent registration proceeding.::::Арест не должен ограничивать дальнейшую регистрацию.::::القيود لا يجب ان تعطل عملية التسجيل::::Un caveat ne doit pas empêcher de procéder à l''enregistrement.::::::::::::Advertência não deve impedir de prosseguir a inscrição.::::::::附加权利不应阻止登记的进行。', NULL, '#{id}(administrative.rrr.id) is requested.');
 INSERT INTO br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('generate-process-progress-extract-max', 'generate-process-progress-extract-max', 'sql', '...::::::::...::::::::::::::::...::::::::...', '-- Calculate the max the process progress can be.
 Increments of the progress in the extraction method
@@ -140,7 +139,8 @@ INSERT INTO br (id, display_name, technical_type_code, feedback, description, te
 INSERT INTO br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('app-other-app-with-caveat', 'app-other-app-with-caveat', 'sql', 'The identified property is affected by another live application that includes a service to register a caveat. An application with a cancel or waiver/vary caveat service must be registered before this application can proceed.::::Выбранная недвижимость используется в другом заявлении, находящемся в обработке и включающее регистрацию ареста. Заявление с услугой отмены ареста должно быть зарегистрировано для того чтобы продолжить с текущим заявлением.::::هناك طلب أخر على الملكية المحددة والذي يحتوي  خدمة فيها قيود على نفس الملكية. يجب التنازل او الغاء القيود قبل امكانية الاستمرار::::La propriété identifiée est affectée par une autre demande en cours qui inclue un service d''enregistrement de caveat. Une demande de service d''annulation ou de variation/résiliation du caveat doit être enregistrée avant de pouvoir procéder à cette demande.::::::::::::A propriedade identificada é afetada por outro pedido que inclui um serviço de registo de embargo. Um pedido com o cancelamento ou desistência/variação do embargo, deve ser registrado antes que este pedido possa prosseguir.::::::::确定的财产受另一项包括有附加说明登记的有效申请的影响。一项具有取消或豁免/变更附加说明的服务必须在这项申请继续之前被登记。 ', NULL, '#{id}(application.application.id) is requested.');
 INSERT INTO br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('application-cancel-obscuration-request', 'application-cancel-obscuration-request', 'sql', 'application-cancel-obscuration-request::::...::::...::::...::::...::::...::::...::::...::::...', NULL, '#{id}(service_id) is requested');
 INSERT INTO br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('cancel-obscuration-request', 'cancel-obscuration-request', 'sql', 'cancel-obscuration-request::::...::::...::::...::::...::::...::::...::::...::::...', NULL, '#{id}(service_id) is requested');
-
+INSERT INTO br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('cancel-relation-notification', 'cancel-relation-notification', 'sql', 'Cancel notification for the services of the application', NULL, '#{id}(application_id) is requested');
+INSERT INTO br (id, display_name, technical_type_code, feedback, description, technical_description) VALUES ('delete-relation-notification', 'delete-relation-notification', 'sql', 'Delete notification for the services of the application', NULL, '#{id}(application_id) is requested');
 
 ALTER TABLE br ENABLE TRIGGER ALL;
 
@@ -1007,25 +1007,6 @@ INSERT INTO br_definition (br_id, active_from, active_until, body) VALUES ('cons
       where cols.table_schema || ''.'' || cols.table_name = config.target_table_name) as ttt) as target_def      
 from consolidation.config config)
 select count(*)=0 as vl from def_of_tables where source_def != target_def');
-INSERT INTO br_definition (br_id, active_from, active_until, body) VALUES ('cancel-relation-notification', '2015-02-25', 'infinity', 'UPDATE administrative.notifiable_party_for_baunit 
- set status = ''x''
-WHERE cancel_service_id in
-(
-SELECT        npbu.cancel_service_id
- FROM 
-	      administrative.notifiable_party_for_baunit npbu,
-	      application.application aa, 
-	      application.service s,
-	      party.group_party gp
-WHERE 	      s.application_id::text = aa.id::text 
-              and (npbu.party_id in (select pm.party_id from party.party_member pm where pm.group_id = gp.id))
-              and (npbu.target_party_id in (select pm.party_id from party.party_member pm where pm.group_id = gp.id))
-              and s.request_type_code::text = ''cancelRelationship''::text 
-              and npbu.cancel_service_id = s.id
-	      and aa.id = #{id})
-;
-select 0=0 as vl
-');
 INSERT INTO br_definition (br_id, active_from, active_until, body) VALUES ('application-cancel-obscuration-request', '2015-03-02', 'infinity', 'UPDATE party.party
  set classification_code = null,
      redact_code = null
@@ -1046,6 +1027,62 @@ INSERT INTO br_definition (br_id, active_from, active_until, body) VALUES ('canc
  set classification_code = null,
      redact_code = null
 WHERE obscure_service_id  = #{id}
+;
+select 0=0 as vl
+');
+insert into system.br_definition(br_id, active_from, active_until, body) 
+values('cancel-relation-notification', now(), 'infinity', 
+ 'UPDATE application.notify_property
+ set status = ''x''
+WHERE cancel_service_id in
+(
+SELECT        npbu.cancel_service_id
+ FROM 
+	      application.notifiable_party_for_baunit npbu,
+	      application.application aa, 
+	      application.service s
+WHERE 	      s.application_id::text = aa.id::text 
+              and s.request_type_code::text = ''cancelRelationship''::text 
+              and npbu.cancel_service_id = s.id
+	      and aa.id = #{id})
+;
+UPDATE application.notify
+ set status = ''x''
+WHERE cancel_service_id in
+(
+SELECT        npbu.cancel_service_id
+ FROM 
+	      application.notifiable_party_for_baunit npbu,
+	      application.application aa, 
+	      application.service s
+WHERE 	      s.application_id::text = aa.id::text 
+              and s.request_type_code::text = ''cancelRelationship''::text 
+              and npbu.cancel_service_id = s.id
+	      and aa.id = #{id})
+;
+select 0=0 as vl
+');
+
+insert into system.br_definition(br_id, active_from, active_until, body) 
+values('delete-relation-notification', now(), 'infinity', 
+ 'DELETE from application.notify
+WHERE 
+service_id in (
+SELECT        npbu.service_id
+ FROM  application.notifiable_party_for_baunit npbu
+where status = ''x''
+and cancel_service_id in
+( SELECT        npbu.cancel_service_id
+ FROM 
+	      application.notifiable_party_for_baunit npbu,
+	      application.application aa, 
+	      application.service s
+WHERE 	      s.application_id::text = aa.id::text 
+              and s.request_type_code::text = ''cancelRelationship''::text 
+              and npbu.cancel_service_id = s.id
+	      and aa.id = #{id})
+)	      
+	      
 ;
 select 0=0 as vl
 ');
@@ -1150,6 +1187,7 @@ INSERT INTO br_validation (id, br_id, target_code, target_application_moment, ta
 INSERT INTO br_validation (id, br_id, target_code, target_application_moment, target_service_moment, target_reg_moment, target_request_type_code, target_rrr_type_code, severity_code, order_of_execution) VALUES ('consolidation-not-again', 'consolidation-not-again', 'consolidation', NULL, NULL, NULL, NULL, NULL, 'critical', 1);
 INSERT INTO br_validation (id, br_id, target_code, target_application_moment, target_service_moment, target_reg_moment, target_request_type_code, target_rrr_type_code, severity_code, order_of_execution) VALUES ('bfc0ec2c-99dd-11e3-bc3f-13923fd8d236', 'spatial-unit-group-inside-other-spatial-unit-group', 'spatial_unit_group', NULL, NULL, NULL, NULL, NULL, 'medium', 2);
 INSERT INTO br_validation (id, br_id, target_code, target_application_moment, target_service_moment, target_reg_moment, target_request_type_code, target_rrr_type_code, severity_code, order_of_execution) VALUES ('cancel-relation-notification', 'cancel-relation-notification', 'application', 'approve', NULL, NULL, NULL, NULL, 'warning', 300);
+INSERT INTO br_validation (id, br_id, target_code, target_application_moment, target_service_moment, target_reg_moment, target_request_type_code, target_rrr_type_code, severity_code, order_of_execution) VALUES ('delete-relation-notification', 'delete-relation-notification','application', 'archive',  NULL, NULL, NULL, NULL, 'warning', 300);  
 
 
 ALTER TABLE br_validation ENABLE TRIGGER ALL;

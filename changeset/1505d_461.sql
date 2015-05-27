@@ -422,8 +422,14 @@ CREATE INDEX notify_uses_source_historic_index_on_rowidentifier
 
 ---  INSERTS -----------------------------------------------------------------------
 
-INSERT INTO application.notify_relationship_type (code, display_value, description, status) VALUES ('owner', 'owner', 'owner', 'c');
-INSERT INTO application.notify_relationship_type (code, display_value, description, status) VALUES ('safeguard', 'safeguard', 'safeguard', 'c');
+INSERT INTO application.notify_relationship_type (code, display_value, description, status) VALUES ('safeguard', 'Notifiable', 'Party to notify has a recognized right or interest to be safeguarded against any action', 'c');
+INSERT INTO application.notify_relationship_type (code, display_value, description, status) VALUES ('rightHolder', 'Rightholder', 'Party to notify has a recognized right or interest (e.g. easement) over the land affected  by any action', 'c');
+INSERT INTO application.notify_relationship_type (code, display_value, description, status) VALUES ('owner', 'Owner', 'Party to notify is an owner of land affected by the job', 'c');
+INSERT INTO application.notify_relationship_type (code, display_value, description, status) VALUES ('other', 'Other', 'Party to notify has a general interest in the land but is not an owner, rightholder, occuiper or tenant of the land affected  by any action', 'c');
+INSERT INTO application.notify_relationship_type (code, display_value, description, status) VALUES ('occupier', 'Occupier', 'Party to notify is and occupier or tenant of the land affected  by any action', 'c');
+INSERT INTO application.notify_relationship_type (code, display_value, description, status) VALUES ('adjoiningOwner', 'Adjoining Owner', 'Party to notify is an owner of land adjoining the land affected  by any action', 'c');
+INSERT INTO application.notify_relationship_type (code, display_value, description, status) VALUES ('adjoiningOccupier', 'Adjoining Occupier', 'Party to notify is an occupier or tenant of land adjoining the land affected by any action', 'c');
+
 
 
 
