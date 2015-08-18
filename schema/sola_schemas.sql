@@ -1,7 +1,7 @@
 --
 -- PostgreSQL database dump
 --
-
+ 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
@@ -55,6 +55,21 @@ ALTER SCHEMA application OWNER TO postgres;
 
 COMMENT ON SCHEMA application IS 'Extension to the LADM used by SOLA to implement Case Management functionality.';
 
+
+--
+-- Name: bulk_operation; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA bulk_operation;
+
+
+ALTER SCHEMA bulk_operation OWNER TO postgres;
+
+--
+-- Name: SCHEMA bulk_operation; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON SCHEMA bulk_operation IS 'Extension to the LADM used by SOLA to implement Bulk Operation functionality such as loading of shapefiles and documents.';
 
 --
 -- Name: cadastre; Type: SCHEMA; Schema: -; Owner: postgres
@@ -2929,6 +2944,254 @@ ALTER FUNCTION application.getlodgetiming(fromdate date, todate date) OWNER TO p
 --
 
 COMMENT ON FUNCTION getlodgetiming(fromdate date, todate date) IS 'Not used. Replaced by get_work_summary.';
+
+
+
+SET search_path = bulk_operation, pg_catalog;
+
+--
+-- Name: clean_after_rollback(); Type: FUNCTION; Schema: bulk_operation; Owner: postgres
+--
+
+CREATE FUNCTION clean_after_rollback() RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+declare
+  rec record;
+begin
+  for rec in select id from cadastre.level 
+    where id != 'cadastreObject' and id not in (select level_id from cadastre.spatial_unit) loop
+    delete from cadastre.level where id = rec.id;
+    delete from system.config_map_layer where added_from_bulk_operation and name = rec.id;
+  end loop;
+end;
+$$;
+
+
+ALTER FUNCTION bulk_operation.clean_after_rollback() OWNER TO postgres;
+
+--
+-- Name: FUNCTION clean_after_rollback(); Type: COMMENT; Schema: bulk_operation; Owner: postgres
+--
+
+COMMENT ON FUNCTION clean_after_rollback() IS 'Runs clean up tasks after the transaction of bulk operation is rolled back.';
+
+
+--
+-- Name: move_cadastre_objects(character varying, character varying); Type: FUNCTION; Schema: bulk_operation; Owner: postgres
+--
+
+CREATE FUNCTION move_cadastre_objects(transaction_id_v character varying, change_user_v character varying) RETURNS void
+    LANGUAGE plpgsql
+    AS $_$
+declare
+  generate_name_first_part boolean;
+  rec record;
+  rec2 record;
+  last_part varchar;
+  first_part_counter integer;
+  first_part  varchar;
+  tmp_value integer;
+  duplicate_seperator varchar;
+  status varchar;
+  geom_v geometry;
+  tolerance double precision;
+  survey_point_counter integer;
+  transaction_has_pending boolean;
+begin
+  transaction_has_pending = false;
+  duplicate_seperator = ' / ';
+  tolerance = system.get_setting('map-tolerance')::double precision;
+  generate_name_first_part = (select bulk_generate_first_part 
+    from transaction.transaction 
+    where id = transaction_id_v);
+  first_part_counter = 1;
+  for rec in select id, transaction_id, cadastre_object_type_code, name_firstpart, name_lastpart, geom, official_area
+    from bulk_operation.spatial_unit_temporary where transaction_id = transaction_id_v loop
+      status = 'current';
+      if last_part is null then
+        last_part = rec.name_lastpart;
+        if generate_name_first_part then
+          first_part_counter = (select coalesce(max(name_firstpart::integer), 0) 
+            from cadastre.cadastre_object 
+            where name_firstpart ~ '^[0-9]+$' and name_lastpart = last_part);
+          first_part_counter = first_part_counter + 1;
+        end if;
+      end if;
+      if not generate_name_first_part then
+        first_part = rec.name_firstpart;
+        -- It means the unicity of the cadastre object name is not garanteed so it has to be checked.
+        -- Check first if the combination first_part, last_part is found in the cadastre_object table
+        tmp_value = (select count(1)
+          from cadastre.cadastre_object 
+          where name_lastpart = last_part 
+            and (name_firstpart = first_part
+              or name_firstpart like first_part || duplicate_seperator || '%'));
+        if tmp_value > 0 then
+          tmp_value = tmp_value + 1;
+          first_part = first_part || duplicate_seperator || tmp_value::varchar;
+          status = 'pending';
+        end if;
+      else
+        first_part = first_part_counter::varchar;
+        first_part_counter = first_part_counter + 1;
+      end if;
+      geom_v = rec.geom;
+      if st_isvalid(geom_v) and st_geometrytype(geom_v) = 'ST_Polygon' then
+        if (select count(1) 
+          from cadastre.cadastre_object 
+          where geom_polygon && geom_v 
+            and st_intersects(geom_polygon, st_buffer(geom_v, - tolerance))) > 0 then
+          status = 'pending';
+        end if;
+        insert into cadastre.cadastre_object(id, type_code, status_code, transaction_id, name_firstpart, name_lastpart, geom_polygon, change_user)
+        values(rec.id, rec.cadastre_object_type_code, status, transaction_id_v, first_part, last_part, geom_v, change_user_v);
+        insert into cadastre.spatial_value_area(spatial_unit_id, type_code, size, change_user)
+        values(rec.id, 'officialArea', coalesce(rec.official_area, st_area(geom_v)), change_user_v);
+        insert into cadastre.spatial_value_area(spatial_unit_id, type_code, size, change_user)
+        values(rec.id, 'calculatedArea', st_area(geom_v), change_user_v);
+      else
+        status = 'pending'; 
+      end if;
+      if status = 'pending' then
+        transaction_has_pending = true;
+        survey_point_counter = (select count(1) + 1 from cadastre.survey_point where transaction_id = transaction_id_v);
+        for rec2 in select distinct geom from st_dumppoints(geom_v) loop
+          insert into cadastre.survey_point(transaction_id, id, geom, original_geom, change_user)
+          values(transaction_id_v, survey_point_counter::varchar, rec2.geom, rec2.geom, change_user_v);
+          survey_point_counter = survey_point_counter + 1;
+        end loop;
+      end if;
+    end loop;
+    if not transaction_has_pending then
+      update transaction.transaction set status_code = 'approved', change_user = change_user_v where id = transaction_id_v;
+    end if;
+    delete from bulk_operation.spatial_unit_temporary where transaction_id = transaction_id_v;
+end;
+$_$;
+
+
+ALTER FUNCTION bulk_operation.move_cadastre_objects(transaction_id_v character varying, change_user_v character varying) OWNER TO postgres;
+
+--
+-- Name: FUNCTION move_cadastre_objects(transaction_id_v character varying, change_user_v character varying); Type: COMMENT; Schema: bulk_operation; Owner: postgres
+--
+
+COMMENT ON FUNCTION move_cadastre_objects(transaction_id_v character varying, change_user_v character varying) IS 'Moves cadastre objects from the Bulk Operation schema to the Cadastre schema.';
+
+
+--
+-- Name: move_other_objects(character varying, character varying); Type: FUNCTION; Schema: bulk_operation; Owner: postgres
+--
+
+CREATE FUNCTION move_other_objects(transaction_id_v character varying, change_user_v character varying) RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+declare
+  other_object_type varchar;
+  level_id_v varchar;
+  geometry_type varchar;
+  geometry_type_for_structure varchar;
+  query_name_v varchar;
+  query_sql_template varchar;
+begin
+  query_sql_template = 'select id, label, st_asewkb(st_transform(geom, #{srid})) as the_geom from cadastre.spatial_unit 
+where level_id = ''level_id_v'' and ST_Intersects(st_transform(geom, #{srid}), ST_SetSRID(ST_3DMakeBox(ST_Point(#{minx}, #{miny}),ST_Point(#{maxx}, #{maxy})), #{srid}))';
+  other_object_type = (select type_code 
+    from bulk_operation.spatial_unit_temporary 
+    where transaction_id = transaction_id_v limit 1);
+  geometry_type = (select st_geometrytype(geom) 
+    from bulk_operation.spatial_unit_temporary 
+    where transaction_id = transaction_id_v limit 1);
+  geometry_type = lower(substring(geometry_type from 4));
+  if (select count(*) from cadastre.structure_type where code = geometry_type) = 0 then
+    insert into cadastre.structure_type(code, display_value, status)
+    values(geometry_type, geometry_type, 'c');
+  end if;
+  level_id_v = (select id from cadastre.level where name = other_object_type or id = lower(other_object_type));
+  if level_id_v is null then
+    level_id_v = lower(other_object_type);
+    insert into cadastre.level(id, type_code, name, structure_code, editable) 
+    values(level_id_v, 'geographicLocator', other_object_type, geometry_type, true);
+    if (select count(*) from system.config_map_layer where name = level_id_v) = 0 then
+      -- A map layer is added here. For the symbology an sld file already predefined in gis component must be used.
+      -- The sld file must be named after the geometry type + the word generic. 
+      query_name_v = 'SpatialResult.get' || level_id_v;
+      if (select count(*) from system.query where name = query_name_v) = 0 then
+        -- A query is added here
+        insert into system.query(name, sql) values(query_name_v, replace(query_sql_template, 'level_id_v', level_id_v));
+      end if;
+      if geometry_type like '%point' then
+        geometry_type_for_structure = replace(geometry_type, 'point', 'Point');
+      elseif geometry_type like '%linestring' then
+        geometry_type_for_structure = replace(geometry_type, 'linestring', 'LineString');
+      elseif geometry_type like '%polygon' then
+        geometry_type_for_structure = replace(geometry_type, 'polygon', 'Polygon');
+      else
+        geometry_type_for_structure = 'Geometry';
+      end if;
+      geometry_type_for_structure  = replace(geometry_type_for_structure, 'multi', 'Multi');
+      
+      insert into system.config_map_layer(name, title, type_code, active, visible_in_start, item_order, style, pojo_structure, pojo_query_name, added_from_bulk_operation) 
+      values(level_id_v, other_object_type, 'pojo', true, true, 1, 'generic-' || geometry_type || '.xml', 'theGeom:' || geometry_type_for_structure || ',label:""', query_name_v, true);
+    end if;
+  end if;
+  insert into cadastre.spatial_unit(id, label, level_id, geom, transaction_id, change_user)
+  select id, label, level_id_v, geom, transaction_id, change_user_v
+  from bulk_operation.spatial_unit_temporary where transaction_id = transaction_id_v;
+  update transaction.transaction set status_code = 'approved', change_user = change_user_v where id = transaction_id_v;
+  delete from bulk_operation.spatial_unit_temporary where transaction_id = transaction_id_v;
+end;
+$$;
+
+
+ALTER FUNCTION bulk_operation.move_other_objects(transaction_id_v character varying, change_user_v character varying) OWNER TO postgres;
+
+--
+-- Name: FUNCTION move_other_objects(transaction_id_v character varying, change_user_v character varying); Type: COMMENT; Schema: bulk_operation; Owner: postgres
+--
+
+COMMENT ON FUNCTION move_other_objects(transaction_id_v character varying, change_user_v character varying) IS 'Moves general spatial objects other than cadastre objects from the Bulk Operation schema to the Cadastre schema. If an appropriate level and/or structure type do not exist in the Cadastre schema, this function will add them.';
+
+
+--
+-- Name: move_spatial_units(character varying, character varying); Type: FUNCTION; Schema: bulk_operation; Owner: postgres
+--
+
+CREATE FUNCTION move_spatial_units(transaction_id_v character varying, change_user_v character varying) RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+declare
+  spatial_unit_type varchar;
+begin
+  spatial_unit_type = (select type_code 
+    from bulk_operation.spatial_unit_temporary 
+    where transaction_id = transaction_id_v limit 1);
+  if spatial_unit_type is null then
+    return;
+  end if;
+  if spatial_unit_type = 'cadastre_object' then
+    execute bulk_operation.move_cadastre_objects(transaction_id_v, change_user_v);
+  else
+    execute bulk_operation.move_other_objects(transaction_id_v, change_user_v);
+  end if;
+end;
+$$;
+
+
+ALTER FUNCTION bulk_operation.move_spatial_units(transaction_id_v character varying, change_user_v character varying) OWNER TO postgres;
+
+--
+-- Name: FUNCTION move_spatial_units(transaction_id_v character varying, change_user_v character varying); Type: COMMENT; Schema: bulk_operation; Owner: postgres
+--
+
+COMMENT ON FUNCTION move_spatial_units(transaction_id_v character varying, change_user_v character varying) IS 'Moves all spatial data from teh Bulk Operation schema to the Cadastre schema using the move_cadastre_objects and move_other_objects functions. This function is called after the bulk opearation transaction is created by the Bulk Operation application';
+
+
+
+
+
+
 
 
 SET search_path = cadastre, pg_catalog;
@@ -8298,6 +8561,107 @@ COMMENT ON COLUMN type_action.description IS 'Description of the request type ac
 --
 
 COMMENT ON COLUMN type_action.status IS 'Status of the request type action.';
+
+
+SET search_path = bulk_operation, pg_catalog;
+
+--
+-- Name: spatial_unit_temporary; Type: TABLE; Schema: bulk_operation; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE spatial_unit_temporary (
+    id character varying(40) NOT NULL,
+    transaction_id character varying(40) NOT NULL,
+    type_code character varying(20) NOT NULL,
+    cadastre_object_type_code character varying(20),
+    name_firstpart character varying(20),
+    name_lastpart character varying(50),
+    geom public.geometry NOT NULL,
+    official_area numeric(29,2),
+    label character varying(100),
+    rowidentifier character varying(40) DEFAULT public.uuid_generate_v1() NOT NULL,
+    rowversion integer DEFAULT 0 NOT NULL,
+    change_action character(1) DEFAULT 'i'::bpchar NOT NULL,
+    change_user character varying(50),
+    change_time timestamp without time zone DEFAULT now() NOT NULL,
+    CONSTRAINT enforce_dims_geom CHECK ((public.st_ndims(geom) = 2)),
+    CONSTRAINT enforce_srid_geom CHECK ((public.st_srid(geom) = 2193)),
+    CONSTRAINT enforce_valid_geom CHECK (public.st_isvalid(geom))
+);
+
+
+ALTER TABLE bulk_operation.spatial_unit_temporary OWNER TO postgres;
+
+--
+-- Name: TABLE spatial_unit_temporary; Type: COMMENT; Schema: bulk_operation; Owner: postgres
+--
+
+COMMENT ON TABLE spatial_unit_temporary IS 'Used as a staging area when loading spatial objects with the bulk operations functionality. Data in this table is validated and any field values generated (e.g. name_firstpart) prior to transferring the data into the cadastre object table.  
+Tags: FLOSS SOLA Extension';
+
+
+--
+-- Name: COLUMN spatial_unit_temporary.id; Type: COMMENT; Schema: bulk_operation; Owner: postgres
+--
+
+COMMENT ON COLUMN spatial_unit_temporary.id IS 'Identifier for the record.';
+
+
+--
+-- Name: COLUMN spatial_unit_temporary.transaction_id; Type: COMMENT; Schema: bulk_operation; Owner: postgres
+--
+
+COMMENT ON COLUMN spatial_unit_temporary.transaction_id IS 'The identifier of the transation associated to the bulk operation.';
+
+
+--
+-- Name: COLUMN spatial_unit_temporary.type_code; Type: COMMENT; Schema: bulk_operation; Owner: postgres
+--
+
+COMMENT ON COLUMN spatial_unit_temporary.type_code IS 'The type of object that will be uploaded.';
+
+
+--
+-- Name: COLUMN spatial_unit_temporary.cadastre_object_type_code; Type: COMMENT; Schema: bulk_operation; Owner: postgres
+--
+
+COMMENT ON COLUMN spatial_unit_temporary.cadastre_object_type_code IS 'The type of the cadastre object. Only applicable if the type_code is cadastre_object.';
+
+
+--
+-- Name: COLUMN spatial_unit_temporary.name_firstpart; Type: COMMENT; Schema: bulk_operation; Owner: postgres
+--
+
+COMMENT ON COLUMN spatial_unit_temporary.name_firstpart IS 'The first part of the name for the cadastre object. Only applicable if the type_code is cadastre_object.';
+
+
+--
+-- Name: COLUMN spatial_unit_temporary.name_lastpart; Type: COMMENT; Schema: bulk_operation; Owner: postgres
+--
+
+COMMENT ON COLUMN spatial_unit_temporary.name_lastpart IS 'The last or remaining part of the name for the cadastre object. Only applicable if the type_code is cadastre_object.';
+
+
+--
+-- Name: COLUMN spatial_unit_temporary.geom; Type: COMMENT; Schema: bulk_operation; Owner: postgres
+--
+
+COMMENT ON COLUMN spatial_unit_temporary.geom IS 'The geometry for the spaital unit.';
+
+
+--
+-- Name: COLUMN spatial_unit_temporary.official_area; Type: COMMENT; Schema: bulk_operation; Owner: postgres
+--
+
+COMMENT ON COLUMN spatial_unit_temporary.official_area IS 'The official area for the cadastre object. Only applicable if the type_code is cadastre_object.';
+
+
+--
+-- Name: COLUMN spatial_unit_temporary.label; Type: COMMENT; Schema: bulk_operation; Owner: postgres
+--
+
+COMMENT ON COLUMN spatial_unit_temporary.label IS 'The label to use for the spatial unit. Only applicable if the type_code IS NOT cadastre_object.';
+
 
 
 SET search_path = cadastre, pg_catalog;
@@ -14274,6 +14638,19 @@ ALTER TABLE ONLY type_action
     ADD CONSTRAINT type_action_pkey PRIMARY KEY (code);
 
 
+
+SET search_path = bulk_operation, pg_catalog;
+
+--
+-- Name: spatial_unit_temporary_pkey; Type: CONSTRAINT; Schema: bulk_operation; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY spatial_unit_temporary
+    ADD CONSTRAINT spatial_unit_temporary_pkey PRIMARY KEY (id);
+
+
+
+
 SET search_path = cadastre, pg_catalog;
 
 --
@@ -16034,6 +16411,38 @@ CREATE INDEX service_request_type_code_fk19_ind ON service USING btree (request_
 CREATE INDEX service_status_code_fk24_ind ON service USING btree (status_code);
 
 
+SET search_path = bulk_operation, pg_catalog;
+
+--
+-- Name: spatial_unit_temporary_cadastre_object_type_code_fk133_ind; Type: INDEX; Schema: bulk_operation; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX spatial_unit_temporary_cadastre_object_type_code_fk133_ind ON spatial_unit_temporary USING btree (cadastre_object_type_code);
+
+
+--
+-- Name: spatial_unit_temporary_index_on_geom; Type: INDEX; Schema: bulk_operation; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX spatial_unit_temporary_index_on_geom ON spatial_unit_temporary USING gist (geom);
+
+
+--
+-- Name: spatial_unit_temporary_index_on_rowidentifier; Type: INDEX; Schema: bulk_operation; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX spatial_unit_temporary_index_on_rowidentifier ON spatial_unit_temporary USING btree (rowidentifier);
+
+
+--
+-- Name: spatial_unit_temporary_transaction_id_fk132_ind; Type: INDEX; Schema: bulk_operation; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX spatial_unit_temporary_transaction_id_fk132_ind ON spatial_unit_temporary USING btree (transaction_id);
+
+
+
+
 SET search_path = cadastre, pg_catalog;
 
 --
@@ -17362,6 +17771,17 @@ CREATE TRIGGER __track_history AFTER DELETE OR UPDATE ON application_uses_source
 CREATE TRIGGER __track_history AFTER DELETE OR UPDATE ON service FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_history();
 
 
+SET search_path = bulk_operation, pg_catalog;
+
+--
+-- Name: __track_changes; Type: TRIGGER; Schema: bulk_operation; Owner: postgres
+--
+
+CREATE TRIGGER __track_changes BEFORE INSERT OR UPDATE ON spatial_unit_temporary FOR EACH ROW EXECUTE PROCEDURE public.f_for_trg_track_changes();
+
+
+
+
 SET search_path = cadastre, pg_catalog;
 
 --
@@ -18286,6 +18706,27 @@ ALTER TABLE ONLY service
 
 ALTER TABLE ONLY service
     ADD CONSTRAINT service_status_code_fk24 FOREIGN KEY (status_code) REFERENCES service_status_type(code) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+
+
+SET search_path = bulk_operation, pg_catalog;
+
+--
+-- Name: spatial_unit_temporary_cadastre_object_type_code_fk133; Type: FK CONSTRAINT; Schema: bulk_operation; Owner: postgres
+--
+
+ALTER TABLE ONLY spatial_unit_temporary
+    ADD CONSTRAINT spatial_unit_temporary_cadastre_object_type_code_fk133 FOREIGN KEY (cadastre_object_type_code) REFERENCES cadastre.cadastre_object_type(code) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- Name: spatial_unit_temporary_transaction_id_fk132; Type: FK CONSTRAINT; Schema: bulk_operation; Owner: postgres
+--
+
+ALTER TABLE ONLY spatial_unit_temporary
+    ADD CONSTRAINT spatial_unit_temporary_transaction_id_fk132 FOREIGN KEY (transaction_id) REFERENCES transaction.transaction(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
 
 
 SET search_path = cadastre, pg_catalog;
